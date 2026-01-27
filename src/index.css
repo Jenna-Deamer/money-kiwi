@@ -1,0 +1,33 @@
+@import "tailwindcss";
+
+/* @theme {
+
+} */
+
+@layer base {
+    body {
+        @apply antialiased;
+        height: 100%;
+    }
+
+    p {
+        text-wrap: pretty;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        text-wrap: balance;
+        @apply font-bold;
+    }
+
+    input,
+    button,
+    textarea,
+    select {
+        font: inherit;
+    }
+}
