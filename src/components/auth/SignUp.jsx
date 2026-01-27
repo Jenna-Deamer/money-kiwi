@@ -31,8 +31,8 @@ function SignUp() {
         const email = data.email.toLowerCase();
         try {
             await signupApi(data.name, email, data.password, data.confirmPassword);
-            toast.success('Account created!', {
-                description: 'Please login.'
+            toast.success('Account created', {
+                description: 'Check your email to verify your account.'
             });
             navigate('/login');
         } catch (err) {
