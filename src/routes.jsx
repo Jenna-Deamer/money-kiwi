@@ -1,4 +1,3 @@
-import { Children } from "react";
 import App from "../App";
 import Home from "./components/pages/Home";
 import Signup from "./components/auth/SignUp";
@@ -9,6 +8,7 @@ import VerifyEmailNotice from "./components/auth/VerifyEmailNotice";
 import ResendVerfication from "./components/auth/ResendVerification";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
+import AcccountMangement from "./components/pages/accounts/AccountManagement";
 import Error from "./components/pages/Error";
 
 const routes = [
@@ -28,6 +28,14 @@ const routes = [
                 element: (
                     <ProtectedRoute>
                         <Dashboard />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'accounts',
+                element: (
+                    <ProtectedRoute>
+                        <AcccountMangement />
                     </ProtectedRoute>
                 )
             },
