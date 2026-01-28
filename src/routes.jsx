@@ -9,6 +9,7 @@ import ResendVerfication from "./components/auth/ResendVerification";
 import ForgotPassword from "./components/auth/ForgotPassword";
 import ResetPassword from "./components/auth/ResetPassword";
 import AcccountMangement from "./components/pages/accounts/AccountManagement";
+import AddAccountForm from "./components/pages/accounts/AddAccountForm";
 import Error from "./components/pages/Error";
 
 const routes = [
@@ -36,6 +37,14 @@ const routes = [
                 element: (
                     <ProtectedRoute>
                         <AcccountMangement />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'accounts/add-account',
+                element: (
+                    <ProtectedRoute>
+                        <AddAccountForm />
                     </ProtectedRoute>
                 )
             },

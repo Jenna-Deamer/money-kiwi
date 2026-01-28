@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { signup as signupApi } from '../../utils/api/auth';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "../../utils/validation/validationSchema";
+import { signupSchema } from "../../utils/validation/userSchema";
 import { toast } from 'sonner';
 
 function SignUp() {
@@ -36,7 +36,7 @@ function SignUp() {
             });
             navigate('/login');
         } catch (err) {
-            toast.success('Sign Up Failed');
+            toast.error('Sign Up Failed');
             setServerError(err.message);
         }
     }
