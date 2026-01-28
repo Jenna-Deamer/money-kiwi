@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 import { login as loginApi } from '../../utils/api/auth';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../../utils/validation/validationSchema";
+import { loginSchema } from "../../utils/validation/userSchema";
 import { toast } from 'sonner';
 
 function Login() {
