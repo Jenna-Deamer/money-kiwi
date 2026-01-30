@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { accountSchema } from "../../../utils/validation/finAccountSchema";
+import { createAccount as accountApi } from "../../../utils/api/account";
 import { toast } from 'sonner';
 
 function AddAccountForm() {
@@ -19,6 +20,7 @@ function AddAccountForm() {
     const onSubmit = async (data) => {
         setServerError('');
         try {
+            await accountApi(data.name, data.insutiution, data.category, data.registration);
             toast.success('Account added');
             navigate('/accounts');
         } catch (err) {
