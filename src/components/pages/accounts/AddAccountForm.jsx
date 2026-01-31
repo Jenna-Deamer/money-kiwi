@@ -9,14 +9,16 @@ import { toast } from 'sonner';
 function AddAccountForm() {
     const navigate = useNavigate();
     const [serverError, setServerError] = useState('');
-    const [selectedCategory, setSelectedCategory] = useState('');
 
 
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
-        resolver: zodResolver(accountSchema),
-        defaultValues: { name: '', institution: '', category: '', registration: '' }
-    });
+    const { register, handleSubmit, watch,
+        setValue, formState: { errors, isSubmitting } } = useForm({
+            resolver: zodResolver(accountSchema),
+            defaultValues: { name: '', institution: '', category: '', registration: '' }
+        });
 
+
+    const selectedCategory = watch('category');
 
     const onSubmit = async (data) => {
         setServerError('');
@@ -52,25 +54,36 @@ function AddAccountForm() {
                 <fieldset>
                     <label>Category</label>
                     <div className='input-group'>
-                        <select {...register('category')}
-                            onChange={(e) => setSelectedCategory(e.target.value)}>
+                        <select
+                            {...register('category', {
+                                onChange: (e) => {
+                                    const val = e.target.value;
+                                    // Set the dependent value immediately on change
+                                    if (val === 'credit') {
+                                        setValue('registration', 'N/A');
+                                    } else if (val) {
+                                        setValue('registration', 'Non-registered');
+                                    } else {
+                                        setValue('registration', '');
+                                    }
+                                }
+                            })}
+                        >
                             <option value=''>-- Select Purpose --</option>
-                            <option value='banking'>Banking (Chequing, Savings, Cash)</option>
-                            <option value='investments'>Investments (Brokerage, Robo-advisors)</option>
-                            <option value='credit'>Credit & Loans (Cards, LoC, Mortgages)</option>
+                            <option value='banking'>Banking</option>
+                            <option value='investments'>Investments</option>
+                            <option value='credit'>Credit & Loans</option>
                         </select>
                         {errors.category && <span className='error'>{errors.category.message}</span>}
                     </div>
+
                     <label>Registration</label>
                     <div className='input-group'>
                         <select
                             {...register('registration')}
-                            disabled={selectedCategory === 'credit' || !selectedCategory}
-                            value={selectedCategory === 'credit' ? 'Non-registered' : undefined}
                         >
-
                             {!selectedCategory && <option value=''>-- Select Category First --</option>}
-                            {selectedCategory === 'credit' && <option value='Non-registered'>N/A (Not applicable for debt)</option>}
+                            {selectedCategory === 'credit' && <option value='N/A'>N/A (Not applicable for debt)</option>}
                             {selectedCategory === 'banking' && (
                                 <>
                                     <option value='Non-registered'>Default</option>
@@ -87,13 +100,12 @@ function AddAccountForm() {
                                     <option value='FHSA'>FHSA</option>
                                 </>
                             )}
-
                         </select>
                         {errors.registration && <span className='error'>{errors.registration.message}</span>}
                     </div>
-
                 </fieldset>
-                <button type='submit'>
+
+                <button type='submit' disabled={isSubmitting}>
                     {isSubmitting ? 'Creating Account...' : 'Create'}
                 </button>
             </form >
