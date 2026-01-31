@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { accountSchema } from "../../../utils/validation/finAccountSchema";
-import { createAccount as accountApi } from "../../../utils/api/account";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { accountSchema } from '../../../utils/validation/finAccountSchema';
+import { createAccount as accountApi } from '../../../utils/api/account';
 import { toast } from 'sonner';
 
 function AddAccountForm() {
@@ -37,13 +37,13 @@ function AddAccountForm() {
                 <fieldset>
                     <label>Account Name</label>
                     <div className="input-group">
-                        <input {...register("name")} placeholder="Name"></input>
+                        <input {...register('name')} placeholder="Name"></input>
                         {errors.name && <span className="error">{errors.name.message}</span>}
                     </div>
 
                     <label>Insutiution</label>
                     <div className="input-group">
-                        <input {...register("insutiution")} placeholder="Insutiution"></input>
+                        <input {...register('insutiution')} placeholder="Insutiution"></input>
                         {errors.insutiution && <span className="error">{errors.insutiution.message}</span>}
                     </div>
 
@@ -51,7 +51,7 @@ function AddAccountForm() {
                 <fieldset>
                     <label>Category</label>
                     <div className="input-group">
-                        <select {...register("category")}
+                        <select {...register('category')}
                             onChange={(e) => setSelectedCategory(e.target.value)}>
                             <option value="">-- Select Purpose --</option>
                             <option value="banking">Banking (Chequing, Savings, Cash)</option>
@@ -63,9 +63,9 @@ function AddAccountForm() {
                     <label>Registration</label>
                     <div className="input-group">
                         <select
-                            {...register("registration")}
+                            {...register('registration')}
                             disabled={selectedCategory === 'credit' || !selectedCategory}
-                            value={selectedCategory === 'credit' ? "Non-registered" : undefined}
+                            value={selectedCategory === 'credit' ? 'Non-registered' : undefined}
                         >
 
                             {!selectedCategory && <option value="">-- Select Category First --</option>}
@@ -93,11 +93,11 @@ function AddAccountForm() {
 
                 </fieldset>
                 <button type="submit">
-                    {isSubmitting ? "Creating Account..." : "Create"}
+                    {isSubmitting ? 'Creating Account...' : 'Create'}
                 </button>
             </form >
         </>
-    )
+    );
 }
 
 export default AddAccountForm;

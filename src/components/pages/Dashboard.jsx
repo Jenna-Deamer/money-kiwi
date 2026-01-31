@@ -1,13 +1,13 @@
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 
 function Dashboard() {
     const { user } = useAuth();
 
     return (
         <div>
-            <h1>Welcome {user?.name || "User"}</h1>
+            <h1>Welcome {user?.name || 'User'}</h1>
         </div>
-    )
+    );
 }
 
 export default Dashboard;

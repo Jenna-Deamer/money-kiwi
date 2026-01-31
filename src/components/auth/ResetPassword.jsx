@@ -1,9 +1,9 @@
 import { useSearchParams, useNavigate, Link } from 'react-router-dom';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { resetPassword } from '../../utils/api/auth';
-import { resetPasswordSchema } from "../../utils/validation/userSchema"
+import { resetPasswordSchema } from '../../utils/validation/userSchema';
 
 function ResetPassword() {
     const [searchParams] = useSearchParams();
@@ -20,15 +20,15 @@ function ResetPassword() {
 
     const onSubmit = async (data) => {
         if (!token) {
-            return toast.error("Reset token is missing. Please request a new link.");
+            return toast.error('Reset token is missing. Please request a new link.');
         }
 
         try {
             await resetPassword(token, data.password);
-            toast.success("Password updated successfully!");
+            toast.success('Password updated successfully!');
             navigate('/login');
         } catch (err) {
-            toast.error(err.message || "Failed to reset password.");
+            toast.error(err.message || 'Failed to reset password.');
         }
     };
 
@@ -49,7 +49,7 @@ function ResetPassword() {
                     <input
                         type="password"
                         placeholder="New Password"
-                        {...register("password")}
+                        {...register('password')}
                     />
                     {errors.password && <p className="error">{errors.password.message}</p>}
                 </div>
@@ -58,13 +58,13 @@ function ResetPassword() {
                     <input
                         type="password"
                         placeholder="Confirm New Password"
-                        {...register("confirmPassword")}
+                        {...register('confirmPassword')}
                     />
                     {errors.confirmPassword && <p className="error">{errors.confirmPassword.message}</p>}
                 </div>
 
                 <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Updating..." : "Update Password"}
+                    {isSubmitting ? 'Updating...' : 'Update Password'}
                 </button>
             </form>
         </div>

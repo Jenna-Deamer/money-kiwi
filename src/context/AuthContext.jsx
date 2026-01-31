@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useEffect } from "react";
-import { jwtDecode } from "jwt-decode";
+import { createContext, useContext, useState, useEffect } from 'react';
+import { jwtDecode } from 'jwt-decode';
 
 const AuthContext = createContext(null);
 
@@ -16,7 +16,7 @@ export function AuthProvider({ children }) {
             setIsAuthenticated(true);
             try {
                 const decoded = jwtDecode(token);
-                console.log("Decoded token:", decoded);
+                console.log('Decoded token:', decoded);
                 setUser(decoded);
             } catch {
                 setUser(null);
@@ -57,7 +57,7 @@ export function AuthProvider({ children }) {
 export function useAuth() {
     const context = useContext(AuthContext);
     if (!context) {
-        throw new Error("useAuth must be used within an AuthProvider");
+        throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
 }

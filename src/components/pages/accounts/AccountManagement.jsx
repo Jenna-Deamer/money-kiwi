@@ -6,7 +6,7 @@ function AcccountMangement() {
             <h1>Your Accounts</h1>
             <Link to='add-account'>Add Account</Link>
         </>
-    )
+    );
 }
 
 export default AcccountMangement;

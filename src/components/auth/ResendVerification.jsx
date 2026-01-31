@@ -19,13 +19,13 @@ function ResendVerification() {
             
             setEmail('');
         } catch (error) {
-            toast.error("Failed to resend", {
-                description: error.message || "Something went wrong. Please try again."
+            toast.error('Failed to resend', {
+                description: error.message || 'Something went wrong. Please try again.'
             });      
         } finally {
             setIsSubmitting(false);
         }
-    }
+    };
 
     return (
         <div className="resend-container">
@@ -42,7 +42,7 @@ function ResendVerification() {
                     />
                 </div>
                 <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : "Send Link"}
+                    {isSubmitting ? 'Sending...' : 'Send Link'}
                 </button>
             </form>
         </div>

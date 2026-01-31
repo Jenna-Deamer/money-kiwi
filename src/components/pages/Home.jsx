@@ -1,6 +1,6 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 
 function Home() {
        const navigate = useNavigate();
@@ -19,7 +19,7 @@ function Home() {
             <h2>Please create an account or login to get started.</h2>
             <a href='/login'>Login</a> | <a href='/sign-up'>Sign Up</a>
         </div>
-    )
+    );
 }
 
 export default Home;

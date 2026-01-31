@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 import { signup as signupApi } from '../../utils/api/auth';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { signupSchema } from "../../utils/validation/userSchema";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { signupSchema } from '../../utils/validation/userSchema';
 import { toast } from 'sonner';
 
 function SignUp() {
@@ -39,7 +39,7 @@ function SignUp() {
             toast.error('Sign Up Failed');
             setServerError(err.message);
         }
-    }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -59,12 +59,12 @@ function SignUp() {
                     <legend style={{ display: 'none' }}>User Registration</legend>
 
                     <div className="input-group">
-                        <input {...register("name")} placeholder="Name" />
+                        <input {...register('name')} placeholder="Name" />
                         {errors.name && <span className="error">{errors.name.message}</span>}
                     </div>
 
                     <div className="input-group">
-                        <input {...register("email")} placeholder="Email" />
+                        <input {...register('email')} placeholder="Email" />
                         {errors.email && <span className="error">{errors.email.message}</span>}
                     </div>
 
@@ -72,18 +72,18 @@ function SignUp() {
                         <legend className="sr-only">Password Security</legend>
 
                         <div className="input-group">
-                            <input type="password" {...register("password")} placeholder="Password" />
+                            <input type="password" {...register('password')} placeholder="Password" />
                             {errors.password && <span className="error">{errors.password.message}</span>}
                         </div>
 
                         <div className="input-group">
-                            <input type="password" {...register("confirmPassword")} placeholder="Confirm password" />
+                            <input type="password" {...register('confirmPassword')} placeholder="Confirm password" />
                             {errors.confirmPassword && <span className="error">{errors.confirmPassword.message}</span>}
                         </div>
                     </fieldset>
 
                     <button type="submit">
-                        {isSubmitting ? "Creating Account..." : "Sign Up"}
+                        {isSubmitting ? 'Creating Account...' : 'Sign Up'}
                     </button>
                 </fieldset>
             </form>

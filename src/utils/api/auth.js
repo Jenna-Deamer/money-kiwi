@@ -24,7 +24,7 @@ export function forgotPassword(email) {
     return apiRequest('/forgot-password', {
         method: 'POST',
         body: JSON.stringify({ email })
-    })
+    });
 }
 
 export function resetPassword(token, password) {

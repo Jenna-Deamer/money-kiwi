@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 import { login as loginApi } from '../../utils/api/auth';
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { loginSchema } from "../../utils/validation/userSchema";
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { loginSchema } from '../../utils/validation/userSchema';
 import { toast } from 'sonner';
 
 function Login() {
@@ -45,7 +45,7 @@ function Login() {
             });
             setServerError(err.message);
         }
-    }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -75,17 +75,17 @@ function Login() {
                     <legend style={{ display: 'none' }}>Credentials</legend>
 
                     <div className="input-group">
-                        <input {...register("email")} placeholder="Email" />
+                        <input {...register('email')} placeholder="Email" />
                         {errors.email && <span className="error">{errors.email.message}</span>}
                     </div>
 
                     <div className="input-group">
-                        <input type="password" {...register("password")} placeholder="Password" />
+                        <input type="password" {...register('password')} placeholder="Password" />
                         {errors.password && <span className="error">{errors.password.message}</span>}
                     </div>
 
                     <button type="submit">
-                        {isSubmitting ? "Logging in..." : "Login"}
+                        {isSubmitting ? 'Logging in...' : 'Login'}
                     </button>
                 </fieldset>
             </form>

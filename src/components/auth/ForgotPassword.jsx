@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from "../../context/AuthContext";
+import { useAuth } from '../../context/AuthContext';
 import { toast } from 'sonner';
-import { forgotPassword } from "../../utils/api/auth";
+import { forgotPassword } from '../../utils/api/auth';
 
 function ForgotPassword() {
     const navigate = useNavigate();
@@ -24,15 +24,15 @@ function ForgotPassword() {
 
         try {
             await forgotPassword(email);
-            toast.success("Check your inbox", {
-                description: "If an account exists with that email, a reset link has been sent."
+            toast.success('Check your inbox', {
+                description: 'If an account exists with that email, a reset link has been sent.'
             });
         } catch {
-            toast.error("Something went wrong. Please try again later.");
+            toast.error('Something went wrong. Please try again later.');
         } finally {
             setIsSubmitting(false);
         }
-    }
+    };
 
     if (isLoading) {
         return <div>Loading...</div>;
@@ -58,11 +58,11 @@ function ForgotPassword() {
                     />
                 </div>
                 <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "Sending..." : "Send Reset Link"}
+                    {isSubmitting ? 'Sending...' : 'Send Reset Link'}
                 </button>
             </form>
         </div>
-    )
+    );
 }
 
 export default ForgotPassword;
