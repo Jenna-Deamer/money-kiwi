@@ -1,57 +1,55 @@
-import { createContext, useContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { createContext, useContext, useState } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { valiadate } from '../utils/api/auth';
+import { toast } from 'sonner';
 
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [user, setUser] = useState(null);
+    const queryClient = useQueryClient();
+    const [token, setToken] = useState(localStorage.getItem('token'));
 
-// Check for token in localStorage on initial load
-    useEffect(() => {
-        const token = localStorage.getItem('token');
-        // decode token and set user info
-        if (token) {
-            setIsAuthenticated(true);
-            try {
-                const decoded = jwtDecode(token);
-                console.log('Decoded token:', decoded);
-                setUser(decoded);
-            } catch {
-                setUser(null);
-            }
-        } else { // no token found
-            setIsAuthenticated(false);
-            setUser(null);
-        }
-        setIsLoading(false);
-    }, []);
 
-    const login = (token) => {
-        // set token in localStorage & set user state
-        localStorage.setItem('token', token);
-        setIsAuthenticated(true);
-        try {
-            const decoded = jwtDecode(token);
-            setUser(decoded);
-        } catch {
-            setUser(null);
-        }
+    const handleLogin = (newToken) => {
+        localStorage.setItem('token', newToken);
+        setToken(newToken);
     };
 
-    const logout = () => {
-        // remove token & reset state
+    const handleLogout = () => {
         localStorage.removeItem('token');
-        setIsAuthenticated(false);
-        setUser(null);
+        setToken(null);
+        queryClient.clear(); // Wipes all data from cache
     };
 
-    return (
-        <AuthContext.Provider value={{ isAuthenticated, isLoading, user, login, logout }}>
-            {children}
-        </AuthContext.Provider>
-    );
+
+    const { data: user, isLoading } = useQuery({
+        queryKey: ['authUser', token],
+        queryFn: async () => {
+            if (!token) return null;
+            try {
+                return await valiadate();
+            } catch (error) {
+                if (error.status === 401) {
+                    toast.error('Session expired. Please log in again.');
+                    handleLogout();
+                }
+                throw error;
+            }
+        },
+        retry: false, // if token is bad don't retry
+    });
+
+
+    const value = {
+        user,
+        isLoading,
+        isAuthenticated: !!user,
+        login: handleLogin,
+        logout: handleLogout,
+        isVerifying: isLoading && !!token
+    };
+
+    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
@@ -60,4 +58,4 @@ export function useAuth() {
         throw new Error('useAuth must be used within an AuthProvider');
     }
     return context;
-}
+};

@@ -33,3 +33,9 @@ export function resetPassword(token, password) {
         body: JSON.stringify({ token, password }),
     });
 }
+
+export function valiadate() {
+    return apiRequest('/validate', {
+        method: 'GET'
+    });
+}
