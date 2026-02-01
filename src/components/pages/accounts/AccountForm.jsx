@@ -1,9 +1,9 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { accountSchema } from '../../../utils/validation/finAccountSchema';
-import { useCreateAccount } from '../../../context/useAccounts';
+import { useCreateAccount, useGetAccount, useUpdateAccount } from '../../../context/useAccounts';
 
 const validSubCategories = {
     banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
@@ -11,12 +11,19 @@ const validSubCategories = {
     credit: ['auto_loan', 'credit_card', 'line_of_credit', 'mortgage', 'personal_loan', 'student_loan']
 };
 
-function AddAccountForm() {
+function AccountForm() {
+    const { id } = useParams();
+    let isEditMode = false;
+    if (id) { isEditMode = true; };
+
     const navigate = useNavigate();
     const [serverError, setServerError] = useState('');
-    const { mutate, isLoading } = useCreateAccount();
+    const { mutate: createAccount, isLoading: isCreating } = useCreateAccount();
+    const { mutate: updateAccount, isLoading: isUpdating } = useUpdateAccount();
+    const { data: existingAccount, isLoading: isFetching } = useGetAccount(id);
 
-    const { register, handleSubmit, watch,
+
+    const { register, handleSubmit, watch, reset,
         setValue, formState: { errors } } = useForm({
             resolver: zodResolver(accountSchema),
             defaultValues: { name: '', institution: '', category: '', subCategory: '', registration: '' }
@@ -25,23 +32,35 @@ function AddAccountForm() {
 
     const selectedCategory = watch('category');
 
+    useEffect(() => {
+        if (isEditMode && existingAccount) {
+            reset(existingAccount);
+        };
+    }, [isEditMode, existingAccount, reset]);
+
     const onSubmit = async (data) => {
-        console.log('Form Data Captured:', data);
         setServerError('');
 
-        mutate(data, {
-            onSuccess: () => {
-                navigate('/accounts');
-            },
-            onError: (err) => {
-                setServerError(err.message);
-            }
+
+        const mutation = isEditMode ? updateAccount : createAccount;
+
+        const payload = isEditMode ? { ...data, id } : data;
+
+        mutation(payload, {
+            onSuccess: () => navigate('/accounts'),
+            onError: (err) => setServerError(err.message)
         });
     };
 
+    if (isEditMode && isFetching) {
+        return <p>Loading account details...</p>;
+    }
     return (
         <>
-            <h1>Add New Account</h1>
+            {!isEditMode && <h1>Add New Account</h1>}
+            {isEditMode && <h1>Update Account</h1>}
+
+
             <form onSubmit={handleSubmit(onSubmit)}>
                 {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
                 <fieldset>
@@ -131,12 +150,12 @@ function AddAccountForm() {
                         {errors.registration && <span className='error'>{errors.registration.message}</span>}
                     </div>
                 </fieldset>
-                <button type='submit' disabled={isLoading}>
-                    {isLoading ? 'Creating Account...' : 'Create'}
+                <button type='submit' disabled={isCreating || isUpdating || isFetching}>
+                    {isEditMode ? 'Update Account' : 'Create Account'}
                 </button>
             </form >
         </>
     );
 }
 
-export default AddAccountForm;
+export default AccountForm;

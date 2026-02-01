@@ -5,7 +5,7 @@ function AcccountMangement() {
     return (
         <>
             <h1>Your Accounts</h1>
-            <Link to='add-account'>Add Account</Link>
+            <Link to='/accounts/form'>Add Account</Link>
             <AccountCard />
         </>
     );

@@ -7,7 +7,7 @@ function AccountList({ title, accounts }) {
     function handleChange(e, accountId) {
         const value = e.target.value;
 
-        if (value === 'edit') navigate(`/edit-account/${accountId}`);
+        if (value === 'edit') navigate(`/accounts/form/${accountId}`);
         if (value === 'active') console.log('Archive account: ' + accountId);
         if (value === 'activate') console.log('Unarchive account: ' + accountId);
     };

@@ -9,7 +9,7 @@ import ResendVerfication from './components/auth/ResendVerification';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
 import AcccountMangement from './components/pages/accounts/AccountManagement';
-import AddAccountForm from './components/pages/accounts/AddAccountForm';
+import AccountForm from './components/pages/accounts/AccountForm';
 import Error from './components/pages/Error';
 
 const routes = [
@@ -41,10 +41,10 @@ const routes = [
                 )
             },
             {
-                path: 'accounts/add-account',
+                path: 'accounts/form/:id?',
                 element: (
                     <ProtectedRoute>
-                        <AddAccountForm />
+                        <AccountForm />
                     </ProtectedRoute>
                 )
             },

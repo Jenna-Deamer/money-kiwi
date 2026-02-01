@@ -13,3 +13,17 @@ export function fetchAccounts() {
         method: 'GET',
     });
 }
+
+export function getAccount(id) {
+    return apiRequest(`/accounts/${id}`, {
+        method: 'GET',
+    });
+}
+
+export function updateAccount(data) {
+    const id = data.id;
+    return apiRequest(`/accounts/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+    });
+}

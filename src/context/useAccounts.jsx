@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchAccounts, createAccount } from '../utils/api/account';
+import { fetchAccounts, createAccount, getAccount, updateAccount } from '../utils/api/account';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
@@ -13,6 +13,23 @@ export function useAccounts(select) {
         // won't run if user isn't auth
         enabled: isAuthenticated
     });
+};
+
+export function useGetAccount(id) {
+    const { isAuthenticated } = useAuth();
+    const queryClient = useQueryClient();
+
+    return useQuery({
+        queryKey: ['accounts', id],
+        queryFn: () => getAccount(id),
+        initialData: () => {
+            return queryClient.getQueryData(['accounts'])?.find(acc => acc.id === id);
+        },
+        enabled: isAuthenticated && !!id,
+        staleTime: Infinity, // don't fetch in bg wait until cache is cleared
+        retry: false
+    });
+
 };
 
 export function useCategorizedAccounts() {
@@ -40,3 +57,20 @@ export function useCreateAccount() {
         }
     });
 };
+
+export function useUpdateAccount() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (updatedAccount) => updateAccount(updatedAccount),
+        onSuccess: () => {
+            // force-refreshes the account list everywhere in app
+            queryClient.invalidateQueries({ queryKey: ['accounts'] });
+            toast.success('Account updated succesfully');
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Failed to update account');
+        }
+    });
+
+}
