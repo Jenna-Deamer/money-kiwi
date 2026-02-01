@@ -20,6 +20,7 @@ export function useCategorizedAccounts() {
         banking: data?.filter(a => a.category === 'banking') || [],
         investments: data?.filter(a => a.category === 'investments') || [],
         debt: data?.filter(a => a.category === 'credit') || [],
+        archived: data?.filter(a => a.staus === 'archived') || [],
         isEmpty: data?.length === 0
     }));
 }
