@@ -1,35 +1,42 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { accountSchema } from '../../../utils/validation/finAccountSchema';
-import { createAccount as accountApi } from '../../../utils/api/account';
-import { toast } from 'sonner';
+import { useCreateAccount } from '../../../context/useAccounts';
+
+const validSubCategories = {
+    banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
+    investments: ['brokerage', 'crypto', 'gic', 'mutual_fund', 'pension', 'robo_advisor'],
+    credit: ['auto_loan', 'credit_card', 'line_of_credit', 'mortgage', 'personal_loan', 'student_loan']
+};
 
 function AddAccountForm() {
     const navigate = useNavigate();
     const [serverError, setServerError] = useState('');
-
+    const { mutate, isLoading } = useCreateAccount();
 
     const { register, handleSubmit, watch,
-        setValue, formState: { errors, isSubmitting } } = useForm({
+        setValue, formState: { errors } } = useForm({
             resolver: zodResolver(accountSchema),
-            defaultValues: { name: '', institution: '', category: '', registration: '' }
+            defaultValues: { name: '', institution: '', category: '', subCategory: '', registration: '' }
         });
 
 
     const selectedCategory = watch('category');
 
     const onSubmit = async (data) => {
+        console.log('Form Data Captured:', data);
         setServerError('');
-        try {
-            await accountApi(data.name, data.institution, data.category, data.registration);
-            toast.success('Account added');
-            navigate('/accounts');
-        } catch (err) {
-            toast.error(err.message || 'Account creation failed');
-            setServerError(err.message);
-        }
+
+        mutate(data, {
+            onSuccess: () => {
+                navigate('/accounts');
+            },
+            onError: (err) => {
+                setServerError(err.message);
+            }
+        });
     };
 
     return (
@@ -77,6 +84,26 @@ function AddAccountForm() {
                         {errors.category && <span className='error'>{errors.category.message}</span>}
                     </div>
 
+                    <label>Sub-Category</label>
+                    <div className='input-group'>
+                        <select {...register('subCategory')} disabled={!selectedCategory}>
+                            {!selectedCategory ? (
+                                <option value=''>-- Select Category First --</option>
+                            ) : (
+                                <>
+                                    <option value=''>-- Select Type --</option>
+                                    {validSubCategories[selectedCategory].map((sub) => (
+                                        <option key={sub} value={sub}>
+                                            {sub.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                                        </option>
+                                    ))}
+                                </>
+                            )}
+                        </select>
+                        {errors.subCategory && <span className='error'>{errors.subCategory.message}</span>}
+                    </div>
+                </fieldset>
+                <fieldset>
                     <label>Registration</label>
                     <div className='input-group'>
                         <select
@@ -104,9 +131,8 @@ function AddAccountForm() {
                         {errors.registration && <span className='error'>{errors.registration.message}</span>}
                     </div>
                 </fieldset>
-
-                <button type='submit' disabled={isSubmitting}>
-                    {isSubmitting ? 'Creating Account...' : 'Create'}
+                <button type='submit' disabled={isLoading}>
+                    {isLoading ? 'Creating Account...' : 'Create'}
                 </button>
             </form >
         </>
