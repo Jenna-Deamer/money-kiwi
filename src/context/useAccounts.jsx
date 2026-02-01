@@ -17,10 +17,10 @@ export function useAccounts(select) {
 
 export function useCategorizedAccounts() {
     return useAccounts((data) => ({
-        banking: data?.filter(a => a.category === 'banking') || [],
-        investments: data?.filter(a => a.category === 'investments') || [],
-        debt: data?.filter(a => a.category === 'credit') || [],
-        archived: data?.filter(a => a.staus === 'archived') || [],
+        banking: data?.filter(a => a.category === 'banking' && a.status !== 'archived') || [],
+        investments: data?.filter(a => a.category === 'investments' && a.status !== 'archived') || [],
+        debt: data?.filter(a => a.category === 'credit' && a.status !== 'archived') || [],
+        archived: data?.filter(a => a.status === 'archived') || [],
         isEmpty: data?.length === 0
     }));
 }
