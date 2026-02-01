@@ -1,37 +1,20 @@
-import { useAccounts } from '../../../context/useAccounts';
+import AccountList from './AccountList';
+import { useCategorizedAccounts } from '../../../context/useAccounts';
 import { useNavigate } from 'react-router-dom';
-import { useState } from 'react';
 
 function AccountCard() {
-    const { data, isLoading, error } = useAccounts();
-    const [serverError, setServerError] = useState('');
+    const { data, isLoading, error } = useCategorizedAccounts();
 
-    if (isLoading) return <div><p>Loading...</p></div>;
-    if (error || serverError) return <div><p>Error: {error?.message || serverError}</p></div>;
-    console.log('React Query Data:', data);
+    if (isLoading) return <div>Loading...</div>;
+    if (error) return <div>Error...</div>;
+    if (data.isEmpty) return <div>You don't have any accounts create one to get started!</div>;
+
     return (
         <>
-            {
-                data?.map((account) => (
-                    <div key={account.id}>
-                        <div>
-                            <h3>{account.name}</h3>
-                            <div>
-                                <span>{account.category}</span><span>{account.registration}</span>
-                            </div>
-                            <small>{account.institution}</small>
-                        </div>
-
-                        <div>
-                            <p>{account.balance}</p>
-                        </div>
-
-                    </div>
-                ))
-            }
+            <AccountList title='Cash & Banking' accounts={data.banking} />
+            <AccountList title='Investments' accounts={data.investments} />
+            <AccountList title='Debt' accounts={data.debt} />
         </>
-
-
     );
 }
 

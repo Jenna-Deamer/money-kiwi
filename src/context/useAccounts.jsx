@@ -3,16 +3,26 @@ import { fetchAccounts, createAccount } from '../utils/api/account';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
-export function useAccounts() {
+export function useAccounts(select) {
     const { isAuthenticated } = useAuth();
 
     return useQuery({
         queryKey: ['accounts'],
         queryFn: fetchAccounts,
+        select: select,
         // won't run if user isn't auth
         enabled: isAuthenticated
     });
 };
+
+export function useCategorizedAccounts() {
+    return useAccounts((data) => ({
+        banking: data?.filter(a => a.category === 'banking') || [],
+        investments: data?.filter(a => a.category === 'investments') || [],
+        debt: data?.filter(a => a.category === 'credit') || [],
+        isEmpty: data?.length === 0
+    }));
+}
 
 export function useCreateAccount() {
     const queryClient = useQueryClient();
