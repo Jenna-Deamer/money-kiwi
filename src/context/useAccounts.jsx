@@ -27,7 +27,6 @@ export function useGetAccount(id) {
         },
         enabled: isAuthenticated && !!id,
         staleTime: Infinity, // don't fetch in bg wait until cache is cleared
-        retry: false
     });
 
 };
