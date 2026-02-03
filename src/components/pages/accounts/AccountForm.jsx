@@ -41,7 +41,6 @@ function AccountForm() {
     const onSubmit = async (data) => {
         setServerError('');
 
-
         const mutation = isEditMode ? updateAccount : createAccount;
 
         const payload = isEditMode ? { ...data, id } : data;
@@ -59,7 +58,6 @@ function AccountForm() {
         <>
             {!isEditMode && <h1>Add New Account</h1>}
             {isEditMode && <h1>Update Account</h1>}
-
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 {serverError && <p style={{ color: 'red' }}>{serverError}</p>}

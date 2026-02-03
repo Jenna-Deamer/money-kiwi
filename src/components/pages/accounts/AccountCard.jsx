@@ -1,6 +1,5 @@
 import AccountList from './AccountList';
 import { useCategorizedAccounts } from '../../../context/useAccounts';
-// import { useNavigate } from 'react-router-dom';
 
 function AccountCard() {
     const { data, isLoading, error } = useCategorizedAccounts();

@@ -1,15 +1,18 @@
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import Modal from '../../shared/Modal';
 
 function AccountList({ title, accounts }) {
+    const [activeAccount, setActiveAccount] = useState(null);
+
     const navigate = useNavigate();
     if (accounts.length === 0) return null;
 
-    function handleChange(e, accountId) {
+    function handleChange(e, account) {
         const value = e.target.value;
 
-        if (value === 'edit') navigate(`/accounts/form/${accountId}`);
-        if (value === 'active') console.log('Archive account: ' + accountId);
-        if (value === 'activate') console.log('Unarchive account: ' + accountId);
+        if (value === 'edit') navigate(`/accounts/form/${account.id}`);
+        if (value === 'archive' || value === 'activate') setActiveAccount(account);
     };
 
     return (
@@ -29,7 +32,7 @@ function AccountList({ title, accounts }) {
                         <p>{account.balance}</p>
                         <select
                             name="account-options"
-                            onChange={(e) => handleChange(e, account.id)}
+                            onChange={(e) => handleChange(e, account)}
                             defaultValue=""
                         >
                             <option value=''>-- Account Options --</option>
@@ -42,7 +45,30 @@ function AccountList({ title, accounts }) {
                     </div>
                 </div>
             ))}
-        </section>
+
+            <Modal
+                isOpen={!!activeAccount}
+                onClose={() => setActiveAccount(null)}
+                title='Confirm Status Change'
+                body={
+                    <>
+                        {activeAccount?.status === 'active' && (
+                            <div>
+                                <h3>Are you sure you want to archive {activeAccount.name}?</h3>
+                                <p>Your transactions will remain but the account will be hidden.</p>
+                                <small>Note: Account balance must be zero to close.</small>
+                            </div>
+                        )}
+                        {activeAccount?.status === 'archived' && (
+                            <div>
+                                <h3>Are you sure you want to unarchive {activeAccount.name}?</h3>
+                                <p>The account will be moved back into your active lists.</p>
+                            </div>
+                        )}
+                    </>
+                }>
+            </Modal>
+        </section >
     );
 }
 
