@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { valiadate } from '../utils/api/auth';
+import { validate } from '../utils/api/auth';
 import { toast } from 'sonner';
 
 const AuthContext = createContext(null);
@@ -27,7 +27,7 @@ export function AuthProvider({ children }) {
         queryFn: async () => {
             if (!token) return null;
             try {
-                return await valiadate();
+                return await validate();
             } catch (error) {
                 if (error.status === 401) {
                     toast.error('Session expired. Please log in again.');
