@@ -1,9 +1,11 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '../../shared/Modal';
+import { useUpdateAccountStatus } from '../../../context/useAccounts';
 
 function AccountList({ title, accounts }) {
     const [activeAccount, setActiveAccount] = useState(null);
+    const { mutate: updateStatus, isLoading: isUpdating } = useUpdateAccountStatus();
 
     const navigate = useNavigate();
     if (accounts.length === 0) return null;
@@ -13,6 +15,14 @@ function AccountList({ title, accounts }) {
 
         if (value === 'edit') navigate(`/accounts/form/${account.id}`);
         if (value === 'archive' || value === 'activate') setActiveAccount(account);
+    };
+
+    const handleModalConfrimation = () => {
+        const newStatus = activeAccount.status === 'active' ? 'archived' : 'active';
+
+        updateStatus({ id: activeAccount.id, status: newStatus },
+            { onSuccess: () => setActiveAccount(null) }
+        );
     };
 
     return (
@@ -54,15 +64,39 @@ function AccountList({ title, accounts }) {
                     <>
                         {activeAccount?.status === 'active' && (
                             <div>
-                                <h3>Are you sure you want to archive {activeAccount.name}?</h3>
+                                <h3>Archive {activeAccount.name}?</h3>
                                 <p>Your transactions will remain but the account will be hidden.</p>
-                                <small>Note: Account balance must be zero to close.</small>
+
+                                {activeAccount.balance > 0.01 ? (
+                                    <div>
+                                        <p><strong>Cannot Archive:</strong> Balance must be zero.</p>
+                                        <p>Current balance: ${activeAccount.balance.toFixed(2)}</p>
+                                        <button onClick={() => navigate('/transfers/new')}>
+                                            Go to Transfers
+                                        </button>
+                                    </div>
+                                ) : (
+                                    <p>Ready to archive.</p>
+                                )}
+
+                                <div>
+                                    <button
+                                        onClick={handleModalConfrimation}
+                                        disabled={isUpdating || activeAccount.balance > 0.01}
+                                    >
+                                        {isUpdating ? 'Saving...' : 'Confirm Archive'}
+                                    </button>
+                                    <button onClick={() => setActiveAccount(null)} disabled={isUpdating}>
+                                        Cancel
+                                    </button>
+                                </div>
                             </div>
                         )}
                         {activeAccount?.status === 'archived' && (
                             <div>
                                 <h3>Are you sure you want to unarchive {activeAccount.name}?</h3>
                                 <p>The account will be moved back into your active lists.</p>
+                                <button onClick={handleModalConfrimation} disabled={isUpdating}>{isUpdating ? 'Saving...' : 'Confirm Unarchive'}</button><button onClick={() => setActiveAccount(null)} disabled={isUpdating}>Cancel</button>
                             </div>
                         )}
                     </>

@@ -28,3 +28,11 @@ export function updateAccount(data) {
         body: JSON.stringify(data),
     });
 }
+
+export function updateAccountStatus(data) {
+    const id = data.id;
+    return apiRequest(`${BASE}/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(data)
+    });
+}
