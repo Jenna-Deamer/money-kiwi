@@ -36,3 +36,11 @@ export function updateAccountStatus(data) {
         body: JSON.stringify(data)
     });
 }
+
+export function deleteAccount(data) {
+    const id = data.id;
+    return apiRequest(`${BASE}/${id}`, {
+        method: 'DELETE',
+        body: JSON.stringify(data)
+    });
+}

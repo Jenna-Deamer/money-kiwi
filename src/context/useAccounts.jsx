@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchAccounts, createAccount, getAccount, updateAccount, updateAccountStatus } from '../utils/api/account';
+import { fetchAccounts, createAccount, getAccount, updateAccount, updateAccountStatus, deleteAccount } from '../utils/api/account';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
@@ -79,12 +79,26 @@ export function useUpdateAccountStatus() {
     return useMutation({
         mutationFn: (updatedAccount) => updateAccountStatus(updatedAccount),
         onSuccess: () => {
-            // force-refreshes the account list everywhere in app
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
             toast.success('Account status updated succesfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update account status');
+        }
+    });
+}
+
+export function useDeleteAccount() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => deleteAccount(data),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['accounts'] });
+            toast.success('Account deleted succesfully');
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Failed to delete account');
         }
     });
 }
