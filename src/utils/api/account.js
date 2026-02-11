@@ -1,5 +1,5 @@
 import apiRequest from './core';
-const BASE = '/accounts';
+const BASE = '/api/accounts';
 
 export function createAccount(data) {
     console.log(data);

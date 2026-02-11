@@ -1,5 +1,5 @@
 import apiRequest from './core';
-const BASE = '/users';
+const BASE = '/api/users';
 
 export function login(email, password) {
     return apiRequest(`${BASE}/login`, {
