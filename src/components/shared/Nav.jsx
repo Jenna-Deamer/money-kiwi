@@ -21,6 +21,7 @@ function Nav() {
             <ul>
                 <li><Link to="/">Home</Link></li>
                 <li><Link to="/accounts">Accounts</Link></li>
+                <li><Link to="transactions">Transactions</Link></li>
                 <li>
                     <button onClick={handleLogout}>Logout</button>
                 </li>

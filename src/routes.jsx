@@ -9,7 +9,9 @@ import ResendVerfication from './components/auth/ResendVerification';
 import ForgotPassword from './components/auth/ForgotPassword';
 import ResetPassword from './components/auth/ResetPassword';
 import AcccountMangement from './components/pages/accounts/AccountManagement';
+import TransactionOverview from './components/pages/transactions/TransactionsOverview';
 import AccountForm from './components/pages/accounts/AccountForm';
+import TransactionForm from './components/pages/transactions/TransactionForm';
 import Error from './components/pages/Error';
 
 const routes = [
@@ -45,6 +47,22 @@ const routes = [
                 element: (
                     <ProtectedRoute>
                         <AccountForm />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'transactions',
+                element: (
+                    <ProtectedRoute>
+                        <TransactionOverview />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'transactions/form/:id?',
+                element: (
+                    <ProtectedRoute>
+                        <TransactionForm />
                     </ProtectedRoute>
                 )
             },
