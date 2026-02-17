@@ -2,7 +2,6 @@ import apiRequest from './core';
 const BASE = '/api/accounts';
 
 export function createAccount(data) {
-    console.log(data);
     return apiRequest(`${BASE}/`, {
         method: 'POST',
         body: JSON.stringify(data),
