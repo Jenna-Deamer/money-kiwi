@@ -108,7 +108,7 @@ function AccountForm() {
                                 <option value=''>-- Select Category First --</option>
                             ) : (
                                 <>
-                                    <option value=''>-- Select Type --</option>
+                                    <option value=''>-- Select Sub-Category --</option>
                                     {validSubCategories[selectedCategory].map((sub) => (
                                         <option key={sub} value={sub}>
                                             {sub.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}

@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchTransactions } from '../utils/api/transaction';
-import { useAuth, getTransaction } from './AuthContext';
+import { createTransaction, fetchTransactions, updateTransaction, getTransaction } from '../utils/api/transaction';
+import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
 export function useTransactions(select) {
@@ -14,7 +14,7 @@ export function useTransactions(select) {
     });
 }
 
-export function useTransaction(id) {
+export function useGetTransaction(id) {
     const { isAuthenticated } = useAuth();
     const queryClient = useQueryClient();
 
@@ -25,5 +25,35 @@ export function useTransaction(id) {
             return queryClient.getQueryData(['transactions'])?.find(transactions => transactions.id === id);
         },
         enabled: isAuthenticated && !!id,
+    });
+}
+
+export function useCreateTransaction() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (newTransaction) => createTransaction(newTransaction),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['transactions'] });
+            toast.success('Transaction created succesfully');
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Failed to create transaction');
+        }
+    });
+}
+
+export function useUpdateTransaction() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (updatedTransaction) => updateTransaction(updatedTransaction),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['transactions'] });
+            toast.success('Transaction updated succesfully');
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Failed to update transaction');
+        }
     });
 }

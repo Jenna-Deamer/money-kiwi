@@ -4,7 +4,7 @@ export const transactionSchema = z.object({
     memo: z.string()
         .min(2, 'Memo must be at least 2 characters')
         .max(100, 'Memo cannot exceed 100 characters'),
-    type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER'], {
+    type: z.enum(['Income', 'Expense', 'Transfer'], {
         errorMap: () => ({ message: 'Please select a valid type' })
     }),
     amount: z.number()
@@ -18,7 +18,7 @@ export const transactionSchema = z.object({
     toAccountId: z.string().uuid('Invalid destination account').optional().nullable(),
 }).refine((data) => {
     // A transfer must have a destination
-    if (data.type === 'TRANSFER' && !data.toAccountId) {
+    if (data.type === 'Transfer' && !data.toAccountId) {
         return false;
     }
     return true;
@@ -27,7 +27,7 @@ export const transactionSchema = z.object({
     path: ['toAccountId']
 }).refine((data) => {
     // If it's not a transfer, category must exist and not be empty
-    if (data.type !== 'TRANSFER') {
+    if (data.type !== 'Transfer') {
         return !!data.category && data.category.trim().length > 0;
     }
     return true;
