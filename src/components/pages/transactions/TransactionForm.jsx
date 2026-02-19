@@ -4,6 +4,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '../../../utils/validation/transactionSchema';
 import { useCreateTransaction, useGetTransaction, useUpdateTransaction } from '../../../context/useTransaction';
+import { useAccounts } from '../../../context/useAccounts';
+
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
@@ -13,6 +15,7 @@ function TransactionForm() {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
     const preSelectedAccount = searchParams.get('accountId');
+    const { data, isLoading, error } = useAccounts();
 
     const isEditMode = Boolean(id);
     const navigate = useNavigate();
@@ -67,15 +70,24 @@ function TransactionForm() {
                 {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
 
                 <fieldset>
-                    <label>Source Account</label>
+                    <div>
+                        <label>Source Account</label>
+                        {isLoading && <small>Loading...</small>}
+                        {error && <small style={{ color: 'red' }}>Error!</small>}
+                    </div>
+
                     <div className='input-group'>
-                        <select {...register('accountId')}>
+                        <select {...register('accountId')} disabled={isLoading || !!error}>
                             <option value=''>-- Select Source Account --</option>
+                            {data?.map((account) => (
+                                <option key={account.id} value={account.id}>
+                                    {account.name}
+                                </option>
+                            ))}
                         </select>
                         {errors.accountId && <span className='error'>{errors.accountId.message}</span>}
                     </div>
                 </fieldset>
-
 
                 <fieldset>
                     <label>Memo</label>
@@ -124,13 +136,28 @@ function TransactionForm() {
 
                 {selectedType === 'Transfer' && (
                     <fieldset>
-                        <label>Destination Account</label>
-                        <div className='input-group'>
-                            <select {...register('toAccountId')}>
-                                <option value=''>-- Select Destination Account --</option>
+                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                            <label>Destination Account</label>
+                            {isLoading && <small>Loading accounts...</small>}
+                            {error && <small style={{ color: 'red' }}>Error loading data</small>}
+                        </div>
 
+                        <div className='input-group'>
+                            <select
+                                {...register('toAccountId')}
+                                disabled={isLoading || !!error}
+                            >
+                                <option value=''>-- Select Destination Account --</option>
+                                {data?.filter(acc => acc.id !== watch('accountId')) // Filter out the source account
+                                    .map((account) => (
+                                        <option key={account.id} value={account.id}>
+                                            {account.name}
+                                        </option>
+                                    ))}
                             </select>
-                            {errors.toAccountId && <span className='error'>{errors.toAccountId.message}</span>}
+                            {errors.toAccountId && (
+                                <span className='error'>{errors.toAccountId.message}</span>
+                            )}
                         </div>
                     </fieldset>
                 )}
@@ -159,7 +186,7 @@ function TransactionForm() {
                 <button type='submit' disabled={isCreating || isUpdating || isFetching}>
                     {isEditMode ? 'Update Transaction' : 'Create Transaction'}
                 </button>
-            </form>
+            </form >
         </>
     );
 }
