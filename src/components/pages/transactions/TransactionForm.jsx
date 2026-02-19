@@ -25,7 +25,7 @@ function TransactionForm() {
     const { mutate: updateTransaction, isLoading: isUpdating } = useUpdateTransaction();
     const { data: existingTransaction, isLoading: isFetching } = useGetTransaction(id);
 
-    const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
+    const { register, handleSubmit, watch, reset, control, setValue, formState: { errors } } = useForm({
         resolver: zodResolver(transactionSchema),
         defaultValues: {
             accountId: preSelectedAccount || '',
@@ -40,6 +40,7 @@ function TransactionForm() {
     });
 
     const selectedType = watch('type');
+    const sourceAccountId = watch('accountId');
 
     useEffect(() => {
         if (isEditMode && existingTransaction) {
@@ -47,10 +48,16 @@ function TransactionForm() {
         }
     }, [isEditMode, existingTransaction, reset]);
 
-    const onSubmit = async (data) => {
+    useEffect(() => {
+        if (selectedType !== 'Transfer') {
+            setValue('toAccountId', '');
+        }
+    }, [selectedType, setValue]);
+
+    const onSubmit = async (formData) => {
         setServerError('');
         const mutation = isEditMode ? updateTransaction : createTransaction;
-        const payload = isEditMode ? { ...data, id } : data;
+        const payload = isEditMode ? { ...formData, id } : formData;
 
         mutation(payload, {
             onSuccess: () => navigate('/transactions'),
@@ -73,7 +80,7 @@ function TransactionForm() {
                     <div>
                         <label>Source Account</label>
                         {isLoading && <small>Loading...</small>}
-                        {error && <small style={{ color: 'red' }}>Error!</small>}
+                        {error && <small style={{ color: 'red' }}>Error retriving accounts!</small>}
                     </div>
 
                     <div className='input-group'>
@@ -117,16 +124,14 @@ function TransactionForm() {
 
                     <label>Category</label>
                     <div className='input-group'>
-                        <select {...register('category')} disabled={selectedType === 'Transfer' || !selectedType}>
+                        <select {...register('category')} disabled={!selectedType}>
                             {!selectedType ? (
                                 <option value=''>-- Select Type First --</option>
-                            ) : selectedType === 'Transfer' ? (
-                                <option value=''>N/A for Transfers</option>
                             ) : (
                                 <>
                                     <option value=''>-- Select Category --</option>
                                     <option value='food'>Food</option>
-
+                                    <option value='savings'>Savings</option>
                                 </>
                             )}
                         </select>
@@ -136,19 +141,16 @@ function TransactionForm() {
 
                 {selectedType === 'Transfer' && (
                     <fieldset>
-                        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                        <div>
                             <label>Destination Account</label>
                             {isLoading && <small>Loading accounts...</small>}
-                            {error && <small style={{ color: 'red' }}>Error loading data</small>}
+                            {error && <small style={{ color: 'red' }}>Error retriving accounts!</small>}
                         </div>
 
                         <div className='input-group'>
-                            <select
-                                {...register('toAccountId')}
-                                disabled={isLoading || !!error}
-                            >
+                            <select {...register('toAccountId')} disabled={isLoading || !!error}>
                                 <option value=''>-- Select Destination Account --</option>
-                                {data?.filter(acc => acc.id !== watch('accountId')) // Filter out the source account
+                                {data?.filter(acc => acc.id !== sourceAccountId)
                                     .map((account) => (
                                         <option key={account.id} value={account.id}>
                                             {account.name}
@@ -186,7 +188,7 @@ function TransactionForm() {
                 <button type='submit' disabled={isCreating || isUpdating || isFetching}>
                     {isEditMode ? 'Update Transaction' : 'Create Transaction'}
                 </button>
-            </form >
+            </form>
         </>
     );
 }
