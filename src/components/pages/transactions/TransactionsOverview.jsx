@@ -30,7 +30,7 @@ function TransactionOverview() {
                             <td>{transaction.amount.toFixed(2)}</td>
                             <td>{transaction.category}</td>
                             <td>{transaction.date}</td>
-                            <td>{transaction.accountId}</td>
+                            <td>{transaction.account?.name || 'Unkown Account'}</td>
                             <td><button>Update</button> <button>Delete</button></td>
                         </tr>
                     ))}
