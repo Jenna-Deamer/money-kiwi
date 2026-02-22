@@ -29,8 +29,14 @@ function TransactionOverview() {
                             <td>{transaction.memo}</td>
                             <td>{transaction.amount.toFixed(2)}</td>
                             <td>{transaction.category}</td>
-                            <td>{transaction.date}</td>
-                            <td>{transaction.account?.name || 'Unkown Account'}</td>
+                            <td>
+                                {new Date(transaction.date).toLocaleDateString('en-CA', {
+                                    timeZone: 'UTC',
+                                    month: 'short',
+                                    day: 'numeric',
+                                    year: 'numeric'
+                                })}
+                            </td>                            <td>{transaction.account?.name || 'Unkown Account'}</td>
                             <td><button>Update</button> <button>Delete</button></td>
                         </tr>
                     ))}
