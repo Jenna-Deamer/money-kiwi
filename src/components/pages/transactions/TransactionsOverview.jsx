@@ -1,12 +1,18 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useTransactions } from '../../../context/useTransaction';
 
 function TransactionOverview() {
     const { data, isLoading, error } = useTransactions();
+    const navigate = useNavigate();
 
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error...</div>;
     if (data.isEmpty) return <div>No transacations. Create one or try another filter.</div>;
+
+    function handleUpdate(id) {
+        navigate(`/transactions/form/${id}`);
+    };
+
     return (
         <>
             <h1>Transactions Overview</h1>
@@ -36,8 +42,9 @@ function TransactionOverview() {
                                     day: 'numeric',
                                     year: 'numeric'
                                 })}
-                            </td>                            <td>{transaction.account?.name || 'Unkown Account'}</td>
-                            <td><button>Update</button> <button>Delete</button></td>
+                            </td>
+                            <td>{transaction.account?.name || 'Unkown Account'}</td>
+                            <td><button onClick={() => handleUpdate(transaction.id)}>Update</button> <button>Delete</button></td>
                         </tr>
                     ))}
                 </tbody>

@@ -44,7 +44,18 @@ function TransactionForm() {
 
     useEffect(() => {
         if (isEditMode && existingTransaction) {
-            reset(existingTransaction);
+            const normalized = { ...existingTransaction };
+
+            if (normalized.type && typeof normalized.type === 'string') {
+                // Normalize casing so it matches the option values 
+                normalized.type = normalized.type.charAt(0).toUpperCase() + normalized.type.slice(1).toLowerCase();
+            }
+
+            if (normalized.date && typeof normalized.date === 'string') {
+                normalized.date = new Date(normalized.date);
+            }
+
+            reset(normalized);
         }
     }, [isEditMode, existingTransaction, reset]);
 

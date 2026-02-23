@@ -8,13 +8,13 @@ export function fetchTransactions() {
 }
 
 export function getTransaction(id) {
-    return apiRequest(`${BASE}/account/${id}`, {
+    return apiRequest(`${BASE}/${id}`, {
         method: 'GET',
     });
 }
 
 export function getTransactionByAccount(id) {
-    return apiRequest(`${BASE}/${id}`, {
+    return apiRequest(`${BASE}/account/${id}`, {
         method: 'GET',
     });
 }
@@ -27,7 +27,7 @@ export function createTransaction(data) {
 }
 
 export function updateTransaction(data) {
-    return apiRequest(`${BASE}/`, {
+    return apiRequest(`${BASE}/${data.id}`, {
         method: 'PUT',
         body: JSON.stringify(data),
     });
