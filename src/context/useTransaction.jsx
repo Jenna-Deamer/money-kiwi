@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createTransaction, fetchTransactions, updateTransaction, getTransaction } from '../utils/api/transaction';
+import { createTransaction, fetchTransactions, updateTransaction, getTransaction, deleteTransaction } from '../utils/api/transaction';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
@@ -54,6 +54,20 @@ export function useUpdateTransaction() {
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update transaction');
+        }
+    });
+}
+
+export function useDeleteTransaction() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (data) => deleteTransaction(data), onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['transactions'] });
+            toast.success('Transaction deleted succesfully');
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Failed to delete transaction');
         }
     });
 }
