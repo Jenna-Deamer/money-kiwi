@@ -39,6 +39,7 @@ function TransactionOverview() {
                         <th>Amount</th>
                         <th>Category</th>
                         <th>Date</th>
+                        <th>Type/Status</th>
                         <th>Account</th>
                         <th>Actions</th>
                     </tr>
@@ -58,6 +59,7 @@ function TransactionOverview() {
                                     year: 'numeric'
                                 })}
                             </td>
+                            <td>{transaction.type} {transaction.status}</td>
                             <td>{transaction.account?.name || 'Unkown Account'}</td>
                             <td><button onClick={() => handleUpdate(transaction.id)}>Update</button> <button onClick={() => {
                                 setActiveTransaction(transaction);
