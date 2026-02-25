@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import TransactionTable from './TransactionTable';
 import { useTransactions, useDeleteTransaction } from '../../../context/useTransaction';
 import Modal from '../../shared/Modal';
 import { useState } from 'react';
@@ -14,10 +15,11 @@ function TransactionOverview() {
     if (error) return <div>Error...</div>;
     if (data.isEmpty) return <div>No transacations. Create one or try another filter.</div>;
 
-    function handleUpdate(id) {
-        navigate(`/transactions/form/${id}`);
+    const handleUpdate = (id) => navigate(`/transactions/form/${id}`);
+    const openDeleteModal = (transaction) => {
+        setActiveTransaction(transaction);
+        setIsDeleteOpen(true);
     };
-
     function handleClose() {
         setIsDeleteOpen(false);
     };
@@ -32,44 +34,9 @@ function TransactionOverview() {
         <>
             <h1>Transactions Overview</h1>
             <Link to='/transactions/form'>Add Transaction</Link>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Memo</th>
-                        <th>Amount</th>
-                        <th>Category</th>
-                        <th>Date</th>
-                        <th>Type/Status</th>
-                        <th>Account</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    {data?.map((transaction) => (
-                        <tr key={transaction.id}>
-                            <td>{transaction.memo}</td>
-                            <td>{transaction.amount.toFixed(2)}</td>
-                            <td>{transaction.category}</td>
-                            <td>
-                                {new Date(transaction.date).toLocaleDateString('en-CA', {
-                                    timeZone: 'UTC',
-                                    month: 'short',
-                                    day: 'numeric',
-                                    year: 'numeric'
-                                })}
-                            </td>
-                            <td>{transaction.type} {transaction.status}</td>
-                            <td>{transaction.account?.name || 'Unkown Account'}</td>
-                            <td><button onClick={() => handleUpdate(transaction.id)}>Update</button> <button onClick={() => {
-                                setActiveTransaction(transaction);
-                                setIsDeleteOpen(true);
-                            }}>Delete</button></td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-
+            <TransactionTable data={data}
+                onUpdate={handleUpdate}
+                onDelete={openDeleteModal} />
 
             <Modal
                 isOpen={isDeleteOpen}
