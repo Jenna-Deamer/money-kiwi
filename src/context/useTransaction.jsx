@@ -3,13 +3,12 @@ import { createTransaction, fetchTransactions, updateTransaction, getTransaction
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
-export function useTransactions(select) {
+export function useTransactions(filters) {
     const { isAuthenticated } = useAuth();
 
     return useQuery({
-        queryKey: ['transactions'],
-        queryFn: fetchTransactions,
-        select: select,
+        queryKey: ['transactions', filters],
+        queryFn: () => fetchTransactions(filters),
         enabled: isAuthenticated
     });
 }

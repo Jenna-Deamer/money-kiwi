@@ -1,8 +1,11 @@
 import apiRequest from './core';
 const BASE = '/api/transactions';
 
-export function fetchTransactions() {
-    return apiRequest(`${BASE}/`, {
+export function fetchTransactions(filters) {
+    const queryParams = new URLSearchParams(filters || {}).toString();
+    const url = queryParams ? `${BASE}/?${queryParams}` : `${BASE}/`;
+
+    return apiRequest(url, {
         method: 'GET',
     });
 }
