@@ -10,7 +10,7 @@ import Modal from '../../shared/Modal';
 import { useState } from 'react';
 
 function TransactionOverview() {
-    const [filters, setFilters] = useState({ search: '', category: '' });
+    const [filters, setFilters] = useState({ search: '', category: [], account: [] });
     const debouncedFilters = useDebounce(filters, 500);
     const { data: transactions, isLoading, error } = useTransactions(debouncedFilters);
     const [activeTransaction, setActiveTransaction] = useState(null);
@@ -19,8 +19,8 @@ function TransactionOverview() {
         useDeleteTransaction();
     const navigate = useNavigate();
 
-    const handleUpdate = (id) => navigate(`/transactions/form/${id}`);
-    const openDeleteModal = (transaction) => {
+    function handleUpdate(id) { navigate(`/transactions/form/${id}`); };
+    function openDeleteModal(transaction) {
         setActiveTransaction(transaction);
         setIsDeleteOpen(true);
     };
@@ -49,8 +49,10 @@ function TransactionOverview() {
             <TransactionTableFilters
                 search={filters.search}
                 category={filters.category}
+                account={filters.account}
                 onSearchChange={(val) => handleFilterChange('search', val)}
                 onCategoryChange={(val) => handleFilterChange('category', val)}
+                onAccountChange={(val) => handleFilterChange('account', val)}
             />
 
             <div>
