@@ -33,8 +33,10 @@ function TransactionTableFilters({ search, category, account, onAccountChange, o
                 placeholder="Select Account..."
                 isClearable
                 isMulti
+                // after re-render pass menu currently selected options to highlight them
                 value={accountOptions.filter(opt => (account || []).includes(opt.value))}
                 onChange={(selectedOptions) => {
+                    // strip out label and just pass value for filter state
                     const values = selectedOptions ? selectedOptions.map(opt => opt.value) : [];
                     onAccountChange(values);
                 }}
