@@ -1,12 +1,29 @@
 import Select from 'react-select';
 import { useAccounts } from '../../../context/useAccounts';
 
-const options = [
-    { value: 'food', label: 'food' },
-    { value: 'savings', label: 'savings' }
+const categoryOptions = [
+    { value: 'food', label: 'Food' },
+    { value: 'savings', label: 'Savings' }
 ];
 
-function TransactionTableFilters({ search, category, account, onAccountChange, onSearchChange, onCategoryChange }) {
+const transactionTypeOptions = [
+    { value: 'income', label: 'Income' },
+    { value: 'expense', label: 'Expense' },
+    { value: 'transfer', label: 'Transfer' },
+];
+const accountTypeOptions = [
+    { value: 'banking', label: 'Banking' },
+    { value: 'investments', label: 'Investments' },
+    { value: 'credit', label: 'Credit & Loans' },
+];
+
+const statusOptions = [
+    { value: 'posted', label: 'Posted' },
+    { value: 'pending_match', label: 'Pending Match' },
+    { value: 'upcoming', label: 'Upcoming' },
+];
+
+function TransactionTableFilters({ search, category, account, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
     const { data: accounts, isLoading, error } = useAccounts();
 
     if (isLoading) return <div>Loading...</div>;
@@ -42,16 +59,50 @@ function TransactionTableFilters({ search, category, account, onAccountChange, o
                 }}
             />
             <Select
-                options={options}
+                options={categoryOptions}
                 placeholder="Select Category..."
                 isClearable
                 isMulti
-                value={options.filter(opt => category.includes(opt.value))}
+                value={categoryOptions.filter(opt => category.includes(opt.value))}
                 onChange={(selectedOptions) => {
                     const values = selectedOptions ? selectedOptions.map(opt => opt.value) : [];
                     onCategoryChange(values);
                 }}
             />
+            <Select
+                options={transactionTypeOptions}
+                placeholder="Select Transaction Type"
+                isClearable
+                isMulti
+                value={transactionTypeOptions.filter(opt => transactionType.includes(opt.value))}
+                onChange={(selectOptions) => {
+                    const values = selectOptions ? selectOptions.map(opt => opt.value) : [];
+                    onTransactionTypeChange(values);
+                }}>
+            </Select>
+
+            <Select
+                options={accountTypeOptions}
+                placeholder="Select Account Type"
+                isClearable
+                isMulti
+                value={accountTypeOptions.filter(opt => accountType.includes(opt.value))}
+                onChange={(selectOptions) => {
+                    const values = selectOptions ? selectOptions.map(opt => opt.value) : [];
+                    onAccountTypeChange(values);
+                }}>
+            </Select>
+            <Select
+                options={statusOptions}
+                placeholder="Select Transaction Status"
+                isClearable
+                isMulti
+                value={statusOptions.filter(opt => status.includes(opt.value))}
+                onChange={(selectOptions) => {
+                    const values = selectOptions ? selectOptions.map(opt => opt.value) : [];
+                    onStatusChange(values);
+                }}>
+            </Select>
 
 
         </div>

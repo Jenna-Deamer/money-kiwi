@@ -10,7 +10,7 @@ import Modal from '../../shared/Modal';
 import { useState } from 'react';
 
 function TransactionOverview() {
-    const [filters, setFilters] = useState({ search: '', category: [], account: [] });
+    const [filters, setFilters] = useState({ search: '', category: [], account: [], transactionType: [], accountType: [], status: [] });
     const debouncedFilters = useDebounce(filters, 500);
     const { data: transactions, isLoading, error } = useTransactions(debouncedFilters);
     const [activeTransaction, setActiveTransaction] = useState(null);
@@ -50,9 +50,15 @@ function TransactionOverview() {
                 search={filters.search}
                 category={filters.category}
                 account={filters.account}
+                transactionType={filters.transactionType}
+                accountType={filters.accountType}
+                status={filters.status}
                 onSearchChange={(val) => handleFilterChange('search', val)}
                 onCategoryChange={(val) => handleFilterChange('category', val)}
                 onAccountChange={(val) => handleFilterChange('account', val)}
+                onTransactionTypeChange={(val) => handleFilterChange('transactionType', val)}
+                onAccountTypeChange={(val) => handleFilterChange('accountType', val)}
+                onStatusChange={(val) => handleFilterChange('status', val)}
             />
 
             <div>
