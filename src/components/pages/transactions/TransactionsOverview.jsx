@@ -8,9 +8,16 @@ import {
 } from '../../../context/useTransaction';
 import Modal from '../../shared/Modal';
 import { useState } from 'react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function TransactionOverview() {
-    const [filters, setFilters] = useState({ search: '', category: [], account: [], transactionType: [], accountType: [], status: [] });
+    const thirtyDaysAgo = new Date();
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    const [pickerRange, setPickerRange] = useState([thirtyDaysAgo, new Date()]);
+    const [filters, setFilters] = useState({
+        search: '', category: [], account: [], transactionType: [], accountType: [], status: [], startDate: thirtyDaysAgo, endDate: new Date()
+    });
     const debouncedFilters = useDebounce(filters, 500);
     const { data: transactions, isLoading, error } = useTransactions(debouncedFilters);
     const [activeTransaction, setActiveTransaction] = useState(null);
@@ -41,7 +48,27 @@ function TransactionOverview() {
         <>
             <div>
                 <h1>Transactions Overview</h1>
-                <h2>Showing current date - current date</h2>
+                <DatePicker
+                    selectsRange={true}
+                    startDate={pickerRange[0]}
+                    endDate={pickerRange[1]}
+                    onChange={(update) => {
+                        const [start, end] = update;
+                        // Update UI state so the user sees their clicks
+                        setPickerRange(update);
+                        // Update filters when user has selected two dates
+                        if (start && end) {
+                            setFilters(prev => ({
+                                ...prev,
+                                startDate: start,
+                                endDate: end
+                            }));
+                        }
+                    }}
+                    showIcon
+                    closeOnScroll
+                    dateFormat="dd MMM yyyy"
+                />
             </div>
 
             <Link to="/transactions/form">Add Transaction</Link>
