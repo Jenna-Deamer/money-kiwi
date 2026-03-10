@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '../../utils/validation/userSchema';
 import { toast } from 'sonner';
+import Button from '../../components/shared/ui/Button';
 
 function SignUp() {
     const navigate = useNavigate();
@@ -19,11 +20,14 @@ function SignUp() {
         }
     }, [isAuthenticated, isLoading, navigate]);
 
-
     // Initialize Hook Form
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    const {
+        register,
+        handleSubmit,
+        formState: { errors, isSubmitting },
+    } = useForm({
         resolver: zodResolver(signupSchema),
-        defaultValues: { name: '', email: '', password: '', confirmPassword: '' }
+        defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
     });
 
     const onSubmit = async (data) => {
@@ -32,7 +36,7 @@ function SignUp() {
         try {
             await signupApi(data.name, email, data.password, data.confirmPassword);
             toast.success('Account created', {
-                description: 'Check your email to verify your account.'
+                description: 'Check your email to verify your account.',
             });
             navigate('/login');
         } catch (err) {
@@ -55,40 +59,60 @@ function SignUp() {
             {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
 
             <form onSubmit={handleSubmit(onSubmit)}>
-                <fieldset disabled={isSubmitting} style={{ border: 'none', padding: 0 }}>
+                <fieldset
+                    disabled={isSubmitting}
+                    style={{ border: 'none', padding: 0 }}
+                >
                     <legend style={{ display: 'none' }}>User Registration</legend>
 
                     <div className="input-group">
                         <input {...register('name')} placeholder="Name" />
-                        {errors.name && <span className="error">{errors.name.message}</span>}
+                        {errors.name && (
+                            <span className="error">{errors.name.message}</span>
+                        )}
                     </div>
 
                     <div className="input-group">
                         <input {...register('email')} placeholder="Email" />
-                        {errors.email && <span className="error">{errors.email.message}</span>}
+                        {errors.email && (
+                            <span className="error">{errors.email.message}</span>
+                        )}
                     </div>
 
                     <fieldset style={{ border: 'none', padding: '10px 0', margin: 0 }}>
                         <legend className="sr-only">Password Security</legend>
 
                         <div className="input-group">
-                            <input type="password" {...register('password')} placeholder="Password" />
-                            {errors.password && <span className="error">{errors.password.message}</span>}
+                            <input
+                                type="password"
+                                {...register('password')}
+                                placeholder="Password"
+                            />
+                            {errors.password && (
+                                <span className="error">{errors.password.message}</span>
+                            )}
                         </div>
 
                         <div className="input-group">
-                            <input type="password" {...register('confirmPassword')} placeholder="Confirm password" />
-                            {errors.confirmPassword && <span className="error">{errors.confirmPassword.message}</span>}
+                            <input
+                                type="password"
+                                {...register('confirmPassword')}
+                                placeholder="Confirm password"
+                            />
+                            {errors.confirmPassword && (
+                                <span className="error">{errors.confirmPassword.message}</span>
+                            )}
                         </div>
                     </fieldset>
-
-                    <button type="submit">
-                        {isSubmitting ? 'Creating Account...' : 'Sign Up'}
-                    </button>
+                    <Button type="submit" intent="primary" isLoading={isSubmitting}>
+                        Sign Up
+                    </Button>
                 </fieldset>
             </form>
 
-            <p>Already have an account? <Link to="/login">Login</Link></p>
+            <p>
+                Already have an account? <Link to="/login">Login</Link>
+            </p>
         </div>
     );
 }
