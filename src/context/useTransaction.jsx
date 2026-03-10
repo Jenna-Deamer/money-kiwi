@@ -1,15 +1,16 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
 import { createTransaction, fetchTransactions, updateTransaction, getTransaction, deleteTransaction } from '../utils/api/transaction';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
-export function useTransactions(filters) {
+export function useTransactions(filters, page) {
     const { isAuthenticated } = useAuth();
 
     return useQuery({
-        queryKey: ['transactions', filters],
-        queryFn: () => fetchTransactions(filters),
-        enabled: isAuthenticated
+        queryKey: ['transactions', filters, page],
+        queryFn: () => fetchTransactions(filters, page),
+        enabled: isAuthenticated,
+        placeholderData: keepPreviousData,
     });
 }
 

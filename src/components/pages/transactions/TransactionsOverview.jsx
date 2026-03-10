@@ -13,13 +13,14 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 function TransactionOverview() {
     const thirtyDaysAgo = new Date();
+    const [page, setPage] = useState(0);
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
     const [pickerRange, setPickerRange] = useState([thirtyDaysAgo, new Date()]);
     const [filters, setFilters] = useState({
         search: '', category: [], account: [], transactionType: [], accountType: [], status: [], startDate: thirtyDaysAgo, endDate: new Date()
     });
     const debouncedFilters = useDebounce(filters, 500);
-    const { data: transactions, isLoading, error } = useTransactions(debouncedFilters);
+    const { data: transactions, isLoading, error, isPlaceholderData } = useTransactions(debouncedFilters, page);
     const [activeTransaction, setActiveTransaction] = useState(null);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const { mutate: deleteTransaction, isLoading: isDeleting } =
@@ -100,6 +101,9 @@ function TransactionOverview() {
                         data={transactions}
                         onUpdate={handleUpdate}
                         onDelete={openDeleteModal}
+                        page={page}
+                        setPage={setPage}
+                        isPlaceholderData={isPlaceholderData}
                     />
                 )}
             </div>
