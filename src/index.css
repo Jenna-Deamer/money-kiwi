@@ -1,33 +1,87 @@
 @import "tailwindcss";
 
-/* @theme {
+@theme {
+    --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
 
-} */
+    /* Desktop Scale */
+    --text-h1: 2rem;
+    /* 32px */
+    --text-h2: 1.5rem;
+    /* 24px */
+    --text-h3: 1.375rem;
+    /* 22px */
+    --text-label: 1.125rem;
+    /* 18px */
+    --text-body: 1rem;
+    /* 16px */
+    --text-small: 0.875rem;
+    /* 14px */
+    --text-xs: 0.75rem;
+    /* 12px */
+
+    /* Colors */
+    --color-kiwi-primary: #6B8E23;
+    --color-kiwi-dark: #556B2F;
+
+    /* Semantic Budgeting Colors */
+    --color-income: var(--color-kiwi-primary);
+    --color-expense: #CC704B;
+    --color-alert: #D97706;
+
+    /* Neutral Canvas */
+    --color-canvas-bg: #F4F6F8;
+    --color-canvas-card: #FFFFFF;
+
+    /* Text Contrast */
+    --color-txt-main: #2D3748;
+    --color-txt-muted: #718096;
+
+    /* Borders & Dividers */
+    --color-border-soft: #E2E8F0;
+    --color-border-focus: rgba(107, 142, 35, 0.2);
+    /* Kiwi Primary at 20% */
+}
 
 @layer base {
     body {
-        @apply antialiased;
-        height: 100%;
+        @apply antialiased bg-canvas-bg text-txt-main font-sans;
+        font-size: var(--text-body);
     }
 
-    p {
-        text-wrap: pretty;
+    /* Responsive Headings */
+    h1 {
+        @apply font-bold leading-tight tracking-tight;
+        font-size: 1.75rem;
+
+        /* 28px Mobile */
+        @screen md {
+            font-size: var(--text-h1);
+        }
+
+        /* 32px Desktop */
     }
 
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-        text-wrap: balance;
-        @apply font-bold;
+    h2 {
+        @apply font-semibold leading-snug;
+        font-size: var(--text-h2);
+        /* 24px both */
     }
 
-    input,
-    button,
-    textarea,
-    select {
-        font: inherit;
+    h3 {
+        @apply font-semibold;
+        font-size: 1.25rem;
+
+        /* 20px Mobile */
+        @screen md {
+            font-size: var(--text-h3);
+        }
+
+        /* 22px Desktop */
+    }
+
+    /* Shared Label style */
+    label {
+        @apply font-medium;
+        font-size: var(--text-label);
     }
 }
