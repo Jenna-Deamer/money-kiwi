@@ -104,7 +104,7 @@ function SignUp() {
                             )}
                         </div>
                     </fieldset>
-                    <Button type="submit" intent="primary" isLoading={isSubmitting}>
+                    <Button type="submit" intent="primary" loadingText="Creating Account..." isLoading={isSubmitting}>
                         Sign Up
                     </Button>
                 </fieldset>

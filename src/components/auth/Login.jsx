@@ -6,6 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '../../utils/validation/userSchema';
 import { toast } from 'sonner';
+import Button from '../../components/shared/ui/Button';
 
 function Login() {
     const navigate = useNavigate();
@@ -84,9 +85,9 @@ function Login() {
                         {errors.password && <span className="error">{errors.password.message}</span>}
                     </div>
 
-                    <button type="submit">
-                        {isSubmitting ? 'Logging in...' : 'Login'}
-                    </button>
+                    <Button type="submit" intent="primary" loadingText="Logging in..." isLoading={isSubmitting}>
+                        Login
+                    </Button>
                 </fieldset>
             </form>
 
