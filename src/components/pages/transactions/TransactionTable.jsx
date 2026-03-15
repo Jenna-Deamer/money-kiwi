@@ -3,6 +3,7 @@
 function TransactionTable({ data, onUpdate, onDelete, page, setPage, isPlaceholderData }) {
     return (
         <>
+            <p>Showing: {data?.transactions.length}</p>
             <table>
                 <thead>
                     <tr>
@@ -17,7 +18,7 @@ function TransactionTable({ data, onUpdate, onDelete, page, setPage, isPlacehold
                 </thead>
 
                 <tbody>
-                    {data?.map((transaction) => (
+                    {data?.transactions.map((transaction) => (
                         <tr key={transaction.id}>
                             <td>{transaction.memo}</td>
                             <td>{transaction.amount.toFixed(2)}</td>

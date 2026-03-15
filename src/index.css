@@ -20,8 +20,8 @@
     /* 12px */
 
     /* Colors */
-    --color-kiwi-primary: #6B8E23;
-    --color-kiwi-dark: #556B2F;
+    --color-kiwi-primary: #4F772D;
+    --color-kiwi-dark: #31572C;
 
     /* Semantic Budgeting Colors */
     --color-income: var(--color-kiwi-primary);
