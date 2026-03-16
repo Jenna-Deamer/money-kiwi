@@ -7,9 +7,8 @@ function TransactionTable({ data, onUpdate, onDelete, page, setPage, isPlacehold
             <table>
                 <thead>
                     <tr>
-                        <th>Memo</th>
+                        <th>Memo / Category</th>
                         <th>Amount</th>
-                        <th>Category</th>
                         <th>Date</th>
                         <th>Type/Status</th>
                         <th>Account</th>
@@ -20,9 +19,8 @@ function TransactionTable({ data, onUpdate, onDelete, page, setPage, isPlacehold
                 <tbody>
                     {data?.transactions.map((transaction) => (
                         <tr key={transaction.id}>
-                            <td>{transaction.memo}</td>
+                            <td>{transaction.memo}<br /><small>{transaction.category}</small></td>
                             <td>{transaction.amount.toFixed(2)}</td>
-                            <td>{transaction.category}</td>
                             <td>
                                 {new Date(transaction.date).toLocaleDateString('en-CA', {
                                     timeZone: 'UTC',
@@ -50,11 +48,11 @@ function TransactionTable({ data, onUpdate, onDelete, page, setPage, isPlacehold
             </button>
             <button
                 onClick={() => {
-                    if (!isPlaceholderData && data.hasMore) {
+                    if (!isPlaceholderData && data.totalPages) {
                         setPage((prev) => prev + 1);
                     }
                 }}
-                disabled={isPlaceholderData || !data?.hasMore}
+                disabled={isPlaceholderData || page >= data?.totalPages - 1}
             >
                 Next Page
             </button>
