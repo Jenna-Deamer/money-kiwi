@@ -98,7 +98,7 @@ function TransactionOverview() {
                     <div>No transactions found. Create one or try another filter.</div>
                 ) : (
                     <TransactionTable
-                        data={transactions}
+                        transactionsData={transactions}
                         onUpdate={handleUpdate}
                         onDelete={openDeleteModal}
                         page={page}

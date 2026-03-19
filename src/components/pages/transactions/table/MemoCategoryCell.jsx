@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 const MemoCategoryCell = ({ row, table }) => {
     const [memo, setMemo] = useState(row.original.memo);
-    const [category, setCategory] = useState(row.original.category);
+    const [category, setCategory] = useState(row.original.category || '');
 
     // flags changes in two different database columns.
     const onBlur = (field, value) => {
