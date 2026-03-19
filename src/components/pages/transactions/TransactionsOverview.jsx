@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import useDebounce from '../../../utils/useDebounce';
-import TransactionTable from './TransactionTable';
-import TransactionTableFilters from './TransactionTableFilters';
+import TransactionTable from './table/TransactionTable';
+import TransactionTableFilters from './table/TransactionTableFilters';
 import {
     useTransactions,
     useDeleteTransaction,
