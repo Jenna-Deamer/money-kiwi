@@ -4,12 +4,12 @@ const MemoCategoryCell = ({ row, table }) => {
     const [memo, setMemo] = useState(row.original.memo);
     const [category, setCategory] = useState(row.original.category || '');
 
-    const initalRow = table.options.meta?.initialData?.[row.index];
-    const isRowDirty = memo !== initalRow?.memo || category != initalRow?.category;
-
+    const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id);
+    const isRowDirty = (memo || '').trim() !== (initalRow?.memo || '').trim() ||
+        (category || '').trim() !== (initalRow?.category || '').trim();
 
     useEffect(() => {
-        setMemo(row.original.memo);
+        setMemo(row.original.memo || '');
         setCategory(row.original.category || '');
     }, [row.original.memo, row.original.category]);
 
