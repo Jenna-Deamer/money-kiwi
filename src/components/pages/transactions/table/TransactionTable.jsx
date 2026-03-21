@@ -67,12 +67,14 @@ function TransactionTable({
         },
     ];
     const [data, setData] = useState(transactionsData?.transactions || []);
+    const [isUnsavedData, setIsUnsavedData] = useState(false);
 
     const table = useReactTable({
         data,
         columns,
         getCoreRowModel: getCoreRowModel(),
         meta: {
+            initialData: transactionsData?.transactions,
             updateData: (rowIndex, columnId, value) =>
                 setData((prev) =>
                     prev.map((row, index) =>
@@ -85,10 +87,20 @@ function TransactionTable({
     });
 
     useEffect(() => {
-        if (transactionsData?.transactions) {
-            setData(transactionsData.transactions);
-        }
-    }, [transactionsData]);
+        const hasChanged = JSON.stringify(data) !== JSON.stringify(transactionsData?.transactions);
+        setIsUnsavedData(hasChanged);
+        console.log('saved state ' + isUnsavedData);
+
+    }, [data, transactionsData, isUnsavedData]);
+
+    const onSave = () => {
+
+    };
+
+    const onCancel = () => {
+        setData(transactionsData?.transactions);
+    };
+
     return (
         <>
             <table>
@@ -118,6 +130,12 @@ function TransactionTable({
                     ))}
                 </tbody>
             </table>
+
+            {isUnsavedData ? <div>
+                <button onClick={onSave}>Save</button> <button onClick={onCancel}>Cancel</button>
+            </div>
+                : null}
+
 
         </>
     );

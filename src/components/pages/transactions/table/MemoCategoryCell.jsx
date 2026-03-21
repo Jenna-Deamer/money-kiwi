@@ -1,8 +1,17 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const MemoCategoryCell = ({ row, table }) => {
     const [memo, setMemo] = useState(row.original.memo);
     const [category, setCategory] = useState(row.original.category || '');
+
+    const initalRow = table.options.meta?.initialData?.[row.index];
+    const isRowDirty = memo !== initalRow?.memo || category != initalRow?.category;
+
+
+    useEffect(() => {
+        setMemo(row.original.memo);
+        setCategory(row.original.category || '');
+    }, [row.original.memo, row.original.category]);
 
     // flags changes in two different database columns.
     const onBlur = (field, value) => {
@@ -10,7 +19,15 @@ const MemoCategoryCell = ({ row, table }) => {
     };
 
     return (
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '4px' }}>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            // highlight edited row
+            backgroundColor: isRowDirty ? '#fff5f5' : 'transparent',
+            borderLeft: isRowDirty ? '2px solid red' : 'none',
+            paddingLeft: isRowDirty ? '4px' : '0'
+        }}>
             <input
                 value={memo}
                 onChange={(e) => setMemo(e.target.value)}
