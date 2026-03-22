@@ -4,14 +4,18 @@ const MemoCategoryCell = ({ row, table }) => {
     const [memo, setMemo] = useState(row.original.memo);
     const [category, setCategory] = useState(row.original.category || '');
 
+    const isUnsavedData = table.options.meta?.isUnsavedData;
     const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id);
     const isRowDirty = (memo || '').trim() !== (initalRow?.memo || '').trim() ||
         (category || '').trim() !== (initalRow?.category || '').trim();
 
     useEffect(() => {
-        setMemo(row.original.memo || '');
-        setCategory(row.original.category || '');
-    }, [row.original.memo, row.original.category]);
+        if (!isUnsavedData) {
+            setMemo(row.original.memo || '');
+            setCategory(row.original.category || '');
+        }
+
+    }, [row.original.memo, row.original.category, isUnsavedData]);
 
     // flags changes in two different database columns.
     const onBlur = (field, value) => {

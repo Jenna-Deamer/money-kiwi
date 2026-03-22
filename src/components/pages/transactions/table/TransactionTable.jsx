@@ -3,7 +3,6 @@ import {
     getCoreRowModel,
     flexRender,
 } from '@tanstack/react-table';
-import EditableCell from './EditableCell';
 import MemoCategoryCell from './MemoCategoryCell';
 import { useState, useEffect } from 'react';
 
@@ -11,9 +10,9 @@ function TransactionTable({
     transactionsData,
     onUpdate,
     onDelete,
-    page,
-    setPage,
-    isPlaceholderData,
+    // page,
+    // setPage,
+    // isPlaceholderData,
 }) {
     const columns = [
         {
@@ -66,39 +65,52 @@ function TransactionTable({
             ),
         },
     ];
-    const [data, setData] = useState(transactionsData?.transactions || []);
+    const [newData, setNewData] = useState([]);
     const [isUnsavedData, setIsUnsavedData] = useState(false);
 
     const table = useReactTable({
-        data,
+        data: transactionsData?.transactions || [],
         columns,
         getCoreRowModel: getCoreRowModel(),
         meta: {
             initialData: transactionsData?.transactions,
-            updateData: (rowIndex, columnId, value) =>
-                setData((prev) =>
-                    prev.map((row, index) =>
-                        index === rowIndex
-                            ? { ...row, [columnId]: value }
-                            : row
-                    )
-                )
-        }
+            isUnsavedData,
+            updateData: (rowIndex, columnId, value) => {
+                const orginalRow = transactionsData?.transactions[rowIndex];
+                const rowId = orginalRow.id;
+
+                setNewData((prev => {
+                    // find if row is arealdy being tracked
+                    const existing = prev.find(row => row.id === rowId);
+
+                    if (existing) {
+                        return prev.map(row => row.id === rowId ? { ...row, [columnId]: value } : row);
+                    } else {
+                        return [...prev, { ...orginalRow, [columnId]: value }];
+                    }
+                }));
+            },
+        },
     });
 
     useEffect(() => {
-        const hasChanged = JSON.stringify(data) !== JSON.stringify(transactionsData?.transactions);
-        setIsUnsavedData(hasChanged);
-        console.log('saved state ' + isUnsavedData);
+        if (newData && newData.length > 0) {
+            setIsUnsavedData(true);
+            console.log('saved state ' + isUnsavedData);
+        } else { setIsUnsavedData(false); }
 
-    }, [data, transactionsData, isUnsavedData]);
+
+    }, [newData, isUnsavedData]);
 
     const onSave = () => {
-
+        console.log('save clicked');
+        console.log(newData);
     };
 
     const onCancel = () => {
-        setData(transactionsData?.transactions);
+        console.log('cancel clicked');
+        setNewData([]);
+        setIsUnsavedData(false);
     };
 
     return (
