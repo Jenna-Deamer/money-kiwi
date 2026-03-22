@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const transactionSchema = z.object({
+export const transactionBaseSchema = z.object({
     memo: z.string()
         .min(2, 'Memo must be at least 2 characters')
         .max(100, 'Memo cannot exceed 100 characters'),
@@ -16,7 +16,9 @@ export const transactionSchema = z.object({
     category: z.string().optional().nullable(),
     accountId: z.string().uuid('Please select an account'),
     toAccountId: z.string().uuid('Invalid destination account').optional().nullable().or(z.literal('')),
-})
+});
+
+export const transactionSchema = transactionBaseSchema
     .refine((data) => {
         // Transfer must have a destination
         if (data.type === 'Transfer' && !data.toAccountId) return false;
