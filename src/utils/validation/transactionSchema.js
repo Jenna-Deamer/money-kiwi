@@ -15,7 +15,6 @@ export const transactionSchema = z.object({
     date: z.date().or(z.string().pipe(z.coerce.date())),
     category: z.string().optional().nullable(),
     accountId: z.string().uuid('Please select an account'),
-    // Change this line in your schema:
     toAccountId: z.string().uuid('Invalid destination account').optional().nullable().or(z.literal('')),
 })
     .refine((data) => {
