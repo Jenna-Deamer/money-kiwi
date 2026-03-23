@@ -5,6 +5,8 @@ import {
 } from '@tanstack/react-table';
 import MemoCategoryCell from './MemoCategoryCell';
 import { useState, useEffect } from 'react';
+import { transactionSchema } from '../../../../utils/validation/transactionSchema';
+import { useUpdateMultipleTransactionss } from '../../../../context/useTransaction';
 
 function TransactionTable({
     transactionsData,
@@ -67,6 +69,7 @@ function TransactionTable({
     ];
     const [newData, setNewData] = useState([]);
     const [isUnsavedData, setIsUnsavedData] = useState(false);
+    const [saveErrors, setSaveErrors] = useState([]);
 
     const table = useReactTable({
         data: transactionsData?.transactions || [],
@@ -103,8 +106,28 @@ function TransactionTable({
     }, [newData, isUnsavedData]);
 
     const onSave = () => {
-        console.log('save clicked');
-        console.log(newData);
+        const errors = [];
+
+        newData.forEach(row => {
+            const result = transactionSchema.safeParse(row);
+
+            if (!result.success) {
+                result.error.issues.forEach(issue => {
+                    errors.push({
+                        id: row.id,
+                        memo: row.memo,
+                        message: issue.message
+                    });
+                });
+            }
+
+            if (errors.length > 0) {
+                setSaveErrors(errors);
+                return;
+            }
+
+            setSaveErrors([]);
+        });
     };
 
     const onCancel = () => {

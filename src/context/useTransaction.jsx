@@ -58,6 +58,21 @@ export function useUpdateTransaction() {
     });
 }
 
+export function useUpdateMultipleTransactionss() {
+    const queryClient = useQueryClient();
+
+    return useMutation({
+        mutationFn: (updatedTransactions) => updateTransaction(updatedTransactions),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ['transactions'] });
+            toast.success('Transactions updated succesfully');
+        },
+        onError: (error) => {
+            toast.error(error.message || 'Failed to update transactions');
+        }
+    });
+}
+
 export function useDeleteTransaction() {
     const queryClient = useQueryClient();
 

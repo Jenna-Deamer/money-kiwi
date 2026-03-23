@@ -4,11 +4,9 @@ export const transactionBaseSchema = z.object({
     memo: z.string()
         .min(2, 'Memo must be at least 2 characters')
         .max(100, 'Memo cannot exceed 100 characters'),
-    type: z.string()
-        .min(1, 'Please select a type')
-        .refine((val) => ['Income', 'Expense', 'Transfer'].includes(val), {
-            message: 'Please select a valid type',
-        }),
+    type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER'], {
+        message: 'Please select a valid type',
+    }),
     amount: z.coerce.number()
         .min(0.01, 'Amount must be at least $0.01')
         .max(99999999, 'Amount cannot exceed $99,999,999'),

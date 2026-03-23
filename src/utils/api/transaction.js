@@ -36,6 +36,13 @@ export function updateTransaction(data) {
     });
 }
 
+export function updateMultipleTransactions(data) {
+    return apiRequest(`${BASE}/batch`, {
+        method: 'PATCH',
+        body: JSON.stringify(data),
+    });
+}
+
 export function deleteTransaction(data) {
     return apiRequest(`${BASE}/${data.id}`, {
         method: 'DELETE',
