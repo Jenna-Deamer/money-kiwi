@@ -3,7 +3,7 @@ import {
     getCoreRowModel,
     flexRender,
 } from '@tanstack/react-table';
-import MemoCategoryCell from './MemoCategoryCell';
+import MemoCategoryCell from './editableCells/MemoCategoryCell';
 import { useState, useEffect } from 'react';
 import { transactionSchema } from '../../../../utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '../../../../context/useTransaction';

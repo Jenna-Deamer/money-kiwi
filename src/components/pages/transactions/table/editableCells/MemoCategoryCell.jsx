@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { transactionBaseSchema } from '../../../../utils/validation/transactionSchema';
+import { transactionBaseSchema } from '../../../../../utils/validation/transactionSchema';
 
 const MemoCategoryCell = ({ row, table }) => {
     const memoSchema = transactionBaseSchema.pick({ memo: true });
