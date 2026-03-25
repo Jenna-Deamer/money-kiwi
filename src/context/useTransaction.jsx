@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
-import { createTransaction, fetchTransactions, updateTransaction, getTransaction, deleteTransaction } from '../utils/api/transaction';
+import { createTransaction, fetchTransactions, updateTransaction, getTransaction, deleteTransaction, updateMultipleTransactions } from '../utils/api/transaction';
 import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
@@ -62,7 +62,7 @@ export function useUpdateMultipleTransactionss() {
     const queryClient = useQueryClient();
 
     return useMutation({
-        mutationFn: (updatedTransactions) => updateTransaction(updatedTransactions),
+        mutationFn: (updatedTransactions) => updateMultipleTransactions(updatedTransactions),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
             toast.success('Transactions updated succesfully');

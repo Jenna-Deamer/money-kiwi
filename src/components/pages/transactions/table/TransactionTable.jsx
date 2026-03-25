@@ -67,6 +67,8 @@ function TransactionTable({
             ),
         },
     ];
+    const { mutate } = useUpdateMultipleTransactionss();
+
     const [newData, setNewData] = useState([]);
     const [isUnsavedData, setIsUnsavedData] = useState(false);
     const [saveErrors, setSaveErrors] = useState([]);
@@ -126,13 +128,18 @@ function TransactionTable({
                 return;
             }
 
-            setSaveErrors([]);
+            mutate(newData, {
+                onSuccess: () => {
+                    setNewData([]);
+                    setSaveErrors([]);
+                }
+            });
         });
     };
 
     const onCancel = () => {
-        console.log('cancel clicked');
         setNewData([]);
+        setSaveErrors([]);
         setIsUnsavedData(false);
     };
 
