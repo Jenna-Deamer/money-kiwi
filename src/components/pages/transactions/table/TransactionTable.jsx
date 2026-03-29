@@ -110,7 +110,8 @@ function TransactionTable({
 
     const onSave = () => {
         const errors = [];
-
+        console.log('On Save ---');
+        console.log(newData);
         newData.forEach(row => {
             const result = transactionSchema.safeParse(row);
 
@@ -128,13 +129,13 @@ function TransactionTable({
                 setSaveErrors(errors);
                 return;
             }
+        });
 
-            mutate(newData, {
-                onSuccess: () => {
-                    setNewData([]);
-                    setSaveErrors([]);
-                }
-            });
+        mutate(newData, {
+            onSuccess: () => {
+                setNewData([]);
+                setSaveErrors([]);
+            }
         });
     };
 
