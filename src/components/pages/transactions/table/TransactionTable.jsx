@@ -4,6 +4,7 @@ import {
     flexRender,
 } from '@tanstack/react-table';
 import MemoCategoryCell from './editableCells/MemoCategoryCell';
+import AmountCell from './editableCells/AmountCell';
 import { useState, useEffect } from 'react';
 import { transactionSchema } from '../../../../utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '../../../../context/useTransaction';
@@ -25,7 +26,7 @@ function TransactionTable({
         {
             accessorKey: 'amount',
             header: 'Amount',
-            cell: (info) => <p>${info.getValue().toFixed(2)}</p>,
+            cell: AmountCell
         },
         {
             accessorKey: 'date',

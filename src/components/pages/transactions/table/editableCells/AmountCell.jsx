@@ -1,14 +1,66 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { transactionBaseSchema } from '../../../../../utils/validation/transactionSchema';
 
-const EditableCell = ({ getValue, table, row, column }) => {
-    const initalValue = getValue();
-    const [value, setValue] = useState(initalValue);
+const AmountCell = ({ table, row }) => {
+    const amountSchema = transactionBaseSchema.pick({ amount: true });
+    const [amountError, setAmountError] = useState('');
+    const [amount, setAmount] = useState(row.original.amount || 0.00);
+    const [isFoucsed, setIsFocused] = useState(false);
+
+    const isUnsavedData = table.options.meta?.isUnsavedData;
+    const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id); const isRowDirty = (amount || 0.00) !== (initalRow?.amount || 0.00);
+
+    useEffect(() => {
+        if (!isUnsavedData) {
+            setAmount(row.original.amount || 0.00);
+            setAmountError('');
+        }
+    }, [row.original.amount, isUnsavedData]);
+
+    const onBlur = (field, value) => {
+        if (field === 'amount') {
+            const result = amountSchema.safeParse({ amount: value });
+            if (!result.success) {
+                setAmountError(result.error.issues[0].message);
+            } else {
+                setAmountError('');
+            }
+        }
+
+        table.options.meta?.updateData(row.index, field, value);
+    };
 
     return (
-        <>
-            <input value={value} onChange={e => setValue(e.target.value)} onBlur={() => { table.options.meta?.updateData(row.index, column.id, value); }} />
-        </>
+        <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '4px',
+            // highlight edited row
+            backgroundColor: isRowDirty ? '#fff5f5' : 'transparent',
+            borderLeft: isRowDirty ? '2px solid red' : 'none',
+            paddingLeft: isRowDirty ? '4px' : '0'
+        }}>
+            <input value={isFoucsed ? amount : amount.toFixed(2)}
+                type='number'
+                onChange={(e) => {
+                    setAmount(parseFloat(e.target.value));
+                }}
+                onFocus={() => setIsFocused(true)}
+                onBlur={() => {
+                    setIsFocused(false);
+                    onBlur('amount', amount);
+                }}
+                style={{
+                    fontWeight: 'bold',
+                    border: '1px solid transparent',
+                    background: 'none',
+                    width: '100%'
+                }}
+            />
+            {amountError && <small style={{ color: 'red' }}>{amountError}</small>}
+
+        </div>
     );
 };
 
-export default EditableCell;
+export default AmountCell;
