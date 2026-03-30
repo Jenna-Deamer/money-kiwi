@@ -46,9 +46,11 @@ const AmountCell = ({ table, row }) => {
                     setAmount(parseFloat(e.target.value));
                 }}
                 onFocus={() => setIsFocused(true)}
-                onBlur={() => {
+                onBlur={(e) => {
                     setIsFocused(false);
-                    onBlur('amount', amount);
+                    const value = parseFloat(e.target.value);
+                    setAmount(value);
+                    onBlur('amount', value);
                 }}
                 style={{
                     fontWeight: 'bold',

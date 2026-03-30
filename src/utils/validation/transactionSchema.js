@@ -27,7 +27,7 @@ export const transactionSchema = transactionBaseSchema
     })
     .refine((data) => {
         // Prevent "Self-Transfers"
-        if (data.type === 'Transfer' && data.accountId === data.toAccountId) return false;
+        if (data.type === 'TRANSFER' && data.accountId === data.toAccountId) return false;
         return true;
     }, {
         message: 'Destination must be a different account than source account',
@@ -35,7 +35,7 @@ export const transactionSchema = transactionBaseSchema
     })
     .refine((data) => {
         // Category required for Income/Expense
-        if (data.type !== 'Transfer' && data.type !== undefined) {
+        if (data.type !== 'TRANSFER' && data.type !== undefined) {
             return !!data.category && data.category.trim().length > 0;
         }
         return true;

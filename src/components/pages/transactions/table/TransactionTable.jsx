@@ -8,6 +8,7 @@ import AmountCell from './editableCells/AmountCell';
 import { useState, useEffect } from 'react';
 import { transactionSchema } from '../../../../utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '../../../../context/useTransaction';
+import { toast } from 'sonner';
 
 function TransactionTable({
     transactionsData,
@@ -82,6 +83,7 @@ function TransactionTable({
             initialData: transactionsData?.transactions,
             isUnsavedData,
             updateData: (rowIndex, columnId, value) => {
+                console.log('updateData called', rowIndex, columnId, value);
                 const orginalRow = transactionsData?.transactions[rowIndex];
                 const rowId = orginalRow.id;
 
@@ -124,13 +126,16 @@ function TransactionTable({
                     });
                 });
             }
-
-            if (errors.length > 0) {
-                setSaveErrors(errors);
-                return;
-            }
         });
 
+
+        if (errors.length > 0) {
+            setSaveErrors(errors);
+            toast.error('Error: Please address fields highlighted in red before saving changes.');
+            return;
+        }
+
+        console.log('mutate with', newData);
         mutate(newData, {
             onSuccess: () => {
                 setNewData([]);
@@ -147,6 +152,11 @@ function TransactionTable({
 
     return (
         <>
+            <div>
+                {saveErrors.map((error) => (
+                    <p key={error.id}>{error.message}</p>
+                ))}
+            </div>
             <table>
                 <thead>
                     {table.getHeaderGroups().map((headerGroup) => (
