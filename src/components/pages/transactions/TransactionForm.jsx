@@ -8,7 +8,7 @@ import { useAccounts } from '../../../context/useAccounts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
-const validTypes = ['Income', 'Expense', 'Transfer'];
+const validTypes = ['INCOME', 'EXPENSE', 'TRANSFER'];
 
 function TransactionForm() {
     const { id } = useParams();

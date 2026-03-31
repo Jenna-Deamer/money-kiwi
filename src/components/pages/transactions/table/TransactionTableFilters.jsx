@@ -1,5 +1,5 @@
 import Select from 'react-select';
-import { useAccounts } from '../../../context/useAccounts';
+import { useAccounts } from '../../../../context/useAccounts';
 
 const categoryOptions = [
     { value: 'food', label: 'Food' },
@@ -25,7 +25,6 @@ const statusOptions = [
 
 function TransactionTableFilters({ search, category, account, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
     const { data: accounts, isLoading, error } = useAccounts();
-
     if (isLoading) return <div>Loading...</div>;
     if (error) return <div>Error...</div>;
 
