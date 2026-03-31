@@ -15,9 +15,9 @@ function TransactionTable({
     transactionsData,
     onUpdate,
     onDelete,
-    // page,
-    // setPage,
-    // isPlaceholderData,
+    page,
+    setPage,
+    isPlaceholderData,
 }) {
     const columns = [
         {
@@ -185,6 +185,25 @@ function TransactionTable({
             </div>
                 : null}
 
+            <div>
+                <span>Current Page: {page + 1}</span>
+                <button
+                    onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+                    disabled={page === 0}
+                >
+                    Previous Page
+                </button>
+                <button
+                    onClick={() => {
+                        if (!isPlaceholderData && transactionsData.totalPages) {
+                            setPage((prev) => prev + 1);
+                        }
+                    }}
+                    disabled={isPlaceholderData || page >= transactionsData?.totalPages - 1}
+                >
+                    Next Page
+                </button>
+            </div >
 
         </>
     );
