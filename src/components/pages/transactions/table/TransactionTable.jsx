@@ -6,6 +6,7 @@ import {
 import MemoCategoryCell from './editableCells/MemoCategoryCell';
 import AmountCell from './editableCells/AmountCell';
 import { useState, useEffect } from 'react';
+import DateCell from './editableCells/DateCell';
 import { transactionSchema } from '../../../../utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '../../../../context/useTransaction';
 import { toast } from 'sonner';
@@ -32,13 +33,7 @@ function TransactionTable({
         {
             accessorKey: 'date',
             header: 'Date',
-            cell: (info) =>
-                new Date(info.getValue()).toLocaleDateString('en-CA', {
-                    timeZone: 'UTC',
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric',
-                }),
+            cell: DateCell
         },
         {
             header: 'Type/Status',
