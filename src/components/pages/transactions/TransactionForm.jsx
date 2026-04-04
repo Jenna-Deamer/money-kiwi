@@ -45,11 +45,6 @@ function TransactionForm() {
         if (isEditMode && existingTransaction) {
             const normalized = { ...existingTransaction };
 
-            if (normalized.type && typeof normalized.type === 'string') {
-                // Normalize casing so it matches the option values 
-                normalized.type = normalized.type.charAt(0).toUpperCase() + normalized.type.slice(1).toLowerCase();
-            }
-
             if (normalized.date && typeof normalized.date === 'string') {
                 normalized.date = new Date(normalized.date);
             }
@@ -59,7 +54,7 @@ function TransactionForm() {
     }, [isEditMode, existingTransaction, reset]);
 
     useEffect(() => {
-        if (selectedType !== 'Transfer') {
+        if (selectedType !== 'TRANSFER') {
             setValue('toAccountId', '');
         }
     }, [selectedType, setValue]);
@@ -132,24 +127,29 @@ function TransactionForm() {
                         {errors.type && <span className='error'>{errors.type.message}</span>}
                     </div>
 
-                    <label>Category</label>
-                    <div className='input-group'>
-                        <select {...register('category')} disabled={!selectedType}>
-                            {!selectedType ? (
-                                <option value=''>-- Select Type First --</option>
-                            ) : (
-                                <>
-                                    <option value=''>-- Select Category --</option>
-                                    <option value='food'>Food</option>
-                                    <option value='savings'>Savings</option>
-                                </>
-                            )}
-                        </select>
-                        {errors.category && <span className='error'>{errors.category.message}</span>}
-                    </div>
+                    {selectedType !== 'TRANSFER' && (
+                        <>
+                            <label>Category</label>
+
+                            <div className='input-group'>
+                                <select {...register('category')} disabled={!selectedType}>
+                                    {!selectedType ? (
+                                        <option value=''>-- Select Type First --</option>
+                                    ) : (
+                                        <>
+                                            <option value=''>-- Select Category --</option>
+                                            <option value='food'>Food</option>
+                                            <option value='savings'>Savings</option>
+                                        </>
+                                    )}
+                                </select>
+                                {errors.category && <span className='error'>{errors.category.message}</span>}
+                            </div>
+                        </>
+                    )}
                 </fieldset>
 
-                {selectedType === 'Transfer' && (
+                {selectedType === 'TRANSFER' && (
                     <fieldset>
                         <div>
                             <label>Destination Account</label>
