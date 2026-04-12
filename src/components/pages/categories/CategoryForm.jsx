@@ -25,10 +25,6 @@ function CategoryForm() {
 
                 <fieldset>
                     <label>Parent Category</label>
-                </fieldset>
-
-                <fieldset>
-                    <label>Is Parent</label>
                     <label>Color</label>
                 </fieldset>
 
