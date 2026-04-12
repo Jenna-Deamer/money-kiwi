@@ -4,21 +4,21 @@ import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
 
-export function useCategories(select) {
+export function useCategories(select, type) {
     const { isAuthenticated } = useAuth();
 
     return useQuery({
-        queryKey: ['categories'],
+        queryKey: ['categories', type],
         queryFn: fetchCategories,
         select: select,
         enabled: isAuthenticated,
     });
 }
 
-export function useParentCategories() {
+export function useParentCategories(type) {
     return useCategories((data) => ({
-        parentCategories: data?.filter(a => a.parentId === null) || []
-    }));
+        parentCategories: data?.filter(a => a.parentId === null && a.type === type) || []
+    }), type);
 }
 
 export function useGetCategory(id) {

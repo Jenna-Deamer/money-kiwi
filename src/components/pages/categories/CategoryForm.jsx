@@ -15,7 +15,6 @@ function CategoryForm() {
     const isEditMode = Boolean(id);
     const navigate = useNavigate();
     const [serverError, setServerError] = useState('');
-    const { parentCategories, isLoading, error } = useParentCategories();
 
     const { register, handleSubmit, watch, reset, control, setValue, formState: { errors } } = useForm({
         resolver: zodResolver(categorySchema),
@@ -33,6 +32,9 @@ function CategoryForm() {
     const { data: existingCategory, isLoading: isFetching } = useGetCategory(id);
 
     const selectedParentId = watch('parentId');
+    const selectedType = watch('type');
+
+    const { data: { parentCategories } = {}, isLoading, error } = useParentCategories(selectedType);
 
     useEffect(() => {
         if (isEditMode && existingCategory) {
@@ -44,6 +46,10 @@ function CategoryForm() {
         if (selectedParentId) setValue('color', '');
 
     }, [selectedParentId, setValue]);
+
+    useEffect(() => {
+        if (!selectedType) setValue('parentId', '');
+    }, [selectedType, setValue]);
 
     const onSubmit = async (formData) => {
         setServerError('');
@@ -80,15 +86,20 @@ function CategoryForm() {
                 </fieldset>
                 <fieldset>
                     <label>Parent Category</label>
-                    <select {...register('parentId')}>
-                        <option value=''>Select Parent</option>
-                        {parentCategories?.map((category) => (
-                            <option key={category.id} value={category.parentId}>{category.name}</option>
-
-                        ))}
-                    </select>
+                    {!selectedType
+                        ? <p>Select a type first.</p>
+                        : <>
+                            {isLoading && <small>Loading categories...</small>}
+                            {error && <small style={{ color: 'red' }}>Error retrieving categories!</small>}
+                            <select {...register('parentId')}>
+                                <option value=''>-- No Parent (top-level) --</option>
+                                {parentCategories?.map((category) => (
+                                    <option key={category.id} value={category.id}>{category.name}</option>
+                                ))}
+                            </select>
+                        </>
+                    }
                     {errors.parentId && <span className='error'>{errors.parentId.message}</span>}
-
                     <label>Color</label>
                     {selectedParentId
                         ? <p>Only parent categories need a color.</p>
