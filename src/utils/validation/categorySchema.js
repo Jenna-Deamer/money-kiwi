@@ -5,7 +5,7 @@ export const baseCategorySchema = z.object({
     type: z.enum(['INCOME', 'EXPENSE'], {
         message: 'Please select a valid type',
     }),
-    parentCategory: z.string().optional().nullable(),
+    parentId: z.string().optional().nullable(),
     color: z.string().optional().nullable(),
 
 });
@@ -13,7 +13,7 @@ export const baseCategorySchema = z.object({
 export const categorySchema = baseCategorySchema
     .refine((data) => {
         // Parent Category must have a color
-        if (data.parentCategory && !data.color) return false;
+        if (data.parentId && !data.color) return false;
         return true;
     }, {
         message: 'Parent Categoires require a color',

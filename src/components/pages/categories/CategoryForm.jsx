@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { categorySchema } from '../../../utils/validation/categorySchema';
+import { HexColorPicker } from 'react-colorful';
+import { useCreateCategory, useGetCategory, useUpdateCategory, useParentCategories } from '../../../context/useCategory';
 
 const validTypes = ['INCOME', 'EXPENSE'];
 
@@ -9,26 +12,99 @@ function CategoryForm() {
     const { id } = useParams();
     const [searchParams] = useSearchParams();
     const preSelectedCategory = searchParams.get('catgoryId');
-
     const isEditMode = Boolean(id);
     const navigate = useNavigate();
     const [serverError, setServerError] = useState('');
+    const { parentCategories, isLoading, error } = useParentCategories();
+
+    const { register, handleSubmit, watch, reset, control, setValue, formState: { errors } } = useForm({
+        resolver: zodResolver(categorySchema),
+        defaultValues: {
+            categoryId: preSelectedCategory || '',
+            name: '',
+            type: '',
+            parentId: '',
+            color: '',
+        }
+    });
+
+    const { mutate: createCategory, isLoading: isCreating } = useCreateCategory();
+    const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
+    const { data: existingCategory, isLoading: isFetching } = useGetCategory(id);
+
+    const selectedParentId = watch('parentId');
+
+    useEffect(() => {
+        if (isEditMode && existingCategory) {
+            reset(existingCategory);
+        }
+    }, [isEditMode, existingCategory, reset]);
+
+    useEffect(() => {
+        if (selectedParentId) setValue('color', '');
+
+    }, [selectedParentId, setValue]);
+
+    const onSubmit = async (formData) => {
+        setServerError('');
+        const mutation = isEditMode ? updateCategory : createCategory;
+        const payload = isEditMode ? { ...formData, id } : formData;
+
+        mutation(payload, {
+            onSuccess: () => navigate('/categories'),
+            onError: (err) => setServerError(err.message)
+        });
+    };
 
     return (
         <>
-            <h1>Category Form</h1>
-            <form>
+            <h1>{isEditMode ? 'Update Category' : 'Create Category'}</h1>
+            <form onSubmit={handleSubmit(onSubmit)}>
+                {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
                 <fieldset>
                     <label>Name</label>
+                    <div className='input-group'>
+                        <input {...register('name')} placeholder='Housing' />
+                        {errors.name && <span className='error'>{errors.name.message}</span>}
+                    </div>
                     <label>Type</label>
+                    <div className='input-group'>
+                        <select {...register('type')}>
+                            <option value=''>-- Select Type --</option>
+                            {validTypes.map((type) => (
+                                <option key={type} value={type}>{type}</option>
+                            ))}
+                        </select>
+                        {errors.type && <span className='error'>{errors.type.message}</span>}
+                    </div>
                 </fieldset>
-
                 <fieldset>
                     <label>Parent Category</label>
-                    <label>Color</label>
-                </fieldset>
+                    <select {...register('parentId')}>
+                        <option value=''>Select Parent</option>
+                        {parentCategories?.map((category) => (
+                            <option key={category.id} value={category.parentId}>{category.name}</option>
 
-                <button type='submit'>Submit</button>
+                        ))}
+                    </select>
+                    {errors.parentId && <span className='error'>{errors.parentId.message}</span>}
+
+                    <label>Color</label>
+                    {selectedParentId
+                        ? <p>Only parent categories need a color.</p>
+                        : <Controller
+                            control={control}
+                            name='color'
+                            render={({ field: { onChange, value } }) => (
+                                <HexColorPicker color={value} onChange={onChange} />
+                            )}
+                        />
+                    }
+                    {errors.color && <span className='error'>{errors.color.message}</span>}
+                </fieldset>
+                <button type='submit' disabled={isCreating || isUpdating || isFetching}>
+                    {isEditMode ? 'Update Category' : 'Create Category'}
+                </button>
             </form>
         </>
     );
