@@ -20,6 +20,11 @@ export function useParentCategories(type) {
         parentCategories: data?.filter(a => a.parentId === null && a.type === type) || []
     }), type);
 }
+export function useChildrenCategories(type) {
+    return useCategories((data) => ({
+        childrenCategories: data?.filter(a => !!a.parentId && a.type === type) || []
+    }), type);
+}
 
 export function useGetCategory(id) {
     const { isAuthenticated } = useAuth();

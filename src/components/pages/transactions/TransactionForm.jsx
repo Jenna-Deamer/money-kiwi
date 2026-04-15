@@ -4,6 +4,7 @@ import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { transactionSchema } from '../../../utils/validation/transactionSchema';
 import { useCreateTransaction, useGetTransaction, useUpdateTransaction } from '../../../context/useTransaction';
+import { useChildrenCategories } from '../../../context/useCategory';
 import { useAccounts } from '../../../context/useAccounts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
@@ -40,6 +41,8 @@ function TransactionForm() {
 
     const selectedType = watch('type');
     const sourceAccountId = watch('accountId');
+
+    const { data: { childrenCategories } = {}, isLoading: isLoadingCategories, error: categoryError } = useChildrenCategories(selectedType);
 
     useEffect(() => {
         if (isEditMode && existingTransaction) {
@@ -136,11 +139,11 @@ function TransactionForm() {
                                     {!selectedType ? (
                                         <option value=''>-- Select Type First --</option>
                                     ) : (
-                                        <>
-                                            <option value=''>-- Select Category --</option>
-                                            <option value='food'>Food</option>
-                                            <option value='savings'>Savings</option>
-                                        </>
+                                        childrenCategories?.map((category) => (
+                                            <option key={category.id} value={category.id}>
+                                                {category.name}
+                                            </option>
+                                        ))
                                     )}
                                 </select>
                                 {errors.category && <span className='error'>{errors.category.message}</span>}

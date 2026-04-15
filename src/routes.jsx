@@ -12,6 +12,7 @@ import AcccountMangement from './components/pages/accounts/AccountManagement';
 import TransactionOverview from './components/pages/transactions/TransactionsOverview';
 import AccountForm from './components/pages/accounts/AccountForm';
 import TransactionForm from './components/pages/transactions/TransactionForm';
+import CategoryManagemnt from './components/pages/categories/CategoryManagement';
 import CategoryForm from './components/pages/categories/CategoryForm';
 import Error from './components/pages/Error';
 
@@ -64,6 +65,14 @@ const routes = [
                 element: (
                     <ProtectedRoute>
                         <TransactionForm />
+                    </ProtectedRoute>
+                )
+            },
+            {
+                path: 'categories/',
+                element: (
+                    <ProtectedRoute>
+                        <CategoryManagemnt />
                     </ProtectedRoute>
                 )
             },
