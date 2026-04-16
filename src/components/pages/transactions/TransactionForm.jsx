@@ -135,6 +135,8 @@ function TransactionForm() {
                             <label>Category</label>
 
                             <div className='input-group'>
+                                {isLoadingCategories && <small>Loading categories...</small>}
+                                {categoryError && <small style={{ color: 'red' }}>Error retrieving categories!</small>}
                                 <select {...register('category')} disabled={!selectedType}>
                                     {!selectedType ? (
                                         <option value=''>-- Select Type First --</option>
