@@ -1,27 +1,33 @@
 import { useState, useEffect } from 'react';
 import { transactionBaseSchema } from '../../../../../utils/validation/transactionSchema';
+import { useChildrenCategories } from '../../../../../context/useCategory';
 
 const MemoCategoryCell = ({ row, table }) => {
     const memoSchema = transactionBaseSchema.pick({ memo: true });
+
+    const transactionType = row.original.type;
+
     const [memoError, setMemoError] = useState('');
     const [categoryError, setCategoryError] = useState('');
     const [memo, setMemo] = useState(row.original.memo);
-    const [category, setCategory] = useState(row.original.category || '');
+    const [categoryId, setCategoryId] = useState(row.original.categoryId || '');
+    const { data: { childrenCategories } = {}, isLoading } = useChildrenCategories(transactionType);
 
     const isUnsavedData = table.options.meta?.isUnsavedData;
     const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id);
     const isRowDirty = (memo || '').trim() !== (initalRow?.memo || '').trim() ||
-        (category || '').trim() !== (initalRow?.category || '').trim();
+        (categoryId || '').trim() !== (initalRow?.categoryId || '').trim();
+
 
     useEffect(() => {
         if (!isUnsavedData) {
             setMemo(row.original.memo || '');
-            setCategory(row.original.category || '');
+            setCategoryId(row.original.categoryId || '');
             setCategoryError('');
             setMemoError('');
         }
 
-    }, [row.original.memo, row.original.category, isUnsavedData]);
+    }, [row.original.memo, row.original.categoryId, isUnsavedData]);
 
     // flags errors ands tracks edited data when user leaves input
     const onBlur = (field, value) => {
@@ -35,8 +41,8 @@ const MemoCategoryCell = ({ row, table }) => {
         }
 
         // ensure a category is selected if type is not transfer
-        if (field === 'category') {
-            if (row.original.type !== 'Transfer' && !value) {
+        if (field === 'categoryId') {
+            if (row.original.type !== 'TRANSFER' && !value) {
                 setCategoryError('A category is required');
             } else {
                 setCategoryError('');
@@ -70,11 +76,12 @@ const MemoCategoryCell = ({ row, table }) => {
             />
             {memoError && <small style={{ color: 'red' }}>{memoError}</small>}
             <select
-                value={category}
+                value={categoryId}
                 onChange={(e) => {
-                    setCategory(e.target.value);
-                    onBlur('category', e.target.value);
+                    setCategoryId(e.target.value);
+                    onBlur('categoryId', e.target.value);
                 }}
+                disabled={isLoading}
                 style={{
                     fontSize: '0.8rem',
                     color: '#666',
@@ -82,8 +89,11 @@ const MemoCategoryCell = ({ row, table }) => {
                     background: 'none'
                 }}
             >
-                <option value="food">Food</option>
-                <option value="savings">Savings</option>
+                {childrenCategories?.map((category) => (
+                    <option key={category.id} value={category.id}>
+                        {category.name}
+                    </option>
+                ))}
             </select>
             {categoryError && <small style={{ color: 'red' }}>{categoryError}</small>}
         </div>

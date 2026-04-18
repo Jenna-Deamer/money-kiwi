@@ -56,7 +56,7 @@ function AccountList({ title, accounts }) {
                         <small>{account.institution}</small>
                     </div>
                     <div>
-                        <p>{account.balance}</p>
+                        <p>${account.balance.toFixed(2)}</p>
                         <select
                             name="account-options"
                             onChange={(e) => handleChange(e, account)}

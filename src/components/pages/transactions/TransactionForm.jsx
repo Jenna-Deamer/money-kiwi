@@ -10,6 +10,12 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 const validTypes = ['INCOME', 'EXPENSE', 'TRANSFER'];
+const toLocalDateString = (date) => {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, '0');
+    const d = String(date.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+};
 
 function TransactionForm() {
     const { id } = useParams();
@@ -33,7 +39,7 @@ function TransactionForm() {
             type: '',
             amount: '',
             date: new Date(),
-            category: '',
+            categoryId: '',
             status: 'POSTED',
             toAccountId: ''
         }
@@ -64,13 +70,23 @@ function TransactionForm() {
 
     const onSubmit = async (formData) => {
         setServerError('');
+
+        const formattedDate = formData.date instanceof Date
+            ? toLocalDateString(formData.date)
+            : formData.date;
+
+        const payload = isEditMode
+            ? { ...formData, date: formattedDate, id }
+            : { ...formData, date: formattedDate };
+
         const mutation = isEditMode ? updateTransaction : createTransaction;
-        const payload = isEditMode ? { ...formData, id } : formData;
 
         mutation(payload, {
             onSuccess: () => navigate('/transactions'),
             onError: (err) => setServerError(err.message)
         });
+        console.log('formData.date:', formData.date);
+        console.log('formattedDate being sent:', formattedDate);
     };
 
     if (isEditMode && isFetching) {
@@ -137,18 +153,21 @@ function TransactionForm() {
                             <div className='input-group'>
                                 {isLoadingCategories && <small>Loading categories...</small>}
                                 {categoryError && <small style={{ color: 'red' }}>Error retrieving categories!</small>}
-                                <select {...register('category')} disabled={!selectedType}>
+                                <select {...register('categoryId')} disabled={!selectedType}>
                                     {!selectedType ? (
                                         <option value=''>-- Select Type First --</option>
                                     ) : (
-                                        childrenCategories?.map((category) => (
-                                            <option key={category.id} value={category.id}>
-                                                {category.name}
-                                            </option>
-                                        ))
+                                        <>
+                                            <option value=''>-- Select Category --</option>
+                                            {childrenCategories?.map((category) => (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                        </>
                                     )}
                                 </select>
-                                {errors.category && <span className='error'>{errors.category.message}</span>}
+                                {errors.categoryId && <span className='error'>{errors.categoryId.message}</span>}
                             </div>
                         </>
                     )}

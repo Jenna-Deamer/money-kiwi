@@ -11,7 +11,7 @@ export const transactionBaseSchema = z.object({
         .min(0.01, 'Amount must be at least $0.01')
         .max(99999999, 'Amount cannot exceed $99,999,999'),
     date: z.date().or(z.string().pipe(z.coerce.date())),
-    category: z.string().optional().nullable(),
+    categoryId: z.string().optional().nullable(),
     accountId: z.string().uuid('Please select an account'),
     toAccountId: z.string().uuid('Invalid destination account').optional().nullable().or(z.literal('')),
 });
@@ -36,10 +36,10 @@ export const transactionSchema = transactionBaseSchema
     .refine((data) => {
         // Category required for Income/Expense
         if (data.type !== 'TRANSFER' && data.type !== undefined) {
-            return !!data.category && data.category.trim().length > 0;
+            return !!data.categoryId && data.categoryId.trim().length > 0;
         }
         return true;
     }, {
         message: 'A category is required for income and expenses',
-        path: ['category']
+        path: ['categoryId']
     });
