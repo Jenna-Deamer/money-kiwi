@@ -1,5 +1,9 @@
+import { useParentCategories } from '../../../context/useCategory';
 
 function CategoryManagement() {
+    const { data: { parentIncomeCategories } = {}, isLoading, error } = useParentCategories();
+
+
     return (
         <>
             <section>

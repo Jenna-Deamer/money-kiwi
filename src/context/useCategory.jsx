@@ -4,11 +4,11 @@ import { useAuth } from './AuthContext';
 import { toast } from 'sonner';
 
 
-export function useCategories(select, type) {
+export function useCategories(select) {
     const { isAuthenticated } = useAuth();
 
     return useQuery({
-        queryKey: ['categories', type],
+        queryKey: ['categories'],
         queryFn: fetchCategories,
         select: select,
         enabled: isAuthenticated,
@@ -17,13 +17,14 @@ export function useCategories(select, type) {
 
 export function useParentCategories(type) {
     return useCategories((data) => ({
-        parentCategories: data?.filter(a => a.parentId === null && a.type === type) || []
-    }), type);
+        parentCategories: data?.filter(a => a.parentId === null && a.type === type) || [],
+    }));
 }
+
 export function useChildrenCategories(type) {
     return useCategories((data) => ({
-        childrenCategories: data?.filter(a => !!a.parentId && a.type === type) || []
-    }), type);
+        childrenCategories: data?.filter(a => !!a.parentId && a.type === type) || [],
+    }));
 }
 
 export function useGetCategory(id) {
