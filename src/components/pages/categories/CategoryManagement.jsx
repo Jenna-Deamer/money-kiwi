@@ -1,10 +1,10 @@
 import { useParentCategories, useChildrenCategories } from '../../../context/useCategory';
+import { Link } from 'react-router-dom';
 
 function CategoryManagement() {
     const { data: { parentCategories: parentIncome = [] } = {}, isLoading,
         error } = useParentCategories('INCOME');
     const { data: { parentCategories: parentExpense = [] } = {} } = useParentCategories('EXPENSE');
-
     const { data: { childrenCategories: childrenIncome = [] } = {} } = useChildrenCategories('INCOME');
     const { data: { childrenCategories: childrenExpenses = [] } = {} } = useChildrenCategories('EXPENSE');
 
@@ -15,6 +15,7 @@ function CategoryManagement() {
         <>
             <section>
                 <h1>Your Categories</h1>
+                <Link to="/categories/form">Create Category</Link>
                 <div>
                     <h2>Expense</h2>
                     <ul>

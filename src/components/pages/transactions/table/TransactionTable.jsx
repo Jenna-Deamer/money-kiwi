@@ -78,7 +78,6 @@ function TransactionTable({
             initialData: transactionsData?.transactions,
             isUnsavedData,
             updateData: (rowIndex, columnId, value) => {
-                console.log('updateData called', rowIndex, columnId, value);
                 const orginalRow = transactionsData?.transactions[rowIndex];
                 const rowId = orginalRow.id;
 
@@ -99,7 +98,6 @@ function TransactionTable({
     useEffect(() => {
         if (newData && newData.length > 0) {
             setIsUnsavedData(true);
-            console.log('saved state ' + isUnsavedData);
         } else { setIsUnsavedData(false); }
 
 
@@ -107,8 +105,6 @@ function TransactionTable({
 
     const onSave = () => {
         const errors = [];
-        console.log('On Save ---');
-        console.log(newData);
         newData.forEach(row => {
             const result = transactionSchema.safeParse(row);
 
