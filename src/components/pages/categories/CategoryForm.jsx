@@ -100,17 +100,19 @@ function CategoryForm() {
                         </>
                     }
                     {errors.parentId && <span className='error'>{errors.parentId.message}</span>}
-                    <label>Color</label>
                     {selectedParentId
                         ? <p>Only parent categories need a color.</p>
-                        : <Controller
-                            control={control}
-                            name='color'
-                            render={({ field: { onChange, value } }) => (
-                                <HexColorPicker color={value} onChange={onChange} />
-                            )}
-                        />
+                        : <> <label>Color</label>
+                            <Controller
+                                control={control}
+                                name='color'
+                                render={({ field: { onChange, value } }) => (
+                                    <HexColorPicker color={value} onChange={onChange} />
+                                )}
+                            />
+                        </>
                     }
+
                     {errors.color && <span className='error'>{errors.color.message}</span>}
                 </fieldset>
                 <button type='submit' disabled={isCreating || isUpdating || isFetching}>
