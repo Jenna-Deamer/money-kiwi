@@ -4,10 +4,13 @@ import {
 } from '../../../context/useCategory';
 import { Link } from 'react-router-dom';
 import TabButtons from '../../shared/ui/TabButtons';
-import TabContent from '../../shared/ui/TabContent';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import Modal from '../../shared/Modal';
+
 
 function CategoryManagement() {
+    const navigate = useNavigate();
     const {
         data: { parentCategories: parentIncome = [] } = {},
         isLoading,
@@ -19,12 +22,27 @@ function CategoryManagement() {
         useChildrenCategories('INCOME');
     const { data: { childrenCategories: childrenExpenses = [] } = {} } =
         useChildrenCategories('EXPENSE');
-
     const tabs = [
         { id: 'expense', label: 'Expense' },
         { id: 'income', label: 'Income' },
     ];
     const [activeTab, setActiveTab] = useState('expense');
+    const [activeParent, setActiveParent] = useState(null);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+
+    function handleChange(e, parentCategory) {
+        const value = e.target.value;
+        activeParent(parentCategory);
+
+        if (value === 'edit') navigate(`/categories/form/${parentCategory.id}`);
+        if (value === 'delete') setIsDeleteOpen(true);
+
+    };
+
+    const handleClose = () => {
+        setActiveParent(null);
+        setIsDeleteOpen(false);
+    };
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error loading categories</p>;
@@ -43,16 +61,33 @@ function CategoryManagement() {
                 {activeTab === 'expense' && (
                     <div>
                         <h2>Expense</h2>
-                        <ul>
+                        <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
                             {parentExpense?.map((parent) => (
-                                <li key={parent.id}>
-                                    <b>{parent.name}</b>
+                                <li
+                                    key={parent.id}
+                                    className="rounded border p-4"
+                                >
+                                    <div>
+                                        <h4 className='font-bold'>{parent.name}</h4>
+                                        <select
+                                            name="category-options"
+                                            onChange={(e) => handleChange(e, parent)}
+                                            defaultValue=""
+                                        >
+                                            <option value=''>-- Category Options --</option>
+                                            <option value='edit'>Edit</option>
+                                            <option value='delete'>Delete</option>
 
-                                    <ul>
+
+                                        </select>
+                                    </div>
+
+
+                                    <ul className="mt-2 space-y-1">
                                         {childrenExpenses
                                             ?.filter((child) => child.parentId === parent.id)
                                             .map((child) => (
-                                                <li key={child.id}>{child.name}</li>
+                                                <li className='ml-2' key={child.id}>{child.name}</li>
                                             ))}
                                     </ul>
                                 </li>
@@ -64,16 +99,17 @@ function CategoryManagement() {
                 {activeTab === 'income' && (
                     <div>
                         <h2>Income</h2>
-                        <ul>
+                        <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
                             {parentIncome?.map((parent) => (
-                                <li key={parent.id}>
+                                <li key={parent.id} className="rounded border p-4"
+                                >
                                     <b>{parent.name}</b>
 
-                                    <ul>
+                                    <ul className="mt-2 space-y-1">
                                         {childrenIncome
                                             ?.filter((child) => child.parentId === parent.id)
                                             .map((child) => (
-                                                <li key={child.id}>{child.name}</li>
+                                                <li key={child.id} className='ml-2'>{child.name}</li>
                                             ))}
                                     </ul>
                                 </li>
@@ -83,6 +119,11 @@ function CategoryManagement() {
                 )}
 
             </section>
+            <Modal isOpen={isDeleteOpen}
+                onClose={handleClose}
+                title='Confirm Deletion'>
+
+            </Modal>
         </>
     );
 }
