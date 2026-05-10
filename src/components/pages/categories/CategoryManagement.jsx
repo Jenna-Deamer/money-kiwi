@@ -36,6 +36,7 @@ function CategoryManagement() {
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState(null);
+    const [reassignTo, setReassignTo] = useState(null);
 
     const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
         resolver: zodResolver(updateCategorySchema),
@@ -80,10 +81,8 @@ function CategoryManagement() {
 
     function handleDeleteSubmit(e) {
         e.preventDefault();
-        const form = e.target;
-        const selectedCategoryId = form.elements[0].value;
         deleteCategory(
-            { id: activeCategory.id, reassignTo: selectedCategoryId },
+            { id: activeCategory.id, reassignTo },
             { onSuccess: handleClose }
         );
     };
@@ -226,7 +225,7 @@ function CategoryManagement() {
                                 <h3>Deleting <b>Child Category: {activeCategory.name}</b></h3>
                                 <p>Select a category to reassign its transactions:</p>
                                 <fieldset>
-                                    <select>
+                                    <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
                                         <option value=''>Uncategorized</option>
                                         {activeTab === 'income'
                                             ? childrenIncome
@@ -252,7 +251,7 @@ function CategoryManagement() {
                                 <h3>Deleting <b>Parent Category: {activeCategory.name}</b></h3>
                                 <p>Select a parent category to inherit its child categories:</p>
                                 <fieldset>
-                                    <select>
+                                    <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
                                         <option value=''>Uncategorized</option>
                                         {activeTab === 'income'
                                             ? parentIncome.map(category => (
