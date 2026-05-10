@@ -20,8 +20,9 @@ export function getCategory(id) {
     });
 };
 
-export function updateCategory(id) {
-    return apiRequest(`${BASE}/${id}`, {
+export function updateCategory(data) {
+    return apiRequest(`${BASE}/${data.id}`, {
         method: 'PUT',
+        body: JSON.stringify(data),
     });
 }

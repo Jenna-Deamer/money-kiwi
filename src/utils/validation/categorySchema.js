@@ -19,3 +19,15 @@ export const categorySchema = baseCategorySchema
         message: 'Parent Categoires require a color',
         path: ['color']
     });
+
+export const updateCategorySchema = baseCategorySchema
+    .extend({
+        type: z.enum(['INCOME', 'EXPENSE']).optional(), // not required on edit
+    })
+    .refine((data) => {
+        if (!data.parentId && !data.color) return false;
+        return true;
+    }, {
+        message: 'Parent categories require a color',
+        path: ['color'],
+    });

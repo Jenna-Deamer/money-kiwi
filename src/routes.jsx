@@ -14,7 +14,7 @@ import AccountForm from './components/pages/accounts/AccountForm';
 import TransactionForm from './components/pages/transactions/TransactionForm';
 import CategoryManagemnt from './components/pages/categories/CategoryManagement';
 import CategoryForm from './components/pages/categories/CategoryCreateForm';
-import CategoryManagementForm from './components/pages/categories/CategoryManagementForm';
+
 
 import Error from './components/pages/Error';
 
@@ -75,14 +75,6 @@ const routes = [
                 element: (
                     <ProtectedRoute>
                         <CategoryManagemnt />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'categories/form/:id?',
-                element: (
-                    <ProtectedRoute>
-                        <CategoryManagementForm />
                     </ProtectedRoute>
                 )
             },

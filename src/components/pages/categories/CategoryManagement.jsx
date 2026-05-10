@@ -1,14 +1,18 @@
 import {
     useParentCategories,
     useChildrenCategories,
+    useUpdateCategory
 } from '../../../context/useCategory';
 import { Link } from 'react-router-dom';
 import TabButtons from '../../shared/ui/TabButtons';
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { updateCategorySchema } from '../../../utils/validation/categorySchema';
+import { HexColorPicker } from 'react-colorful';
+import Modal from '../../shared/Modal';
 
 function CategoryManagement() {
-    const navigate = useNavigate();
     const {
         data: { parentCategories: parentIncome = [] } = {},
         isLoading,
@@ -24,10 +28,48 @@ function CategoryManagement() {
         { id: 'expense', label: 'Expense' },
         { id: 'income', label: 'Income' },
     ];
+    const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
+
     const [activeTab, setActiveTab] = useState('expense');
+    const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [activeCategory, setActiveCategory] = useState(null);
+
+    const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
+        resolver: zodResolver(updateCategorySchema),
+        defaultValues: {
+            name: '',
+            parentId: '',
+            color: '',
+        }
+    });
+    const currentParentId = watch('parentId');
+
+    function openEditModal(category) {
+        setActiveCategory(category);
+        reset({
+            name: category.name || '',
+            parentId: category.parentId || '',
+            color: category.color || '',
+        });
+        setIsEditModalOpen(true);
+    };
+    function handleClose() {
+        setIsEditModalOpen(false);
+    };
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error loading categories</p>;
+
+    const handleEditSubmit = (data) => {
+        updateCategory(
+            { ...data, id: activeCategory.id },
+            { onSuccess: handleClose }
+        );
+    };
+
+    const handleDelete = (category) => {
+
+    };
 
     return (
         <>
@@ -44,26 +86,30 @@ function CategoryManagement() {
                     <div>
                         <h2>Expense</h2>
                         <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
-                            {parentExpense?.map((parent) => (
-                                <li
-                                    key={parent.id}
-                                    className="rounded border p-4"
-                                >
-                                    <div>
-                                        <h4 className='font-bold'>{parent.name}</h4>
-                                        <button onClick={() => navigate(`/categories/form/${parent.id}`)}>Edit</button>
-                                    </div>
+                            {parentExpense
+                                ?.filter(parent => parent.name !== 'Uncategorized')
+                                .map((parent) => (
+                                    <li key={parent.id} className="rounded border p-4">
+                                        <div>
+                                            <h4 className='font-bold'>{parent.name}</h4>
+                                            <p>{parent.color}</p>
+                                            <button onClick={() => openEditModal(parent)}>Edit</button>
+                                            <button>Delete</button>
+                                        </div>
 
-
-                                    <ul className="mt-2 space-y-1">
-                                        {childrenExpenses
-                                            ?.filter((child) => child.parentId === parent.id)
-                                            .map((child) => (
-                                                <li className='ml-2' key={child.id}>{child.name}</li>
-                                            ))}
-                                    </ul>
-                                </li>
-                            ))}
+                                        <ul className="mt-2 space-y-1">
+                                            {childrenExpenses
+                                                ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
+                                                .map((child) => (
+                                                    <li key={child.id} className='ml-2'>
+                                                        {child.name}
+                                                        <button onClick={() => openEditModal(child)}>Edit</button>
+                                                        <button>Delete</button>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
                 )}
@@ -72,25 +118,82 @@ function CategoryManagement() {
                     <div>
                         <h2>Income</h2>
                         <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
-                            {parentIncome?.map((parent) => (
-                                <li key={parent.id} className="rounded border p-4"
-                                >
-                                    <b>{parent.name}</b>
+                            {parentIncome
+                                ?.filter(parent => parent.name !== 'Uncategorized')
+                                .map((parent) => (
+                                    <li key={parent.id} className="rounded border p-4">
+                                        <div>
+                                            <h4 className='font-bold'>{parent.name}</h4>
+                                            <p>{parent.color}</p>
+                                            <button onClick={() => openEditModal(parent)}>Edit</button>
+                                            <button>Delete</button>
+                                        </div>
 
-                                    <ul className="mt-2 space-y-1">
-                                        {childrenIncome
-                                            ?.filter((child) => child.parentId === parent.id)
-                                            .map((child) => (
-                                                <li key={child.id} className='ml-2'>{child.name}</li>
-                                            ))}
-                                    </ul>
-                                </li>
-                            ))}
+                                        <ul className="mt-2 space-y-1">
+                                            {childrenIncome
+                                                ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
+                                                .map((child) => (
+                                                    <li key={child.id} className='ml-2'>
+                                                        {child.name}
+                                                        <button onClick={() => openEditModal(child)}>Edit</button>
+                                                        <button>Delete</button>
+                                                    </li>
+                                                ))}
+                                        </ul>
+                                    </li>
+                                ))}
                         </ul>
                     </div>
                 )}
 
             </section>
+
+            <Modal
+                isOpen={isEditModalOpen}
+                onClose={handleClose}
+                title='Edit Category'
+                body={
+                    activeCategory && (
+                        <form onSubmit={handleSubmit(handleEditSubmit)}>
+                            <h3>Editing {activeCategory.name}</h3>
+                            <fieldset>
+                                <label>Name</label>
+                                <div className='input-group'>
+                                    <input {...register('name')} placeholder='Housing' />
+                                    {errors.name && <span className='error'>{errors.name.message}</span>}
+                                </div>
+                            </fieldset>
+                            {activeCategory.parentId && (
+
+                                <fieldset>
+                                    <label>Parent Assignment</label>
+                                    <select {...register('parentId')}>
+                                        <option value=''>-- No Parent (top-level) --</option>
+                                        {activeTab === 'income' ? parentIncome?.map((category) => (
+                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                        )) : parentExpense?.map((category) => (
+                                            <option key={category.id} value={category.id}>{category.name}</option>
+                                        ))}
+                                    </select>
+                                </fieldset>
+                            )}
+                            {!currentParentId && (
+                                <fieldset>
+                                    <label>Color</label>
+                                    <Controller
+                                        control={control}
+                                        name='color'
+                                        render={({ field: { onChange, value } }) => (
+                                            <HexColorPicker color={value} onChange={onChange} />
+                                        )}
+                                    />
+                                </fieldset>
+                            )}
+                            <button type='submit' disabled={isUpdating}>Save Changes</button>
+                        </form>
+                    )
+                }
+            />
         </>
     );
 }
