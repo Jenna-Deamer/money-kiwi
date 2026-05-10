@@ -1,7 +1,8 @@
 import {
     useParentCategories,
     useChildrenCategories,
-    useUpdateCategory
+    useUpdateCategory,
+    useDeleteCategory
 } from '../../../context/useCategory';
 import { Link } from 'react-router-dom';
 import TabButtons from '../../shared/ui/TabButtons';
@@ -29,9 +30,11 @@ function CategoryManagement() {
         { id: 'income', label: 'Income' },
     ];
     const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
+    const { mutate: deleteCategory, isLoading: isDeleting } = useDeleteCategory();
 
     const [activeTab, setActiveTab] = useState('expense');
     const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState(null);
 
     const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
@@ -42,6 +45,10 @@ function CategoryManagement() {
             color: '',
         }
     });
+
+    if (isLoading) return <p>Loading...</p>;
+    if (error) return <p>Error loading categories</p>;
+
     const currentParentId = watch('parentId');
 
     function openEditModal(category) {
@@ -53,12 +60,11 @@ function CategoryManagement() {
         });
         setIsEditModalOpen(true);
     };
+
     function handleClose() {
         setIsEditModalOpen(false);
+        setIsDeleteModalOpen(false);
     };
-
-    if (isLoading) return <p>Loading...</p>;
-    if (error) return <p>Error loading categories</p>;
 
     const handleEditSubmit = (data) => {
         updateCategory(
@@ -67,8 +73,19 @@ function CategoryManagement() {
         );
     };
 
-    const handleDelete = (category) => {
+    function openDeleteModal(category) {
+        setActiveCategory(category);
+        setIsDeleteModalOpen(true);
+    };
 
+    function handleDeleteSubmit(e) {
+        e.preventDefault();
+        const form = e.target;
+        const selectedCategoryId = form.elements[0].value;
+        deleteCategory(
+            { id: activeCategory.id, reassignTo: selectedCategoryId },
+            { onSuccess: handleClose }
+        );
     };
 
     return (
@@ -95,7 +112,7 @@ function CategoryManagement() {
                                             <h4 className='font-bold'>{parent.name}</h4>
                                             <p>{parent.color}</p>
                                             <button onClick={() => openEditModal(parent)}>Edit</button>
-                                            <button>Delete</button>
+                                            <button onClick={() => openDeleteModal(parent)}>Delete</button>
                                         </div>
 
                                         <ul className="mt-2 space-y-1">
@@ -106,7 +123,7 @@ function CategoryManagement() {
                                                     <li key={child.id} className='ml-2'>
                                                         {child.name}
                                                         <button onClick={() => openEditModal(child)}>Edit</button>
-                                                        <button>Delete</button>
+                                                        <button onClick={() => openDeleteModal(child)}>Delete</button>
                                                     </li>
                                                 ))}
                                         </ul>
@@ -129,7 +146,7 @@ function CategoryManagement() {
                                             <h4 className='font-bold'>{parent.name}</h4>
                                             <p>{parent.color}</p>
                                             <button onClick={() => openEditModal(parent)}>Edit</button>
-                                            <button>Delete</button>
+                                            <button onClick={() => openDeleteModal(parent)}>Delete</button>
                                         </div>
 
                                         <ul className="mt-2 space-y-1">
@@ -140,7 +157,7 @@ function CategoryManagement() {
                                                     <li key={child.id} className='ml-2'>
                                                         {child.name}
                                                         <button onClick={() => openEditModal(child)}>Edit</button>
-                                                        <button>Delete</button>
+                                                        <button onClick={() => openDeleteModal(child)}>Delete</button>
                                                     </li>
                                                 ))}
                                         </ul>
@@ -196,6 +213,64 @@ function CategoryManagement() {
                             <button type='submit' disabled={isUpdating}>Save Changes</button>
                         </form>
                     )
+                }
+            />
+            <Modal
+                isOpen={isDeleteModalOpen}
+                onClose={handleClose}
+                title="Delete Category"
+                body={
+                    activeCategory ? (
+                        activeCategory.parentId ? (
+                            <form onSubmit={handleDeleteSubmit}>
+                                <h3>Deleting <b>Child Category: {activeCategory.name}</b></h3>
+                                <p>Select a category to reassign its transactions:</p>
+                                <fieldset>
+                                    <select>
+                                        <option value=''>Uncategorized</option>
+                                        {activeTab === 'income'
+                                            ? childrenIncome
+                                                ?.filter(category => category.parentId === activeCategory.parentId)
+                                                .map(category => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))
+                                            : childrenExpenses
+                                                ?.filter(category => category.parentId === activeCategory.parentId)
+                                                .map(category => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))}
+                                    </select>
+                                </fieldset>
+                                <button type='submit' disabled={isDeleting}><b>Delete {activeCategory.name}</b></button>
+                            </form>
+                        ) : (
+                            <form onSubmit={handleDeleteSubmit}>
+                                <h3>Deleting <b>Parent Category: {activeCategory.name}</b></h3>
+                                <p>Select a parent category to inherit its child categories:</p>
+                                <fieldset>
+                                    <select>
+                                        <option value=''>Uncategorized</option>
+                                        {activeTab === 'income'
+                                            ? parentIncome.map(category => (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))
+                                            : parentExpense.map(category => (
+                                                <option key={category.id} value={category.id}>
+                                                    {category.name}
+                                                </option>
+                                            ))}
+                                    </select>
+                                </fieldset>
+                                <button type='submit' disabled={isDeleting}><b>Delete {activeCategory.name}</b></button>
+                            </form>
+                        )
+                    ) : null
                 }
             />
         </>

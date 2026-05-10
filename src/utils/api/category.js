@@ -26,3 +26,10 @@ export function updateCategory(data) {
         body: JSON.stringify(data),
     });
 }
+
+export function deleteCategory(data) {
+    return apiRequest(`${BASE}/${data.id}`, {
+        method: 'DELETE',
+        body: JSON.stringify(data),
+    });
+}
