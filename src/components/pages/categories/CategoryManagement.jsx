@@ -37,6 +37,7 @@ function CategoryManagement() {
     const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
     const [activeCategory, setActiveCategory] = useState(null);
     const [reassignTo, setReassignTo] = useState(null);
+    const [showDeleteError, setShowDeleteError] = useState(false);
 
     const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
         resolver: zodResolver(updateCategorySchema),
@@ -81,6 +82,11 @@ function CategoryManagement() {
 
     function handleDeleteSubmit(e) {
         e.preventDefault();
+        if (!reassignTo) {
+            setShowDeleteError(true);
+            return;
+        };
+        setShowDeleteError(false);
         deleteCategory(
             { id: activeCategory.id, reassignTo },
             { onSuccess: handleClose }
@@ -128,6 +134,26 @@ function CategoryManagement() {
                                         </ul>
                                     </li>
                                 ))}
+
+                            {parentExpense
+                                ?.filter(parent => parent.name === 'Uncategorized')
+                                .map(parent => <li key={parent.id} className="rounded border p-4"> <h4 className='font-bold'>{parent.name}</h4>
+
+                                    <ul className="mt-2 space-y-1">
+                                        {childrenExpenses?.filter(child => child.parentId === parent.id)
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((child) => (
+                                                <li key={child.id} className='ml-2'>
+                                                    {child.name}
+                                                    <button onClick={() => openEditModal(child)}>Edit</button>
+                                                    <button onClick={() => openDeleteModal(child)}>Delete</button>
+                                                </li>
+                                            ))
+                                        }
+
+                                    </ul>
+                                </li>)}
+
                         </ul>
                     </div>
                 )}
@@ -162,6 +188,24 @@ function CategoryManagement() {
                                         </ul>
                                     </li>
                                 ))}
+                            {parentIncome
+                                ?.filter(parent => parent.name === 'Uncategorized')
+                                .map(parent => <li key={parent.id} className="rounded border p-4"> <h4 className='font-bold'>{parent.name}</h4>
+
+                                    <ul className="mt-2 space-y-1">
+                                        {childrenIncome?.filter(child => child.parentId === parent.id)
+                                            .sort((a, b) => a.name.localeCompare(b.name))
+                                            .map((child) => (
+                                                <li key={child.id} className='ml-2'>
+                                                    {child.name}
+                                                    <button onClick={() => openEditModal(child)}>Edit</button>
+                                                    <button onClick={() => openDeleteModal(child)}>Delete</button>
+                                                </li>
+                                            ))
+                                        }
+
+                                    </ul>
+                                </li>)}
                         </ul>
                     </div>
                 )}
@@ -225,7 +269,9 @@ function CategoryManagement() {
                                 <h3>Deleting <b>Child Category: {activeCategory.name}</b></h3>
                                 <p>Select a category to reassign its transactions:</p>
                                 <fieldset>
+                                    {showDeleteError && <p className='text-red-600'>Error: Please select a category</p>}
                                     <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
+                                        <option value={null}>--- Select Category ---</option>
                                         {activeTab === 'income'
                                             ? childrenIncome
                                                 ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
@@ -246,13 +292,15 @@ function CategoryManagement() {
                                     </select>
                                 </fieldset>
                                 <button type='submit' disabled={isDeleting}><b>Delete {activeCategory.name}</b></button>
-                            </form>
+                            </form >
                         ) : (
                             <form onSubmit={handleDeleteSubmit}>
                                 <h3>Deleting <b>Parent Category: {activeCategory.name}</b></h3>
                                 <p>Select a parent category to inherit its child categories:</p>
                                 <fieldset>
+                                    {showDeleteError && <p className='text-red-600'>Error: Please select a category</p>}
                                     <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
+                                        <option value={null}>--- Select Category ---</option>
                                         {activeTab === 'income'
                                             ? parentIncome?.filter(category => category.name !== activeCategory.name)
                                                 .map(category => (
