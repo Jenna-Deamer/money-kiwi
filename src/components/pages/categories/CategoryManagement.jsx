@@ -6,8 +6,6 @@ import { Link } from 'react-router-dom';
 import TabButtons from '../../shared/ui/TabButtons';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Modal from '../../shared/Modal';
-
 
 function CategoryManagement() {
     const navigate = useNavigate();
@@ -27,22 +25,6 @@ function CategoryManagement() {
         { id: 'income', label: 'Income' },
     ];
     const [activeTab, setActiveTab] = useState('expense');
-    const [activeParent, setActiveParent] = useState(null);
-    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
-    function handleChange(e, parentCategory) {
-        const value = e.target.value;
-        activeParent(parentCategory);
-
-        if (value === 'edit') navigate(`/categories/form/${parentCategory.id}`);
-        if (value === 'delete') setIsDeleteOpen(true);
-
-    };
-
-    const handleClose = () => {
-        setActiveParent(null);
-        setIsDeleteOpen(false);
-    };
 
     if (isLoading) return <p>Loading...</p>;
     if (error) return <p>Error loading categories</p>;
@@ -69,17 +51,7 @@ function CategoryManagement() {
                                 >
                                     <div>
                                         <h4 className='font-bold'>{parent.name}</h4>
-                                        <select
-                                            name="category-options"
-                                            onChange={(e) => handleChange(e, parent)}
-                                            defaultValue=""
-                                        >
-                                            <option value=''>-- Category Options --</option>
-                                            <option value='edit'>Edit</option>
-                                            <option value='delete'>Delete</option>
-
-
-                                        </select>
+                                        <button onClick={() => navigate(`/categories/form/${parent.id}`)}>Edit</button>
                                     </div>
 
 
@@ -119,11 +91,6 @@ function CategoryManagement() {
                 )}
 
             </section>
-            <Modal isOpen={isDeleteOpen}
-                onClose={handleClose}
-                title='Confirm Deletion'>
-
-            </Modal>
         </>
     );
 }
