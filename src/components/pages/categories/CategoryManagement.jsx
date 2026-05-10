@@ -226,17 +226,18 @@ function CategoryManagement() {
                                 <p>Select a category to reassign its transactions:</p>
                                 <fieldset>
                                     <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
-                                        <option value=''>Uncategorized</option>
                                         {activeTab === 'income'
                                             ? childrenIncome
-                                                ?.filter(category => category.parentId === activeCategory.parentId)
+                                                ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
+                                                .sort((a, b) => a.name.localeCompare(b.name))
                                                 .map(category => (
                                                     <option key={category.id} value={category.id}>
                                                         {category.name}
                                                     </option>
                                                 ))
                                             : childrenExpenses
-                                                ?.filter(category => category.parentId === activeCategory.parentId)
+                                                ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
+                                                .sort((a, b) => a.name.localeCompare(b.name))
                                                 .map(category => (
                                                     <option key={category.id} value={category.id}>
                                                         {category.name}
@@ -252,18 +253,19 @@ function CategoryManagement() {
                                 <p>Select a parent category to inherit its child categories:</p>
                                 <fieldset>
                                     <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
-                                        <option value=''>Uncategorized</option>
                                         {activeTab === 'income'
-                                            ? parentIncome.map(category => (
-                                                <option key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </option>
-                                            ))
-                                            : parentExpense.map(category => (
-                                                <option key={category.id} value={category.id}>
-                                                    {category.name}
-                                                </option>
-                                            ))}
+                                            ? parentIncome?.filter(category => category.name !== activeCategory.name)
+                                                .map(category => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))
+                                            : parentExpense?.filter(category => category.name !== activeCategory.name)
+                                                .map(category => (
+                                                    <option key={category.id} value={category.id}>
+                                                        {category.name}
+                                                    </option>
+                                                ))}
                                     </select>
                                 </fieldset>
                                 <button type='submit' disabled={isDeleting}><b>Delete {activeCategory.name}</b></button>
