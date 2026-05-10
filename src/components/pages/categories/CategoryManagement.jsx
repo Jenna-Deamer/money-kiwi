@@ -88,6 +88,7 @@ function CategoryManagement() {
                         <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
                             {parentExpense
                                 ?.filter(parent => parent.name !== 'Uncategorized')
+                                .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((parent) => (
                                     <li key={parent.id} className="rounded border p-4">
                                         <div>
@@ -100,6 +101,7 @@ function CategoryManagement() {
                                         <ul className="mt-2 space-y-1">
                                             {childrenExpenses
                                                 ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
+                                                .sort((a, b) => a.name.localeCompare(b.name))
                                                 .map((child) => (
                                                     <li key={child.id} className='ml-2'>
                                                         {child.name}
@@ -120,6 +122,7 @@ function CategoryManagement() {
                         <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
                             {parentIncome
                                 ?.filter(parent => parent.name !== 'Uncategorized')
+                                .sort((a, b) => a.name.localeCompare(b.name))
                                 .map((parent) => (
                                     <li key={parent.id} className="rounded border p-4">
                                         <div>
@@ -132,6 +135,7 @@ function CategoryManagement() {
                                         <ul className="mt-2 space-y-1">
                                             {childrenIncome
                                                 ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
+                                                .sort((a, b) => a.name.localeCompare(b.name))
                                                 .map((child) => (
                                                     <li key={child.id} className='ml-2'>
                                                         {child.name}
