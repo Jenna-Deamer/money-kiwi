@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
+import { useAccounts } from '../../../context/useAccounts';
 import useDebounce from '../../../utils/useDebounce';
 import TransactionTable from './table/TransactionTable';
 import TransactionTableFilters from './table/TransactionTableFilters';
@@ -12,6 +13,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 
 function TransactionOverview() {
+    const { data: accounts, } = useAccounts();
     const thirtyDaysAgo = new Date();
     const [page, setPage] = useState(0);
     thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
@@ -41,70 +43,76 @@ function TransactionOverview() {
     };
 
     const handleFilterChange = (key, value) => {
-        console.log(key + ' ' + value);
         setFilters(prev => ({ ...prev, [key]: value }));
     };
 
+    const hasAccounts = accounts && accounts.length > 0;
+
+    if (!accounts) return <div>Loading accounts...</div>;
     return (
         <>
             <div>
                 <h1>Transactions Overview</h1>
-                <DatePicker
-                    selectsRange={true}
-                    startDate={pickerRange[0]}
-                    endDate={pickerRange[1]}
-                    onChange={(update) => {
-                        const [start, end] = update;
-                        // Update UI state so the user sees their clicks
-                        setPickerRange(update);
-                        // Update filters when user has selected two dates
-                        if (start && end) {
-                            setFilters(prev => ({
-                                ...prev,
-                                startDate: start,
-                                endDate: end
-                            }));
-                        }
-                    }}
-                    showIcon
-                    closeOnScroll
-                    dateFormat="dd MMM yyyy"
-                />
-            </div>
-
-            <Link to="/transactions/form">Add Transaction</Link>
-
-            <TransactionTableFilters
-                search={filters.search}
-                category={filters.category}
-                account={filters.account}
-                transactionType={filters.transactionType}
-                accountType={filters.accountType}
-                status={filters.status}
-                onSearchChange={(val) => handleFilterChange('search', val)}
-                onCategoryChange={(val) => handleFilterChange('category', val)}
-                onAccountChange={(val) => handleFilterChange('account', val)}
-                onTransactionTypeChange={(val) => handleFilterChange('transactionType', val)}
-                onAccountTypeChange={(val) => handleFilterChange('accountType', val)}
-                onStatusChange={(val) => handleFilterChange('status', val)}
-            />
-
-            <div>
-                {isLoading ? (
-                    <div>Loading...</div>
-                ) : error ? (
-                    <div>Error loading transactions.</div>
-                ) : (!transactions || transactions.length === 0) ? (
-                    <div>No transactions found. Create one or try another filter.</div>
+                {!hasAccounts ? (
+                    <p>You need to create an account first.</p>
                 ) : (
-                    <TransactionTable
-                        transactionsData={transactions}
-                        onUpdate={handleUpdate}
-                        onDelete={openDeleteModal}
-                        page={page}
-                        setPage={setPage}
-                        isPlaceholderData={isPlaceholderData}
-                    />
+                    <>
+                        <DatePicker
+                            selectsRange={true}
+                            startDate={pickerRange[0]}
+                            endDate={pickerRange[1]}
+                            onChange={(update) => {
+                                const [start, end] = update;
+                                setPickerRange(update);
+                                if (start && end) {
+                                    setFilters(prev => ({
+                                        ...prev,
+                                        startDate: start,
+                                        endDate: end
+                                    }));
+                                }
+                            }}
+                            showIcon
+                            closeOnScroll
+                            dateFormat="dd MMM yyyy"
+                        />
+
+                        <Link to="/transactions/form">Add Transaction</Link>
+
+                        <TransactionTableFilters
+                            search={filters.search}
+                            category={filters.category}
+                            account={filters.account}
+                            transactionType={filters.transactionType}
+                            accountType={filters.accountType}
+                            status={filters.status}
+                            onSearchChange={(val) => handleFilterChange('search', val)}
+                            onCategoryChange={(val) => handleFilterChange('category', val)}
+                            onAccountChange={(val) => handleFilterChange('account', val)}
+                            onTransactionTypeChange={(val) => handleFilterChange('transactionType', val)}
+                            onAccountTypeChange={(val) => handleFilterChange('accountType', val)}
+                            onStatusChange={(val) => handleFilterChange('status', val)}
+                        />
+
+                        <div>
+                            {isLoading ? (
+                                <div>Loading...</div>
+                            ) : error ? (
+                                <div>Error loading transactions.</div>
+                            ) : (!transactions || transactions.length === 0) ? (
+                                <div>No transactions found. Create one or try another filter.</div>
+                            ) : (
+                                <TransactionTable
+                                    transactionsData={transactions}
+                                    onUpdate={handleUpdate}
+                                    onDelete={openDeleteModal}
+                                    page={page}
+                                    setPage={setPage}
+                                    isPlaceholderData={isPlaceholderData}
+                                />
+                            )}
+                        </div>
+                    </>
                 )}
             </div>
 
@@ -115,34 +123,13 @@ function TransactionOverview() {
                     activeTransaction && (
                         <div>
                             <h3>Are you sure you want to delete {activeTransaction.memo}?</h3>
-
-                            <p>
-                                Transaction amount:{' '}
-                                <strong>${activeTransaction.amount.toFixed(2)}</strong>
-                            </p>
-
-                            <p>
-                                Account:{' '}
-                                <strong>
-                                    {activeTransaction.account?.name || 'Unknown Account'}
-                                </strong>
-                            </p>
-
-                            <p>
-                                Warning: This cannot be undone. The transaction will be
-                                permanently removed.
-                            </p>
-
-                            <button
-                                onClick={handleDeleteModalConfirmation}
-                                disabled={isDeleting}
-                            >
+                            <p>Transaction amount: <strong>${activeTransaction.amount.toFixed(2)}</strong></p>
+                            <p>Account: <strong>{activeTransaction.account?.name || 'Unknown Account'}</strong></p>
+                            <p>Warning: This cannot be undone. The transaction will be permanently removed.</p>
+                            <button onClick={handleDeleteModalConfirmation} disabled={isDeleting}>
                                 {isDeleting ? 'Deleting...' : 'Confirm Deletion'}
                             </button>
-
-                            <button onClick={handleClose} disabled={isDeleting}>
-                                Cancel
-                            </button>
+                            <button onClick={handleClose} disabled={isDeleting}>Cancel</button>
                         </div>
                     )
                 }

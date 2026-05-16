@@ -34,7 +34,7 @@ function TransactionTableFilters({ search, category, account, transactionType, a
     }));
 
     if (accountOptions.length === 0) {
-        return <div>You don't have any accounts created yet!</div>;
+        return <div></div>;
     }
     return (
         <div className="filter-container">
