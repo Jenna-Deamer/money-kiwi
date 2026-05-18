@@ -3,15 +3,15 @@ import {
     useChildrenCategories,
     useUpdateCategory,
     useDeleteCategory
-} from '../../../context/useCategory';
+} from '@/context/useCategory';
 import { Link } from 'react-router-dom';
-import TabButtons from '../../shared/ui/TabButtons';
+import TabButtons from '@/components/shared/ui/TabButtons';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { updateCategorySchema } from '../../../utils/validation/categorySchema';
+import { updateCategorySchema } from '@/utils/validation/categorySchema';
 import { HexColorPicker } from 'react-colorful';
-import Modal from '../../shared/Modal';
+import Modal from '@/components/shared/Modal';
 
 function CategoryManagement() {
     const {

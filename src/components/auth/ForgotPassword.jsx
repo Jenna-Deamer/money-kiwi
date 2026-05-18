@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
-import { forgotPassword } from '../../utils/api/auth';
+import { forgotPassword } from '@/utils/api/auth';
 
 function ForgotPassword() {
     const navigate = useNavigate();

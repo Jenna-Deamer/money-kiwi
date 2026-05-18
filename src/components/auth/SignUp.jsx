@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
-import { signup as signupApi } from '../../utils/api/auth';
+import { useAuth } from '@/context/AuthContext';
+import { signup as signupApi } from '@/utils/api/auth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { signupSchema } from '../../utils/validation/userSchema';
+import { signupSchema } from '@/utils/validation/userSchema';
 import { toast } from 'sonner';
-import Button from '../../components/shared/ui/Button';
+import Button from '@/components/shared/ui/Button';
 
 function SignUp() {
     const navigate = useNavigate();

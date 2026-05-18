@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { createCategory, deleteCategory, fetchCategories, getCategory, updateCategory } from '../utils/api/category';
-import { useAuth } from './AuthContext';
+import { createCategory, deleteCategory, fetchCategories, getCategory, updateCategory } from '@/utils/api/category';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 

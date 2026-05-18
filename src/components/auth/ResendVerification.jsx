@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { toast } from 'sonner';
-import { resendVerificationEmail } from '../../utils/api/auth';
+import { resendVerificationEmail } from '@/utils/api/auth';
 
 function ResendVerification() {
     const [email, setEmail] = useState('');

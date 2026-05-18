@@ -1,4 +1,4 @@
-import apiRequest from './core';
+import apiRequest from '@/utils/api/core';
 const BASE = '/api/accounts';
 
 export function createAccount(data) {

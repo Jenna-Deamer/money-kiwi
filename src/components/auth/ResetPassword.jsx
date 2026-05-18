@@ -2,8 +2,8 @@ import { useSearchParams, useNavigate, Link } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
-import { resetPassword } from '../../utils/api/auth';
-import { resetPasswordSchema } from '../../utils/validation/userSchema';
+import { resetPassword } from '@/utils/api/auth';
+import { resetPasswordSchema } from '@/utils/validation/userSchema';
 
 function ResetPassword() {
     const [searchParams] = useSearchParams();

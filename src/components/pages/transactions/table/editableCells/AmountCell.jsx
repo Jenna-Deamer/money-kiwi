@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { transactionBaseSchema } from '../../../../../utils/validation/transactionSchema';
+import { transactionBaseSchema } from '@/utils/validation/transactionSchema';
 
 const AmountCell = ({ table, row }) => {
     const amountSchema = transactionBaseSchema.pick({ amount: true });

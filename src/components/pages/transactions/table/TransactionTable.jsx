@@ -3,12 +3,12 @@ import {
     getCoreRowModel,
     flexRender,
 } from '@tanstack/react-table';
-import MemoCategoryCell from './editableCells/MemoCategoryCell';
-import AmountCell from './editableCells/AmountCell';
+import MemoCategoryCell from '@/components/pages/transactions/table/editableCells/MemoCategoryCell';
+import AmountCell from '@/components/pages/transactions/table/editableCells/AmountCell';
 import { useState, useEffect } from 'react';
-import DateCell from './editableCells/DateCell';
-import { transactionSchema } from '../../../../utils/validation/transactionSchema';
-import { useUpdateMultipleTransactionss } from '../../../../context/useTransaction';
+import DateCell from '@/components/pages/transactions/table/editableCells/DateCell';
+import { transactionSchema } from '@/utils/validation/transactionSchema';
+import { useUpdateMultipleTransactionss } from '@/context/useTransaction';
 import { toast } from 'sonner';
 
 function TransactionTable({

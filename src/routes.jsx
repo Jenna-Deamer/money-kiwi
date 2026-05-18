@@ -1,22 +1,22 @@
 import App from '../App';
-import Home from './components/pages/Home';
-import Signup from './components/auth/SignUp';
-import Login from './components/auth/Login';
-import ProtectedRoute from './components/shared/ProtectedRoute';
-import Dashboard from './components/pages/Dashboard';
-import VerifyEmailNotice from './components/auth/VerifyEmailNotice';
-import ResendVerfication from './components/auth/ResendVerification';
-import ForgotPassword from './components/auth/ForgotPassword';
-import ResetPassword from './components/auth/ResetPassword';
-import AcccountMangement from './components/pages/accounts/AccountManagement';
-import TransactionOverview from './components/pages/transactions/TransactionsOverview';
-import AccountForm from './components/pages/accounts/AccountForm';
-import TransactionForm from './components/pages/transactions/TransactionForm';
-import CategoryManagemnt from './components/pages/categories/CategoryManagement';
-import CategoryForm from './components/pages/categories/CategoryCreateForm';
+import Home from '@/components/pages/Home';
+import Signup from '@/components/auth/SignUp';
+import Login from '@/components/auth/Login';
+import ProtectedRoute from '@/components/shared/ProtectedRoute';
+import Dashboard from '@/components/pages/Dashboard';
+import VerifyEmailNotice from '@/components/auth/VerifyEmailNotice';
+import ResendVerfication from '@/components/auth/ResendVerification';
+import ForgotPassword from '@/components/auth/ForgotPassword';
+import ResetPassword from '@/components/auth/ResetPassword';
+import AcccountMangement from '@/components/pages/accounts/AccountManagement';
+import TransactionOverview from '@/components/pages/transactions/TransactionsOverview';
+import AccountForm from '@/components/pages/accounts/AccountForm';
+import TransactionForm from '@/components/pages/transactions/TransactionForm';
+import CategoryManagemnt from '@/components/pages/categories/CategoryManagement';
+import CategoryForm from '@/components/pages/categories/CategoryCreateForm';
 
 
-import Error from './components/pages/Error';
+import Error from '@/components/pages/Error';
 
 const routes = [
     {

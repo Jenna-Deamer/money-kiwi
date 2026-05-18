@@ -1,5 +1,5 @@
 import Select from 'react-select';
-import { useAccounts } from '../../../../context/useAccounts';
+import { useAccounts } from '@/context/useAccounts';
 
 const categoryOptions = [
     { value: 'food', label: 'Food' },

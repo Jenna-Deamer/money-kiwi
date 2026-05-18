@@ -1,13 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useAccounts } from '../../../context/useAccounts';
-import useDebounce from '../../../utils/useDebounce';
-import TransactionTable from './table/TransactionTable';
-import TransactionTableFilters from './table/TransactionTableFilters';
+import { useAccounts } from '@/context/useAccounts';
+import useDebounce from '@/utils/useDebounce';
+import TransactionTable from '@/components/pages/transactions/table/TransactionTable';
+import TransactionTableFilters from '@/components/pages/transactions/table/TransactionTableFilters';
 import {
     useTransactions,
     useDeleteTransaction,
-} from '../../../context/useTransaction';
-import Modal from '../../shared/Modal';
+} from '@/context/useTransaction';
+import Modal from '@/components/shared/Modal';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';

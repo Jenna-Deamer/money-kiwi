@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient, keepPreviousData } from '@tanstack/react-query';
-import { createTransaction, fetchTransactions, updateTransaction, getTransaction, deleteTransaction, updateMultipleTransactions } from '../utils/api/transaction';
-import { useAuth } from './AuthContext';
+import { createTransaction, fetchTransactions, updateTransaction, getTransaction, deleteTransaction, updateMultipleTransactions } from '@/utils/api/transaction';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 export function useTransactions(filters, page) {

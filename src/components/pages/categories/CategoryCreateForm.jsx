@@ -2,9 +2,9 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { categorySchema } from '../../../utils/validation/categorySchema';
+import { categorySchema } from '@/utils/validation/categorySchema';
 import { HexColorPicker } from 'react-colorful';
-import { useCreateCategory, useGetCategory, useUpdateCategory, useParentCategories } from '../../../context/useCategory';
+import { useCreateCategory, useGetCategory, useUpdateCategory, useParentCategories } from '@/context/useCategory';
 
 const validTypes = ['INCOME', 'EXPENSE'];
 

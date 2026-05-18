@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchAccounts, createAccount, getAccount, updateAccount, updateAccountStatus, deleteAccount } from '../utils/api/account';
-import { useAuth } from './AuthContext';
+import { fetchAccounts, createAccount, getAccount, updateAccount, updateAccountStatus, deleteAccount } from '@/utils/api/account';
+import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 export function useAccounts(select) {

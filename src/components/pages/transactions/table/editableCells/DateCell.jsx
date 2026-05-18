@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { transactionBaseSchema } from '../../../../../utils/validation/transactionSchema';
+import { transactionBaseSchema } from '@/utils/validation/transactionSchema';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 

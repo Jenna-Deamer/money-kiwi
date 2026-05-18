@@ -1,5 +1,5 @@
-import AccountList from './AccountList';
-import { useCategorizedAccounts } from '../../../context/useAccounts';
+import AccountList from '@/components/pages/accounts/AccountList';
+import { useCategorizedAccounts } from '@/context/useAccounts';
 
 function AccountCard() {
     const { data, isLoading, error } = useCategorizedAccounts();

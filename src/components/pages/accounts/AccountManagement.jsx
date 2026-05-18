@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import AccountCard from './AccountCard';
+import AccountCard from '@/components/pages/accounts/AccountCard';
 
 function AcccountMangement() {
     return (

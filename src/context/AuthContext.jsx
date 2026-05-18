@@ -1,6 +1,6 @@
 import { createContext, useContext, useState } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { validate } from '../utils/api/auth';
+import { validate } from '@/utils/api/auth';
 import { toast } from 'sonner';
 
 const AuthContext = createContext(null);
