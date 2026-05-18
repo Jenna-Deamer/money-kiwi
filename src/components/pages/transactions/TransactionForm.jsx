@@ -55,7 +55,8 @@ function TransactionForm() {
             const normalized = { ...existingTransaction };
 
             if (normalized.date && typeof normalized.date === 'string') {
-                normalized.date = new Date(normalized.date);
+                const [year, month, day] = normalized.date.split('T')[0].split('-').map(Number);
+                normalized.date = new Date(year, month - 1, day);
             }
 
             reset(normalized);
