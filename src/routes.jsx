@@ -14,7 +14,7 @@ import AccountForm from '@/components/pages/accounts/AccountForm';
 import TransactionForm from '@/components/pages/transactions/TransactionForm';
 import CategoryManagemnt from '@/components/pages/categories/CategoryManagement';
 import CategoryForm from '@/components/pages/categories/CategoryCreateForm';
-
+import ReccuringTransactions from '@/components/pages/reccuringTransactions/ReccuringTransactions';
 
 import Error from '@/components/pages/Error';
 
@@ -86,7 +86,14 @@ const routes = [
                     </ProtectedRoute>
                 )
             },
-
+            {
+                path: 'reccurring/',
+                element: (
+                    <ProtectedRoute>
+                        <ReccuringTransactions />
+                    </ProtectedRoute>
+                )
+            },
             // catch all 404 route
             { path: '*', element: <Error /> }
         ]
