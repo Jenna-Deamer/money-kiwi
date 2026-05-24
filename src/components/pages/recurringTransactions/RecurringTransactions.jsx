@@ -13,19 +13,26 @@ function RecurringTransactions() {
       <div>
       </div>
       <section>
-        {data?.map(tx => (
-          <div key={tx.id}>
-            <h3>{tx.memo}</h3>
-            <div>
-              <div>
-                <button>Edit</button>
-                <button>Pause</button>
-                <button>Delete</button>
+        {FREQUENCIES?.map(freq => (
+          <div key={freq}>
+            <h3>{freq.label}</h3>
+            {data?.map(tx => (
+              tx.frequency === freq.value &&
+              <div key={tx.id}>
+                <h3>{tx.memo}</h3>
+                <div>
+                  <div>
+                    <button>Edit</button>
+                    <button>Pause</button>
+                    <button>Delete</button>
+                  </div>
+                  <p>{tx.type} ${tx.amount.toFixed(2)}</p>
+                </div>
               </div>
-              <p>{tx.type} ${tx.amount.toFixed(2)}</p>
-            </div>
+            ))}
           </div>
         ))}
+
       </section>
     </>
   )
