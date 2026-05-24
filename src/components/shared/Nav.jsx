@@ -22,7 +22,7 @@ function Nav() {
         <li><Link to="/">Home</Link></li>
         <li><Link to="accounts">Accounts</Link></li>
         <li><Link to="transactions">Transactions</Link></li>
-        <li><Link to="reccurring">Reccuring</Link></li>
+        <li><Link to="recurring">Recurring</Link></li>
         <li><Link to='categories'>Categories</Link></li>
         <li>
           <button onClick={handleLogout}>Logout</button>

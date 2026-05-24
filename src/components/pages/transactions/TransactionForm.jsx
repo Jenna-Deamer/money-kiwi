@@ -8,7 +8,7 @@ import { useChildrenCategories } from '@/context/useCategory';
 import { useAccounts } from '@/context/useAccounts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { FREQUENCIES } from '@/utils/data/reccuringFrequencies';
+import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 
 const validTypes = ['INCOME', 'EXPENSE', 'TRANSFER'];
 const toLocalDateString = (date) => {
@@ -227,7 +227,7 @@ function TransactionForm() {
         </fieldset>
 
         <fieldset>
-          <label>Reccuring Transaction</label>
+          <label>Recurring Transaction</label>
           <input {...register('isRecurring')} type='checkbox' id='isRecurring' name='isRecurring' checked={isRecurring}></input>
         </fieldset>
         {isRecurring && (

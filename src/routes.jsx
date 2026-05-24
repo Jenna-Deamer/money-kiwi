@@ -14,7 +14,7 @@ import AccountForm from '@/components/pages/accounts/AccountForm';
 import TransactionForm from '@/components/pages/transactions/TransactionForm';
 import CategoryManagemnt from '@/components/pages/categories/CategoryManagement';
 import CategoryForm from '@/components/pages/categories/CategoryCreateForm';
-import ReccuringTransactions from '@/components/pages/reccuringTransactions/ReccuringTransactions';
+import RecurringTransactions from '@/components/pages/recurringTransactions/RecurringTransactions';
 
 import Error from '@/components/pages/Error';
 
@@ -87,10 +87,10 @@ const routes = [
                 )
             },
             {
-                path: 'reccurring/',
+                path: 'recurring/',
                 element: (
                     <ProtectedRoute>
-                        <ReccuringTransactions />
+                        <RecurringTransactions />
                     </ProtectedRoute>
                 )
             },
