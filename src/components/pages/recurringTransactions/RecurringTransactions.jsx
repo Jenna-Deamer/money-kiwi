@@ -6,7 +6,7 @@ function RecurringTransactions() {
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Error: {error}</div>
-  console.log(data);
+
   return (
     <>
       <h1>Recurring Transactions Overview</h1>
@@ -14,7 +14,7 @@ function RecurringTransactions() {
       </div>
       <section>
         {FREQUENCIES?.map(freq => (
-          <div key={freq}>
+          <div key={freq.label}>
             <h3>{freq.label}</h3>
             {data?.map(tx => (
               tx.frequency === freq.value &&

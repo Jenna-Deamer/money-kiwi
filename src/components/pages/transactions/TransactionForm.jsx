@@ -237,7 +237,7 @@ function TransactionForm() {
               <select {...register('frequency')}>
                 <option value=''>-- Select Frequency --</option>
                 {FREQUENCIES?.map((freq) => (
-                  <option key={freq} value={freq.toUpperCase()}>{freq}</option>
+                  <option key={freq.label} value={freq.value}>{freq.label}</option>
                 ))}
               </select>
               {errors.frequency && (
