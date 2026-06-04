@@ -45,7 +45,6 @@ function TransactionForm() {
       toAccountId: '',
       isRecurring: false,
       frequency: '',
-      startDate: new Date(),
       endDate: null,
     }
   });
@@ -245,24 +244,6 @@ function TransactionForm() {
               )}
             </fieldset>
             <fieldset>
-              <label>Start Date</label>
-              <div className='input-group'>
-                <Controller
-                  control={control}
-                  name="startDate"
-                  render={({ field: { onChange, onBlur, value, ref } }) => (
-                    <DatePicker
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      selected={value}
-                      inputRef={ref}
-                      dateFormat="dd MMM yyyy"
-                      placeholderText="Select start date"
-                    />
-                  )}
-                />
-                {errors.startDate && <span className='error'>{errors.startDate.message}</span>}
-              </div>
               <label>End Date <small>(optional)</small></label>
               <div className='input-group'>
                 <Controller

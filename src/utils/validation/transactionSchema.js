@@ -16,7 +16,6 @@ export const transactionBaseSchema = z.object({
   toAccountId: z.string().uuid('Invalid destination account').optional().nullable().or(z.literal('')),
   isRecurring: z.boolean().optional(),
   frequency: z.enum(['WEEKLY', 'BIWEEKLY', 'SEMI_MONTHLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY']).optional().nullable(),
-  startDate: z.date().or(z.string().pipe(z.coerce.date())).optional().nullable(),
   endDate: z.date().or(z.string().pipe(z.coerce.date())).optional().nullable(),
 });
 
@@ -50,11 +49,4 @@ export const transactionSchema = transactionBaseSchema
   }, {
     message: 'Please select a frequency',
     path: ['frequency']
-  })
-  .refine((data) => {
-    if (data.isRecurring && !data.startDate) return false;
-    return true;
-  }, {
-    message: 'A start date is required for recurring transactions',
-    path: ['startDate']
   });
