@@ -8,6 +8,7 @@ function RecurringTransactions() {
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isPauseConfirmationOpen, setIsPauseConfirmationOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div>Error: {error}</div>
@@ -16,12 +17,13 @@ function RecurringTransactions() {
     setIsEditOpen(false);
     setIsPauseConfirmationOpen(false);
     setIsDeleteConfirmationOpen(false);
- }
+    setSelectedTemplate(null);
+  }
 
 
   return (
     <>
-      <h1>Recurring Transactions Overview</h1>
+      <h1>Recurring Transactions Overview</h1>  setSelectedTemplate(null);
       <div>
       </div>
       <section>
@@ -34,9 +36,32 @@ function RecurringTransactions() {
                 <h3>{tx.memo}</h3>
                 <div>
                   <div>
-                    <button onClick={() => setIsEditOpen(true)}>Edit</button>
-                    <button onClick={() => setIsPauseConfirmationOpen(true)}>Pause</button>
-                    <button onClick={() => setIsDeleteConfirmationOpen(true)}>Delete</button>
+                    <button
+                      onClick={() => {
+                        setSelectedTemplate(tx);
+                        setIsEditOpen(true);
+                      }}
+                    >
+                      Edit
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSelectedTemplate(tx);
+                        setIsPauseConfirmationOpen(true);
+                      }}
+                    >
+                      Pause
+                    </button>
+
+                    <button
+                      onClick={() => {
+                        setSelectedTemplate(tx);
+                        setIsDeleteConfirmationOpen(true);
+                      }}
+                    >
+                      Delete
+                    </button>
                   </div>
                   <p>{tx.type} ${tx.amount.toFixed(2)}</p>
                 </div>
@@ -69,7 +94,7 @@ function RecurringTransactions() {
       <Modal
         isOpen={isDeleteConfirmationOpen}
         onClose={handleClose}
-        title='Update template pause status'
+        title='Delete Confirmation'
         body={
           <>
 
