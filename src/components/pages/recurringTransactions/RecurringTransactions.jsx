@@ -1,4 +1,5 @@
 import { useRecurringTransaction } from '@/context/useRecurringTransaction';
+import UpdateTemplateForm from '@/components/pages/recurringTransactions/UpdateTemplateForm';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import Modal from '@/components/shared/Modal';
 import { useState } from 'react';
@@ -23,7 +24,7 @@ function RecurringTransactions() {
 
   return (
     <>
-      <h1>Recurring Transactions Overview</h1>  setSelectedTemplate(null);
+      <h1>Recurring Transactions Overview</h1>
       <div>
       </div>
       <section>
@@ -76,9 +77,12 @@ function RecurringTransactions() {
         onClose={handleClose}
         title='Edit Template'
         body={
-          <>
-
-          </>
+          selectedTemplate && (
+            <UpdateTemplateForm
+              template={selectedTemplate}
+              onClose={handleClose}
+            />
+            )
         }
       />
       <Modal

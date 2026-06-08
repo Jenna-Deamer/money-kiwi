@@ -8,15 +8,9 @@ import { useChildrenCategories } from '@/context/useCategory';
 import { useAccounts } from '@/context/useAccounts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import { toLocalDateString } from '@/utils/dateHelper';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
-
-const validTypes = ['INCOME', 'EXPENSE', 'TRANSFER'];
-const toLocalDateString = (date) => {
-  const y = date.getFullYear();
-  const m = String(date.getMonth() + 1).padStart(2, '0');
-  const d = String(date.getDate()).padStart(2, '0');
-  return `${y}-${m}-${d}`;
-};
+import { VALID_TYPES } from '@/utils/data/transactionTypes';
 
 function TransactionForm() {
   const { id } = useParams();
@@ -89,7 +83,7 @@ function TransactionForm() {
 
     mutation(payload, {
       onSuccess: () => navigate('/transactions'),
-      onError: (err) => setServerError(err.message)
+      onError: (error) => setServerError(error.message)
     });
     console.log('formData.date:', formData.date);
     console.log('formattedDate being sent:', formattedDate);
@@ -145,7 +139,7 @@ function TransactionForm() {
           <div className='input-group'>
             <select {...register('type')}>
               <option value=''>-- Select Type --</option>
-              {validTypes.map((type) => (
+              {VALID_TYPES.map((type) => (
                 <option key={type} value={type}>{type}</option>
               ))}
             </select>
