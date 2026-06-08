@@ -75,7 +75,7 @@ function RecurringTransactions() {
       <Modal
         isOpen={isEditOpen}
         onClose={handleClose}
-        title='Edit Template'
+        title={'Edit ' + selectedTemplate?.memo + ' Template'}
         body={
           selectedTemplate && (
             <UpdateTemplateForm
@@ -88,7 +88,8 @@ function RecurringTransactions() {
       <Modal
         isOpen={isPauseConfirmationOpen}
         onClose={handleClose}
-        title='Update template pause status'
+        title={'Edit ' + selectedTemplate?.memo + ' Active Status'}
+
         body={
           <>
 
@@ -98,7 +99,7 @@ function RecurringTransactions() {
       <Modal
         isOpen={isDeleteConfirmationOpen}
         onClose={handleClose}
-        title='Delete Confirmation'
+        title={'Confirm Deletion For ' + selectedTemplate?.memo + ' Template'}
         body={
           <>
 
