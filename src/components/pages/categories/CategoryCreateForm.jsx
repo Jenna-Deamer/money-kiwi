@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { categorySchema } from '@/utils/validation/categorySchema';
 import { HexColorPicker } from 'react-colorful';
 import { useCreateCategory, useGetCategory, useUpdateCategory, useParentCategories } from '@/context/useCategory';
-import { CATEGORY_TYPES } from '@/utils/data/transactionTypes';
+import { VALID_TYPES } from '@/utils/data/transactionTypes';
 
 function CategoryForm() {
     const { id } = useParams();
@@ -76,7 +76,7 @@ function CategoryForm() {
                     <div className='input-group'>
                         <select {...register('type')}>
                             <option value=''>-- Select Type --</option>
-                            {CATEGORY_TYPES.map((type) => (
+                            {VALID_TYPES.map((type) => (
                                 <option key={type} value={type}>{type}</option>
                             ))}
                         </select>

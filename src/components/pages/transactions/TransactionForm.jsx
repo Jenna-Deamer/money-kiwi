@@ -146,7 +146,7 @@ function TransactionForm() {
             {errors.type && <span className='error'>{errors.type.message}</span>}
           </div>
 
-          {selectedType !== 'TRANSFER' && (
+
             <>
               <label>Category</label>
 
@@ -170,7 +170,6 @@ function TransactionForm() {
                 {errors.categoryId && <span className='error'>{errors.categoryId.message}</span>}
               </div>
             </>
-          )}
         </fieldset>
 
         {selectedType === 'TRANSFER' && (

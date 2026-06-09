@@ -1,11 +1,12 @@
 import { z } from 'zod';
+import { VALID_TYPES } from '../data/transactionTypes';
 
 export const recurringTemplateSchema = z.object({
   memo: z.string()
     .min(2, 'Memo must be at least 2 characters')
     .max(100, 'Memo cannot exceed 100 characters'),
 
-  type: z.enum(['INCOME', 'EXPENSE', 'TRANSFER'], {
+  type: z.enum(VALID_TYPES, {
     message: 'Please select a valid type',
   }),
 
