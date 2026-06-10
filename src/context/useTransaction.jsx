@@ -35,7 +35,7 @@ export function useCreateTransaction() {
         mutationFn: (newTransaction) => createTransaction(newTransaction),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transaction created succesfully');
+            toast.success('Transaction created successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to create transaction');
@@ -50,7 +50,7 @@ export function useUpdateTransaction() {
         mutationFn: (updatedTransaction) => updateTransaction(updatedTransaction),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transaction updated succesfully');
+            toast.success('Transaction updated successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update transaction');
@@ -65,7 +65,7 @@ export function useUpdateMultipleTransactionss() {
         mutationFn: (updatedTransactions) => updateMultipleTransactions(updatedTransactions),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transactions updated succesfully');
+            toast.success('Transactions updated successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update transactions');
@@ -79,7 +79,7 @@ export function useDeleteTransaction() {
     return useMutation({
         mutationFn: (data) => deleteTransaction(data), onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transaction deleted succesfully');
+            toast.success('Transaction deleted successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to delete transaction');

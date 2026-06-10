@@ -104,7 +104,7 @@ function TransactionForm() {
           <div>
             <label>Source Account</label>
             {isLoading && <small>Loading...</small>}
-            {error && <small style={{ color: 'red' }}>Error retriving accounts!</small>}
+            {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
           </div>
 
           <div className='input-group'>
@@ -177,7 +177,7 @@ function TransactionForm() {
             <div>
               <label>Destination Account</label>
               {isLoading && <small>Loading accounts...</small>}
-              {error && <small style={{ color: 'red' }}>Error retriving accounts!</small>}
+              {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
             </div>
 
             <div className='input-group'>

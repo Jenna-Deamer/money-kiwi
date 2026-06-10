@@ -7,9 +7,16 @@ export function fetchRecurringTransactions() {
   });
 }
 
-export function updateReccuringTransactionTemplate(data) {
+export function updateRecurringTransactionTemplate(data) {
   return apiRequest(`${BASE}/${data.id}`, {
     method: 'PUT',
+    body: JSON.stringify(data),
+  });
+}
+
+export function deleteRecurringTransactionTemplate(data) {
+  return apiRequest(`${BASE}/${data.id}`, {
+    method: 'DELETE',
     body: JSON.stringify(data),
   });
 }

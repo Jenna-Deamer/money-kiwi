@@ -29,7 +29,7 @@ const MemoCategoryCell = ({ row, table }) => {
 
     }, [row.original.memo, row.original.categoryId, isUnsavedData]);
 
-    // flags errors ands tracks edited data when user leaves input
+    // flags errors and tracks edited data when user leaves input
     const onBlur = (field, value) => {
         if (field === 'memo') {
             const result = memoSchema.safeParse({ memo: value });

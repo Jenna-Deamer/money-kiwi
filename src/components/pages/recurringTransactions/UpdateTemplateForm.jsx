@@ -2,8 +2,8 @@ import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { recurringTemplateSchema } from '@/utils/validation/recuringTemplateSchema';
-import { useUpdateReccuringTransaction } from '@/context/useRecurringTransaction';
+import { recurringTemplateSchema } from '@/utils/validation/recurringTemplateSchema';
+import { useUpdateRecurringTransaction } from '@/context/useRecurringTransaction';
 import { useChildrenCategories } from '@/context/useCategory';
 import { useAccounts } from '@/context/useAccounts';
 import { toLocalDateString, stringToDateObject } from '@/utils/dateHelper';
@@ -17,7 +17,7 @@ function UpdateTemplateForm({ template, onClose }) {
   const [serverError, setServerError] = useState('');
 
   const { data: accountData, isLoading: isLoadingAccounts, error } = useAccounts();
-  const { mutate: updateTemplate, isLoading: isUpdating } = useUpdateReccuringTransaction();
+  const { mutate: updateTemplate, isLoading: isUpdating } = useUpdateRecurringTransaction();
 
   const { register, handleSubmit, setValue, control, reset, watch, formState: { errors } } = useForm({
     resolver: zodResolver(recurringTemplateSchema),
@@ -88,7 +88,7 @@ function UpdateTemplateForm({ template, onClose }) {
         <div>
           <label>Source Account</label>
           {isLoadingAccounts && <small>Loading...</small>}
-          {error && <small style={{ color: 'red' }}>Error retriving accounts!</small>}
+          {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
         </div>
 
         <div className='input-group'>
@@ -162,7 +162,7 @@ function UpdateTemplateForm({ template, onClose }) {
           <div>
             <label>Destination Account</label>
             {isLoadingAccounts && <small>Loading accounts...</small>}
-            {error && <small style={{ color: 'red' }}>Error retriving accounts!</small>}
+            {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
           </div>
 
           <div className='input-group'>

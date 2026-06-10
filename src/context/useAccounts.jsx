@@ -48,7 +48,7 @@ export function useCreateAccount() {
         onSuccess: () => {
             // force-refreshes the account list everywhere in app
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
-            toast.success('Account created succesfully');
+            toast.success('Account created successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to create account');
@@ -64,7 +64,7 @@ export function useUpdateAccount() {
         onSuccess: () => {
             // force-refreshes the account list everywhere in app
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
-            toast.success('Account updated succesfully');
+            toast.success('Account updated successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update account');
@@ -80,7 +80,7 @@ export function useUpdateAccountStatus() {
         mutationFn: (updatedAccount) => updateAccountStatus(updatedAccount),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
-            toast.success('Account status updated succesfully');
+            toast.success('Account status updated successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update account status');
@@ -95,7 +95,7 @@ export function useDeleteAccount() {
         mutationFn: (data) => deleteAccount(data),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
-            toast.success('Account deleted succesfully');
+            toast.success('Account deleted successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to delete account');

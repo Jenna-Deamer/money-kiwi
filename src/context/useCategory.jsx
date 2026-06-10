@@ -50,7 +50,7 @@ export function useCreateCategory() {
         onSuccess: () => {
 
             queryClient.invalidateQueries({ queryKey: ['categories'] });
-            toast.success('Category created succesfully');
+            toast.success('Category created successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to create category');
@@ -65,7 +65,7 @@ export function useUpdateCategory() {
         mutationFn: (updatedCategory) => updateCategory(updatedCategory),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['categories'] });
-            toast.success('Category updated succesfully');
+            toast.success('Category updated successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to update category');
@@ -80,7 +80,7 @@ export function useDeleteCategory() {
         mutationFn: (deletedCategory) => deleteCategory(deletedCategory),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ['categories'] });
-            toast.success('Category deleted succesfully');
+            toast.success('Category deleted successfully');
         },
         onError: (error) => {
             toast.error(error.message || 'Failed to delete category');

@@ -100,8 +100,8 @@ function CategoryForm() {
                     }
                     {errors.parentId && <span className='error'>{errors.parentId.message}</span>}
                     {selectedParentId
-                        ? <p>Only parent categories need a color.</p>
-                        : <> <label>Color</label>
+                        ? <p>Only parent categories need a colour.</p>
+                        : <> <label>Colour</label>
                             <Controller
                                 control={control}
                                 name='color'

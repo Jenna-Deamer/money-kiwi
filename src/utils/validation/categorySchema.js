@@ -13,11 +13,11 @@ export const baseCategorySchema = z.object({
 
 export const categorySchema = baseCategorySchema
     .refine((data) => {
-        // Parent Category must have a color
+        // Parent Category must have a colour
         if (!data.parentId && !data.color) return false;
         return true;
     }, {
-        message: 'Parent Categoires require a color',
+        message: 'Parent Categories require a colour',
         path: ['color']
     });
 
@@ -29,6 +29,6 @@ export const updateCategorySchema = baseCategorySchema
         if (!data.parentId && !data.color) return false;
         return true;
     }, {
-        message: 'Parent categories require a color',
+        message: 'Parent categories require a colour',
         path: ['color'],
     });

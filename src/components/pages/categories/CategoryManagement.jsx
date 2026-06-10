@@ -299,7 +299,7 @@ function CategoryManagement() {
               )}
               {!currentParentId && (
                 <fieldset>
-                  <label>Color</label>
+                  <label>Colour</label>
                   <Controller
                     control={control}
                     name='color'

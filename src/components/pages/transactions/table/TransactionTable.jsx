@@ -82,7 +82,7 @@ function TransactionTable({
                 const rowId = orginalRow.id;
 
                 setNewData((prev => {
-                    // find if row is arealdy being tracked
+                    // find if row is already being tracked
                     const existing = prev.find(row => row.id === rowId);
 
                     if (existing) {

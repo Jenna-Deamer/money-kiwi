@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { fetchRecurringTransactions, updateReccuringTransactionTemplate} from '@/utils/api/recurringTransaction';
+import { deleteRecurringTransactionTemplate, fetchRecurringTransactions, updateRecurringTransactionTemplate} from '@/utils/api/recurringTransaction';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
@@ -8,23 +8,37 @@ export function useRecurringTransaction() {
   const { isAuthenticated } = useAuth();
 
   return useQuery({
-      queryKey: ['recurringTransaction'],
+      queryKey: ['recurringTemplates'],
       queryFn: fetchRecurringTransactions,
       enabled: isAuthenticated
   });
 }
 
-export function useUpdateReccuringTransaction() {
+export function useUpdateRecurringTransaction() {
   const queryClient = useQueryClient();
 
   return useMutation({
-      mutationFn: (updatedTemplate) => updateReccuringTransactionTemplate(updatedTemplate),
+      mutationFn: (updatedTemplate) => updateRecurringTransactionTemplate(updatedTemplate),
       onSuccess: () => {
-          queryClient.invalidateQueries({ queryKey: ['recurringTransaction'] });
-          toast.success('Template updated succesfully');
+          queryClient.invalidateQueries({ queryKey: ['recurringTemplates'] });
+          toast.success('Template updated successfully');
       },
       onError: (error) => {
           toast.error(error.message || 'Failed to update template');
+      }
+  });
+}
+
+export function useDeleteRecurringTransaction() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+      mutationFn: (data) => deleteRecurringTransactionTemplate(data), onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['recurringTemplates'] });
+          toast.success('Template deleted successfully');
+      },
+      onError: (error) => {
+          toast.error(error.message || 'Failed to delete template');
       }
   });
 }

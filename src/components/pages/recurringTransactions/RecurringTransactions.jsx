@@ -1,4 +1,4 @@
-import { useRecurringTransaction } from '@/context/useRecurringTransaction';
+import { useRecurringTransaction, useDeleteRecurringTransaction } from '@/context/useRecurringTransaction';
 import UpdateTemplateForm from '@/components/pages/recurringTransactions/UpdateTemplateForm';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import Modal from '@/components/shared/Modal';
@@ -6,6 +6,7 @@ import { useState } from 'react';
 
 function RecurringTransactions() {
   const { data, isLoading, error } = useRecurringTransaction();
+  const { mutate: deleteTemplate, isLoading: isDeleting } = useDeleteRecurringTransaction();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isPauseConfirmationOpen, setIsPauseConfirmationOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
@@ -21,6 +22,7 @@ function RecurringTransactions() {
     setSelectedTemplate(null);
   }
 
+  const handleDeleteModalConfirmation = () => deleteTemplate({ id: selectedTemplate.id }, { onSuccess: handleClose });
 
   return (
     <>
@@ -101,9 +103,18 @@ function RecurringTransactions() {
         onClose={handleClose}
         title={'Confirm Deletion For ' + selectedTemplate?.memo + ' Template'}
         body={
-          <>
-
-          </>
+          <div>
+            <h3>Are you sure you want to delete {selectedTemplate?.memo}?</h3>
+            <p>
+              Warning: This cannot be undone. The template will be <b>permanently removed</b>,
+              and no new transactions will be created on its schedule. All transactions
+              that already exist up to today will&nbsp;remain.
+            </p>
+            <button onClick={handleDeleteModalConfirmation} disabled={isDeleting}>
+                {isDeleting ? 'Deleting...' : 'Confirm Deletion'}
+            </button>
+            <button onClick={handleClose} disabled={isDeleting}>Cancel</button>
+          </div>
         }
       />
     </>
