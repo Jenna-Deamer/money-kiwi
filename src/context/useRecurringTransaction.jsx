@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { deleteRecurringTransactionTemplate, fetchRecurringTransactions, updateRecurringTransactionTemplate} from '@/utils/api/recurringTransaction';
+import { deleteRecurringTransactionTemplate, fetchRecurringTransactions, updateRecurringTransactionTemplate, updateRecurringTransactionTemplatePauseStatus} from '@/utils/api/recurringTransaction';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
@@ -25,6 +25,21 @@ export function useUpdateRecurringTransaction() {
       },
       onError: (error) => {
           toast.error(error.message || 'Failed to update template');
+      }
+  });
+}
+
+export function useUpdateRecurringTransactionPauseStatus() {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+      mutationFn: (updatedTemplate) => updateRecurringTransactionTemplatePauseStatus(updatedTemplate),
+      onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['recurringTemplates'] });
+          toast.success('Template Status updated successfully');
+      },
+      onError: (error) => {
+          toast.error(error.message || 'Failed to update template status');
       }
   });
 }

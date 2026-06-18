@@ -13,6 +13,12 @@ export function updateRecurringTransactionTemplate(data) {
     body: JSON.stringify(data),
   });
 }
+export function updateRecurringTransactionTemplatePauseStatus(data) {
+  return apiRequest(`${BASE}/${data.id}`, {
+    method: 'PATCH',
+    body: JSON.stringify(data)
+  });
+}
 
 export function deleteRecurringTransactionTemplate(data) {
   return apiRequest(`${BASE}/${data.id}`, {

@@ -1,4 +1,4 @@
-import { useRecurringTransaction, useDeleteRecurringTransaction } from '@/context/useRecurringTransaction';
+import { useRecurringTransaction, useDeleteRecurringTransaction, useUpdateRecurringTransactionPauseStatus } from '@/context/useRecurringTransaction';
 import UpdateTemplateForm from '@/components/pages/recurringTransactions/UpdateTemplateForm';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import Modal from '@/components/shared/Modal';
@@ -7,13 +7,15 @@ import { useState } from 'react';
 function RecurringTransactions() {
   const { data, isLoading, error } = useRecurringTransaction();
   const { mutate: deleteTemplate, isLoading: isDeleting } = useDeleteRecurringTransaction();
+  const { mutate: updatePauseStatus, isLoading: isUpdatingStatus } = useUpdateRecurringTransactionPauseStatus();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isPauseConfirmationOpen, setIsPauseConfirmationOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
+
   const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   if (isLoading) return <div>Loading</div>;
-  if (error) return <div>Error: {error}</div>
+  if (error) return <div>Error: {error}</div>;
 
   function handleClose() {
     setIsEditOpen(false);
@@ -23,6 +25,7 @@ function RecurringTransactions() {
   }
 
   const handleDeleteModalConfirmation = () => deleteTemplate({ id: selectedTemplate.id }, { onSuccess: handleClose });
+  const handlePauseModalConfirmation = () => updatePauseStatus({ id: selectedTemplate.id, pauseStatus: selectedTemplate.isPaused }, { onSuccess: handleClose });
 
   return (
     <>
@@ -90,11 +93,16 @@ function RecurringTransactions() {
       <Modal
         isOpen={isPauseConfirmationOpen}
         onClose={handleClose}
-        title={'Edit ' + selectedTemplate?.memo + ' Active Status'}
+        title={'Edit ' + selectedTemplate?.memo + ' Pause Status'}
 
         body={
           <>
-
+            <h3>
+              This template is currently {selectedTemplate?.isPaused ? 'paused' : 'active'}.
+            </h3>
+            <button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
+              {selectedTemplate?.isPaused ? 'Resume template' : 'Pause template'}
+            </button>
           </>
         }
       />
@@ -118,7 +126,7 @@ function RecurringTransactions() {
         }
       />
     </>
-  )
+  );
 }
 
 
