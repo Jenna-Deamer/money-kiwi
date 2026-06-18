@@ -16,7 +16,11 @@ export const transactionBaseSchema = z.object({
   accountId: z.string().uuid('Please select an account'),
   toAccountId: z.string().uuid('Invalid destination account').optional().nullable().or(z.literal('')),
   isRecurring: z.boolean().optional(),
-  frequency: z.enum(['WEEKLY', 'BIWEEKLY', 'SEMI_MONTHLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY']).optional().nullable(),
+  frequency: z
+    .enum(['WEEKLY', 'BIWEEKLY', 'SEMI_MONTHLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY'])
+    .optional()
+    .nullable()
+    .or(z.literal('')),
   endDate: z.date().or(z.string().pipe(z.coerce.date())).optional().nullable(),
 });
 

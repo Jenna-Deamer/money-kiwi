@@ -220,7 +220,10 @@ function TransactionForm() {
 
         <fieldset>
           <label>Recurring Transaction</label>
-          <input {...register('isRecurring')} type='checkbox' id='isRecurring' name='isRecurring' checked={isRecurring}></input>
+          <input {...register('isRecurring')}
+            type='checkbox'
+            id='isRecurring'
+>          </input>
         </fieldset>
         {isRecurring && (
           <>
