@@ -37,7 +37,7 @@
     --color-txt-muted: #718096;
 
     /* Borders & Dividers */
-    --color-border-soft: #E2E8F0;
+    --color-border-soft: #ccd3db;
     --color-border-focus: rgba(107, 142, 35, 0.2);
     /* Kiwi Primary at 20% */
 }
@@ -84,4 +84,16 @@
         @apply font-medium;
         font-size: var(--text-label);
     }
+}
+
+@layer components {
+  .input-standard {
+    @apply w-full p-1.5 border border-border-soft rounded-md bg-canvas-card focus:outline-none focus:ring-2 focus:ring-kiwi-primary;
+  }
+}
+
+@layer utilities {
+  .border-border-soft {
+    border-color: var(--color-border-soft);
+  }
 }

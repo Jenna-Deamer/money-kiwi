@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '@/utils/validation/userSchema';
 import { toast } from 'sonner';
-import Button from '@/components/shared/ui/Button';
+import Button from '@/components/shared/ui/buttons/Button';
 
 function SignUp() {
     const navigate = useNavigate();

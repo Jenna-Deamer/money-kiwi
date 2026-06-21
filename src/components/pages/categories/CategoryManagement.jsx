@@ -5,7 +5,7 @@ import {
   useDeleteCategory
 } from '@/context/useCategory';
 import { Link } from 'react-router-dom';
-import TabButtons from '@/components/shared/ui/TabButtons';
+import TabButtons from '@/components/shared/ui/buttons/TabButtons';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

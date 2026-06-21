@@ -1,3 +1,4 @@
+
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -6,95 +7,109 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/utils/validation/userSchema';
 import { toast } from 'sonner';
-import Button from '@/components/shared/ui/Button';
+import Button from '@/components/shared/ui/buttons/Button';
+import FormField from '../shared/ui/form/FormField';
 
 function Login() {
-    const navigate = useNavigate();
-    const { isAuthenticated, isLoading, login } = useAuth();
-    const [serverError, setServerError] = useState('');
+  const navigate = useNavigate();
+  const { isAuthenticated, isLoading, login } = useAuth();
+  const [serverError, setServerError] = useState('');
 
-    // Redirect if already logged in
-    useEffect(() => {
-        if (!isLoading && isAuthenticated) {
-            navigate('/dashboard');
-        }
-    }, [isAuthenticated, isLoading, navigate]);
-
-
-    // Initialize Hook Form
-    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
-        resolver: zodResolver(loginSchema),
-        defaultValues: { email: '', password: '' }
-    });
-
-    const onSubmit = async (data) => {
-        setServerError('');
-
-        try {
-            const email = data.email.toLowerCase();
-            const response = await loginApi(email, data.password);
-            login(response.token);
-
-            toast.success('Welcome back', {
-                description: 'Login successful.'
-            });
-
-            navigate('/dashboard');
-        } catch (err) {
-            toast.error('Login Failed', {
-                description: err.message
-            });
-            setServerError(err.message);
-        }
-    };
-
-    if (isLoading) {
-        return <div>Loading...</div>;
+  useEffect(() => {
+    if (!isLoading && isAuthenticated) {
+      navigate('/dashboard');
     }
+  }, [isAuthenticated, isLoading, navigate]);
 
-    if (isAuthenticated) {
-        return null;
+
+  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
+    resolver: zodResolver(loginSchema),
+    defaultValues: { email: '', password: '' }
+  });
+
+  const onSubmit = async (data) => {
+    setServerError('');
+
+    try {
+      const email = data.email.toLowerCase();
+      const response = await loginApi(email, data.password);
+      login(response.token);
+
+      toast.success('Welcome back', {
+        description: 'Login successful.'
+      });
+
+      navigate('/dashboard');
+    } catch (err) {
+      toast.error('Login Failed', {
+        description: err.message
+      });
+      setServerError(err.message);
     }
+  };
 
-    return (
-        <>
-            <h1>Login</h1>
-            {serverError && (
-                <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#fff5f5', border: '1px solid red' }}>
-                    <p>{serverError}</p>
-                    {/* Check if the error is about verification to show a helper link */}
-                    {serverError.toLowerCase().includes('verified') && (
-                        <Link to="/resend-verification" style={{ fontSize: '0.8rem', textDecoration: 'underline' }}>
-                            Didn't get the email? Click here to resend.
-                        </Link>
-                    )}
-                </div>
-            )}
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <fieldset disabled={isSubmitting} style={{ border: 'none', padding: 0, margin: 0 }}>
-                    <legend style={{ display: 'none' }}>Credentials</legend>
+  if (isAuthenticated) {
+    return null;
+  }
 
-                    <div className="input-group">
-                        <input {...register('email')} placeholder="Email" />
-                        {errors.email && <span className="error">{errors.email.message}</span>}
-                    </div>
+  return (
+    <section className='flex flex-col items-center justify-center min-h-screen'>
+      <h1 className='my-4'>Login</h1>
+      {serverError && (
+        <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#fff5f5', border: '1px solid red' }}>
+          <p>{serverError}</p>
+          {/* Check if the error is about verification to show a helper link */}
+          {serverError.toLowerCase().includes('verified') && (
+            <Link to="/resend-verification" style={{ fontSize: '0.8rem', textDecoration: 'underline' }}>
+              Didn't get the email? Click here to resend.
+            </Link>
+          )}
+        </div>
+      )}
 
-                    <div className="input-group">
-                        <input type="password" {...register('password')} placeholder="Password" />
-                        {errors.password && <span className="error">{errors.password.message}</span>}
-                    </div>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <legend style={{ display: 'none' }}>Credentials</legend>
 
-                    <Button type="submit" intent="primary" loadingText="Logging in..." isLoading={isSubmitting}>
-                        Login
-                    </Button>
-                </fieldset>
-            </form>
+        <FormField
+          label="Email"
+          htmlFor="email"
+          error={errors.email?.message}
+          disabled={isSubmitting}
+        >
+          <input {...register('email')} placeholder="email@somewhere.com" className='input-standard'/>
+        </FormField>
 
-            <p>Don't have an account? <Link to="/sign-up">Sign Up</Link></p>
-            <p>Forgot your password? <Link to="/forgot-password">Reset Password</Link></p>
-        </>
-    );
+        <FormField
+          label="Password"
+          htmlFor="password"
+          error={errors.password?.message}
+          disabled={isSubmitting}
+        >
+          <input
+            id="password"
+            type="password"
+            {...register('password')}
+            placeholder='********'
+            className='input-standard'
+          />
+        </FormField>
+
+        <div className='text-center my-4'>
+          <Button type="submit" intent="primary" loadingText="Logging in..." isLoading={isSubmitting}>
+            Login
+          </Button>
+        </div>
+
+      </form>
+
+      <Link to="/sign-up">Don't have an account?</Link>
+      <Link to="/forgot-password">Forgot Password?</Link>
+    </section>
+  );
 }
 
 export default Login;

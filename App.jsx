@@ -6,11 +6,12 @@ import { Toaster } from 'sonner';
 function App() {
     return (
         <>
-            <Toaster richColors position="bottom-right" expand={true} />
             <AuthProvider>
                 <Nav />
                 <main>
-                    <Outlet />
+            <Outlet />
+            <Toaster richColors position="bottom-right" expand={true} />
+
                 </main>
             </AuthProvider>
         </>

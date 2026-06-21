@@ -1,4 +1,4 @@
-import { buttonStyles } from '@/components/shared/ui/ButtonStyles';
+import { buttonStyles } from '@/components/shared/ui/buttons/ButtonStyles';
 
 const Button = ({
     children,

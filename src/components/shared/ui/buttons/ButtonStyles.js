@@ -1,7 +1,7 @@
 import { tv } from 'tailwind-variants';
 
 export const buttonStyles = tv({
-    base: 'inline-flex items-center justify-center font-semibold transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary focus-visible:ring-offset-2',
+    base: 'inline-flex items-center justify-center font-semibold cursor-pointer transition-all duration-200 active:scale-95 disabled:opacity-50 disabled:pointer-events-none outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary focus-visible:ring-offset-2',
     variants: {
         intent: {
             primary: 'bg-kiwi-primary !text-white hover:bg-kiwi-dark shadow-sm',
@@ -13,9 +13,9 @@ export const buttonStyles = tv({
                 'bg-transparent text-txt-muted hover:text-txt-main hover:bg-border-soft',
         },
         size: {
-            sm: 'px-3 py-0.5 text-xs rounded-md',
-            md: 'px-4 py-1.5 text-small rounded-lg',
-            lg: 'px-8 py-2.5 text-body rounded-xl',
+          sm: 'px-3 py-1 text-xs rounded-md',
+          md: 'px-4 py-2 text-sm rounded-lg',
+          lg: 'px-6 py-3 text-base rounded-xl',
         },
         fullWidth: {
             true: 'w-full',
