@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '@/utils/validation/userSchema';
 import { toast } from 'sonner';
 import Button from '@/components/shared/ui/buttons/Button';
-import FormField from '../shared/ui/form/FormField';
+import FormField from '@/components/shared/ui/form/FormField';
 
 function SignUp() {
   const navigate = useNavigate();
