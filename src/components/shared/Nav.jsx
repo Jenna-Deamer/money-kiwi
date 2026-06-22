@@ -17,17 +17,19 @@ function Nav() {
 
   if (!isAuthenticated) return null;
   return (
-    <nav>
-      <ul>
+    <nav className='border-r p-2 min-h-screen'>
+      <button className='mb-4'>Close</button>
+      <ul className='flex flex-col gap-2'>
         <li><Link to="/">Home</Link></li>
         <li><Link to="accounts">Accounts</Link></li>
         <li><Link to="transactions">Transactions</Link></li>
         <li><Link to="recurring">Recurring</Link></li>
         <li><Link to='categories'>Categories</Link></li>
-        <li>
-          <button onClick={handleLogout}>Logout</button>
-        </li>
       </ul>
+      <div className=''>
+        <button>Settings</button>
+        <button onClick={handleLogout}>Logout</button>
+      </div>
     </nav>
   );
 }

@@ -4,18 +4,20 @@ import { AuthProvider } from './src/context/AuthContext';
 import { Toaster } from 'sonner';
 
 function App() {
-    return (
-        <>
-            <AuthProvider>
-                <Nav />
-                <main>
+  return (
+    <>
+      <AuthProvider>
+        <div className='flex'>
+          <Nav />
+          <main >
             <Outlet />
             <Toaster richColors position="bottom-right" expand={true} />
+          </main>
+        </div>
 
-                </main>
-            </AuthProvider>
-        </>
-    );
+      </AuthProvider>
+    </>
+  );
 }
 
 export default App;
