@@ -58,56 +58,70 @@ function Login() {
 
   return (
     <section className='flex flex-col items-center justify-center min-h-screen'>
-      <h1 className='my-4'>Login</h1>
-      {serverError && (
-        <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#fff5f5', border: '1px solid red' }}>
-          <p>{serverError}</p>
-          {/* Check if the error is about verification to show a helper link */}
-          {serverError.toLowerCase().includes('verified') && (
-            <Link to="/resend-verification" style={{ fontSize: '0.8rem', textDecoration: 'underline' }}>
-              Didn't get the email? Click here to resend.
+      <div className= 'card w-full max-w-sm'>
+        <h1 className='my-4 text-center'>Login</h1>
+        {serverError && (
+          <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#fff5f5', border: '1px solid red' }}>
+            <p>{serverError}</p>
+            {/* Check if the error is about verification to show a helper link */}
+            {serverError.toLowerCase().includes('verified') && (
+              <Link to="/resend-verification" style={{ fontSize: '0.8rem', textDecoration: 'underline' }}>
+                Didn't get the email? Click here to resend.
+              </Link>
+            )}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <legend style={{ display: 'none' }}>Credentials</legend>
+
+          <FormField
+            label="Email"
+            htmlFor="email"
+            error={errors.email?.message}
+            disabled={isSubmitting}
+          >
+            <input {...register('email')} placeholder="email@somewhere.com" className='input-standard' />
+          </FormField>
+
+          <FormField
+            label="Password"
+            htmlFor="password"
+            error={errors.password?.message}
+            disabled={isSubmitting}
+          >
+            <input
+              id="password"
+              type="password"
+              {...register('password')}
+              placeholder='********'
+              className='input-standard'
+            />
+          </FormField>
+
+          <div className='text-center my-4'>
+            <Button type="submit" intent="primary" width='comfy' loadingText="Logging in..." isLoading={isSubmitting}>
+              Login
+            </Button>
+          </div>
+
+        </form>
+
+
+        <div className="mt-4 space-y-1 text-sm text-txt-muted text-center">
+          <p>
+            Don&apos;t have an&nbsp;account?{' '}
+            <Link to="/sign-up" className="text-kiwi-primary underline">
+              Sign&nbsp;up
             </Link>
-          )}
+          </p>
+          <p>
+            <Link to="/forgot-password" className="text-kiwi-primary underline">
+              Forgot&nbsp;password?
+            </Link>
+          </p>
         </div>
-      )}
-
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <legend style={{ display: 'none' }}>Credentials</legend>
-
-        <FormField
-          label="Email"
-          htmlFor="email"
-          error={errors.email?.message}
-          disabled={isSubmitting}
-        >
-          <input {...register('email')} placeholder="email@somewhere.com" className='input-standard'/>
-        </FormField>
-
-        <FormField
-          label="Password"
-          htmlFor="password"
-          error={errors.password?.message}
-          disabled={isSubmitting}
-        >
-          <input
-            id="password"
-            type="password"
-            {...register('password')}
-            placeholder='********'
-            className='input-standard'
-          />
-        </FormField>
-
-        <div className='text-center my-4'>
-          <Button type="submit" intent="primary" loadingText="Logging in..." isLoading={isSubmitting}>
-            Login
-          </Button>
-        </div>
-
-      </form>
-
-      <Link to="/sign-up">Don't have an account?</Link>
-      <Link to="/forgot-password">Forgot Password?</Link>
+      </div>
     </section>
   );
 }

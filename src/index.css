@@ -90,10 +90,14 @@
   .input-standard {
     @apply w-full p-1.5 border border-border-soft rounded-md bg-canvas-card focus:outline-none focus:ring-2 focus:ring-kiwi-primary;
   }
+  .card{
+      @apply bg-canvas-card rounded-xl p-6 shadow-sm;
+  }
 }
 
 @layer utilities {
   .border-border-soft {
     border-color: var(--color-border-soft);
   }
+
 }
