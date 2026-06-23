@@ -93,6 +93,9 @@
   .card{
       @apply bg-canvas-card rounded-xl p-6 shadow-sm;
   }
+  .sidebar{
+      @apply border-r p-2 min-h-screen
+  }
 }
 
 @layer utilities {
