@@ -35,7 +35,7 @@ function Nav() {
         ${isCollapsed ? 'md:w-16' : 'md:w-56'}`}
     >
       <button
-        className="mb-4 hidden md:inline"
+        className="mb-4 hidden md:inline focus-primary"
         onClick={toggleNav}
       >
         {isCollapsed ? <ArrowRight /> : <ArrowLeft />}
@@ -43,17 +43,22 @@ function Nav() {
 
       <ul className="flex justify-center md:flex-col md:justify-start gap-6 md:gap-4">
         <li>
-          <Link to="overview" className="flex items-center gap-2">
+          <Link
+            to="overview"
+            className="flex items-center gap-2 focus-primary"
+          >
             <House />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-
               Overview
             </span>
           </Link>
         </li>
 
         <li>
-          <Link to="accounts" className="flex items-center gap-2">
+          <Link
+            to="accounts"
+            className="flex items-center gap-2 focus-primary"
+          >
             <Landmark />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
               Accounts
@@ -62,7 +67,10 @@ function Nav() {
         </li>
 
         <li>
-          <Link to="transactions" className="flex items-center gap-2">
+          <Link
+            to="transactions"
+            className="flex items-center gap-2 focus-primary"
+          >
             <Receipt />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
               Transactions
@@ -71,10 +79,12 @@ function Nav() {
         </li>
 
         <li>
-          <Link to="dashboard" className="flex items-center gap-2">
+          <Link
+            to="dashboard"
+            className="flex items-center gap-2 focus-primary"
+          >
             <ChartBar />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-
               Dashboard
             </span>
           </Link>
@@ -82,7 +92,10 @@ function Nav() {
 
         {/* Hide on mobile, show at md+ */}
         <li className="hidden md:block">
-          <Link to="recurring" className="flex items-center gap-2">
+          <Link
+            to="recurring"
+            className="flex items-center gap-2 focus-primary"
+          >
             <Repeat />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
               Recurring
@@ -91,7 +104,10 @@ function Nav() {
         </li>
 
         <li className="hidden md:block">
-          <Link to="categories" className="flex items-center gap-2">
+          <Link
+            to="categories"
+            className="flex items-center gap-2 focus-primary"
+          >
             <Folders />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
               Categories
@@ -101,14 +117,17 @@ function Nav() {
 
         {/* Ellipsis: mobile-only */}
         <li className="md:hidden">
-          <button className="flex items-center justify-center">
-            <Ellipsis />
+          <button
+            className="flex items-center justify-center focus-primary"
+          >
+            <Ellipsis aria-hidden="true" />
+            <span className="sr-only">More</span>
           </button>
         </li>
       </ul>
 
       <div className="flex md:flex-col gap-2">
-        <Link className="hidden md:flex items-center gap-2">
+        <Link className="hidden md:flex items-center gap-2 focus-primary">
           <Settings />
           <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
             Settings
@@ -116,7 +135,7 @@ function Nav() {
         </Link>
 
         <button
-          className="hidden md:flex items-center gap-2"
+          className="hidden md:flex items-center gap-2 focus-primary"
           onClick={handleLogout}
         >
           <LogOut />

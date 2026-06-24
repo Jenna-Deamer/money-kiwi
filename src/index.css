@@ -102,5 +102,8 @@
   .border-border-soft {
     border-color: var(--color-border-soft);
   }
+  .focus-primary{
+      @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary;
+  }
 
 }
