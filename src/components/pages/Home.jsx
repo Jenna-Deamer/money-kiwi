@@ -9,10 +9,10 @@ function Home() {
        // Redirect if already logged in
         useEffect(() => {
         if (!isLoading && isAuthenticated) {
-            navigate('/dashboard');
+            navigate('/overview');
         }
     }, [isAuthenticated, isLoading, navigate]);
-    
+
     return (
         <div>
             <h1>Home Page</h1>

@@ -4,6 +4,7 @@ import Signup from '@/components/auth/SignUp';
 import Login from '@/components/auth/Login';
 import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import Dashboard from '@/components/pages/Dashboard';
+import Overview from '@/components/pages/Overview';
 import VerifyEmailNotice from '@/components/auth/VerifyEmailNotice';
 import ResendVerfication from '@/components/auth/ResendVerification';
 import ForgotPassword from '@/components/auth/ForgotPassword';
@@ -31,13 +32,21 @@ const routes = [
             { path: 'forgot-password', element: <ForgotPassword /> },
             { path: 'reset-password', element: <ResetPassword /> },
             {
-                path: 'dashboard',
+                path: 'overview',
                 element: (
                     <ProtectedRoute>
-                        <Dashboard />
+                        <Overview />
                     </ProtectedRoute>
                 )
-            },
+          },
+          {
+              path: 'dashboard',
+              element: (
+                  <ProtectedRoute>
+                      <Dashboard />
+                  </ProtectedRoute>
+              )
+          },
             {
                 path: 'accounts',
                 element: (

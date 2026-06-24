@@ -43,7 +43,7 @@ function Nav() {
 
       <ul className="flex justify-center md:flex-col md:justify-start gap-6 md:gap-4">
         <li>
-          <Link to="/" className="flex items-center gap-2">
+          <Link to="overview" className="flex items-center gap-2">
             <House />
             <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
 
