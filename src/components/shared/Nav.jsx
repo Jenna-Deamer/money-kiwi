@@ -31,20 +31,20 @@ function Nav() {
   if (!isAuthenticated) return null;
   return (
     <nav
-      className={`sidebar transition-[width] duration-200
-        ${isCollapsed ? 'w-16' : 'w-56'}`}
+      className={`order-2 sm:order-1 sidebar transition-[width] duration-200
+        ${isCollapsed ? 'md:w-16' : 'md:w-56'}`}
     >
       <button className='mb-4' onClick={toggleNav}>{isCollapsed ? <ArrowRight /> : <ArrowLeft />}</button>
-      <ul className='flex flex-col gap-2'>
-        <li><Link to="/"><House /><span className={isCollapsed ? 'sr-only' : 'inline'}>Home</span></Link></li>
-        <li><Link to="accounts"><Landmark/><span className={isCollapsed ? 'sr-only' : 'inline'}>Accounts</span></Link></li>
-        <li><Link to="transactions"><Receipt/><span className={isCollapsed ? 'sr-only' : 'inline'}>Transactions</span></Link></li>
-        <li><Link to="recurring"><Repeat/><span className={isCollapsed ? 'sr-only' : 'inline'}>Recurring</span></Link></li>
-        <li><Link to='categories'><Folders/><span className={isCollapsed ? 'sr-only' : 'inline'}>Categories</span></Link></li>
+      <ul className='flex md:flex-col gap-4'>
+        <li><Link to="/"className="flex items-center gap-2"><House /><span className={isCollapsed ? 'sr-only' : 'inline'}>Home</span></Link></li>
+        <li><Link to="accounts"className="flex items-center gap-2"><Landmark/><span className={isCollapsed ? 'sr-only' : 'inline'}>Accounts</span></Link></li>
+        <li><Link to="transactions"className="flex items-center gap-2"><Receipt/><span className={isCollapsed ? 'sr-only' : 'inline'}>Transactions</span></Link></li>
+        <li><Link to="recurring"className="flex items-center gap-2"><Repeat/><span className={isCollapsed ? 'sr-only' : 'inline'}>Recurring</span></Link></li>
+        <li><Link to='categories'className="flex items-center gap-2"><Folders/><span className={isCollapsed ? 'sr-only' : 'inline'}>Categories</span></Link></li>
       </ul>
-      <div className='border'>
-        <Link><Settings/><span className={isCollapsed ? 'sr-only' : 'inline'}>Settings</span></Link><br/>
-        <button onClick={handleLogout}><LogOut/><span  className={isCollapsed ? 'sr-only' : 'inline'}>Logout</span></button>
+      <div className='border flex md:flex-col gap-2'>
+        <Link className="flex items-center gap-2"><Settings/><span className={isCollapsed ? 'sr-only' : 'inline'}>Settings</span></Link><br/>
+        <button className='flex items-center gap-2' onClick={handleLogout}><LogOut/><span  className={`${isCollapsed ? 'sr-only' : 'inline'}`}>Logout</span></button>
       </div>
     </nav>
   );
