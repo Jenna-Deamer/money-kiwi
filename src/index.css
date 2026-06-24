@@ -94,7 +94,7 @@
       @apply bg-canvas-card rounded-xl p-6 shadow-sm;
   }
   .sidebar{
-      @apply border-t md:border-r sm:border-t p-2 min-h-screen sm:w-full;
+      @apply border-t md:border-r sm:border-t p-4 md:p-2 md:min-h-screen sm:w-full;
   }
 }
 
