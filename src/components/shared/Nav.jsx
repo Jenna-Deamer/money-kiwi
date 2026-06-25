@@ -7,6 +7,8 @@ import { House,ChartBar, Receipt, Repeat,Landmark,Folders, Upload, Settings,LogO
 function Nav() {
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isDrawerVisble, setIsDrawerVisible] = useState(false);
+
   const { isAuthenticated, logout } = useAuth();
 
   const handleLogout = () => {
@@ -17,16 +19,13 @@ function Nav() {
     navigate('/login');
   };
 
-  const toggleNav= () => {
+  const toggleNav = () => {
     setIsCollapsed(prevIsCollapsed => !prevIsCollapsed);
-
-    if (isCollapsed === true) {
-      //
-    } else {
-      //
-    }
   };
 
+  const toggleMobileDrawer = () => {
+    setIsDrawerVisible(prevIsDrawerVisible => !prevIsDrawerVisible);
+  };
 
   if (!isAuthenticated) return null;
   return (
@@ -40,7 +39,26 @@ function Nav() {
       >
         {isCollapsed ? <ArrowRight /> : <ArrowLeft />}
       </button>
+      <div className={`${isDrawerVisble ? 'block' : 'hidden'}`}>
+        <ul>
+          <Link className="flex items-center gap-2 focus-primary">
+            <Settings />
+            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
+              Settings
+            </span>
+          </Link>
 
+          <button
+            className="flex items-center gap-2 focus-primary"
+            onClick={handleLogout}
+          >
+            <LogOut />
+            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
+              Logout
+            </span>
+          </button>
+        </ul>
+      </div>
       <ul className="flex justify-center md:flex-col md:justify-start gap-6 md:gap-4">
         <li>
           <Link
@@ -115,10 +133,12 @@ function Nav() {
           </Link>
         </li>
 
+
         {/* Ellipsis: mobile-only */}
         <li className="md:hidden">
           <button
             className="flex items-center justify-center focus-primary"
+            onClick={toggleMobileDrawer}
           >
             <Ellipsis aria-hidden="true" />
             <span className="sr-only">More</span>
