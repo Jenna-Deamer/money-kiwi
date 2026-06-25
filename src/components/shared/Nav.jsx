@@ -1,8 +1,35 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState} from 'react';
+import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
-import { House,ChartBar, Receipt, Repeat,Landmark,Folders, Upload, Settings,LogOut, ArrowRight, ArrowLeft, Ellipsis} from 'lucide-react';
+import {
+  House,
+  ChartBar,
+  Receipt,
+  Repeat,
+  Landmark,
+  Folders,
+  Settings,
+  LogOut,
+  ArrowRight,
+  ArrowLeft,
+  Ellipsis
+} from 'lucide-react';
+
+function DesktopLabel({ children, isCollapsed }) {
+  return (
+    <span
+      aria-hidden={isCollapsed}
+      className={`
+        hidden md:block overflow-hidden whitespace-nowrap
+        transition-[opacity,max-width] duration-200
+        ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[10rem] opacity-100'}
+      `}
+    >
+      {children}
+    </span>
+  );
+}
 
 function Nav() {
   const navigate = useNavigate();
@@ -28,140 +55,180 @@ function Nav() {
   };
 
   if (!isAuthenticated) return null;
+
   return (
     <nav
-      className={`order-2 md:order-1 sidebar transition-[width] duration-200
-        ${isCollapsed ? 'md:w-16' : 'md:w-56'}`}
+      className={`
+        order-2 md:order-1 sidebar overflow-x-hidden
+        transition-[width] duration-200
+        ${isCollapsed ? 'md:w-16' : 'md:w-56'}
+      `}
     >
       <button
-        className="mb-4 hidden md:inline focus-primary"
+        type="button"
+        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+        className="hidden md:inline mb-4 focus-primary"
         onClick={toggleNav}
       >
-        {isCollapsed ? <ArrowRight /> : <ArrowLeft />}
+        {isCollapsed ? (
+          <ArrowRight aria-hidden="true" className="shrink-0" />
+        ) : (
+          <ArrowLeft aria-hidden="true" className="shrink-0" />
+        )}
       </button>
-      <div className={`${isDrawerVisble ? 'block' : 'hidden'}`}>
-        <ul>
-          <Link className="flex items-center gap-2 focus-primary">
-            <Settings />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Settings
-            </span>
-          </Link>
 
-          <button
-            className="flex items-center gap-2 focus-primary"
-            onClick={handleLogout}
-          >
-            <LogOut />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Logout
-            </span>
-          </button>
+      {/* Mobile secondary Nav */}
+      <div
+        className={`
+          md:hidden overflow-hidden
+          transition-[max-height] duration-200
+          ${isDrawerVisble ? 'max-h-60' : 'max-h-0'}
+        `}
+      >
+        <ul className="flex flex-col gap-4 px-4 pb-6">
+          <li>
+            <Link
+              to="recurring"
+              className="flex items-center gap-3 focus-primary"
+            >
+              <Repeat aria-hidden="true" className="shrink-0" />
+              <span>Recurring</span>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="categories"
+              className="flex items-center gap-3 focus-primary"
+            >
+              <Folders aria-hidden="true" className="shrink-0" />
+              <span>Categories</span>
+            </Link>
+          </li>
+
+          <li className="pt-4">
+            <Link
+              to="settings"
+              className="flex items-center gap-3 focus-primary"
+            >
+              <Settings aria-hidden="true" className="shrink-0" />
+              <span>Settings</span>
+            </Link>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              className="flex items-center gap-3 focus-primary"
+              onClick={handleLogout}
+            >
+              <LogOut aria-hidden="true" className="shrink-0" />
+              <span>Logout</span>
+            </button>
+          </li>
         </ul>
       </div>
+
+      {/* Main Nav */}
       <ul className="flex justify-center md:flex-col md:justify-start gap-6 md:gap-4">
         <li>
           <Link
             to="overview"
-            className="flex items-center gap-2 focus-primary"
+            aria-label={isCollapsed ? 'Overview' : undefined}
+            className="flex items-center gap-2 w-full min-w-0 focus-primary"
           >
-            <House />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Overview
-            </span>
+            <House aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <DesktopLabel isCollapsed={isCollapsed}>Overview</DesktopLabel>
           </Link>
         </li>
 
         <li>
           <Link
             to="accounts"
-            className="flex items-center gap-2 focus-primary"
+            aria-label={isCollapsed ? 'Accounts' : undefined}
+            className="flex items-center gap-2 w-full min-w-0 focus-primary"
           >
-            <Landmark />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Accounts
-            </span>
+            <Landmark aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <DesktopLabel isCollapsed={isCollapsed}>Accounts</DesktopLabel>
           </Link>
         </li>
 
         <li>
           <Link
             to="transactions"
-            className="flex items-center gap-2 focus-primary"
+            aria-label={isCollapsed ? 'Transactions' : undefined}
+            className="flex items-center gap-2 w-full min-w-0 focus-primary"
           >
-            <Receipt />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Transactions
-            </span>
+            <Receipt aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <DesktopLabel isCollapsed={isCollapsed}>Transactions</DesktopLabel>
           </Link>
         </li>
 
         <li>
           <Link
             to="dashboard"
-            className="flex items-center gap-2 focus-primary"
+            aria-label={isCollapsed ? 'Dashboard' : undefined}
+            className="flex items-center gap-2 w-full min-w-0 focus-primary"
           >
-            <ChartBar />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Dashboard
-            </span>
+            <ChartBar aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <DesktopLabel isCollapsed={isCollapsed}>Dashboard</DesktopLabel>
           </Link>
         </li>
 
-        {/* Hide on mobile, show at md+ */}
         <li className="hidden md:block">
           <Link
             to="recurring"
-            className="flex items-center gap-2 focus-primary"
+            aria-label={isCollapsed ? 'Recurring' : undefined}
+            className="flex items-center gap-2 w-full min-w-0 focus-primary"
           >
-            <Repeat />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Recurring
-            </span>
+            <Repeat aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <DesktopLabel isCollapsed={isCollapsed}>Recurring</DesktopLabel>
           </Link>
         </li>
 
         <li className="hidden md:block">
           <Link
             to="categories"
-            className="flex items-center gap-2 focus-primary"
+            aria-label={isCollapsed ? 'Categories' : undefined}
+            className="flex items-center gap-2 w-full min-w-0 focus-primary"
           >
-            <Folders />
-            <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-              Categories
-            </span>
+            <Folders aria-hidden="true" className="h-5 w-5 shrink-0" />
+            <DesktopLabel isCollapsed={isCollapsed}>Categories</DesktopLabel>
           </Link>
         </li>
-
 
         {/* Ellipsis: mobile-only */}
         <li className="md:hidden">
           <button
+            type="button"
+            aria-label={isDrawerVisble ? 'Close more menu' : 'Open more menu'}
             className="flex items-center justify-center focus-primary"
             onClick={toggleMobileDrawer}
           >
-            <Ellipsis aria-hidden="true" />
+            <Ellipsis aria-hidden="true" className="shrink-0" />
             <span className="sr-only">More</span>
           </button>
         </li>
       </ul>
 
       <div className="flex md:flex-col gap-2">
-        <Link className="hidden md:flex items-center gap-2 focus-primary">
-          <Settings />
-          <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-            Settings
-          </span>
+        <Link
+          to="settings"
+          aria-label={isCollapsed ? 'Settings' : undefined}
+          className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
+        >
+          <Settings aria-hidden="true" className="h-5 w-5 shrink-0" />
+          <DesktopLabel isCollapsed={isCollapsed}>Settings</DesktopLabel>
         </Link>
 
         <button
-          className="hidden md:flex items-center gap-2 focus-primary"
+          type="button"
+          aria-label={isCollapsed ? 'Logout' : undefined}
+          className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
           onClick={handleLogout}
         >
-          <LogOut />
-          <span className={isCollapsed ? 'sr-only' : 'sr-only md:not-sr-only'}>
-            Logout
-          </span>
+          <LogOut aria-hidden="true" className="h-5 w-5 shrink-0" />
+          <DesktopLabel isCollapsed={isCollapsed}>Logout</DesktopLabel>
         </button>
       </div>
     </nav>
