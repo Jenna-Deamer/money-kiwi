@@ -23,7 +23,7 @@ function DesktopLabel({ children, isCollapsed }) {
       className={`
         hidden md:block overflow-hidden whitespace-nowrap
         transition-[opacity,max-width] duration-200
-        ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-[10rem] opacity-100'}
+        ${isCollapsed ? 'max-w-0 opacity-0' : 'max-w-40 opacity-100'}
       `}
     >
       {children}
