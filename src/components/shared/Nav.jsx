@@ -60,22 +60,11 @@ function Nav() {
     <nav
       className={`
         order-2 md:order-1 sidebar overflow-x-hidden
-        transition-[width] duration-200
-        ${isCollapsed ? 'md:w-16' : 'md:w-56'}
+        transition-[width] duration-200 px-4
+        ${isCollapsed ? 'md:w-fit' : 'md:w-fit'}
       `}
     >
-      <button
-        type="button"
-        aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-        className="hidden md:inline mb-4 focus-primary"
-        onClick={toggleNav}
-      >
-        {isCollapsed ? (
-          <ArrowRight aria-hidden="true" className="shrink-0" />
-        ) : (
-          <ArrowLeft aria-hidden="true" className="shrink-0" />
-        )}
-      </button>
+
 
       {/* Mobile secondary Nav */}
       <div
@@ -91,7 +80,7 @@ function Nav() {
               to="recurring"
               className="flex items-center gap-3 focus-primary"
             >
-              <Repeat aria-hidden="true" className="shrink-0" />
+              <Repeat aria-hidden="true" className="icon-lg" />
               <span>Recurring</span>
             </Link>
           </li>
@@ -101,7 +90,7 @@ function Nav() {
               to="categories"
               className="flex items-center gap-3 focus-primary"
             >
-              <Folders aria-hidden="true" className="shrink-0" />
+              <Folders aria-hidden="true" className="icon-lg" />
               <span>Categories</span>
             </Link>
           </li>
@@ -111,7 +100,7 @@ function Nav() {
               to="settings"
               className="flex items-center gap-3 focus-primary"
             >
-              <Settings aria-hidden="true" className="shrink-0" />
+              <Settings aria-hidden="true" className="icon-lg" />
               <span>Settings</span>
             </Link>
           </li>
@@ -122,7 +111,7 @@ function Nav() {
               className="flex items-center gap-3 focus-primary"
               onClick={handleLogout}
             >
-              <LogOut aria-hidden="true" className="shrink-0" />
+              <LogOut aria-hidden="true" className="icon-lg" />
               <span>Logout</span>
             </button>
           </li>
@@ -130,107 +119,132 @@ function Nav() {
       </div>
 
       {/* Main Nav */}
-      <ul className="flex justify-center md:flex-col md:justify-start gap-6 md:gap-4">
-        <li>
-          <Link
-            to="overview"
-            aria-label={isCollapsed ? 'Overview' : undefined}
-            className="flex items-center gap-2 w-full min-w-0 focus-primary"
-          >
-            <House aria-hidden="true" className="h-5 w-5 shrink-0" />
-            <DesktopLabel isCollapsed={isCollapsed}>Overview</DesktopLabel>
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="accounts"
-            aria-label={isCollapsed ? 'Accounts' : undefined}
-            className="flex items-center gap-2 w-full min-w-0 focus-primary"
-          >
-            <Landmark aria-hidden="true" className="h-5 w-5 shrink-0" />
-            <DesktopLabel isCollapsed={isCollapsed}>Accounts</DesktopLabel>
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="transactions"
-            aria-label={isCollapsed ? 'Transactions' : undefined}
-            className="flex items-center gap-2 w-full min-w-0 focus-primary"
-          >
-            <Receipt aria-hidden="true" className="h-5 w-5 shrink-0" />
-            <DesktopLabel isCollapsed={isCollapsed}>Transactions</DesktopLabel>
-          </Link>
-        </li>
-
-        <li>
-          <Link
-            to="dashboard"
-            aria-label={isCollapsed ? 'Dashboard' : undefined}
-            className="flex items-center gap-2 w-full min-w-0 focus-primary"
-          >
-            <ChartBar aria-hidden="true" className="h-5 w-5 shrink-0" />
-            <DesktopLabel isCollapsed={isCollapsed}>Dashboard</DesktopLabel>
-          </Link>
-        </li>
-
-        <li className="hidden md:block">
-          <Link
-            to="recurring"
-            aria-label={isCollapsed ? 'Recurring' : undefined}
-            className="flex items-center gap-2 w-full min-w-0 focus-primary"
-          >
-            <Repeat aria-hidden="true" className="h-5 w-5 shrink-0" />
-            <DesktopLabel isCollapsed={isCollapsed}>Recurring</DesktopLabel>
-          </Link>
-        </li>
-
-        <li className="hidden md:block">
-          <Link
-            to="categories"
-            aria-label={isCollapsed ? 'Categories' : undefined}
-            className="flex items-center gap-2 w-full min-w-0 focus-primary"
-          >
-            <Folders aria-hidden="true" className="h-5 w-5 shrink-0" />
-            <DesktopLabel isCollapsed={isCollapsed}>Categories</DesktopLabel>
-          </Link>
-        </li>
-
-        {/* Ellipsis: mobile-only */}
-        <li className="md:hidden">
+      <ul className="flex justify-center md:flex-col md:justify-start md:h-full">
+        <li className={`${isCollapsed ? 'justify-center' : 'justify-end'} flex`}>
           <button
             type="button"
-            aria-label={isDrawerVisble ? 'Close more menu' : 'Open more menu'}
-            className="flex items-center justify-center focus-primary"
-            onClick={toggleMobileDrawer}
+            aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            className={'hidden md:inline mb-4 focus-primary cursor-pointer'}
+            onClick={toggleNav}
           >
-            <Ellipsis aria-hidden="true" className="shrink-0" />
-            <span className="sr-only">More</span>
+            {isCollapsed ? (
+              <ArrowRight aria-hidden="true" className="icon-lg" />
+            ) : (
+              <ArrowLeft aria-hidden="true" className="icon-lg" />
+            )}
           </button>
         </li>
+
+        <div className='flex md:flex-col md:gap-6 gap-8 md:pt-8'>
+          <li>
+            <Link
+              to="overview"
+              aria-label={isCollapsed ? 'Overview' : undefined}
+              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <House aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Overview</DesktopLabel>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="accounts"
+              aria-label={isCollapsed ? 'Accounts' : undefined}
+              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <Landmark aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Accounts</DesktopLabel>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="transactions"
+              aria-label={isCollapsed ? 'Transactions' : undefined}
+              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <Receipt aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Transactions</DesktopLabel>
+            </Link>
+          </li>
+
+          <li>
+            <Link
+              to="dashboard"
+              aria-label={isCollapsed ? 'Dashboard' : undefined}
+              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <ChartBar aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Dashboard</DesktopLabel>
+            </Link>
+          </li>
+
+          <li className="hidden md:block">
+            <Link
+              to="recurring"
+              aria-label={isCollapsed ? 'Recurring' : undefined}
+              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <Repeat aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Recurring</DesktopLabel>
+            </Link>
+          </li>
+
+          <li className="hidden md:block">
+            <Link
+              to="categories"
+              aria-label={isCollapsed ? 'Categories' : undefined}
+              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <Folders aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Categories</DesktopLabel>
+            </Link>
+          </li>
+
+          {/* Ellipsis: mobile-only */}
+          <li className="md:hidden">
+            <button
+              type="button"
+              aria-label={isDrawerVisble ? 'Close more menu' : 'Open more menu'}
+              className="flex items-center justify-center focus-primary"
+              onClick={toggleMobileDrawer}
+            >
+              <Ellipsis aria-hidden="true" className="icon-lg" />
+              <span className="sr-only">More</span>
+            </button>
+          </li>
+
+        </div>
+
+        <div className="flex md:flex-col md:mt-auto md:pb-8 md:gap-6">
+          <li>
+            <Link
+              to="settings"
+              aria-label={isCollapsed ? 'Settings' : undefined}
+              className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
+            >
+              <Settings aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Settings</DesktopLabel>
+            </Link>
+          </li>
+
+          <li>
+            <button
+              type="button"
+              aria-label={isCollapsed ? 'Logout' : undefined}
+              className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
+              onClick={handleLogout}
+            >
+              <LogOut aria-hidden="true" className="icon-lg" />
+              <DesktopLabel isCollapsed={isCollapsed}>Logout</DesktopLabel>
+            </button>
+          </li>
+
+        </div>
       </ul>
 
-      <div className="flex md:flex-col gap-2">
-        <Link
-          to="settings"
-          aria-label={isCollapsed ? 'Settings' : undefined}
-          className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
-        >
-          <Settings aria-hidden="true" className="h-5 w-5 shrink-0" />
-          <DesktopLabel isCollapsed={isCollapsed}>Settings</DesktopLabel>
-        </Link>
 
-        <button
-          type="button"
-          aria-label={isCollapsed ? 'Logout' : undefined}
-          className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
-          onClick={handleLogout}
-        >
-          <LogOut aria-hidden="true" className="h-5 w-5 shrink-0" />
-          <DesktopLabel isCollapsed={isCollapsed}>Logout</DesktopLabel>
-        </button>
-      </div>
     </nav>
   );
 }
