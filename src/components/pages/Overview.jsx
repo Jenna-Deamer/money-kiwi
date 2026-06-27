@@ -1,9 +1,12 @@
+const date = new Date();
+const month = date.toLocaleString('default', { month: 'long' });
+const day = date.getDate();
 
 function Overview() {
     return (
       <>
         <section>
-          <h1>Month Summary</h1>
+          <h1>{month} Summary</h1>
         </section>
       </>
     );

@@ -38,6 +38,8 @@ function Nav() {
 
   const { isAuthenticated, logout } = useAuth();
 
+  const desktopNavItemClass = `flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`;
+
   const handleLogout = () => {
     logout();
     toast.success('Farewell', {
@@ -64,8 +66,6 @@ function Nav() {
         ${isCollapsed ? 'md:w-fit' : 'md:w-fit'}
       `}
     >
-
-
       {/* Mobile secondary Nav */}
       <div
         className={`
@@ -124,7 +124,7 @@ function Nav() {
           <button
             type="button"
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className={'hidden md:inline mb-4 focus-primary cursor-pointer'}
+            className="hidden md:inline mb-4 focus-primary cursor-pointer"
             onClick={toggleNav}
           >
             {isCollapsed ? (
@@ -135,12 +135,12 @@ function Nav() {
           </button>
         </li>
 
-        <div className='flex md:flex-col md:gap-6 gap-8 md:pt-8'>
+        <div className="flex md:flex-col md:gap-6 gap-8 md:pt-8">
           <li>
             <Link
               to="overview"
               aria-label={isCollapsed ? 'Overview' : undefined}
-              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={desktopNavItemClass}
             >
               <House aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Overview</DesktopLabel>
@@ -151,7 +151,7 @@ function Nav() {
             <Link
               to="accounts"
               aria-label={isCollapsed ? 'Accounts' : undefined}
-              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={desktopNavItemClass}
             >
               <Landmark aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Accounts</DesktopLabel>
@@ -162,7 +162,7 @@ function Nav() {
             <Link
               to="transactions"
               aria-label={isCollapsed ? 'Transactions' : undefined}
-              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={desktopNavItemClass}
             >
               <Receipt aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Transactions</DesktopLabel>
@@ -173,7 +173,7 @@ function Nav() {
             <Link
               to="dashboard"
               aria-label={isCollapsed ? 'Dashboard' : undefined}
-              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={desktopNavItemClass}
             >
               <ChartBar aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Dashboard</DesktopLabel>
@@ -184,7 +184,7 @@ function Nav() {
             <Link
               to="recurring"
               aria-label={isCollapsed ? 'Recurring' : undefined}
-              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={desktopNavItemClass}
             >
               <Repeat aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Recurring</DesktopLabel>
@@ -195,14 +195,13 @@ function Nav() {
             <Link
               to="categories"
               aria-label={isCollapsed ? 'Categories' : undefined}
-              className="flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={desktopNavItemClass}
             >
               <Folders aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Categories</DesktopLabel>
             </Link>
           </li>
 
-          {/* Ellipsis: mobile-only */}
           <li className="md:hidden">
             <button
               type="button"
@@ -214,7 +213,6 @@ function Nav() {
               <span className="sr-only">More</span>
             </button>
           </li>
-
         </div>
 
         <div className="flex md:flex-col md:mt-auto md:pb-8 md:gap-6">
@@ -222,7 +220,7 @@ function Nav() {
             <Link
               to="settings"
               aria-label={isCollapsed ? 'Settings' : undefined}
-              className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={`hidden md:flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`}
             >
               <Settings aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Settings</DesktopLabel>
@@ -233,18 +231,15 @@ function Nav() {
             <button
               type="button"
               aria-label={isCollapsed ? 'Logout' : undefined}
-              className="hidden md:flex items-center gap-2 w-full min-w-0 focus-primary"
+              className={`hidden md:flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`}
               onClick={handleLogout}
             >
               <LogOut aria-hidden="true" className="icon-lg" />
               <DesktopLabel isCollapsed={isCollapsed}>Logout</DesktopLabel>
             </button>
           </li>
-
         </div>
       </ul>
-
-
     </nav>
   );
 }
