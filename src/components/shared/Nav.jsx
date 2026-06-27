@@ -62,7 +62,11 @@ function Nav() {
     <nav
       className={`
         order-2 md:order-1 sidebar overflow-x-hidden
+        md:h-screen sticky  md:top-0
+        bg-kiwi-dark
+        text-white
         transition-[width] duration-200 px-4
+         bottom-0 left-0 right-0 z-50
         ${isCollapsed ? 'md:w-fit' : 'md:w-fit'}
       `}
     >
