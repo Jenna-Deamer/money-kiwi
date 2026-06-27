@@ -9,7 +9,7 @@ function App() {
       <AuthProvider>
         <div className="flex flex-col md:flex-row min-h-screen">
           <Nav />
-          <main className="w-full flex-1 order-1 md:order-2 p-8">
+          <main className="w-full flex-1 order-1 md:order-2 p-8 max-w  max-w-6xl mx-auto">
             <Outlet />
             <Toaster richColors position="bottom-right" expand={true} />
           </main>

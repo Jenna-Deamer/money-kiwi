@@ -231,7 +231,7 @@ function Nav() {
             <button
               type="button"
               aria-label={isCollapsed ? 'Logout' : undefined}
-              className={`hidden md:flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`}
+              className={`hidden cursor-pointer md:flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`}
               onClick={handleLogout}
             >
               <LogOut aria-hidden="true" className="icon-lg" />
