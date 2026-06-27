@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { transactionBaseSchema } from '@/utils/validation/transactionSchema';
-import { useChildrenCategories } from '@/context/useCategory';
+import { useChildrenCategories } from '@/hooks/useCategory';
 
 const MemoCategoryCell = ({ row, table }) => {
     const memoSchema = transactionBaseSchema.pick({ memo: true });

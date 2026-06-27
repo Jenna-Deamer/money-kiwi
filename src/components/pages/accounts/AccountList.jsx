@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '@/components/shared/Modal';
-import { useUpdateAccountStatus, useDeleteAccount } from '@/context/useAccounts';
+import { useUpdateAccountStatus, useDeleteAccount } from '@/hooks/useAccounts';
 
 function AccountList({ title, accounts }) {
     const [activeAccount, setActiveAccount] = useState(null);

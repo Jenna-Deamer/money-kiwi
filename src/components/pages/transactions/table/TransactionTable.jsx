@@ -8,7 +8,7 @@ import AmountCell from '@/components/pages/transactions/table/editableCells/Amou
 import { useState, useEffect } from 'react';
 import DateCell from '@/components/pages/transactions/table/editableCells/DateCell';
 import { transactionSchema } from '@/utils/validation/transactionSchema';
-import { useUpdateMultipleTransactionss } from '@/context/useTransaction';
+import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
 
 function TransactionTable({

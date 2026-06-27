@@ -1,4 +1,4 @@
-import { useRecurringTransaction, useDeleteRecurringTransaction, useUpdateRecurringTransactionPauseStatus } from '@/context/useRecurringTransaction';
+import { useRecurringTransaction, useDeleteRecurringTransaction, useUpdateRecurringTransactionPauseStatus } from '@/hooks/useRecurringTransaction';
 import UpdateTemplateForm from '@/components/pages/recurringTransactions/UpdateTemplateForm';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import Modal from '@/components/shared/Modal';

@@ -3,7 +3,7 @@ import {
   useChildrenCategories,
   useUpdateCategory,
   useDeleteCategory
-} from '@/context/useCategory';
+} from '@/hooks/useCategory';
 import { Link } from 'react-router-dom';
 import TabButtons from '@/components/shared/ui/buttons/TabButtons';
 import { useState } from 'react';

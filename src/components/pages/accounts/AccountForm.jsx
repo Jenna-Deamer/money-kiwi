@@ -3,7 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { accountSchema } from '@/utils/validation/finAccountSchema';
-import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/context/useAccounts';
+import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/hooks/useAccounts';
 
 const validSubCategories = {
     banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
