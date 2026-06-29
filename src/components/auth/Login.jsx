@@ -100,7 +100,7 @@ function Login() {
           </FormField>
 
           <div className='text-center my-4'>
-            <Button type="submit" intent="primary" width='comfy' loadingText="Logging in..." isLoading={isSubmitting}>
+            <Button type="submit" intent="primary" loadingText="Logging in..." isLoading={isSubmitting}>
               Login
             </Button>
           </div>

@@ -10,7 +10,7 @@ function AccountCard() {
 
     return (
         <>
-            <AccountList title='Cash & Banking' accounts={data.banking} />
+          <AccountList title='Cash & Banking' accounts={data.banking}/>
             <AccountList title='Investments' accounts={data.investments} />
             <AccountList title='Debt' accounts={data.debt} />
             <AccountList title='Archived' accounts={data.archived} />
