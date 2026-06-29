@@ -5,11 +5,11 @@ export const buttonStyles = tv({
         intent: {
             primary: 'bg-kiwi-primary !text-white hover:bg-kiwi-dark shadow-sm',
             secondary:
-                'bg-canvas-card text-txt-main border border-soft hover:bg-border-soft',
+                'bg-canvas-card text-txt-main border border-soft hover:bg-soft',
             income: 'bg-income !text-white hover:opacity-90',
             expense: 'bg-expense !text-white hover:opacity-90',
             ghost:
-                'bg-transparent text-txt-muted hover:text-txt-main hover:bg-border-soft',
+                'bg-transparent text-txt-muted hover:text-txt-main hover:bg-soft',
         },
         size: {
           sm: 'px-3 py-1 text-xs rounded-md',
