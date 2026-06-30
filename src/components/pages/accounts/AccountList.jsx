@@ -10,6 +10,7 @@ function AccountList({ title, accounts }) {
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [isAccountOptionsOpen, setIsAccountOptionsOpen] = useState(false);
   const { mutate: updateStatus, isLoading: isUpdating } = useUpdateAccountStatus();
   const { mutate: deleteAccount, isLoading: isDeleting } = useDeleteAccount();
 
@@ -21,6 +22,15 @@ function AccountList({ title, accounts }) {
     setIsDeleteOpen(false);
   };
 
+  const handleAccountOptionsMenu = (account) => {
+    if (isAccountOptionsOpen && selectedAccount.id === account.id) {
+      setIsAccountOptionsOpen(false);
+      setSelectedAccount(null);
+    }else{
+      setSelectedAccount(account)
+      setIsAccountOptionsOpen(true)
+    }
+  };
 
   const handleStatusModalConfrimation = () => {
     const newStatus = selectedAccount.status === 'active' ? 'archived' : 'active';
@@ -49,10 +59,10 @@ function AccountList({ title, accounts }) {
                 <p>${account.balance.toFixed(2)}</p>
 
                 <div>
-                  <button className='cursor-pointer'><EllipsisVertical /></button>
-                  <ul className='hidden'>
+                  <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)}><EllipsisVertical /></button>
+                  <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'inline' : 'hidden'}`}>
                     <li><Link to={`/accounts/form/${account.id}`}>Edit</Link></li>                    <li>
-                      <button  onClick={() => {
+                      <button onClick={() => {
                         setIsStatusOpen(true);
                         setSelectedAccount(account);
                       }}>{account.status === 'active' ? 'Archive' : 'Unarchive'}</button>
