@@ -58,16 +58,25 @@ function AccountList({ title, accounts }) {
               <div className='flex gap-2.5'>
                 <p>${account.balance.toFixed(2)}</p>
 
-                <div>
+                <div className='relative'>
                   <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)}><EllipsisVertical /></button>
-                  <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'inline' : 'hidden'}`}>
-                    <li><Link to={`/accounts/form/${account.id}`}>Edit</Link></li>                    <li>
+                  <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'block' : 'hidden'}
+                    absolute
+                    bg-gray-200
+                    z-1
+                    border
+                    border-gray-500
+                    py-1
+                    px-2
+                    `}>
+                    <li className='pb-1'><Link to={`/accounts/form/${account.id}`}>Edit</Link></li>
+                    <li className='pb-1'>
                       <button onClick={() => {
                         setIsStatusOpen(true);
                         setSelectedAccount(account);
                       }}>{account.status === 'active' ? 'Archive' : 'Unarchive'}</button>
                     </li>
-                    <li>
+                    <li className='pb-1'>
                       <button onClick={() => {
                         setIsDeleteOpen(true);
                         setSelectedAccount(account);
