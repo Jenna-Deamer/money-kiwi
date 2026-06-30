@@ -1,12 +1,13 @@
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '@/components/shared/Modal';
-import {formatSubCategory} from '@/utils/data/accountLabelHelper';
+import { formatSubCategory } from '@/utils/data/accountLabelHelper';
+import { EllipsisVertical } from 'lucide-react';
 
 import { useUpdateAccountStatus, useDeleteAccount } from '@/hooks/useAccounts';
 
 function AccountList({ title, accounts }) {
-  const [activeAccount, setActiveAccount] = useState(null);
+  const [selectedAccount, setSelectedAccount] = useState(null);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const { mutate: updateStatus, isLoading: isUpdating } = useUpdateAccountStatus();
@@ -15,30 +16,22 @@ function AccountList({ title, accounts }) {
   const navigate = useNavigate();
 
   const handleClose = () => {
-    setActiveAccount(null);
+    setSelectedAccount(null);
     setIsStatusOpen(false);
     setIsDeleteOpen(false);
   };
 
-  function handleChange(e, account) {
-    const value = e.target.value;
-    setActiveAccount(account);
-
-    if (value === 'edit') navigate(`/accounts/form/${account.id}`);
-    if (value === 'archive' || value === 'activate') setIsStatusOpen(true);
-    if (value === 'delete') setIsDeleteOpen(true);
-  };
 
   const handleStatusModalConfrimation = () => {
-    const newStatus = activeAccount.status === 'active' ? 'archived' : 'active';
+    const newStatus = selectedAccount.status === 'active' ? 'archived' : 'active';
 
-    updateStatus({ id: activeAccount.id, status: newStatus },
+    updateStatus({ id: selectedAccount.id, status: newStatus },
       { onSuccess: handleClose }
     );
   };
 
   const handleDeleteModalConfirmation = () => {
-    deleteAccount({ id: activeAccount.id },
+    deleteAccount({ id: selectedAccount.id },
       { onSuccess: handleClose }
     );
   };
@@ -48,32 +41,40 @@ function AccountList({ title, accounts }) {
     <section className='mb-4'>
       <h2 className='border-b border-soft mb-4'>{title}</h2>
       {accounts.map((account) => (
-        <div key={account.id} className='card mb-2'>
+        <div key={account.id} className='card p-4 mb-2'>
           <div>
-            <h3>{account.name}</h3>
-            <div>
+            <div className='flex justify-between'>
+              <h3>{account.name}</h3>
+              <div className='flex gap-2.5'>
+                <p>${account.balance.toFixed(2)}</p>
+
+                <div>
+                  <button className='cursor-pointer'><EllipsisVertical /></button>
+                  <ul className='hidden'>
+                    <li><Link to={`/accounts/form/${account.id}`}>Edit</Link></li>                    <li>
+                      <button  onClick={() => {
+                        setIsStatusOpen(true);
+                        setSelectedAccount(account);
+                      }}>{account.status === 'active' ? 'Archive' : 'Unarchive'}</button>
+                    </li>
+                    <li>
+                      <button onClick={() => {
+                        setIsDeleteOpen(true);
+                        setSelectedAccount(account);
+                      }}>Delete</button>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div className='flex gap-1'>
               <span>{formatSubCategory(account.subCategory)}</span>
               {account.registration !== 'N/A' ? (
                 <span>{account.registration}</span>
               ) : null}
             </div>
-            <small>{account.institution}</small>
-          </div>
-          <div>
-            <p>${account.balance.toFixed(2)}</p>
-            <select
-              name="account-options"
-              onChange={(e) => handleChange(e, account)}
-              defaultValue=""
-            >
-              <option value=''>-- Account Options --</option>
-              <option value='edit'>Edit</option>
-              {account.status === 'active' && <option value='archive'>Archive</option>}
-              {account.status === 'archived' && <option value='activate'>Unarchive</option>}
-              <option value='delete'>Delete</option>
-
-
-            </select>
+            <small className='flex justify-end'>{account.institution}</small>
           </div>
         </div>
       ))}
@@ -83,17 +84,17 @@ function AccountList({ title, accounts }) {
         onClose={handleClose}
         title='Confirm Status Change'
         body={
-          activeAccount && (
+          selectedAccount && (
             <>
-              {activeAccount.status === 'active' && (
+              {selectedAccount.status === 'active' && (
                 <div>
-                  <h3>Archive {activeAccount.name}?</h3>
+                  <h3>Archive {selectedAccount.name}?</h3>
                   <p>Your transactions will remain but the account will be hidden.</p>
 
-                  {activeAccount.balance > 0.01 ? (
+                  {selectedAccount.balance > 0.01 ? (
                     <div>
                       <p><strong>Cannot Archive:</strong> Balance must be zero.</p>
-                      <p>Current balance: ${activeAccount.balance.toFixed(2)}</p>
+                      <p>Current balance: ${selectedAccount.balance.toFixed(2)}</p>
                       <button onClick={() => navigate('/transfers/new')}>
                         Go to Transfers
                       </button>
@@ -105,7 +106,7 @@ function AccountList({ title, accounts }) {
                   <div>
                     <button
                       onClick={handleStatusModalConfrimation}
-                      disabled={isUpdating || activeAccount.balance > 0.01}
+                      disabled={isUpdating || selectedAccount.balance > 0.01}
                     >
                       {isUpdating ? 'Saving...' : 'Confirm Archive'}
                     </button>
@@ -115,9 +116,9 @@ function AccountList({ title, accounts }) {
                   </div>
                 </div>
               )}
-              {activeAccount.status === 'archived' && (
+              {selectedAccount.status === 'archived' && (
                 <div>
-                  <h3>Are you sure you want to unarchive {activeAccount.name}?</h3>
+                  <h3>Are you sure you want to unarchive {selectedAccount.name}?</h3>
                   <p>The account will be moved back into your active lists.</p>
                   <button onClick={handleStatusModalConfrimation} disabled={isUpdating}>
                     {isUpdating ? 'Saving...' : 'Confirm Unarchive'}
@@ -134,9 +135,9 @@ function AccountList({ title, accounts }) {
         onClose={handleClose}
         title='Confirm Deletion'
         body={
-          activeAccount && (
+          selectedAccount && (
             <div>
-              <h3>Are you sure you want to delete {activeAccount.name}?</h3>
+              <h3>Are you sure you want to delete {selectedAccount.name}?</h3>
               <p>Warning: This cannot be undone. All data will be lost.</p>
               <button onClick={handleDeleteModalConfirmation} disabled={isDeleting}>
                 {isDeleting ? 'Deleting...' : 'Confirm Deletion'}
