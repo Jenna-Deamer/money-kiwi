@@ -6,6 +6,7 @@ import { accountSchema } from '@/utils/validation/finAccountSchema';
 import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/hooks/useAccounts';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
+import { Form } from 'lucide-react';
 
 const validSubCategories = {
   banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
@@ -73,7 +74,8 @@ function AccountForm() {
               error={errors.name?.message}
               disabled={isCreating || isUpdating || isFetching}
             >
-               <input {...register('name')} placeholder='Name' />
+              <input {...register('name')} placeholder='Chequings' className='input-standard'
+              />
             </FormField>
 
             <FormField
@@ -82,14 +84,20 @@ function AccountForm() {
               error={errors.institution?.message}
               disabled={isCreating || isUpdating || isFetching}
             >
-              <input {...register('institution')} placeholder='Institution' />
+              <input {...register('institution')} placeholder='Scotia Bank' className='input-standard'
+              />
             </FormField>
           </fieldset>
 
           <fieldset>
-            <label>Category</label>
-            <div className='input-group'>
+            <FormField
+              label='Category'
+              htmlFor='category'
+              error={errors.category?.message}
+              disabled={isCreating || isUpdating || isFetching}
+            >
               <select
+                className='input-standard'
                 {...register('category', {
                   onChange: (e) => {
                     const val = e.target.value;
@@ -109,17 +117,20 @@ function AccountForm() {
                 <option value='investments'>Investments</option>
                 <option value='credit'>Credit & Loans</option>
               </select>
-              {errors.category && <span className='error'>{errors.category.message}</span>}
-            </div>
+            </FormField>
 
-            <label>Sub-Category</label>
-            <div className='input-group'>
-              <select {...register('subCategory')} disabled={!selectedCategory}>
+            <FormField
+              label='Subcategory'
+              htmlFor='subcategory'
+              error={errors.subCategory?.message}
+              disabled={isCreating || isUpdating || isFetching}
+            >
+              <select className='input-standard' {...register('subCategory')} disabled={!selectedCategory}>
                 {!selectedCategory ? (
                   <option value=''>-- Select Category First --</option>
                 ) : (
                   <>
-                    <option value=''>-- Select Sub-Category --</option>
+                    <option value=''>-- Select Subcategory --</option>
                     {validSubCategories[selectedCategory].map((sub) => (
                       <option key={sub} value={sub}>
                         {sub.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
@@ -128,14 +139,19 @@ function AccountForm() {
                   </>
                 )}
               </select>
-              {errors.subCategory && <span className='error'>{errors.subCategory.message}</span>}
-            </div>
+            </FormField>
           </fieldset>
+
           <fieldset>
-            <label>Registration</label>
-            <div className='input-group'>
+            <FormField
+              label='Registration'
+              htmlFor='registration'
+              error={errors.registration?.message}
+              disabled={isCreating || isUpdating || isFetching}
+            >
               <select
                 {...register('registration')}
+                className='input-standard'
               >
                 {!selectedCategory && <option value=''>-- Select Category First --</option>}
                 {selectedCategory === 'credit' && <option value='N/A'>N/A (Not applicable for debt)</option>}
@@ -156,12 +172,14 @@ function AccountForm() {
                   </>
                 )}
               </select>
-              {errors.registration && <span className='error'>{errors.registration.message}</span>}
-            </div>
+            </FormField>
+
           </fieldset>
-          <button type='submit' disabled={isCreating || isUpdating || isFetching}>
-            {isEditMode ? 'Update Account' : 'Create Account'}
-          </button>
+          <div className='text-center mt-2'>
+            <Button type='submit' disabled={isCreating || isUpdating || isFetching}  intent="primary" loadingText={isEditMode ? 'Updating Account...' : 'Creating Account...'} isLoading={isUpdating || isCreating || isFetching}>
+                {isEditMode ? 'Update Account' : 'Create Account'}
+            </Button>
+          </div>
         </form >
       </div>
     </section>
