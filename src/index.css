@@ -146,3 +146,7 @@
     }
 
 }
+/*Libs overrides*/
+.react-datepicker__input-container input {
+  padding-left: 28px !important;
+}

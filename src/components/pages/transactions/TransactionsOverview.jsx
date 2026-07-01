@@ -48,16 +48,11 @@ function TransactionOverview() {
   return (
     <>
       <section className='h-full'>
-        <h1 className='mb-4'>Transactions Overview</h1>
-
-        {!hasAccounts ? (
-          <div className='card text-center max-w-md'>
-            <p>You don’t have any financial accounts yet. Create an account to add your first transaction.</p>
-            <LinkButton to="/account/form" className='mt-2'>Create Account</LinkButton>
-          </div>
-        ) : (
-          <>
-            <DatePicker
+        <div className='flex justify-between mb-4'>
+          <div>
+            <h1 className='mb-0.5'>Transactions Overview</h1>
+            {hasAccounts && <DatePicker
+              className='input-standard'
               selectsRange={true}
               startDate={pickerRange[0]}
               endDate={pickerRange[1]}
@@ -75,9 +70,22 @@ function TransactionOverview() {
               showIcon
               closeOnScroll
               dateFormat="dd MMM yyyy"
-            />
+            />}
+          </div>
+          {hasAccounts &&
+            <div className='text-center'>
+              <LinkButton to="/transactions/form">Add Transaction</LinkButton>
+            </div>
+          }
+        </div>
 
-            <Link to="/transactions/form">Add Transaction</Link>
+        {!hasAccounts ? (
+          <div className='card text-center max-w-md'>
+            <p>You don’t have any financial accounts yet. Create an account to add your first transaction.</p>
+            <LinkButton to="/account/form" className='mt-2'>Create Account</LinkButton>
+          </div>
+        ) : (
+          <>
 
             <TransactionTableFilters
               search={filters.search}
