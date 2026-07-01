@@ -86,8 +86,7 @@ function TransactionOverview() {
           </div>
         ) : (
           <>
-
-            <TransactionTableFilters
+              <TransactionTableFilters
               search={filters.search}
               category={filters.category}
               account={filters.account}
