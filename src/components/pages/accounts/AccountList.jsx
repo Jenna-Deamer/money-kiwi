@@ -1,5 +1,5 @@
 import { useNavigate, Link } from 'react-router-dom';
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import Modal from '@/components/shared/Modal';
 import { formatSubCategory } from '@/utils/data/accountLabelHelper';
 import { EllipsisVertical } from 'lucide-react';
@@ -7,6 +7,7 @@ import { EllipsisVertical } from 'lucide-react';
 import { useUpdateAccountStatus, useDeleteAccount } from '@/hooks/useAccounts';
 
 function AccountList({ title, accounts }) {
+  const accountMenuRef = useRef(null);
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -15,6 +16,22 @@ function AccountList({ title, accounts }) {
   const { mutate: deleteAccount, isLoading: isDeleting } = useDeleteAccount();
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const handleOutsideAccountMenuClick = (e) => {
+      if (!accountMenuRef.current?.contains(e.target)) {
+        console.log('outside clicked!');
+        setSelectedAccount(null);
+        setIsAccountOptionsOpen(false);
+      }
+    }
+    if (!isAccountOptionsOpen) return;
+    window.addEventListener('mousedown', handleOutsideAccountMenuClick);
+
+    return () => {
+      window.removeEventListener('mousedown', handleOutsideAccountMenuClick);
+    };
+  }, [accountMenuRef, isAccountOptionsOpen])
 
   const handleClose = () => {
     setSelectedAccount(null);
@@ -58,8 +75,8 @@ function AccountList({ title, accounts }) {
               <h3 className='pb-1.5'>{account.institution} - {account.name}</h3>
               <div className='flex gap-2.5'>
                 <div className='relative'>
-                  <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)} aria-label='Account Options'><EllipsisVertical /></button>
-                  <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible  opacity-0'}
+                  <button className='cursor-pointer' ref={isAccountOptionsOpen && selectedAccount?.id === account.id ? accountMenuRef : null} onClick={() => handleAccountOptionsMenu(account)} aria-label='Account Options'><EllipsisVertical /></button>
+                  <ul  className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible  opacity-0'}
                     absolute
                     top-6
                     right-2
