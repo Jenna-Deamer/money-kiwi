@@ -18,6 +18,7 @@ function AccountList({ title, accounts }) {
 
   const handleClose = () => {
     setSelectedAccount(null);
+    setIsAccountOptionsOpen(false);
     setIsStatusOpen(false);
     setIsDeleteOpen(false);
   };
