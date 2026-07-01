@@ -60,24 +60,28 @@ function AccountList({ title, accounts }) {
 
                 <div className='relative'>
                   <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)}><EllipsisVertical /></button>
-                  <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'block' : 'hidden'}
+                  <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible  opacity-0'}
                     absolute
+                    top-6
+                    right-2
                     bg-gray-200
                     z-1
                     border
                     border-gray-500
                     py-1
                     px-2
+                    transition-all
+                    duration-300
                     `}>
-                    <li className='pb-1'><Link to={`/accounts/form/${account.id}`}>Edit</Link></li>
-                    <li className='pb-1'>
-                      <button onClick={() => {
+                    <li className='mb-1 border-b'><Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>Edit</Link></li>
+                    <li className='mb-1 border-b'>
+                      <button className='cursor-pointer' onClick={() => {
                         setIsStatusOpen(true);
                         setSelectedAccount(account);
                       }}>{account.status === 'active' ? 'Archive' : 'Unarchive'}</button>
                     </li>
-                    <li className='pb-1'>
-                      <button onClick={() => {
+                    <li className='mb-1 border-b'>
+                      <button className='cursor-pointer' onClick={() => {
                         setIsDeleteOpen(true);
                         setSelectedAccount(account);
                       }}>Delete</button>
