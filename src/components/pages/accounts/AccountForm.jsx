@@ -6,155 +6,158 @@ import { accountSchema } from '@/utils/validation/finAccountSchema';
 import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/hooks/useAccounts';
 
 const validSubCategories = {
-    banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
-    investments: ['brokerage', 'crypto', 'gic', 'mutual_fund', 'pension', 'robo_advisor'],
-    credit: ['auto_loan', 'credit_card', 'line_of_credit', 'mortgage', 'personal_loan', 'student_loan']
+  banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
+  investments: ['brokerage', 'crypto', 'gic', 'mutual_fund', 'pension', 'robo_advisor'],
+  credit: ['auto_loan', 'credit_card', 'line_of_credit', 'mortgage', 'personal_loan', 'student_loan']
 };
 
 function AccountForm() {
-    const { id } = useParams();
-    let isEditMode = false;
-    if (id) { isEditMode = true; };
+  const { id } = useParams();
+  let isEditMode = false;
+  if (id) { isEditMode = true; };
 
-    const navigate = useNavigate();
-    const [serverError, setServerError] = useState('');
-    const { mutate: createAccount, isLoading: isCreating } = useCreateAccount();
-    const { mutate: updateAccount, isLoading: isUpdating } = useUpdateAccount();
-    const { data: existingAccount, isLoading: isFetching } = useGetAccount(id);
-
-
-    const { register, handleSubmit, watch, reset,
-        setValue, formState: { errors } } = useForm({
-            resolver: zodResolver(accountSchema),
-            defaultValues: { name: '', institution: '', category: '', subCategory: '', registration: '' }
-        });
+  const navigate = useNavigate();
+  const [serverError, setServerError] = useState('');
+  const { mutate: createAccount, isLoading: isCreating } = useCreateAccount();
+  const { mutate: updateAccount, isLoading: isUpdating } = useUpdateAccount();
+  const { data: existingAccount, isLoading: isFetching } = useGetAccount(id);
 
 
-    const selectedCategory = watch('category');
+  const { register, handleSubmit, watch, reset,
+    setValue, formState: { errors } } = useForm({
+      resolver: zodResolver(accountSchema),
+      defaultValues: { name: '', institution: '', category: '', subCategory: '', registration: '' }
+    });
 
-    useEffect(() => {
-        if (isEditMode && existingAccount) {
-            reset(existingAccount);
-        };
-    }, [isEditMode, existingAccount, reset]);
 
-    const onSubmit = async (data) => {
-        setServerError('');
+  const selectedCategory = watch('category');
 
-        const mutation = isEditMode ? updateAccount : createAccount;
-
-        const payload = isEditMode ? { ...data, id } : data;
-
-        mutation(payload, {
-            onSuccess: () => navigate('/accounts'),
-            onError: (err) => setServerError(err.message)
-        });
+  useEffect(() => {
+    if (isEditMode && existingAccount) {
+      reset(existingAccount);
     };
+  }, [isEditMode, existingAccount, reset]);
 
-    if (isEditMode && isFetching) {
-        return <p>Loading account details...</p>;
-    }
-    return (
-      <section className='flex flex-col items-center justify-center h-full'>
-        <div className='card w-full max-w-sm'>
-          <h1 className='text-center my-4'>{isEditMode ? 'Create Account' : 'Update Account'}</h1>
+  const onSubmit = async (data) => {
+    setServerError('');
 
-            <form onSubmit={handleSubmit(onSubmit)}>
-                {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
-                <fieldset>
-                    <label>Account Name</label>
-                    <div className='input-group'>
-                        <input {...register('name')} placeholder='Name' />
-                        {errors.name && <span className='error'>{errors.name.message}</span>}
-                    </div>
+    const mutation = isEditMode ? updateAccount : createAccount;
 
-                    <label>Institution</label>
-                    <div className='input-group'>
-                        <input {...register('institution')} placeholder='Institution' />
-                        {errors.institution && <span className='error'>{errors.institution.message}</span>}
-                    </div>
+    const payload = isEditMode ? { ...data, id } : data;
 
-                </fieldset>
-                <fieldset>
-                    <label>Category</label>
-                    <div className='input-group'>
-                        <select
-                            {...register('category', {
-                                onChange: (e) => {
-                                    const val = e.target.value;
-                                    // Set the dependent value immediately on change
-                                    if (val === 'credit') {
-                                        setValue('registration', 'N/A');
-                                    } else if (val) {
-                                        setValue('registration', 'Non-registered');
-                                    } else {
-                                        setValue('registration', '');
-                                    }
-                                }
-                            })}
-                        >
-                            <option value=''>-- Select Purpose --</option>
-                            <option value='banking'>Banking</option>
-                            <option value='investments'>Investments</option>
-                            <option value='credit'>Credit & Loans</option>
-                        </select>
-                        {errors.category && <span className='error'>{errors.category.message}</span>}
-                    </div>
+    mutation(payload, {
+      onSuccess: () => navigate('/accounts'),
+      onError: (err) => setServerError(err.message)
+    });
+  };
 
-                    <label>Sub-Category</label>
-                    <div className='input-group'>
-                        <select {...register('subCategory')} disabled={!selectedCategory}>
-                            {!selectedCategory ? (
-                                <option value=''>-- Select Category First --</option>
-                            ) : (
-                                <>
-                                    <option value=''>-- Select Sub-Category --</option>
-                                    {validSubCategories[selectedCategory].map((sub) => (
-                                        <option key={sub} value={sub}>
-                                            {sub.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
-                                        </option>
-                                    ))}
-                                </>
-                            )}
-                        </select>
-                        {errors.subCategory && <span className='error'>{errors.subCategory.message}</span>}
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <label>Registration</label>
-                    <div className='input-group'>
-                        <select
-                            {...register('registration')}
-                        >
-                            {!selectedCategory && <option value=''>-- Select Category First --</option>}
-                            {selectedCategory === 'credit' && <option value='N/A'>N/A (Not applicable for debt)</option>}
-                            {selectedCategory === 'banking' && (
-                                <>
-                                    <option value='Non-registered'>Default</option>
-                                    <option value='TFSA'>TFSA</option>
-                                    <option value='RRSP'>RRSP</option>
-                                    <option value='FHSA'>FHSA</option>
-                                </>
-                            )}
-                            {selectedCategory === 'investments' && (
-                                <>
-                                    <option value='Non-registered'>Non-Reg</option>
-                                    <option value='TFSA'>TFSA</option>
-                                    <option value='RRSP'>RRSP</option>
-                                    <option value='FHSA'>FHSA</option>
-                                </>
-                            )}
-                        </select>
-                        {errors.registration && <span className='error'>{errors.registration.message}</span>}
-                    </div>
-                </fieldset>
-                <button type='submit' disabled={isCreating || isUpdating || isFetching}>
-                    {isEditMode ? 'Update Account' : 'Create Account'}
-                </button>
-          </form >
-        </div>
-      </section>
-    );
+  if (isEditMode && isFetching) {
+    return <p>Loading account details...</p>;
+  }
+  return (
+    <section className='flex flex-col items-center justify-center h-full'>
+      <div className='card w-full max-w-sm'>
+        <h1 className='text-center my-4'>{isEditMode ? 'Update Account' : 'Create Account'}</h1>
+
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {serverError && (
+            <div className="form-error">
+              <p>{serverError}</p></div>)}
+
+          <fieldset>
+            <label>Account Name</label>
+            <div className='input-group'>
+              <input {...register('name')} placeholder='Name' />
+              {errors.name && <span className='error'>{errors.name.message}</span>}
+            </div>
+
+            <label>Institution</label>
+            <div className='input-group'>
+              <input {...register('institution')} placeholder='Institution' />
+              {errors.institution && <span className='error'>{errors.institution.message}</span>}
+            </div>
+
+          </fieldset>
+          <fieldset>
+            <label>Category</label>
+            <div className='input-group'>
+              <select
+                {...register('category', {
+                  onChange: (e) => {
+                    const val = e.target.value;
+                    // Set the dependent value immediately on change
+                    if (val === 'credit') {
+                      setValue('registration', 'N/A');
+                    } else if (val) {
+                      setValue('registration', 'Non-registered');
+                    } else {
+                      setValue('registration', '');
+                    }
+                  }
+                })}
+              >
+                <option value=''>-- Select Purpose --</option>
+                <option value='banking'>Banking</option>
+                <option value='investments'>Investments</option>
+                <option value='credit'>Credit & Loans</option>
+              </select>
+              {errors.category && <span className='error'>{errors.category.message}</span>}
+            </div>
+
+            <label>Sub-Category</label>
+            <div className='input-group'>
+              <select {...register('subCategory')} disabled={!selectedCategory}>
+                {!selectedCategory ? (
+                  <option value=''>-- Select Category First --</option>
+                ) : (
+                  <>
+                    <option value=''>-- Select Sub-Category --</option>
+                    {validSubCategories[selectedCategory].map((sub) => (
+                      <option key={sub} value={sub}>
+                        {sub.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                      </option>
+                    ))}
+                  </>
+                )}
+              </select>
+              {errors.subCategory && <span className='error'>{errors.subCategory.message}</span>}
+            </div>
+          </fieldset>
+          <fieldset>
+            <label>Registration</label>
+            <div className='input-group'>
+              <select
+                {...register('registration')}
+              >
+                {!selectedCategory && <option value=''>-- Select Category First --</option>}
+                {selectedCategory === 'credit' && <option value='N/A'>N/A (Not applicable for debt)</option>}
+                {selectedCategory === 'banking' && (
+                  <>
+                    <option value='Non-registered'>Default</option>
+                    <option value='TFSA'>TFSA</option>
+                    <option value='RRSP'>RRSP</option>
+                    <option value='FHSA'>FHSA</option>
+                  </>
+                )}
+                {selectedCategory === 'investments' && (
+                  <>
+                    <option value='Non-registered'>Non-Reg</option>
+                    <option value='TFSA'>TFSA</option>
+                    <option value='RRSP'>RRSP</option>
+                    <option value='FHSA'>FHSA</option>
+                  </>
+                )}
+              </select>
+              {errors.registration && <span className='error'>{errors.registration.message}</span>}
+            </div>
+          </fieldset>
+          <button type='submit' disabled={isCreating || isUpdating || isFetching}>
+            {isEditMode ? 'Update Account' : 'Create Account'}
+          </button>
+        </form >
+      </div>
+    </section>
+  );
 }
 
 export default AccountForm;
