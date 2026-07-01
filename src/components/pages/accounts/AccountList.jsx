@@ -55,10 +55,8 @@ function AccountList({ title, accounts }) {
         <div key={account.id} className='card p-4 mb-2'>
           <div>
             <div className='flex justify-between'>
-              <h3 className='pb-1.5'>{account.name}</h3>
+              <h3 className='pb-1.5'>{account.institution} - {account.name}</h3>
               <div className='flex gap-2.5'>
-                <p className='font-bold'>${account.balance.toFixed(2)}</p>
-
                 <div className='relative'>
                   <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)} aria-label='Account Options'><EllipsisVertical /></button>
                   <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible  opacity-0'}
@@ -99,7 +97,8 @@ function AccountList({ title, accounts }) {
                 <span className='badge border-black/10 bg-black/3 '>{account.registration}</span>
               ) : null}
             </div>
-            <small className='flex justify-end text-xs'>{account.institution}</small>
+
+            <p className='flex justify-end font-bold'>${account.balance.toFixed(2)}</p>
           </div>
         </div>
       ))}
