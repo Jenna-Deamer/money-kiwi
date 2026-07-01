@@ -27,7 +27,7 @@ function AccountList({ title, accounts }) {
     if (isAccountOptionsOpen && selectedAccount.id === account.id) {
       setIsAccountOptionsOpen(false);
       setSelectedAccount(null);
-    }else{
+    } else {
       setSelectedAccount(account)
       setIsAccountOptionsOpen(true)
     }
@@ -55,12 +55,12 @@ function AccountList({ title, accounts }) {
         <div key={account.id} className='card p-4 mb-2'>
           <div>
             <div className='flex justify-between'>
-              <h3>{account.name}</h3>
+              <h3 className='pb-1.5'>{account.name}</h3>
               <div className='flex gap-2.5'>
-                <p>${account.balance.toFixed(2)}</p>
+                <p className='font-bold'>${account.balance.toFixed(2)}</p>
 
                 <div className='relative'>
-                  <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)}><EllipsisVertical /></button>
+                  <button className='cursor-pointer' onClick={() => handleAccountOptionsMenu(account)} aria-label='Account Options'><EllipsisVertical /></button>
                   <ul className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible  opacity-0'}
                     absolute
                     top-6
@@ -73,6 +73,7 @@ function AccountList({ title, accounts }) {
                     px-2
                     transition-all
                     duration-300
+                    rounded
                     `}>
                     <li className='mb-1 border-b'><Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>Edit</Link></li>
                     <li className='mb-1 border-b'>
@@ -93,12 +94,12 @@ function AccountList({ title, accounts }) {
             </div>
 
             <div className='flex gap-1'>
-              <span>{formatSubCategory(account.subCategory)}</span>
+              <span className='badge border-black/10 bg-black/3 '>{formatSubCategory(account.subCategory)}</span>
               {account.registration !== 'N/A' ? (
-                <span>{account.registration}</span>
+                <span className='badge border-black/10 bg-black/3 '>{account.registration}</span>
               ) : null}
             </div>
-            <small className='flex justify-end'>{account.institution}</small>
+            <small className='flex justify-end text-xs'>{account.institution}</small>
           </div>
         </div>
       ))}

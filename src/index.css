@@ -95,6 +95,9 @@
   .sidebar{
       @apply p-4 md:p-2  sm:w-full;
   }
+  .badge{
+      @apply rounded-full border px-2 py-1 text-xs tracking-tight
+  }
 }
 
 @layer utilities {
