@@ -56,8 +56,8 @@ function AccountForm() {
     }
     return (
       <section className='flex flex-col items-center justify-center h-full'>
-            {!isEditMode && <h1>Add New Account</h1>}
-            {isEditMode && <h1>Update Account</h1>}
+        <div className='card w-full max-w-sm'>
+          <h1 className='text-center my-4'>{isEditMode ? 'Create Account' : 'Update Account'}</h1>
 
             <form onSubmit={handleSubmit(onSubmit)}>
                 {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
@@ -151,7 +151,8 @@ function AccountForm() {
                 <button type='submit' disabled={isCreating || isUpdating || isFetching}>
                     {isEditMode ? 'Update Account' : 'Create Account'}
                 </button>
-            </form >
+          </form >
+        </div>
       </section>
     );
 }

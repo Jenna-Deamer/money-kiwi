@@ -58,7 +58,11 @@ function SignUp() {
     <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
         <h1 className='text-center my-4'>Sign Up</h1>
-        {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
+        {serverError && (
+          <div className="form-error">
+            <p>{serverError}</p></div>)}
+
+
 
         <form onSubmit={handleSubmit(onSubmit)}>
           <legend style={{ display: 'none' }}>Create Account</legend>
@@ -111,15 +115,15 @@ function SignUp() {
             </FormField>
 
             <div className='text-center my-4'>
-            <Button type="submit" intent="primary" loadingText="Creating Account..." isLoading={isSubmitting}>
-              Sign Up
+              <Button type="submit" intent="primary" loadingText="Creating Account..." isLoading={isSubmitting}>
+                Sign Up
               </Button>
             </div>
           </fieldset>
         </form>
         <div className="mt-1 text-sm text-txt-muted text-center">
-        <p>
-          Already have an&nbsp;account? <Link to="/login" className="text-kiwi-primary underline">Login</Link>
+          <p>
+            Already have an&nbsp;account? <Link to="/login" className="text-kiwi-primary underline">Login</Link>
           </p>
         </div>
       </div>

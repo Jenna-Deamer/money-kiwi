@@ -86,41 +86,58 @@
 }
 
 @layer components {
-  .input-standard {
-    @apply w-full p-1.5 border border-soft rounded-md bg-canvas-card focus:outline-none focus:ring-2 focus:ring-kiwi-primary;
-  }
-  .card{
-      @apply bg-canvas-card rounded-xl p-6 shadow-sm;
-  }
-  .sidebar{
-      @apply p-4 md:p-2  sm:w-full;
-  }
-  .badge{
-      @apply rounded-full border px-2 py-1 text-xs tracking-tight
-  }
+    .input-standard {
+        @apply w-full p-1.5 border border-soft rounded-md bg-canvas-card focus:outline-none focus:ring-2 focus:ring-kiwi-primary;
+    }
+
+    .card {
+        @apply bg-canvas-card rounded-xl p-6 shadow-sm;
+    }
+
+    .sidebar {
+        @apply p-4 md:p-2 sm:w-full;
+    }
+
+    .badge {
+        @apply rounded-full border px-2 py-1 text-xs tracking-tight
+    }
 }
 
 @layer utilities {
-  .border-soft {
-    border-color: var(--color-soft);
-  }
-  .focus-primary{
-      @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary;
-  }
-  .icon-sm {
-     @apply w-4 h-4; /* 16px - For inline text, small badges */
-   }
+    .border-soft {
+        border-color: var(--color-soft);
+    }
 
-   .icon-md {
-     @apply w-5 h-5; /* 20px - For standard buttons, input fields */
-   }
+    .focus-primary {
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary;
+    }
 
-   .icon-lg {
-     @apply w-6 h-6; /* 24px - Default Nav / Mobile Nav */
-   }
+    .field-error {
+        @apply text-xs flex flex-col mt-1 italic text-red-700;
+    }
 
-   .icon-xl {
-     @apply w-8 h-8; /* 32px - Large display cards, empty states */
-   }
+    .form-error {
+        @apply mb-2.5 border border-red-500 bg-red-50 p-2.5 text-red-600;
+    }
+
+    .icon-sm {
+        @apply w-4 h-4;
+        /* 16px - For inline text, small badges */
+    }
+
+    .icon-md {
+        @apply w-5 h-5;
+        /* 20px - For standard buttons, input fields */
+    }
+
+    .icon-lg {
+        @apply w-6 h-6;
+        /* 24px - Default Nav / Mobile Nav */
+    }
+
+    .icon-xl {
+        @apply w-8 h-8;
+        /* 32px - Large display cards, empty states */
+    }
 
 }

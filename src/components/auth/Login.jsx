@@ -61,11 +61,13 @@ function Login() {
       <div className= 'card w-full max-w-sm'>
         <h1 className='my-4 text-center'>Login</h1>
         {serverError && (
-          <div style={{ color: 'red', marginBottom: '10px', padding: '10px', backgroundColor: '#fff5f5', border: '1px solid red' }}>
+          <div className="form-error">
             <p>{serverError}</p>
-            {/* Check if the error is about verification to show a helper link */}
             {serverError.toLowerCase().includes('verified') && (
-              <Link to="/resend-verification" style={{ fontSize: '0.8rem', textDecoration: 'underline' }}>
+              <Link
+                to="/resend-verification"
+                className="text-xs underline"
+              >
                 Didn't get the email? Click here to resend.
               </Link>
             )}
@@ -73,7 +75,7 @@ function Login() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <legend style={{ display: 'none' }}>Credentials</legend>
+          <legend className="sr-only">Credentials</legend>
 
           <FormField
             label="Email"

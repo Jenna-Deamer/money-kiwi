@@ -20,7 +20,7 @@ export default async function apiRequest(endpoint, options = {}) {
     const data = await response.json();
 
     if (!response.ok) {
-        const error = new Error(data.message || 'API Error');
+        const error = new Error('Error: ' + data.errors[0].msg || 'API Error');
         error.responseErrors = data.errors;
 
         throw error;
