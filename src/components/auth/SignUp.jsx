@@ -55,7 +55,7 @@ function SignUp() {
   }
 
   return (
-    <section className='flex flex-col items-center justify-center min-h-screen'>
+    <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
         <h1 className='text-center my-4'>Sign Up</h1>
         {serverError && <p style={{ color: 'red' }}>{serverError}</p>}

@@ -44,7 +44,7 @@ function ForgotPassword() {
   }
 
   return (
-    <section className='flex flex-col justify-center items-center min-h-screen'>
+    <section className='flex flex-col justify-center items-center h-full'>
       <div className='card w-full max-w-md'>
         <div className='text-center mt-4'>
           <h1 className="mb-1">Forgot your&nbsp;password?</h1>

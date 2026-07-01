@@ -55,7 +55,7 @@ function AccountForm() {
         return <p>Loading account details...</p>;
     }
     return (
-        <>
+      <section className='flex flex-col items-center justify-center h-full'>
             {!isEditMode && <h1>Add New Account</h1>}
             {isEditMode && <h1>Update Account</h1>}
 
@@ -152,7 +152,7 @@ function AccountForm() {
                     {isEditMode ? 'Update Account' : 'Create Account'}
                 </button>
             </form >
-        </>
+      </section>
     );
 }
 
