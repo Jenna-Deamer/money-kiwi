@@ -6,7 +6,6 @@ import { accountSchema } from '@/utils/validation/finAccountSchema';
 import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/hooks/useAccounts';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
-import { Form } from 'lucide-react';
 
 const validSubCategories = {
   banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
@@ -16,36 +15,46 @@ const validSubCategories = {
 
 function AccountForm() {
   const { id } = useParams();
-  let isEditMode = false;
-  if (id) { isEditMode = true; };
+  const isEditMode = !!id;
 
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
+
   const { mutate: createAccount, isLoading: isCreating } = useCreateAccount();
   const { mutate: updateAccount, isLoading: isUpdating } = useUpdateAccount();
   const { data: existingAccount, isLoading: isFetching } = useGetAccount(id);
 
-
-  const { register, handleSubmit, watch, reset,
-    setValue, formState: { errors } } = useForm({
-      resolver: zodResolver(accountSchema),
-      defaultValues: { name: '', institution: '', category: '', subCategory: '', registration: '' }
-    });
-
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    setValue,
+    formState: { errors }
+  } = useForm({
+    resolver: zodResolver(accountSchema),
+    defaultValues: {
+      name: '',
+      institution: '',
+      category: '',
+      subCategory: '',
+      registration: ''
+    }
+  });
 
   const selectedCategory = watch('category');
+  const selectedSubCategory = watch('subCategory');
 
   useEffect(() => {
     if (isEditMode && existingAccount) {
       reset(existingAccount);
-    };
+    }
   }, [isEditMode, existingAccount, reset]);
 
   const onSubmit = async (data) => {
     setServerError('');
 
     const mutation = isEditMode ? updateAccount : createAccount;
-
     const payload = isEditMode ? { ...data, id } : data;
 
     mutation(payload, {
@@ -57,24 +66,32 @@ function AccountForm() {
   if (isEditMode && isFetching) {
     return <p>Loading account details...</p>;
   }
+
   return (
     <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
-        <h1 className='text-center my-4'>{isEditMode ? 'Update Account' : 'Create Account'}</h1>
+        <h1 className='text-center my-4'>
+          {isEditMode ? 'Update Account' : 'Create Account'}
+        </h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {serverError && (
-            <div className="form-error">
-              <p>{serverError}</p></div>)}
+            <div className='form-error'>
+              <p>{serverError}</p>
+            </div>
+          )}
 
           <fieldset>
             <FormField
-              label="Account Name"
+              label='Account Name'
               htmlFor='account name'
               error={errors.name?.message}
               disabled={isCreating || isUpdating || isFetching}
             >
-              <input {...register('name')} placeholder='Chequings' className='input-standard'
+              <input
+                {...register('name')}
+                placeholder='Chequings'
+                className='input-standard'
               />
             </FormField>
 
@@ -84,7 +101,10 @@ function AccountForm() {
               error={errors.institution?.message}
               disabled={isCreating || isUpdating || isFetching}
             >
-              <input {...register('institution')} placeholder='Scotia Bank' className='input-standard'
+              <input
+                {...register('institution')}
+                placeholder='Scotia Bank'
+                className='input-standard'
               />
             </FormField>
           </fieldset>
@@ -101,14 +121,10 @@ function AccountForm() {
                 {...register('category', {
                   onChange: (e) => {
                     const val = e.target.value;
-                    // Set the dependent value immediately on change
-                    if (val === 'credit') {
-                      setValue('registration', 'N/A');
-                    } else if (val) {
-                      setValue('registration', 'Non-registered');
-                    } else {
-                      setValue('registration', '');
-                    }
+
+                    setValue('category', val);
+                    setValue('subCategory', '');
+                    setValue('registration', '');
                   }
                 })}
               >
@@ -123,9 +139,20 @@ function AccountForm() {
               label='Subcategory'
               htmlFor='subcategory'
               error={errors.subCategory?.message}
-              disabled={isCreating || isUpdating || isFetching}
+              disabled={isCreating || isUpdating || isFetching || !selectedCategory}
             >
-              <select className='input-standard' {...register('subCategory')} disabled={!selectedCategory}>
+              <select
+                className='input-standard'
+                {...register('subCategory', {
+                  onChange: (e) => {
+                    const val = e.target.value;
+
+                    setValue('subCategory', val);
+                    setValue('registration', '');
+                  }
+                })}
+                disabled={!selectedCategory}
+              >
                 {!selectedCategory ? (
                   <option value=''>-- Select Category First --</option>
                 ) : (
@@ -133,7 +160,7 @@ function AccountForm() {
                     <option value=''>-- Select Subcategory --</option>
                     {validSubCategories[selectedCategory].map((sub) => (
                       <option key={sub} value={sub}>
-                        {sub.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())}
+                        {sub.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
                       </option>
                     ))}
                   </>
@@ -147,25 +174,29 @@ function AccountForm() {
               label='Registration'
               htmlFor='registration'
               error={errors.registration?.message}
-              disabled={isCreating || isUpdating || isFetching}
+              disabled={
+                isCreating ||
+                isUpdating ||
+                isFetching ||
+                !selectedCategory ||
+                !selectedSubCategory
+              }
             >
               <select
                 {...register('registration')}
                 className='input-standard'
+                disabled={!selectedCategory || !selectedSubCategory}
               >
-                {!selectedCategory && <option value=''>-- Select Category First --</option>}
-                {selectedCategory === 'credit' && <option value='N/A'>N/A (Not applicable for debt)</option>}
-                {selectedCategory === 'banking' && (
+                {!selectedCategory ? (
+                  <option value=''>-- Select Category First --</option>
+                ) : !selectedSubCategory ? (
+                  <option value=''>-- Select Subcategory First --</option>
+                ) : selectedCategory === 'credit' ? (
+                  <option value='N/A'>N/A (Not applicable for debt)</option>
+                ) : (
                   <>
-                    <option value='Non-registered'>Default</option>
-                    <option value='TFSA'>TFSA</option>
-                    <option value='RRSP'>RRSP</option>
-                    <option value='FHSA'>FHSA</option>
-                  </>
-                )}
-                {selectedCategory === 'investments' && (
-                  <>
-                    <option value='Non-registered'>Non-Reg</option>
+                    <option value=''>-- Select Registration --</option>
+                    <option value='Non-registered'>Non-registered</option>
                     <option value='TFSA'>TFSA</option>
                     <option value='RRSP'>RRSP</option>
                     <option value='FHSA'>FHSA</option>
@@ -173,14 +204,20 @@ function AccountForm() {
                 )}
               </select>
             </FormField>
-
           </fieldset>
+
           <div className='text-center mt-2'>
-            <Button type='submit' disabled={isCreating || isUpdating || isFetching}  intent="primary" loadingText={isEditMode ? 'Updating Account...' : 'Creating Account...'} isLoading={isUpdating || isCreating || isFetching}>
-                {isEditMode ? 'Update Account' : 'Create Account'}
+            <Button
+              type='submit'
+              disabled={isCreating || isUpdating || isFetching}
+              intent='primary'
+              loadingText={isEditMode ? 'Updating Account...' : 'Creating Account...'}
+              isLoading={isUpdating || isCreating || isFetching}
+            >
+              {isEditMode ? 'Update Account' : 'Create Account'}
             </Button>
           </div>
-        </form >
+        </form>
       </div>
     </section>
   );

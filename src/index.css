@@ -90,6 +90,18 @@
         @apply w-full p-1.5 border border-soft rounded-md bg-canvas-card focus:outline-none focus:ring-2 focus:ring-kiwi-primary;
     }
 
+    .input-standard:disabled {
+        @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+    }
+
+    .field-error {
+        @apply text-xs flex flex-col mt-1 italic text-red-700;
+    }
+
+    .form-error {
+        @apply mb-2.5 border border-red-500 bg-red-50 p-2.5 text-red-600 text-center;
+    }
+
     .card {
         @apply bg-canvas-card rounded-xl p-6 shadow-sm;
     }
@@ -99,7 +111,7 @@
     }
 
     .badge {
-        @apply rounded-full border px-2 py-1 text-xs tracking-tight
+        @apply rounded-full border px-2 py-1 text-xs tracking-tight;
     }
 }
 
@@ -112,13 +124,6 @@
         @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary;
     }
 
-    .field-error {
-        @apply text-xs flex flex-col mt-1 italic text-red-700;
-    }
-
-    .form-error {
-        @apply mb-2.5 border border-red-500 bg-red-50 p-2.5 text-red-600 text-center;
-    }
 
     .icon-sm {
         @apply w-4 h-4;
