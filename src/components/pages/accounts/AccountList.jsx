@@ -69,7 +69,7 @@ function AccountList({ title, accounts }) {
     <section className='mb-4'>
       <h2 className='border-b border-soft mb-4'>{title}</h2>
       {accounts.map((account) => (
-        <div key={account.id} className='card p-4 mb-2'>
+        <div key={account.id} className='card p-4 mb-2 max-w-lg'>
           <div>
             <div className='flex justify-between'>
               <h3 className='pb-1.5'>{account.institution} - {account.name}</h3>
