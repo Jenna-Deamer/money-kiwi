@@ -84,7 +84,7 @@ function SignUp() {
           </FormField>
           <fieldset
             disabled={isSubmitting}
-            style={{ border: 'none', padding: 0 }}
+            className='border-none p-0'
           >
 
             <FormField

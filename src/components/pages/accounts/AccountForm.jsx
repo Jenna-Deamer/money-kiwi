@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { accountSchema } from '@/utils/validation/finAccountSchema';
 import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/hooks/useAccounts';
+import Button from '@/components/shared/ui/buttons/Button';
+import FormField from '@/components/shared/ui/form/FormField';
 
 const validSubCategories = {
   banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
@@ -65,19 +67,25 @@ function AccountForm() {
               <p>{serverError}</p></div>)}
 
           <fieldset>
-            <label>Account Name</label>
-            <div className='input-group'>
-              <input {...register('name')} placeholder='Name' />
-              {errors.name && <span className='error'>{errors.name.message}</span>}
-            </div>
+            <FormField
+              label="Account Name"
+              htmlFor='account name'
+              error={errors.name?.message}
+              disabled={isCreating || isUpdating || isFetching}
+            >
+               <input {...register('name')} placeholder='Name' />
+            </FormField>
 
-            <label>Institution</label>
-            <div className='input-group'>
+            <FormField
+              label='Insitution'
+              htmlFor='institution'
+              error={errors.institution?.message}
+              disabled={isCreating || isUpdating || isFetching}
+            >
               <input {...register('institution')} placeholder='Institution' />
-              {errors.institution && <span className='error'>{errors.institution.message}</span>}
-            </div>
-
+            </FormField>
           </fieldset>
+
           <fieldset>
             <label>Category</label>
             <div className='input-group'>

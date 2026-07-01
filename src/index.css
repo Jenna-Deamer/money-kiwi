@@ -117,7 +117,7 @@
     }
 
     .form-error {
-        @apply mb-2.5 border border-red-500 bg-red-50 p-2.5 text-red-600;
+        @apply mb-2.5 border border-red-500 bg-red-50 p-2.5 text-red-600 text-center;
     }
 
     .icon-sm {
