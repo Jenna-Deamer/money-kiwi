@@ -3,7 +3,7 @@ import { useState, useRef, useEffect } from 'react';
 import Modal from '@/components/shared/Modal';
 import { formatSubCategory } from '@/utils/data/accountLabelHelper';
 import { EllipsisVertical } from 'lucide-react';
-
+import Button from '@/components/shared/ui/buttons/Button';
 import { useUpdateAccountStatus, useDeleteAccount } from '@/hooks/useAccounts';
 
 function AccountList({ title, accounts }) {
@@ -123,67 +123,140 @@ function AccountList({ title, accounts }) {
       <Modal
         isOpen={isStatusOpen}
         onClose={handleClose}
-        title='Confirm Status Change'
+        title={selectedAccount?.status === 'active' ? 'Archive account' : 'Restore account'}
         body={
           selectedAccount && (
             <>
               {selectedAccount.status === 'active' && (
-                <div>
-                  <h3>Archive {selectedAccount.name}?</h3>
-                  <p>Your transactions will remain but the account will be hidden.</p>
-
+                <div className="space-y-4">
                   {selectedAccount.balance > 0.01 ? (
-                    <div>
-                      <p><strong>Cannot Archive:</strong> Balance must be zero.</p>
-                      <p>Current balance: ${selectedAccount.balance.toFixed(2)}</p>
-                      <button onClick={() => navigate('/transfers/new')}>
-                        Go to Transfers
-                      </button>
-                    </div>
-                  ) : (
-                    <p>Ready to archive.</p>
-                  )}
+                    <>
+                      <div className="space-y-2">
+                        <p>
+                          <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
+                        </p>
+                        <p>
+                          This account still has a balance. Transfer or remove the remaining funds before archiving&nbsp;it.
+                        </p>
+                        <p>
+                          Current balance: <strong>${selectedAccount.balance.toFixed(2)}</strong>
+                        </p>
+                      </div>
 
-                  <div>
-                    <button
-                      onClick={handleStatusModalConfrimation}
-                      disabled={isUpdating || selectedAccount.balance > 0.01}
+                      <div className="flex flex-wrap justify-end gap-2">
+                        <Button
+                          onClick={handleClose}
+                          disabled={isUpdating}
+                          intent="subtle"
+                        >
+                          Cancel
+                        </Button>
+
+                        <Button
+                          onClick={() => navigate('/transfers/new')}
+                        >
+                          Transfer funds
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div className="space-y-2">
+                        <p>
+                          Archive <strong>{selectedAccount.name}</strong>?
+                        </p>
+                        <p>
+                          This account will move to the Archive tab. Existing transactions will remain, but you won’t be able to use this account for new&nbsp;records.
+                        </p>
+                      </div>
+
+                      <div className="flex flex-wrap justify-end gap-2">
+                        <Button
+                          onClick={handleClose}
+                          disabled={isUpdating}
+                          intent="subtle"
+                        >
+                          Cancel
+                        </Button>
+
+                        <Button
+                          onClick={handleStatusModalConfrimation}
+                          disabled={isUpdating}
+                        >
+                          {isUpdating ? 'Archiving...' : 'Archive account'}
+                        </Button>
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+
+              {selectedAccount.status === 'archived' && (
+                <div className="space-y-4">
+                  <div className="space-y-2">
+                    <p>
+                      Restore <strong>{selectedAccount.name}</strong>?
+                    </p>
+                    <p>
+                      This account will move back to your active accounts and can be used for new records&nbsp;again.
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap justify-end gap-2">
+                    <Button
+                      onClick={handleClose}
+                      disabled={isUpdating}
+                      intent="subtle"
                     >
-                      {isUpdating ? 'Saving...' : 'Confirm Archive'}
-                    </button>
-                    <button onClick={handleClose} disabled={isUpdating}>
                       Cancel
-                    </button>
+                    </Button>
+
+                    <Button
+                      onClick={handleStatusModalConfrimation}
+                      disabled={isUpdating}
+                    >
+                      {isUpdating ? 'Restoring...' : 'Restore account'}
+                    </Button>
                   </div>
                 </div>
               )}
-              {selectedAccount.status === 'archived' && (
-                <div>
-                  <h3>Are you sure you want to unarchive {selectedAccount.name}?</h3>
-                  <p>The account will be moved back into your active lists.</p>
-                  <button onClick={handleStatusModalConfrimation} disabled={isUpdating}>
-                    {isUpdating ? 'Saving...' : 'Confirm Unarchive'}
-                  </button>
-                  <button onClick={handleClose} disabled={isUpdating}>Cancel</button>
-                </div>
-              )}
             </>
-          )}
+          )
+        }
       />
-
       <Modal
         isOpen={isDeleteOpen}
         onClose={handleClose}
-        title='Confirm Deletion'
+        title="Delete account"
         body={
           selectedAccount && (
-            <div>
-              <h3>Are you sure you want to delete {selectedAccount.name}?</h3>
-              <p>Warning: This cannot be undone. All data will be lost.</p>
-              <button onClick={handleDeleteModalConfirmation} disabled={isDeleting}>
-                {isDeleting ? 'Deleting...' : 'Confirm Deletion'}
-              </button>
-              <button onClick={handleClose} disabled={isDeleting}>Cancel</button>
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <p>
+                  Delete <strong>{selectedAccount.name}</strong>?
+                </p>
+                <p>
+                  This action can’t be undone. The account and its data will be <b>permanently&nbsp;removed.</b>
+                </p>
+              </div>
+
+              <div className="flex flex-wrap justify-end gap-2">
+                <Button
+                  onClick={handleClose}
+                  disabled={isDeleting}
+                  intent="subtle"
+                >
+                  Cancel
+                </Button>
+
+                <Button
+                  onClick={handleDeleteModalConfirmation}
+                  disabled={isDeleting}
+                  intent="danger"
+                >
+                  {isDeleting ? 'Deleting...' : 'Delete account'}
+                </Button>
+              </div>
             </div>
           )
         }
