@@ -131,7 +131,7 @@ function AccountList({ title, accounts }) {
                 <div className="space-y-4">
                   {selectedAccount.balance > 0.01 ? (
                     <>
-                      <div className="space-y-2">
+                      <div className="space-y-1">
                         <p>
                           <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
                         </p>
@@ -153,7 +153,7 @@ function AccountList({ title, accounts }) {
                         </Button>
 
                         <Button
-                          onClick={() => navigate('/transfers/new')}
+                          onClick={() => navigate('/transactions')}
                         >
                           Transfer funds
                         </Button>
