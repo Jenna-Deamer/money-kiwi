@@ -17,7 +17,7 @@ function Login() {
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
-      navigate('/dashboard');
+      navigate('/overview');
     }
   }, [isAuthenticated, isLoading, navigate]);
 
