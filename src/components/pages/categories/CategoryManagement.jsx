@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { updateCategorySchema } from '@/utils/validation/categorySchema';
 import { HexColorPicker } from 'react-colorful';
 import Modal from '@/components/shared/Modal';
+import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 
 function CategoryManagement() {
   const {
@@ -102,8 +103,11 @@ function CategoryManagement() {
   return (
     <>
       <section>
-        <h1>Your Categories</h1>
-        <Link to="/categories/form">Create Category</Link>
+        <div className='flex justify-between pb-1.5'>
+          <h1>Your Categories</h1>
+          <LinkButton to="/categories/form">Create Category</LinkButton>
+        </div>
+
         <TabButtons
           tabs={tabs}
           activeTab={activeTab}
@@ -111,8 +115,8 @@ function CategoryManagement() {
         />
 
         {activeTab === 'expense' && (
-          <div>
-            <h2>Expense</h2>
+          <div className='pt-4'>
+            <h2 className='pb-1.5'>Expense</h2>
             <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
               {parentExpense
                 ?.filter(parent => parent.name !== 'Uncategorized')
@@ -165,8 +169,8 @@ function CategoryManagement() {
         )}
 
         {activeTab === 'income' && (
-          <div>
-            <h2>Income</h2>
+          <div className='pt-4'>
+            <h2 className='pb-1.5'>Income</h2>
             <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
               {parentIncome
                 ?.filter(parent => parent.name !== 'Uncategorized')
@@ -217,8 +221,8 @@ function CategoryManagement() {
         )}
 
         {activeTab === 'transfer' && (
-          <div>
-            <h2>Transfer</h2>
+          <div className='pt-4'>
+            <h2 className='pb-1.5'>Transfer</h2>
             <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
               {parentTransfer
                 ?.filter(parent => parent.name !== 'Uncategorized')
