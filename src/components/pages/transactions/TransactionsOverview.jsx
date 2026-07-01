@@ -11,6 +11,7 @@ import Modal from '@/components/shared/Modal';
 import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
+import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 
 function TransactionOverview() {
   const { data: accounts, } = useAccounts();
@@ -46,10 +47,14 @@ function TransactionOverview() {
 
   return (
     <>
-      <div>
-        <h1>Transactions Overview</h1>
+      <section className='h-full'>
+        <h1 className='mb-4'>Transactions Overview</h1>
+
         {!hasAccounts ? (
-          <p>You need to create an account first.</p>
+          <div className='card text-center max-w-md'>
+            <p>You don’t have any financial accounts yet. Create an account to add your first transaction.</p>
+            <LinkButton to="/account/form" className='mt-2'>Create Account</LinkButton>
+          </div>
         ) : (
           <>
             <DatePicker
@@ -88,15 +93,12 @@ function TransactionOverview() {
               onAccountTypeChange={(val) => handleFilterChange('accountType', val)}
               onStatusChange={(val) => handleFilterChange('status', val)}
             />
-
-            <div>
-              {isLoading ? (
-                <div>Loading...</div>
-              ) : error ? (
-                <div>Error loading transactions.</div>
-              ) : (!transactions || transactions.length === 0) ? (
-                <div>No transactions found. Create one or try another filter.</div>
-              ) : (
+            {!transactions?.transactions || transactions.transactions.length === 0 ? (
+              <div className='card max-w-md text-center mx-auto mt-4'>
+                <p>No transactions found. Try another filter or <Link className="text-kiwi-primary underline" to="/transactions/form">create&nbsp;one</Link>.</p>
+              </div>
+            ) : (
+              <div>
                 <TransactionTable
                   transactionsData={transactions}
                   onUpdate={handleUpdate}
@@ -105,11 +107,11 @@ function TransactionOverview() {
                   setPage={setPage}
                   isPlaceholderData={isPlaceholderData}
                 />
-              )}
-            </div>
+              </div>
+            )}
           </>
         )}
-      </div>
+      </section>
 
       <Modal
         isOpen={isDeleteOpen}
