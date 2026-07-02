@@ -147,12 +147,12 @@ function TransactionTable({
         <p key={error.id} >{error.message}</p>
       </div>
     ))}
-      <table className='mt-6'>
-        <thead>
+      <table className='mt-6 mb-2  w-full bg-white'>
+        <thead className='border-b border-soft bg-gray-200'>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id}>
+                <th key={header.id} className='py-2 px-2'>
                   {header.isPlaceholder
                     ? null
                     : flexRender(
@@ -164,11 +164,11 @@ function TransactionTable({
             </tr>
           ))}
         </thead>
-        <tbody>
+        <tbody className='border-b border-soft'>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                <td key={cell.id} className='px-4 py-2'>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
             </tr>
           ))}

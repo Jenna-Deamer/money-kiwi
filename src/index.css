@@ -146,7 +146,14 @@
     }
 
 }
-/*Libs overrides*/
+/*CSS Overrides*/
+
+/*DatePicker icon spacing*/
 .react-datepicker__input-container input {
-  padding-left: 28px !important;
+    padding-left: 28px !important;
+}
+
+dialog::backdrop {
+    background-color: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(1px);
 }
