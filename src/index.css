@@ -93,7 +93,6 @@
     .input-standard:disabled {
         @apply bg-gray-100 text-gray-400 cursor-not-allowed;
     }
-
     .field-error {
         @apply text-xs flex flex-col mt-1 italic text-red-700;
     }

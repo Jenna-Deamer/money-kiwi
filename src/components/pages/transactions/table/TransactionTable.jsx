@@ -10,7 +10,7 @@ import DateCell from '@/components/pages/transactions/table/editableCells/DateCe
 import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
-import { Pencil,Trash2 } from 'lucide-react';
+import { Pencil, Trash2,ChevronRight,ChevronLeft } from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
 
 function TransactionTable({
@@ -56,9 +56,9 @@ function TransactionTable({
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
-        <div className='flex gap-4'justify-between>
-          <button onClick={() => onUpdate(row.original.id)} aria-label='Update Transaction' className='cursor-pointer'><Pencil/></button>
-          <button onClick={() => onDelete(row.original)} aria-label='Delete Transaction' className='cursor-pointer'><Trash2/></button>
+        <div className='flex gap-4' justify-between>
+          <button onClick={() => onUpdate(row.original.id)} aria-label='Update Transaction' className='cursor-pointer'><Pencil /></button>
+          <button onClick={() => onDelete(row.original)} aria-label='Delete Transaction' className='cursor-pointer'><Trash2 /></button>
         </div>
       ),
     },
@@ -173,34 +173,44 @@ function TransactionTable({
         </tbody>
       </table>
 
-      <div
-        className={`my-2 flex gap-3 transition-opacity duration-100 ease-in-out ${
-          isUnsavedData ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        <Button onClick={onSave}>Save</Button>
-        <Button onClick={onCancel} intent="subtle">Cancel</Button>
+      {isUnsavedData ? <div className='my-2'>
+        <Button onClick={onSave}>Save</Button> <Button onClick={onCancel} intent='subtle'>Cancel</Button>
       </div>
+        : null}
 
-      <div>
-        <span>Current Page: {page + 1}</span>
-        <button
-          onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-          disabled={page === 0}
-        >
-          Previous Page
-        </button>
-        <button
-          onClick={() => {
-            if (!isPlaceholderData && transactionsData.totalPages) {
-              setPage((prev) => prev + 1);
-            }
-          }}
-          disabled={isPlaceholderData || page >= transactionsData?.totalPages - 1}
-        >
-          Next Page
-        </button>
-      </div >
+      <div className="flex flex-wrap items-center">
+        <span className='mr-4'>
+          Current Page: <b>{page + 1}</b>
+        </span>
+
+        {transactionsData?.totalPages > 0 && (
+          <div className='flex gap-2 mt-2'>
+            <Button
+              intent="subtle"
+              onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
+              disabled={page === 0}
+              leftIcon={<ChevronLeft />}
+              size='sm'
+            >
+              Previous
+            </Button>
+
+            <Button
+              intent="subtle"
+              onClick={() => {
+                if (!isPlaceholderData && transactionsData.totalPages) {
+                  setPage((prev) => prev + 1);
+                }
+              }}
+              disabled={isPlaceholderData || page >= transactionsData?.totalPages - 1}
+              rightIcon={<ChevronRight />}
+              size='sm'
+                          >
+              Next
+            </Button>
+          </div>
+        )}
+      </div>
 
     </>
   );

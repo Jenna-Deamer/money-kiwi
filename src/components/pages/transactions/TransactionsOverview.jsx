@@ -48,7 +48,7 @@ function TransactionOverview() {
 
   return (
     <>
-      <section className='h-full'>
+      <section>
         <div className='flex justify-between mb-4'>
           <div>
             <h1 className='mb-0.5'>Transactions Overview</h1>
