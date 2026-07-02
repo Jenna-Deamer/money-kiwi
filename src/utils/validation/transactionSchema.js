@@ -8,9 +8,16 @@ export const transactionBaseSchema = z.object({
   type: z.enum(VALID_TYPES, {
     message: 'Please select a valid type',
   }),
-  amount: z.coerce.number()
-    .min(0.01, 'Amount must be at least $0.01')
-    .max(99999999, 'Amount cannot exceed $99,999,999'),
+  amount: z.preprocess(
+    (val) => {
+      if (val === '' || val === null || val === undefined) return undefined;
+      const num = Number(val);
+      return isNaN(num) ? undefined : num;
+    },
+    z.number({ message: 'Please enter a valid amount' })
+      .min(0.01, 'Amount must be at least $0.01')
+      .max(99999999, 'Amount cannot exceed $99,999,999')
+  ),
   date: z.date().or(z.string().pipe(z.coerce.date())),
   categoryId: z.string().optional().nullable(),
   accountId: z.string().uuid('Please select an account'),

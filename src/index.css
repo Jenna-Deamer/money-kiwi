@@ -149,7 +149,7 @@
 /*CSS Overrides*/
 
 /*DatePicker icon spacing*/
-.react-datepicker__input-container input {
+.react-datepicker__input-container .date-filter {
     padding-left: 28px !important;
 }
 

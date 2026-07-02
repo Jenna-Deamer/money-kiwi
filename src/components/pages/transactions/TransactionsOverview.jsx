@@ -52,7 +52,7 @@ function TransactionOverview() {
           <div>
             <h1 className='mb-0.5'>Transactions Overview</h1>
             {hasAccounts && <DatePicker
-              className='input-standard'
+              className='input-standard date-filter'
               selectsRange={true}
               startDate={pickerRange[0]}
               endDate={pickerRange[1]}
