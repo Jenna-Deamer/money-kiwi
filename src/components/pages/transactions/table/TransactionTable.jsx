@@ -11,6 +11,7 @@ import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
 import { Pencil,Trash2 } from 'lucide-react';
+import Button from '@/components/shared/ui/buttons/Button';
 
 function TransactionTable({
   transactionsData,
@@ -144,7 +145,7 @@ function TransactionTable({
         <p key={error.id} >{error.message}</p>
       </div>
     ))}
-      <table className='mt-6 mb-2 table-fixed w-full bg-white'>
+      <table className='mt-6 mb-1.5 table-fixed w-full bg-white'>
         <thead className='border-b border-soft bg-gray-200'>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -172,10 +173,14 @@ function TransactionTable({
         </tbody>
       </table>
 
-      {isUnsavedData ? <div>
-        <button onClick={onSave}>Save</button> <button onClick={onCancel}>Cancel</button>
+      <div
+        className={`my-2 flex gap-3 transition-opacity duration-100 ease-in-out ${
+          isUnsavedData ? 'opacity-100' : 'opacity-0 pointer-events-none'
+        }`}
+      >
+        <Button onClick={onSave}>Save</Button>
+        <Button onClick={onCancel} intent="subtle">Cancel</Button>
       </div>
-        : null}
 
       <div>
         <span>Current Page: {page + 1}</span>

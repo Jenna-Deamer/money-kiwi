@@ -16,7 +16,7 @@ export const transactionBaseSchema = z.object({
     },
     z.number({ message: 'Please enter a valid amount' })
       .min(0.01, 'Amount must be at least $0.01')
-      .max(99999999, 'Amount cannot exceed $99,999,999')
+      .max(99999999, 'Invalid Amount')
   ),
   date: z.date().or(z.string().pipe(z.coerce.date())),
   categoryId: z.string().optional().nullable(),
