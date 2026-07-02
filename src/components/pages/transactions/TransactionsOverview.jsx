@@ -12,6 +12,7 @@ import { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
+import Button from '@/components/shared/ui/buttons/Button';
 
 function TransactionOverview() {
   const { data: accounts, } = useAccounts();
@@ -86,7 +87,7 @@ function TransactionOverview() {
           </div>
         ) : (
           <>
-              <TransactionTableFilters
+            <TransactionTableFilters
               search={filters.search}
               category={filters.category}
               account={filters.account}
@@ -123,19 +124,40 @@ function TransactionOverview() {
       <Modal
         isOpen={isDeleteOpen}
         onClose={handleClose}
+        title='Delete transaction'
         body={
           activeTransaction && (
-            <div>
-              <h3>Are you sure you want to delete {activeTransaction.memo}?</h3>
-              <p>Transaction amount: <strong>${activeTransaction.amount.toFixed(2)}</strong></p>
-              <p>Account: <strong>{activeTransaction.account?.name || 'Unknown Account'}</strong></p>
-              <p>Warning: This cannot be undone. The transaction will be permanently removed.</p>
-              <button onClick={handleDeleteModalConfirmation} disabled={isDeleting}>
-                {isDeleting ? 'Deleting...' : 'Confirm Deletion'}
-              </button>
-              <button onClick={handleClose} disabled={isDeleting}>Cancel</button>
+            <div className='space-y-2'>
+              <p>
+                Delete transaction <strong>{activeTransaction.memo}</strong>?
+              </p>
+              <p>
+                This action can’t be undone.
+              </p>
+              <p>
+                If this transaction was created from a recurring template, deleting it here won’t stop future transactions. Delete the template in <Link to='/recurring' className='underline'>Recurring Templates</Link> instead.
+              </p>
             </div>
           )
+        }
+        footer={
+          <>
+            <Button
+              onClick={handleClose}
+              disabled={isDeleting}
+              intent='subtle'
+            >
+              Cancel
+            </Button>
+
+            <Button
+              onClick={handleDeleteModalConfirmation}
+              disabled={isDeleting}
+              intent='danger'
+            >
+              {isDeleting ? 'Deleting...' : 'Delete Transaction'}
+            </Button>
+          </>
         }
       />
     </>

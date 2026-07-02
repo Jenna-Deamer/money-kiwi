@@ -39,13 +39,15 @@ function Modal({ isOpen, onClose, title = 'Notice', body, footer }) {
         </button>
       </header>
 
-      <section>
+      <section className='space-y-4'>
         {body}
       </section>
 
-      {footer && <footer>
-        {footer}
-      </footer>}
+      {footer && (
+         <footer className='mt-6 flex flex-wrap justify-end gap-2'>
+           {footer}
+         </footer>
+       )}
 
     </dialog>
   );

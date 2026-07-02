@@ -24,14 +24,15 @@ function AccountList({ title, accounts }) {
         setSelectedAccount(null);
         setIsAccountOptionsOpen(false);
       }
-    }
+    };
+
     if (!isAccountOptionsOpen) return;
     window.addEventListener('mousedown', handleOutsideAccountMenuClick);
 
     return () => {
       window.removeEventListener('mousedown', handleOutsideAccountMenuClick);
     };
-  }, [accountMenuRef, isAccountOptionsOpen])
+  }, [accountMenuRef, isAccountOptionsOpen]);
 
   const handleClose = () => {
     setSelectedAccount(null);
@@ -41,42 +42,58 @@ function AccountList({ title, accounts }) {
   };
 
   const handleAccountOptionsMenu = (account) => {
-    if (isAccountOptionsOpen && selectedAccount.id === account.id) {
+    if (isAccountOptionsOpen && selectedAccount?.id === account.id) {
       setIsAccountOptionsOpen(false);
       setSelectedAccount(null);
     } else {
-      setSelectedAccount(account)
-      setIsAccountOptionsOpen(true)
+      setSelectedAccount(account);
+      setIsAccountOptionsOpen(true);
     }
   };
 
   const handleStatusModalConfrimation = () => {
     const newStatus = selectedAccount.status === 'active' ? 'archived' : 'active';
 
-    updateStatus({ id: selectedAccount.id, status: newStatus },
+    updateStatus(
+      { id: selectedAccount.id, status: newStatus },
       { onSuccess: handleClose }
     );
   };
 
   const handleDeleteModalConfirmation = () => {
-    deleteAccount({ id: selectedAccount.id },
+    deleteAccount(
+      { id: selectedAccount.id },
       { onSuccess: handleClose }
     );
   };
 
   if (accounts.length === 0) return null;
+
   return (
     <section className='mb-4'>
       <h2 className='border-b border-soft mb-4'>{title}</h2>
+
       {accounts.map((account) => (
         <div key={account.id} className='card p-4 mb-2 max-w-lg'>
           <div>
             <div className='flex justify-between'>
-              <h3 className='pb-1.5'>{account.institution} - {account.name}</h3>
+              <h3 className='pb-1.5'>
+                {account.institution} - {account.name}
+              </h3>
+
               <div className='flex gap-2.5'>
                 <div className='relative'>
-                  <button className='cursor-pointer' ref={isAccountOptionsOpen && selectedAccount?.id === account.id ? accountMenuRef : null} onClick={() => handleAccountOptionsMenu(account)} aria-label='Account Options'><EllipsisVertical /></button>
-                  <ul  className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible  opacity-0'}
+                  <button
+                    className='cursor-pointer'
+                    ref={isAccountOptionsOpen && selectedAccount?.id === account.id ? accountMenuRef : null}
+                    onClick={() => handleAccountOptionsMenu(account)}
+                    aria-label='Account Options'
+                  >
+                    <EllipsisVertical />
+                  </button>
+
+                  <ul
+                    className={`${isAccountOptionsOpen && account.id === selectedAccount?.id ? 'visible opacity-100' : 'invisible opacity-0'}
                     absolute
                     top-6
                     right-2
@@ -88,20 +105,36 @@ function AccountList({ title, accounts }) {
                     px-2
                     transition-all
                     duration-300
-                    rounded
-                    `}>
-                    <li className='mb-1 border-b'><Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>Edit</Link></li>
+                    rounded`}
+                  >
                     <li className='mb-1 border-b'>
-                      <button className='cursor-pointer' onClick={() => {
-                        setIsStatusOpen(true);
-                        setSelectedAccount(account);
-                      }}>{account.status === 'active' ? 'Archive' : 'Unarchive'}</button>
+                      <Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>
+                        Edit
+                      </Link>
                     </li>
+
                     <li className='mb-1 border-b'>
-                      <button className='cursor-pointer' onClick={() => {
-                        setIsDeleteOpen(true);
-                        setSelectedAccount(account);
-                      }}>Delete</button>
+                      <button
+                        className='cursor-pointer'
+                        onClick={() => {
+                          setIsStatusOpen(true);
+                          setSelectedAccount(account);
+                        }}
+                      >
+                        {account.status === 'active' ? 'Archive' : 'Unarchive'}
+                      </button>
+                    </li>
+
+                    <li className='mb-1 border-b'>
+                      <button
+                        className='cursor-pointer'
+                        onClick={() => {
+                          setIsDeleteOpen(true);
+                          setSelectedAccount(account);
+                        }}
+                      >
+                        Delete
+                      </button>
                     </li>
                   </ul>
                 </div>
@@ -109,9 +142,13 @@ function AccountList({ title, accounts }) {
             </div>
 
             <div className='flex gap-1'>
-              <span className='badge border-black/10 bg-black/3 '>{formatSubCategory(account.subCategory)}</span>
+              <span className='badge border-black/10 bg-black/3'>
+                {formatSubCategory(account.subCategory)}
+              </span>
               {account.registration !== 'N/A' ? (
-                <span className='badge border-black/10 bg-black/3 '>{account.registration}</span>
+                <span className='badge border-black/10 bg-black/3'>
+                  {account.registration}
+                </span>
               ) : null}
             </div>
 
@@ -128,140 +165,129 @@ function AccountList({ title, accounts }) {
           selectedAccount && (
             <>
               {selectedAccount.status === 'active' && (
-                <div className="space-y-4">
+                <>
                   {selectedAccount.balance > 0.01 ? (
-                    <>
-                      <div className="space-y-1">
-                        <p>
-                          <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
-                        </p>
-                        <p>
-                          This account still has a balance. Transfer or remove the remaining funds before archiving&nbsp;it.
-                        </p>
-                        <p>
-                          Current balance: <strong>${selectedAccount.balance.toFixed(2)}</strong>
-                        </p>
-                      </div>
-
-                      <div className="flex flex-wrap justify-end gap-2">
-                        <Button
-                          onClick={handleClose}
-                          disabled={isUpdating}
-                          intent="subtle"
-                        >
-                          Cancel
-                        </Button>
-
-                        <Button
-                          onClick={() => navigate('/transactions')}
-                        >
-                          Transfer funds
-                        </Button>
-                      </div>
-                    </>
+                    <div className="space-y-1">
+                      <p>
+                        <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
+                      </p>
+                      <p>
+                        This account still has a balance. Transfer or remove the remaining funds before archiving&nbsp;it.
+                      </p>
+                      <p>
+                        Current balance: <strong>${selectedAccount.balance.toFixed(2)}</strong>
+                      </p>
+                    </div>
                   ) : (
-                    <>
-                      <div className="space-y-2">
-                        <p>
-                          Archive <strong>{selectedAccount.name}</strong>?
-                        </p>
-                        <p>
-                          This account will move to the Archive tab. Existing transactions will remain, but you won’t be able to use this account for new&nbsp;records.
-                        </p>
-                      </div>
-
-                      <div className="flex flex-wrap justify-end gap-2">
-                        <Button
-                          onClick={handleClose}
-                          disabled={isUpdating}
-                          intent="subtle"
-                        >
-                          Cancel
-                        </Button>
-
-                        <Button
-                          onClick={handleStatusModalConfrimation}
-                          disabled={isUpdating}
-                        >
-                          {isUpdating ? 'Archiving...' : 'Archive account'}
-                        </Button>
-                      </div>
-                    </>
+                    <div className="space-y-2">
+                      <p>
+                        Archive <strong>{selectedAccount.name}</strong>?
+                      </p>
+                      <p>
+                        This account will move to the Archive tab. Existing transactions will remain, but you won’t be able to use this account for new&nbsp;records.
+                      </p>
+                    </div>
                   )}
-                </div>
+                </>
               )}
 
               {selectedAccount.status === 'archived' && (
-                <div className="space-y-4">
-                  <div className="space-y-2">
-                    <p>
-                      Restore <strong>{selectedAccount.name}</strong>?
-                    </p>
-                    <p>
-                      This account will move back to your active accounts and can be used for new records&nbsp;again.
-                    </p>
-                  </div>
-
-                  <div className="flex flex-wrap justify-end gap-2">
-                    <Button
-                      onClick={handleClose}
-                      disabled={isUpdating}
-                      intent="subtle"
-                    >
-                      Cancel
-                    </Button>
-
-                    <Button
-                      onClick={handleStatusModalConfrimation}
-                      disabled={isUpdating}
-                    >
-                      {isUpdating ? 'Restoring...' : 'Restore account'}
-                    </Button>
-                  </div>
+                <div className="space-y-2">
+                  <p>
+                    Restore <strong>{selectedAccount.name}</strong>?
+                  </p>
+                  <p>
+                    This account will move back to your active accounts and can be used for new records&nbsp;again.
+                  </p>
                 </div>
               )}
             </>
           )
         }
+        footer={
+          selectedAccount ? (
+            <>
+              {selectedAccount.status === 'active' && selectedAccount.balance > 0.01 ? (
+                <>
+                  <Button
+                    onClick={handleClose}
+                    disabled={isUpdating}
+                    intent="subtle"
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button onClick={() => navigate('/transactions')}>
+                    Transfer funds
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={handleClose}
+                    disabled={isUpdating}
+                    intent="subtle"
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    onClick={handleStatusModalConfrimation}
+                    disabled={isUpdating}
+                  >
+                    {isUpdating
+                      ? selectedAccount.status === 'active'
+                        ? 'Archiving...'
+                        : 'Restoring...'
+                      : selectedAccount.status === 'active'
+                        ? 'Archive account'
+                        : 'Restore account'}
+                  </Button>
+                </>
+              )}
+            </>
+          ) : null
+        }
       />
       <Modal
         isOpen={isDeleteOpen}
         onClose={handleClose}
-        title="Delete account"
+        title='Delete Account'
         body={
           selectedAccount && (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <p>
-                  Delete <strong>{selectedAccount.name}</strong>?
-                </p>
-                <p>
-                  This action can’t be undone. The account and its data will be <b>permanently&nbsp;removed.</b>
-                </p>
-              </div>
-
-              <div className="flex flex-wrap justify-end gap-2">
-                <Button
-                  onClick={handleClose}
-                  disabled={isDeleting}
-                  intent="subtle"
-                >
-                  Cancel
-                </Button>
-
-                <Button
-                  onClick={handleDeleteModalConfirmation}
-                  disabled={isDeleting}
-                  intent="danger"
-                >
-                  {isDeleting ? 'Deleting...' : 'Delete account'}
-                </Button>
-              </div>
+            <div className='space-y-2'>
+              <p>
+                Delete <strong>{selectedAccount.name}</strong>?
+              </p>
+              <p>
+                This action can’t be undone. The account and its data will be <b>permanently removed.</b>
+              </p>
             </div>
           )
         }
+        footer={
+          selectedAccount ? (
+            <>
+              <Button
+                onClick={handleClose}
+                disabled={isDeleting}
+                intent='subtle'
+              >
+                Cancel
+              </Button>
+
+              <Button
+                onClick={handleDeleteModalConfirmation}
+                disabled={isDeleting}
+                intent='danger'
+              >
+                {isDeleting ? 'Deleting...' : 'Delete account'}
+              </Button>
+            </>
+          ) : null
+        }
       />
-    </section >
+    </section>
   );
 }
 
