@@ -18,9 +18,9 @@ const LinkButton = ({
       to={link}
       {...props}
     >   <>
-          {leftIcon && <span className="mr-2 shrink-0">{leftIcon}</span>}
+          {leftIcon && <span className='mr-2 shrink-0'>{leftIcon}</span>}
           {children}
-          {rightIcon && <span className="ml-2 shrink-0">{rightIcon}</span>}
+          {rightIcon && <span className='ml-2 shrink-0'>{rightIcon}</span>}
         </>
 
     </Link>

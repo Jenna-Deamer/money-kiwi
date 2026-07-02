@@ -8,7 +8,7 @@ import { useChildrenCategories } from '@/hooks/useCategory';
 import { useAccounts } from '@/hooks/useAccounts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { toLocalDateString } from '@/utils/dateHelper';
+import { formatDateToIso } from '@/utils/dateHelper';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
 
@@ -72,7 +72,7 @@ function TransactionForm() {
     setServerError('');
 
     const formattedDate = formData.date instanceof Date
-      ? toLocalDateString(formData.date)
+      ? formatDateToIso(formData.date)
       : formData.date;
 
     const payload = isEditMode
@@ -129,7 +129,7 @@ function TransactionForm() {
 
           <label>Amount</label>
           <div className='input-group'>
-            <input type='number' step="0.01" {...register('amount')} placeholder='0.00' />
+            <input type='number' step='0.01' {...register('amount')} placeholder='0.00' />
             {errors.amount && <span className='error'>{errors.amount.message}</span>}
           </div>
         </fieldset>
@@ -202,15 +202,15 @@ function TransactionForm() {
           <div className='input-group'>
             <Controller
               control={control}
-              name="date"
+              name='date'
               render={({ field: { onChange, onBlur, value, ref } }) => (
                 <DatePicker
                   onChange={onChange}
                   onBlur={onBlur}
                   selected={value}
                   inputRef={ref}
-                  dateFormat="dd MMM yyyy"
-                  placeholderText="Select date"
+                  dateFormat='dd MMM yyyy'
+                  placeholderText='Select date'
                 />
               )}
             />
@@ -244,15 +244,15 @@ function TransactionForm() {
               <div className='input-group'>
                 <Controller
                   control={control}
-                  name="endDate"
+                  name='endDate'
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <DatePicker
                       onChange={onChange}
                       onBlur={onBlur}
                       selected={value}
                       inputRef={ref}
-                      dateFormat="dd MMM yyyy"
-                      placeholderText="Select end date"
+                      dateFormat='dd MMM yyyy'
+                      placeholderText='Select end date'
                     />
                   )}
                 />

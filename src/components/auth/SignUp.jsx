@@ -59,7 +59,7 @@ function SignUp() {
       <div className='card w-full max-w-sm'>
         <h1 className='text-center my-4'>Sign Up</h1>
         {serverError && (
-          <div className="form-error">
+          <div className='form-error'>
             <p>{serverError}</p></div>)}
 
 
@@ -72,7 +72,7 @@ function SignUp() {
             error={errors.name?.message}
             disabled={isSubmitting}
           >
-            <input {...register('name')} placeholder="Name" className='input-standard' />
+            <input {...register('name')} placeholder='Name' className='input-standard' />
           </FormField>
           <FormField
             label='Email'
@@ -80,7 +80,7 @@ function SignUp() {
             error={errors.email?.message}
             disabled={isSubmitting}
           >
-            <input {...register('email')} placeholder="email@somewhere.com" className='input-standard' />
+            <input {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
           </FormField>
           <fieldset
             disabled={isSubmitting}
@@ -88,42 +88,42 @@ function SignUp() {
           >
 
             <FormField
-              label="Password"
+              label='Password'
               htmlFor='password'
               error={errors.password?.message}
               disabled={isSubmitting}
             >
               <input
-                type="password"
+                type='password'
                 {...register('password')}
-                placeholder="********"
+                placeholder='********'
                 className='input-standard'
               />
             </FormField>
             <FormField
-              label="Confirm Password"
+              label='Confirm Password'
               htmlFor='confirmPassword'
               error={errors.confirmPassword?.message}
               disabled={isSubmitting}
             >
               <input
-                type="password"
+                type='password'
                 {...register('confirmPassword')}
-                placeholder="Confirm password"
+                placeholder='Confirm password'
                 className='input-standard'
               />
             </FormField>
 
             <div className='text-center my-4'>
-              <Button type="submit" intent="primary" loadingText="Creating Account..." isLoading={isSubmitting}>
+              <Button type='submit' intent='primary' loadingText='Creating Account...' isLoading={isSubmitting}>
                 Sign Up
               </Button>
             </div>
           </fieldset>
         </form>
-        <div className="mt-1 text-sm text-txt-muted text-center">
+        <div className='mt-1 text-sm text-txt-muted text-center'>
           <p>
-            Already have an&nbsp;account? <Link to="/login" className="text-kiwi-primary underline">Login</Link>
+            Already have an&nbsp;account? <Link to='/login' className='text-kiwi-primary underline'>Login</Link>
           </p>
         </div>
       </div>

@@ -56,19 +56,19 @@ function TransactionTable({
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
-        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+        <div className='flex flex-wrap items-center justify-center md:justify-start gap-4'>
           <button
             onClick={() => onUpdate(row.original.id)}
-            aria-label="Update Transaction"
-            className="cursor-pointer"
+            aria-label='Update Transaction'
+            className='cursor-pointer'
           >
             <Pencil />
           </button>
 
           <button
             onClick={() => onDelete(row.original)}
-            aria-label="Delete Transaction"
-            className="cursor-pointer"
+            aria-label='Delete Transaction'
+            className='cursor-pointer'
           >
             <Trash2 />
           </button>
@@ -158,7 +158,7 @@ function TransactionTable({
         <p key={error.id} >{error.message}</p>
       </div>
     ))}
-      <table className='mt-6 mb-1.5 table-fixed w-full bg-white'>
+      <table className='mb-1.5 table-fixed w-full bg-white'>
         <thead className='border-b border-soft bg-gray-200'>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
@@ -191,7 +191,7 @@ function TransactionTable({
       </div>
         : null}
 
-      <div className="flex flex-wrap items-center">
+      <div className='flex flex-wrap items-center'>
         <span className='mr-4'>
           Current Page: <b>{page + 1}</b>
         </span>
@@ -199,7 +199,7 @@ function TransactionTable({
         {transactionsData?.totalPages > 1 && (
           <div className='flex gap-2 mt-2'>
             <Button
-              intent="subtle"
+              intent='subtle'
               onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
               disabled={page === 0}
               leftIcon={<ChevronLeft />}
@@ -209,7 +209,7 @@ function TransactionTable({
             </Button>
 
             <Button
-              intent="subtle"
+              intent='subtle'
               onClick={() => {
                 if (!isPlaceholderData && transactionsData.totalPages) {
                   setPage((prev) => prev + 1);

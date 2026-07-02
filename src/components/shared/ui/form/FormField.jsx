@@ -1,6 +1,6 @@
 const FormField = ({ label, error, htmlFor, children }) => {
   return (
-    <div className="my-3">
+    <div className='my-3'>
       {label && (
       <label htmlFor={htmlFor} className='flex flex-col'>
         {label}

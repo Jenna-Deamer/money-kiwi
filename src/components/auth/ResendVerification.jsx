@@ -47,24 +47,24 @@ function ResendVerification() {
         <p className='text-center'>Didn’t get the email or your link expired? Enter your address below and we’ll send a new verification&nbsp;link.</p>
         <form onSubmit={handleSubmit}>
           <FormField
-            label="Email"
-            htmlFor="email"
+            label='Email'
+            htmlFor='email'
             disabled={isSubmitting}
           >
             <input
               className='input-standard'
-              type="email"
+              type='email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
-              placeholder="your@email.com"
+              placeholder='your@email.com'
             />
           </FormField>
           <div className='mt-4 text-center flex flex-col items-center gap-2'>
-            <Button type="submit" disabled={isSubmitting} className='max-w-2'>
+            <Button type='submit' disabled={isSubmitting} className='max-w-2'>
               {isSubmitting ? 'Sending...' : 'Send Link'}
             </Button>
-            <Link to='/login' className="text-kiwi-primary underline">Back to Login</Link>
+            <Link to='/login' className='text-kiwi-primary underline'>Back to Login</Link>
           </div>
 
         </form>

@@ -47,7 +47,7 @@ function ForgotPassword() {
     <section className='flex flex-col justify-center items-center h-full'>
       <div className='card w-full max-w-md'>
         <div className='text-center mt-4'>
-          <h1 className="mb-1">Forgot your&nbsp;password?</h1>
+          <h1 className='mb-1'>Forgot your&nbsp;password?</h1>
           <p>Enter your email address and we&apos;ll send you a reset&nbsp;link.</p>
         </div>
 
@@ -59,7 +59,7 @@ function ForgotPassword() {
           >
             <input
               type='email'
-              placeholder="Email"
+              placeholder='Email'
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
@@ -68,7 +68,7 @@ function ForgotPassword() {
           </FormField>
 
           <div className='text-center mb-4'>
-            <Button type="submit" intent="primary" width='comfy' loadingText="Submitting..." disabled={isSubmitting}>
+            <Button type='submit' intent='primary' width='comfy' loadingText='Submitting...' disabled={isSubmitting}>
               {isSubmitting ? 'Submitting...' : 'Send Reset Link'}
             </Button>
           </div>

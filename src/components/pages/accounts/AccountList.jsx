@@ -167,7 +167,7 @@ function AccountList({ title, accounts }) {
               {selectedAccount.status === 'active' && (
                 <>
                   {selectedAccount.balance > 0.01 ? (
-                    <div className="space-y-1">
+                    <div className='space-y-1'>
                       <p>
                         <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
                       </p>
@@ -179,7 +179,7 @@ function AccountList({ title, accounts }) {
                       </p>
                     </div>
                   ) : (
-                    <div className="space-y-2">
+                    <div className='space-y-2'>
                       <p>
                         Archive <strong>{selectedAccount.name}</strong>?
                       </p>
@@ -192,7 +192,7 @@ function AccountList({ title, accounts }) {
               )}
 
               {selectedAccount.status === 'archived' && (
-                <div className="space-y-2">
+                <div className='space-y-2'>
                   <p>
                     Restore <strong>{selectedAccount.name}</strong>?
                   </p>
@@ -212,7 +212,7 @@ function AccountList({ title, accounts }) {
                   <Button
                     onClick={handleClose}
                     disabled={isUpdating}
-                    intent="subtle"
+                    intent='subtle'
                   >
                     Cancel
                   </Button>
@@ -226,7 +226,7 @@ function AccountList({ title, accounts }) {
                   <Button
                     onClick={handleClose}
                     disabled={isUpdating}
-                    intent="subtle"
+                    intent='subtle'
                   >
                     Cancel
                   </Button>

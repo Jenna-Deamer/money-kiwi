@@ -6,7 +6,7 @@ import { recurringTemplateSchema } from '@/utils/validation/recurringTemplateSch
 import { useUpdateRecurringTransaction } from '@/hooks/useRecurringTransaction';
 import { useChildrenCategories } from '@/hooks/useCategory';
 import { useAccounts } from '@/hooks/useAccounts';
-import { toLocalDateString, stringToDateObject } from '@/utils/dateHelper';
+import { formatDateToIso, parseIsoDateToLocalDate } from '@/utils/dateHelper';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
@@ -46,8 +46,8 @@ function UpdateTemplateForm({ template, onClose }) {
     const normalized = { ...template };
 
     normalized.amount = normalized.amount.toFixed(2);
-    normalized.startDate = stringToDateObject(normalized.startDate);
-    normalized.endDate = stringToDateObject(normalized.endDate);
+    normalized.startDate = parseIsoDateToLocalDate(normalized.startDate);
+    normalized.endDate = parseIsoDateToLocalDate(normalized.endDate);
 
     reset(normalized);
 
@@ -64,21 +64,21 @@ function UpdateTemplateForm({ template, onClose }) {
 
     // convert dates back to str for backend
     const formattedStartDate = formData.startDate instanceof Date
-      ? toLocalDateString(formData.startDate)
+      ? formatDateToIso(formData.startDate)
       : formData.startDate;
     const formattedEndDate = formData.endDate instanceof Date
-      ? toLocalDateString(formData.endDate)
+      ? formatDateToIso(formData.endDate)
       : formData.endDate;
 
-    const payload = { ...formData, id: template.id, startDate: formattedStartDate, endDate: formattedEndDate }
+    const payload = { ...formData, id: template.id, startDate: formattedStartDate, endDate: formattedEndDate };
 
     updateTemplate(payload, {
       onSuccess: () => onClose(),
       onError: (error) => setServerError(error.message)
-    })
+    });
   };
 
-  if (isLoadingAccounts || isLoadingCategories) return <p>Loading template details...</p>
+  if (isLoadingAccounts || isLoadingCategories) return <p>Loading template details...</p>;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -113,7 +113,7 @@ function UpdateTemplateForm({ template, onClose }) {
 
         <label>Amount</label>
         <div className='input-group'>
-          <input type='number' step="0.01" {...register('amount')} placeholder='0.00' />
+          <input type='number' step='0.01' {...register('amount')} placeholder='0.00' />
           {errors.amount && <span className='error'>{errors.amount.message}</span>}
         </div>
       </fieldset>
@@ -187,15 +187,15 @@ function UpdateTemplateForm({ template, onClose }) {
         <div className='input-group'>
           <Controller
             control={control}
-            name="startDate"
+            name='startDate'
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <DatePicker
                 onChange={onChange}
                 onBlur={onBlur}
                 selected={value}
                 inputRef={ref}
-                dateFormat="dd MMM yyyy"
-                placeholderText="Select date"
+                dateFormat='dd MMM yyyy'
+                placeholderText='Select date'
               />
             )}
           />
@@ -220,15 +220,15 @@ function UpdateTemplateForm({ template, onClose }) {
         <div className='input-group'>
           <Controller
             control={control}
-            name="endDate"
+            name='endDate'
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <DatePicker
                 onChange={onChange}
                 onBlur={onBlur}
                 selected={value}
                 inputRef={ref}
-                dateFormat="dd MMM yyyy"
-                placeholderText="Select end date"
+                dateFormat='dd MMM yyyy'
+                placeholderText='Select end date'
               />
             )}
           />
@@ -240,7 +240,7 @@ function UpdateTemplateForm({ template, onClose }) {
         Update Template
       </button>
     </form>
-  )
+  );
 }
 
 export default UpdateTemplateForm;

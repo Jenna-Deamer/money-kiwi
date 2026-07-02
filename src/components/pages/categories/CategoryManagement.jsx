@@ -105,7 +105,7 @@ function CategoryManagement() {
       <section>
         <div className='flex justify-between pb-1.5'>
           <h1>Your Categories</h1>
-          <LinkButton to="/categories/form">Create Category</LinkButton>
+          <LinkButton to='/categories/form'>Create Category</LinkButton>
         </div>
 
         <TabButtons
@@ -117,12 +117,12 @@ function CategoryManagement() {
         {activeTab === 'expense' && (
           <div className='pt-4'>
             <h2 className='pb-1.5'>Expense</h2>
-            <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
+            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
               {parentExpense
                 ?.filter(parent => parent.name !== 'Uncategorized')
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((parent) => (
-                  <li key={parent.id} className="rounded border p-4">
+                  <li key={parent.id} className='rounded border p-4'>
                     <div>
                       <h4 className='font-bold'>{parent.name}</h4>
                       <p>{parent.color}</p>
@@ -130,7 +130,7 @@ function CategoryManagement() {
                       <button onClick={() => openDeleteModal(parent)}>Delete</button>
                     </div>
 
-                    <ul className="mt-2 space-y-1">
+                    <ul className='mt-2 space-y-1'>
                       {childrenExpenses
                         ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                         .sort((a, b) => a.name.localeCompare(b.name))
@@ -147,9 +147,9 @@ function CategoryManagement() {
 
               {parentExpense
                 ?.filter(parent => parent.name === 'Uncategorized')
-                .map(parent => <li key={parent.id} className="rounded border p-4"> <h4 className='font-bold'>{parent.name}</h4>
+                .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
 
-                  <ul className="mt-2 space-y-1">
+                  <ul className='mt-2 space-y-1'>
                     {childrenExpenses?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
@@ -171,12 +171,12 @@ function CategoryManagement() {
         {activeTab === 'income' && (
           <div className='pt-4'>
             <h2 className='pb-1.5'>Income</h2>
-            <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
+            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
               {parentIncome
                 ?.filter(parent => parent.name !== 'Uncategorized')
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((parent) => (
-                  <li key={parent.id} className="rounded border p-4">
+                  <li key={parent.id} className='rounded border p-4'>
                     <div>
                       <h4 className='font-bold'>{parent.name}</h4>
                       <p>{parent.color}</p>
@@ -184,7 +184,7 @@ function CategoryManagement() {
                       <button onClick={() => openDeleteModal(parent)}>Delete</button>
                     </div>
 
-                    <ul className="mt-2 space-y-1">
+                    <ul className='mt-2 space-y-1'>
                       {childrenIncome
                         ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                         .sort((a, b) => a.name.localeCompare(b.name))
@@ -200,9 +200,9 @@ function CategoryManagement() {
                 ))}
               {parentIncome
                 ?.filter(parent => parent.name === 'Uncategorized')
-                .map(parent => <li key={parent.id} className="rounded border p-4"> <h4 className='font-bold'>{parent.name}</h4>
+                .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
 
-                  <ul className="mt-2 space-y-1">
+                  <ul className='mt-2 space-y-1'>
                     {childrenIncome?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
@@ -223,12 +223,12 @@ function CategoryManagement() {
         {activeTab === 'transfer' && (
           <div className='pt-4'>
             <h2 className='pb-1.5'>Transfer</h2>
-            <ul className="grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2">
+            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
               {parentTransfer
                 ?.filter(parent => parent.name !== 'Uncategorized')
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((parent) => (
-                  <li key={parent.id} className="rounded border p-4">
+                  <li key={parent.id} className='rounded border p-4'>
                     <div>
                       <h4 className='font-bold'>{parent.name}</h4>
                       <p>{parent.color}</p>
@@ -236,7 +236,7 @@ function CategoryManagement() {
                       <button onClick={() => openDeleteModal(parent)}>Delete</button>
                     </div>
 
-                    <ul className="mt-2 space-y-1">
+                    <ul className='mt-2 space-y-1'>
                       {childrenTransfer
                         ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                         .sort((a, b) => a.name.localeCompare(b.name))
@@ -252,9 +252,9 @@ function CategoryManagement() {
                 ))}
               {parentTransfer
                 ?.filter(parent => parent.name === 'Uncategorized')
-                .map(parent => <li key={parent.id} className="rounded border p-4"> <h4 className='font-bold'>{parent.name}</h4>
+                .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
 
-                  <ul className="mt-2 space-y-1">
+                  <ul className='mt-2 space-y-1'>
                     {childrenTransfer?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
@@ -321,7 +321,7 @@ function CategoryManagement() {
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={handleClose}
-        title="Delete Category"
+        title='Delete Category'
         body={
           activeCategory ? (
             activeCategory.parentId ? (

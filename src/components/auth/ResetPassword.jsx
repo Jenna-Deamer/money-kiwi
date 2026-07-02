@@ -34,36 +34,36 @@ function ResetPassword() {
 
     if (!token) {
         return (
-            <div className="error-container">
+            <div className='error-container'>
                 <h2>Invalid Access</h2>
                 <p>This page requires a valid reset token. Please request a new link.</p>
-                <Link to="/forgot-password">Request Reset Link</Link>
+                <Link to='/forgot-password'>Request Reset Link</Link>
             </div>
         );
     }
     return (
-        <div className="auth-container">
+        <div className='auth-container'>
             <h1>Create New Password</h1>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <div className="input-group">
+                <div className='input-group'>
                     <input
-                        type="password"
-                        placeholder="New Password"
+                        type='password'
+                        placeholder='New Password'
                         {...register('password')}
                     />
-                    {errors.password && <p className="error">{errors.password.message}</p>}
+                    {errors.password && <p className='error'>{errors.password.message}</p>}
                 </div>
 
-                <div className="input-group">
+                <div className='input-group'>
                     <input
-                        type="password"
-                        placeholder="Confirm New Password"
+                        type='password'
+                        placeholder='Confirm New Password'
                         {...register('confirmPassword')}
                     />
-                    {errors.confirmPassword && <p className="error">{errors.confirmPassword.message}</p>}
+                    {errors.confirmPassword && <p className='error'>{errors.confirmPassword.message}</p>}
                 </div>
 
-                <button type="submit" disabled={isSubmitting}>
+                <button type='submit' disabled={isSubmitting}>
                     {isSubmitting ? 'Updating...' : 'Update Password'}
                 </button>
             </form>

@@ -37,23 +37,23 @@ function TransactionTableFilters({ search, category, account, transactionType, a
     return <div></div>;
   }
   return (
-    <div className="mt-6 space-y-3">
-      <div className="w-full max-w-sm">
+    <div className='my-6 space-y-3'>
+      <div className='w-full max-w-sm'>
         <input
-          className="input-standard w-full"
-          placeholder="Search by memo..."
-          type="text"
+          className='input-standard w-full'
+          placeholder='Search by memo...'
+          type='text'
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
         />
       </div>
 
-      <div className="grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4">
-        <div className="w-full">
+      <div className='grid grid-cols-1 gap-2 sm:grid-cols-2 xl:grid-cols-4'>
+        <div className='w-full'>
           <Select
-            className="w-full"
+            className='w-full'
             options={accountOptions}
-            placeholder="Account"
+            placeholder='Account'
             isClearable
             isMulti
             value={accountOptions.filter((opt) => (account || []).includes(opt.value))}
@@ -64,11 +64,11 @@ function TransactionTableFilters({ search, category, account, transactionType, a
           />
         </div>
 
-        <div className="w-full">
+        <div className='w-full'>
           <Select
-            className="w-full"
+            className='w-full'
             options={categoryOptions}
-            placeholder="Category"
+            placeholder='Category'
             isClearable
             isMulti
             value={categoryOptions.filter((opt) => category.includes(opt.value))}
@@ -79,11 +79,11 @@ function TransactionTableFilters({ search, category, account, transactionType, a
           />
         </div>
 
-        <div className="w-full">
+        <div className='w-full'>
           <Select
-            className="w-full"
+            className='w-full'
             options={transactionTypeOptions}
-            placeholder="Transaction type"
+            placeholder='Transaction type'
             isClearable
             isMulti
             value={transactionTypeOptions.filter((opt) => transactionType.includes(opt.value))}
@@ -94,11 +94,11 @@ function TransactionTableFilters({ search, category, account, transactionType, a
           />
         </div>
 
-        <div className="w-full">
+        <div className='w-full'>
           <Select
-            className="w-full"
+            className='w-full'
             options={accountTypeOptions}
-            placeholder="Account type"
+            placeholder='Account type'
             isClearable
             isMulti
             value={accountTypeOptions.filter((opt) => accountType.includes(opt.value))}
@@ -109,11 +109,11 @@ function TransactionTableFilters({ search, category, account, transactionType, a
           />
         </div>
 
-        <div className="w-full">
+        <div className='w-full'>
           <Select
-            className="w-full"
+            className='w-full'
             options={statusOptions}
-            placeholder="Status"
+            placeholder='Status'
             isClearable
             isMulti
             value={statusOptions.filter((opt) => status.includes(opt.value))}

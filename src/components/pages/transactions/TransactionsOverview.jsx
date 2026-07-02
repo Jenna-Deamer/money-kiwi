@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAccounts } from '@/hooks/useAccounts';
 import useDebounce from '@/utils/useDebounce';
 import TransactionTable from '@/components/pages/transactions/table/TransactionTable';
+import TransactionMobile from '@/components/pages/transactions/table/TransactionMobile';
 import TransactionTableFilters from '@/components/pages/transactions/table/TransactionTableFilters';
 import {
   useTransactions,
@@ -24,12 +25,13 @@ function TransactionOverview() {
     search: '', category: [], account: [], transactionType: [], accountType: [], status: [], startDate: thirtyDaysAgo, endDate: new Date()
   });
   const debouncedFilters = useDebounce(filters, 500);
-  const { data: transactions, isLoading, error, isPlaceholderData } = useTransactions(debouncedFilters, page);
+  const { data: transactions, isPlaceholderData } = useTransactions(debouncedFilters, page);
   const [activeTransaction, setActiveTransaction] = useState(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const { mutate: deleteTransaction, isLoading: isDeleting } =
     useDeleteTransaction();
   const navigate = useNavigate();
+  const isMobile = window.matchMedia('(max-width: 600px');
 
   function handleUpdate(id) { navigate(`/transactions/form/${id}`); };
   function openDeleteModal(transaction) {
@@ -70,12 +72,12 @@ function TransactionOverview() {
               }}
               showIcon
               closeOnScroll
-              dateFormat="dd MMM yyyy"
+              dateFormat='dd MMM yyyy'
             />}
           </div>
           {hasAccounts &&
             <div className='text-center'>
-              <LinkButton to="/transactions/form">Add Transaction</LinkButton>
+              <LinkButton to='/transactions/form'>Add Transaction</LinkButton>
             </div>
           }
         </div>
@@ -83,7 +85,7 @@ function TransactionOverview() {
         {!hasAccounts ? (
           <div className='card text-center max-w-md'>
             <p>You don’t have any financial accounts yet. Create an account to add your first transaction.</p>
-            <LinkButton to="/account/form" className='mt-2'>Create Account</LinkButton>
+            <LinkButton to='/account/form' className='mt-2'>Create Account</LinkButton>
           </div>
         ) : (
           <>
@@ -103,19 +105,32 @@ function TransactionOverview() {
             />
             {!transactions?.transactions || transactions.transactions.length === 0 ? (
               <div className='card max-w-md text-center mx-auto mt-4'>
-                <p>No transactions found. Try another filter or <Link className="text-kiwi-primary underline" to="/transactions/form">create&nbsp;one</Link>.</p>
+                <p>
+                  No transactions found. Try another filter or{' '}
+                  <Link className='text-kiwi-primary underline' to='/transactions/form'>
+                    create&nbsp;one
+                  </Link>
+                  .
+                </p>
               </div>
+            ) : isMobile.matches ? (
+              <TransactionMobile
+                transactionsData={transactions}
+                onUpdate={handleUpdate}
+                onDelete={openDeleteModal}
+                page={page}
+                setPage={setPage}
+                isPlaceholderData={isPlaceholderData}
+              />
             ) : (
-              <div>
-                <TransactionTable
-                  transactionsData={transactions}
-                  onUpdate={handleUpdate}
-                  onDelete={openDeleteModal}
-                  page={page}
-                  setPage={setPage}
-                  isPlaceholderData={isPlaceholderData}
-                />
-              </div>
+              <TransactionTable
+                transactionsData={transactions}
+                onUpdate={handleUpdate}
+                onDelete={openDeleteModal}
+                page={page}
+                setPage={setPage}
+                isPlaceholderData={isPlaceholderData}
+              />
             )}
           </>
         )}
