@@ -1,10 +1,6 @@
 import Select from 'react-select';
 import { useAccounts } from '@/hooks/useAccounts';
-
-const categoryOptions = [
-  { value: 'food', label: 'Food' },
-  { value: 'savings', label: 'Savings' }
-];
+import { useChildrenCategories } from '@/hooks/useCategory';
 
 const transactionTypeOptions = [
   { value: 'income', label: 'Income' },
@@ -23,10 +19,44 @@ const statusOptions = [
   { value: 'upcoming', label: 'Upcoming' },
 ];
 
-function TransactionTableFilters({ search, category, account, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
-  const { data: accounts, isLoading, error } = useAccounts();
-  if (isLoading) return <div>Loading...</div>;
-  if (error) return <div>Error...</div>;
+function TransactionTableFilters({ search, categoryId, account, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
+  const { data: accounts, isLoading: isLoadingAccounts, error: accountError } = useAccounts();
+  const {
+    data: { childrenCategories: childrenIncome = [] } = {},
+    isLoading: isLoadingCategories,
+    error: categoryError,
+  } = useChildrenCategories('INCOME');
+  const { data: { childrenCategories: childrenExpenses = [] } = {} } =
+    useChildrenCategories('EXPENSE');
+  const { data: { childrenCategories: childrenTransfer = [] } = {} } =
+    useChildrenCategories('TRANSFER');
+  const incomeOptions = childrenIncome.map(cat => ({
+    value: cat.id,
+    label: cat.name,
+  }));
+
+  const expenseOptions = childrenExpenses.map(cat => ({
+    value: cat.id,
+    label: cat.name,
+  }));
+
+  const transferOptions = childrenTransfer.map(cat => ({
+    value: cat.id,
+    label: cat.name,
+  }));
+
+  const categoryOptions = [
+    { label: 'Income', options: incomeOptions },
+    { label: 'Expense', options: expenseOptions },
+    { label: 'Transfer', options: transferOptions },
+  ];
+  const flatCategoryOptions = [
+    incomeOptions,
+    expenseOptions,
+    transferOptions,
+  ].flat();
+  if (isLoadingAccounts || isLoadingCategories) return <div>Loading...</div>;
+  if (accountError || categoryError) return <div>Error...</div>;
 
   const accountOptions = (accounts || []).map(acc => ({
     value: acc.name,
@@ -71,7 +101,7 @@ function TransactionTableFilters({ search, category, account, transactionType, a
             placeholder='Category'
             isClearable
             isMulti
-            value={categoryOptions.filter((opt) => category.includes(opt.value))}
+            value={flatCategoryOptions.filter((opt) => categoryId.includes(opt.value))}
             onChange={(selectedOptions) => {
               const values = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
               onCategoryChange(values);

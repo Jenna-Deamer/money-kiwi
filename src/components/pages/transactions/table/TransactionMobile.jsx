@@ -8,7 +8,6 @@ function TransactionMobile({
   setPage,
   isPlaceholderData,
 }) {
-  console.log(transactionsData.transactions)
   const data = transactionsData.transactions;
   return (
     <>

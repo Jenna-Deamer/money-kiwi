@@ -22,7 +22,7 @@ function TransactionOverview() {
   thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
   const [pickerRange, setPickerRange] = useState([thirtyDaysAgo, new Date()]);
   const [filters, setFilters] = useState({
-    search: '', category: [], account: [], transactionType: [], accountType: [], status: [], startDate: thirtyDaysAgo, endDate: new Date()
+    search: '', categoryId: [], account: [], transactionType: [], accountType: [], status: [], startDate: thirtyDaysAgo, endDate: new Date()
   });
   const debouncedFilters = useDebounce(filters, 500);
   const { data: transactions, isPlaceholderData } = useTransactions(debouncedFilters, page);
@@ -91,13 +91,13 @@ function TransactionOverview() {
           <>
             <TransactionTableFilters
               search={filters.search}
-              category={filters.category}
+              categoryId={filters.categoryId}
               account={filters.account}
               transactionType={filters.transactionType}
               accountType={filters.accountType}
               status={filters.status}
               onSearchChange={(val) => handleFilterChange('search', val)}
-              onCategoryChange={(val) => handleFilterChange('category', val)}
+              onCategoryChange={(val) => handleFilterChange('categoryId', val)}
               onAccountChange={(val) => handleFilterChange('account', val)}
               onTransactionTypeChange={(val) => handleFilterChange('transactionType', val)}
               onAccountTypeChange={(val) => handleFilterChange('accountType', val)}
