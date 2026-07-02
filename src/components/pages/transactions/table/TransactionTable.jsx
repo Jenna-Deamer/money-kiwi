@@ -10,6 +10,7 @@ import DateCell from '@/components/pages/transactions/table/editableCells/DateCe
 import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
+import { Pencil,Trash2 } from 'lucide-react';
 
 function TransactionTable({
   transactionsData,
@@ -39,13 +40,10 @@ function TransactionTable({
       header: 'Type/Status',
       accessorFn: (row) => `${row.type} ${row.status}`,
       cell: ({ row }) => (
-        <span>
-          <div>
-            {row.original.type}
-            <br />
-            <small>{row.original.status}</small>
-          </div>
-        </span>
+        <div className='flex flex-col'>
+          <p>{row.original.type}</p>
+          <small className='text-xs font-light'>{row.original.status}</small>
+        </div>
       ),
     },
     {
@@ -57,9 +55,9 @@ function TransactionTable({
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
-        <div>
-          <button onClick={() => onUpdate(row.original.id)}>Update</button>
-          <button onClick={() => onDelete(row.original)}>Delete</button>
+        <div className='flex gap-4'justify-between>
+          <button onClick={() => onUpdate(row.original.id)} aria-label='Update Transaction' className='cursor-pointer'><Pencil/></button>
+          <button onClick={() => onDelete(row.original)} aria-label='Delete Transaction' className='cursor-pointer'><Trash2/></button>
         </div>
       ),
     },
@@ -126,7 +124,6 @@ function TransactionTable({
       return;
     }
 
-    console.log('mutate with', newData);
     mutate(newData, {
       onSuccess: () => {
         setNewData([]);
@@ -168,7 +165,7 @@ function TransactionTable({
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
               {row.getVisibleCells().map((cell) => (
-                <td key={cell.id} className='px-4 py-2 text-left outline'>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
+                <td key={cell.id} className='px-4 py-2 text-left border-b border-soft'>{flexRender(cell.column.columnDef.cell, cell.getContext())}</td>
               ))}
             </tr>
           ))}

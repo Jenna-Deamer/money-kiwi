@@ -31,8 +31,11 @@ const AmountCell = ({ table, row }) => {
   };
 
   return (
-    <div className={`${isRowDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+    <div className={`flex ${isRowDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
       }`}>
+        <span className="font-semibold select-none">
+           $
+         </span>
         <input
           value={isFocused ? amount : amount.toFixed(2)}
           type='number'
