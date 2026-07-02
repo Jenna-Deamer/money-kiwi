@@ -5,85 +5,103 @@ import { toast } from 'sonner';
 
 
 export function useCategories(select) {
-    const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-    return useQuery({
-        queryKey: ['categories'],
-        queryFn: fetchCategories,
-        select: select,
-        enabled: isAuthenticated,
-    });
+  return useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+    select: select,
+    enabled: isAuthenticated,
+  });
+}
+export function useGroupParentCategories() {
+  return useCategories((data) => ({
+    groupedParentCategories: {
+      INCOME: data?.filter((a) => a.parentId === null && a.type === 'INCOME') || [],
+      EXPENSE: data?.filter((a) => a.parentId === null && a.type === 'EXPENSE') || [],
+      TRANSFER: data?.filter((a) => a.parentId === null && a.type === 'TRANSFER') || [],
+    },
+  }));
+};
+export function useGroupChildrenCategories() {
+  return useCategories((data) => ({
+    groupedChildrenCategories: {
+      INCOME: data?.filter((a) => !!a.parentId && a.type === 'INCOME') || [],
+      EXPENSE: data?.filter((a) => !!a.parentId && a.type === 'EXPENSE') || [],
+      TRANSFER: data?.filter((a) => !!a.parentId && a.type === 'TRANSFER') || [],
+    },
+  }));
 }
 
 export function useParentCategories(type) {
-    return useCategories((data) => ({
-        parentCategories: data?.filter(a => a.parentId === null && a.type === type) || [],
-    }));
+  return useCategories((data) => ({
+    parentCategories: data?.filter(a => a.parentId === null && a.type === type) || [],
+  }));
 }
 
 export function useChildrenCategories(type) {
-    return useCategories((data) => ({
-        childrenCategories: data?.filter(a => !!a.parentId && a.type === type) || [],
-    }));
+  return useCategories((data) => ({
+    childrenCategories: data?.filter(a => !!a.parentId && a.type === type) || [],
+  }));
 }
 
 export function useGetCategory(id) {
-    const { isAuthenticated } = useAuth();
-    const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
+  const queryClient = useQueryClient();
 
-    return useQuery({
-        queryKey: ['categories', id],
-        queryFn: () => getCategory(id),
-        initialData: () => {
-            return queryClient.getQueryData(['categories'])?.categories?.find(cat => cat.id === id);
-        },
-        enabled: isAuthenticated && !!id,
-    });
+  return useQuery({
+    queryKey: ['categories', id],
+    queryFn: () => getCategory(id),
+    initialData: () => {
+      return queryClient.getQueryData(['categories'])?.categories?.find(cat => cat.id === id);
+    },
+    enabled: isAuthenticated && !!id,
+  });
 
 }
 
 export function useCreateCategory() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (newCategory) => createCategory(newCategory),
-        onSuccess: () => {
+  return useMutation({
+    mutationFn: (newCategory) => createCategory(newCategory),
+    onSuccess: () => {
 
-            queryClient.invalidateQueries({ queryKey: ['categories'] });
-            toast.success('Category created successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to create category');
-        }
-    });
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success('Category created successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to create category');
+    }
+  });
 }
 
 export function useUpdateCategory() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (updatedCategory) => updateCategory(updatedCategory),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['categories'] });
-            toast.success('Category updated successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to update category');
-        }
-    });
+  return useMutation({
+    mutationFn: (updatedCategory) => updateCategory(updatedCategory),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success('Category updated successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to update category');
+    }
+  });
 }
 
 export function useDeleteCategory() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (deletedCategory) => deleteCategory(deletedCategory),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['categories'] });
-            toast.success('Category deleted successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to delete category');
-        }
-    });
+  return useMutation({
+    mutationFn: (deletedCategory) => deleteCategory(deletedCategory),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success('Category deleted successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to delete category');
+    }
+  });
 }

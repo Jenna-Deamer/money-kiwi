@@ -1,6 +1,6 @@
 import Select from 'react-select';
 import { useAccounts } from '@/hooks/useAccounts';
-import { useChildrenCategories } from '@/hooks/useCategory';
+import { useGroupChildrenCategories } from '@/hooks/useCategory';
 
 const transactionTypeOptions = [
   { value: 'income', label: 'Income' },
@@ -12,7 +12,6 @@ const accountTypeOptions = [
   { value: 'investments', label: 'Investments' },
   { value: 'credit', label: 'Credit & Loans' },
 ];
-
 const statusOptions = [
   { value: 'posted', label: 'Posted' },
   { value: 'pending_match', label: 'Pending Match' },
@@ -22,25 +21,28 @@ const statusOptions = [
 function TransactionTableFilters({ search, categoryId, account, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
   const { data: accounts, isLoading: isLoadingAccounts, error: accountError } = useAccounts();
   const {
-    data: { childrenCategories: childrenIncome = [] } = {},
+    data: {
+      groupedChildrenCategories: {
+        INCOME: incomeCategories = [],
+        EXPENSE: expenseCategories = [],
+        TRANSFER: transferCategories = [],
+      } = {},
+    } = {},
     isLoading: isLoadingCategories,
     error: categoryError,
-  } = useChildrenCategories('INCOME');
-  const { data: { childrenCategories: childrenExpenses = [] } = {} } =
-    useChildrenCategories('EXPENSE');
-  const { data: { childrenCategories: childrenTransfer = [] } = {} } =
-    useChildrenCategories('TRANSFER');
-  const incomeOptions = childrenIncome.map(cat => ({
+  } = useGroupChildrenCategories();
+
+  const incomeOptions = incomeCategories.map(cat => ({
+    value: cat.id,
+    label:
+      cat.name,
+  }));
+  const expenseOptions = expenseCategories.map(cat => ({
     value: cat.id,
     label: cat.name,
   }));
 
-  const expenseOptions = childrenExpenses.map(cat => ({
-    value: cat.id,
-    label: cat.name,
-  }));
-
-  const transferOptions = childrenTransfer.map(cat => ({
+  const transferOptions = transferCategories.map(cat => ({
     value: cat.id,
     label: cat.name,
   }));
@@ -50,6 +52,7 @@ function TransactionTableFilters({ search, categoryId, account, transactionType,
     { label: 'Expense', options: expenseOptions },
     { label: 'Transfer', options: transferOptions },
   ];
+
   const flatCategoryOptions = [
     incomeOptions,
     expenseOptions,
