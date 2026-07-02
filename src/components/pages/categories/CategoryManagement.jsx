@@ -1,10 +1,9 @@
 import {
-  useParentCategories,
-  useChildrenCategories,
+  useGroupChildrenCategories,
+  useGroupParentCategories,
   useUpdateCategory,
   useDeleteCategory
 } from '@/hooks/useCategory';
-import { Link } from 'react-router-dom';
 import TabButtons from '@/components/shared/ui/buttons/TabButtons';
 import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
@@ -15,27 +14,34 @@ import Modal from '@/components/shared/Modal';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 
 function CategoryManagement() {
-  const {
-    data: { parentCategories: parentIncome = [] } = {},
-    isLoading,
-    error,
-  } = useParentCategories('INCOME');
-  const { data: { childrenCategories: childrenIncome = [] } = {} } =
-    useChildrenCategories('INCOME');
-  const { data: { parentCategories: parentExpense = [] } = {} } =
-    useParentCategories('EXPENSE');
-  const { data: { childrenCategories: childrenExpenses = [] } = {} } =
-    useChildrenCategories('EXPENSE');
-  const { data: { parentCategories: parentTransfer = [] } = {} } =
-    useParentCategories('TRANSFER');
-  const { data: { childrenCategories: childrenTransfer = [] } = {} } =
-    useChildrenCategories('TRANSFER');
-
   const tabs = [
     { id: 'expense', label: 'Expense' },
     { id: 'income', label: 'Income' },
     { id: 'transfer', label: 'Transfer' },
   ];
+  const {
+    data: {
+      groupedParentCategories: {
+        INCOME: incomeParentCategories = [],
+        EXPENSE: expenseParentCategories = [],
+        TRANSFER: transferParentCategories = [],
+      } = {},
+    } = {},
+    isLoading: isLoadingParentCategories,
+    error: categoryParentError,
+  } = useGroupParentCategories();
+
+  const {
+    data: {
+      groupedChildrenCategories: {
+        INCOME: incomeChildrenCategories = [],
+        EXPENSE: expenseChildrenCategories = [],
+        TRANSFER: transferChildrenCategories = [],
+      } = {},
+    } = {},
+    isLoading: isLoadingChildrenCategories,
+    error: categoryChildrenError,
+  } = useGroupChildrenCategories();
   const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
   const { mutate: deleteCategory, isLoading: isDeleting } = useDeleteCategory();
 
@@ -55,8 +61,8 @@ function CategoryManagement() {
     }
   });
 
-  if (isLoading) return <p>Loading...</p>;
-  if (error) return <p>Error loading categories</p>;
+  if (isLoadingParentCategories || isLoadingChildrenCategories) return <p>Loading...</p>;
+  if (categoryParentError || categoryChildrenError) return <p>Error loading categories</p>;
 
   const currentParentId = watch('parentId');
 
@@ -118,7 +124,7 @@ function CategoryManagement() {
           <div className='pt-4'>
             <h2 className='pb-1.5'>Expense</h2>
             <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
-              {parentExpense
+              {expenseParentCategories
                 ?.filter(parent => parent.name !== 'Uncategorized')
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((parent) => (
@@ -131,7 +137,7 @@ function CategoryManagement() {
                     </div>
 
                     <ul className='mt-2 space-y-1'>
-                      {childrenExpenses
+                      {expenseChildrenCategories
                         ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map((child) => (
@@ -145,12 +151,12 @@ function CategoryManagement() {
                   </li>
                 ))}
 
-              {parentExpense
+              {expenseParentCategories
                 ?.filter(parent => parent.name === 'Uncategorized')
                 .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
 
                   <ul className='mt-2 space-y-1'>
-                    {childrenExpenses?.filter(child => child.parentId === parent.id)
+                    {expenseChildrenCategories?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
                         <li key={child.id} className='ml-2'>
@@ -172,7 +178,7 @@ function CategoryManagement() {
           <div className='pt-4'>
             <h2 className='pb-1.5'>Income</h2>
             <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
-              {parentIncome
+              {incomeParentCategories
                 ?.filter(parent => parent.name !== 'Uncategorized')
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((parent) => (
@@ -185,7 +191,7 @@ function CategoryManagement() {
                     </div>
 
                     <ul className='mt-2 space-y-1'>
-                      {childrenIncome
+                      {incomeChildrenCategories
                         ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map((child) => (
@@ -198,12 +204,12 @@ function CategoryManagement() {
                     </ul>
                   </li>
                 ))}
-              {parentIncome
+              {incomeParentCategories
                 ?.filter(parent => parent.name === 'Uncategorized')
                 .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
 
                   <ul className='mt-2 space-y-1'>
-                    {childrenIncome?.filter(child => child.parentId === parent.id)
+                    {incomeChildrenCategories?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
                         <li key={child.id} className='ml-2'>
@@ -224,7 +230,7 @@ function CategoryManagement() {
           <div className='pt-4'>
             <h2 className='pb-1.5'>Transfer</h2>
             <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
-              {parentTransfer
+              {transferParentCategories
                 ?.filter(parent => parent.name !== 'Uncategorized')
                 .sort((a, b) => a.name.localeCompare(b.name))
                 .map((parent) => (
@@ -237,7 +243,7 @@ function CategoryManagement() {
                     </div>
 
                     <ul className='mt-2 space-y-1'>
-                      {childrenTransfer
+                      {transferChildrenCategories
                         ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map((child) => (
@@ -250,12 +256,12 @@ function CategoryManagement() {
                     </ul>
                   </li>
                 ))}
-              {parentTransfer
+              {transferParentCategories
                 ?.filter(parent => parent.name === 'Uncategorized')
                 .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
 
                   <ul className='mt-2 space-y-1'>
-                    {childrenTransfer?.filter(child => child.parentId === parent.id)
+                    {transferChildrenCategories?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
                         <li key={child.id} className='ml-2'>
@@ -293,9 +299,9 @@ function CategoryManagement() {
                   <label>Parent Assignment</label>
                   <select {...register('parentId')}>
                     <option value=''>-- No Parent (top-level) --</option>
-                    {activeTab === 'income' ? parentIncome?.map((category) => (
+                    {activeTab === 'income' ? incomeParentCategories?.map((category) => (
                       <option key={category.id} value={category.id}>{category.name}</option>
-                    )) : parentExpense?.map((category) => (
+                    )) : expenseParentCategories?.map((category) => (
                       <option key={category.id} value={category.id}>{category.name}</option>
                     ))}
                   </select>
@@ -333,7 +339,7 @@ function CategoryManagement() {
                   <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
                     <option value={null}>--- Select Category ---</option>
                     {activeTab === 'income'
-                      ? childrenIncome
+                      ? incomeChildrenCategories
                         ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map(category => (
@@ -341,7 +347,7 @@ function CategoryManagement() {
                             {category.name}
                           </option>
                         ))
-                      : childrenExpenses
+                      : expenseChildrenCategories
                         ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
                         .sort((a, b) => a.name.localeCompare(b.name))
                         .map(category => (
@@ -362,13 +368,13 @@ function CategoryManagement() {
                   <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
                     <option value={null}>--- Select Category ---</option>
                     {activeTab === 'income'
-                      ? parentIncome?.filter(category => category.name !== activeCategory.name)
+                      ? incomeParentCategories?.filter(category => category.name !== activeCategory.name)
                         .map(category => (
                           <option key={category.id} value={category.id}>
                             {category.name}
                           </option>
                         ))
-                      : parentExpense?.filter(category => category.name !== activeCategory.name)
+                      : expenseParentCategories?.filter(category => category.name !== activeCategory.name)
                         .map(category => (
                           <option key={category.id} value={category.id}>
                             {category.name}

@@ -23,6 +23,7 @@ export function useGroupParentCategories() {
     },
   }));
 };
+
 export function useGroupChildrenCategories() {
   return useCategories((data) => ({
     groupedChildrenCategories: {
