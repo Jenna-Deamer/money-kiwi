@@ -56,9 +56,22 @@ function TransactionTable({
       id: 'actions',
       header: 'Actions',
       cell: ({ row }) => (
-        <div className='flex gap-4' justify-between>
-          <button onClick={() => onUpdate(row.original.id)} aria-label='Update Transaction' className='cursor-pointer'><Pencil /></button>
-          <button onClick={() => onDelete(row.original)} aria-label='Delete Transaction' className='cursor-pointer'><Trash2 /></button>
+        <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+          <button
+            onClick={() => onUpdate(row.original.id)}
+            aria-label="Update Transaction"
+            className="cursor-pointer"
+          >
+            <Pencil />
+          </button>
+
+          <button
+            onClick={() => onDelete(row.original)}
+            aria-label="Delete Transaction"
+            className="cursor-pointer"
+          >
+            <Trash2 />
+          </button>
         </div>
       ),
     },
@@ -183,7 +196,7 @@ function TransactionTable({
           Current Page: <b>{page + 1}</b>
         </span>
 
-        {transactionsData?.totalPages > 0 && (
+        {transactionsData?.totalPages > 1 && (
           <div className='flex gap-2 mt-2'>
             <Button
               intent="subtle"
