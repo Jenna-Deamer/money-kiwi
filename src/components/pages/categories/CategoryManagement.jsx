@@ -49,7 +49,7 @@ function CategoryManagement() {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
-  const [reassignTo, setReassignTo] = useState(null);
+  const [reassignTo, setReassignTo] = useState('');
   const [showDeleteError, setShowDeleteError] = useState(false);
 
   const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
