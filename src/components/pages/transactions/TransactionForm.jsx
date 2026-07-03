@@ -95,8 +95,8 @@ function TransactionForm() {
   }
 
   return (
-    <section className='flex flex-col items-center justify-center h-full'>
-      <div className='card w-full'>
+    <section className='flex flex-col items-center justify-center'>
+      <div className='card w-full max-w-sm'>
 
         <h1 className='text-center my-4'>{isEditMode ? 'Update Transaction' : 'Create Transaction'}</h1>
 
