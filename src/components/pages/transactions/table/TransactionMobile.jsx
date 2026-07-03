@@ -50,7 +50,7 @@ function TransactionMobile({
         </div>
       )}
     </>
-  )
+  );
 }
 
 

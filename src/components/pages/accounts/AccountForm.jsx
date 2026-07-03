@@ -86,7 +86,6 @@ function AccountForm() {
               label='Account Name'
               htmlFor='account name'
               error={errors.name?.message}
-              disabled={isCreating || isUpdating || isFetching}
             >
               <input
                 {...register('name')}
@@ -99,7 +98,6 @@ function AccountForm() {
               label='Insitution'
               htmlFor='institution'
               error={errors.institution?.message}
-              disabled={isCreating || isUpdating || isFetching}
             >
               <input
                 {...register('institution')}
@@ -114,7 +112,6 @@ function AccountForm() {
               label='Category'
               htmlFor='category'
               error={errors.category?.message}
-              disabled={isCreating || isUpdating || isFetching}
             >
               <select
                 className='input-standard'
@@ -127,6 +124,7 @@ function AccountForm() {
                     setValue('registration', '');
                   }
                 })}
+                disabled={isCreating || isUpdating || isFetching}
               >
                 <option value=''>-- Select Purpose --</option>
                 <option value='banking'>Banking</option>
@@ -139,7 +137,6 @@ function AccountForm() {
               label='Subcategory'
               htmlFor='subcategory'
               error={errors.subCategory?.message}
-              disabled={isCreating || isUpdating || isFetching || !selectedCategory}
             >
               <select
                 className='input-standard'
@@ -151,7 +148,7 @@ function AccountForm() {
                     setValue('registration', '');
                   }
                 })}
-                disabled={!selectedCategory}
+                disabled={isCreating || isUpdating || isFetching || !selectedCategory}
               >
                 {!selectedCategory ? (
                   <option value=''>-- Select Category First --</option>
@@ -174,18 +171,11 @@ function AccountForm() {
               label='Registration'
               htmlFor='registration'
               error={errors.registration?.message}
-              disabled={
-                isCreating ||
-                isUpdating ||
-                isFetching ||
-                !selectedCategory ||
-                !selectedSubCategory
-              }
             >
               <select
                 {...register('registration')}
                 className='input-standard'
-                disabled={!selectedCategory || !selectedSubCategory}
+                disabled={isCreating || isUpdating || isFetching || !selectedCategory || !selectedSubCategory}
               >
                 {!selectedCategory ? (
                   <option value=''>-- Select Category First --</option>

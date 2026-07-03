@@ -7,10 +7,10 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className='flex flex-col md:flex-row h-screen'>
           <Nav />
-          <main className="w-full flex-1 overflow-y-auto order-1 md:order-2 md:p-8 p-4 pb-16 max-w-6xl mx-auto">            <Outlet />
-            <Toaster richColors position="bottom-right" expand={true} />
+          <main className='w-full flex-1 overflow-y-auto order-1 md:order-2 md:p-8 px-4 py-8 max-w-6xl mx-auto'>            <Outlet />
+            <Toaster richColors position='bottom-right' expand={true} />
           </main>
         </div>
 
