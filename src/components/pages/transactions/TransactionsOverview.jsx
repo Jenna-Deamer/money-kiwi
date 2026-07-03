@@ -51,7 +51,7 @@ function TransactionOverview() {
   return (
     <>
       <section>
-        <div className='flex justify-between mb-4'>
+        <div className='flex flex-col justify-center items-center mb-4 text-center md:text-left md:flex-row md:justify-between'>
           <div>
             <h1 className='mb-0.5'>Transactions Overview</h1>
             {hasAccounts && <DatePicker
@@ -76,8 +76,10 @@ function TransactionOverview() {
             />}
           </div>
           {hasAccounts &&
-            <div className='text-center'>
+            <div className='text-center flex gap-4 mt-2 md:mt-0'>
               <LinkButton to='/transactions/form'>Add Transaction</LinkButton>
+              <LinkButton to='/' intent='subtle'>Import</LinkButton>
+
             </div>
           }
         </div>
