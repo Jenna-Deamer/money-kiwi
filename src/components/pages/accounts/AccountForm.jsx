@@ -44,11 +44,13 @@ function AccountForm() {
 
   const selectedCategory = watch('category');
   const selectedSubCategory = watch('subCategory');
+  const selectedRegistration = watch('registration');
 
   useEffect(() => {
     if (isEditMode && existingAccount) {
       reset(existingAccount);
     }
+
   }, [isEditMode, existingAccount, reset]);
 
   const onSubmit = async (data) => {
@@ -121,7 +123,7 @@ function AccountForm() {
 
                     setValue('category', val);
                     setValue('subCategory', '');
-                    setValue('registration', '');
+                    setValue('registration', val === 'credit' ? 'N/A' : '');
                   }
                 })}
                 disabled={isCreating || isUpdating || isFetching}
@@ -145,7 +147,6 @@ function AccountForm() {
                     const val = e.target.value;
 
                     setValue('subCategory', val);
-                    setValue('registration', '');
                   }
                 })}
                 disabled={isCreating || isUpdating || isFetching || !selectedCategory}
@@ -174,8 +175,9 @@ function AccountForm() {
             >
               <select
                 {...register('registration')}
+                value={selectedRegistration || ''}
                 className='input-standard'
-                disabled={isCreating || isUpdating || isFetching || !selectedCategory || !selectedSubCategory}
+                disabled={isCreating || isUpdating || isFetching || !selectedCategory || !selectedSubCategory || selectedCategory === 'credit' && selectedSubCategory}
               >
                 {!selectedCategory ? (
                   <option value=''>-- Select Category First --</option>
