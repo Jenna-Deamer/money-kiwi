@@ -82,7 +82,6 @@ function AccountForm() {
               <p>{serverError}</p>
             </div>
           )}
-
           <fieldset>
             <FormField
               label='Account Name'

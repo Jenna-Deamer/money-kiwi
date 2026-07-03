@@ -11,6 +11,9 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { formatDateToIso } from '@/utils/dateHelper';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
+import Button from '@/components/shared/ui/buttons/Button';
+import FormField from '@/components/shared/ui/form/FormField';
+
 
 function TransactionForm() {
   const { id } = useParams();
@@ -85,8 +88,6 @@ function TransactionForm() {
       onSuccess: () => navigate('/transactions'),
       onError: (error) => setServerError(error.message)
     });
-    console.log('formData.date:', formData.date);
-    console.log('formattedDate being sent:', formattedDate);
   };
 
   if (isEditMode && isFetching) {
@@ -94,179 +95,207 @@ function TransactionForm() {
   }
 
   return (
-    <>
-      <h1>{isEditMode ? 'Update Transaction' : 'Create Transaction'}</h1>
+    <section className='flex flex-col items-center justify-center h-full'>
+      <div className='card w-full'>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
-        {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
+        <h1 className='text-center my-4'>{isEditMode ? 'Update Transaction' : 'Create Transaction'}</h1>
 
-        <fieldset>
-          <div>
-            <label>Source Account</label>
-            {isLoading && <small>Loading...</small>}
-            {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
-          </div>
+        <form onSubmit={handleSubmit(onSubmit)}>
+          {serverError && (
+            <div className='form-error'>
+              <p>{serverError}</p>
+            </div>
+          )}
 
-          <div className='input-group'>
-            <select {...register('accountId')} disabled={isLoading || !!error}>
-              <option value=''>-- Select Source Account --</option>
-              {data?.map((account) => (
-                <option key={account.id} value={account.id}>
-                  {account.name}
-                </option>
-              ))}
-            </select>
-            {errors.accountId && <span className='error'>{errors.accountId.message}</span>}
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <label>Memo</label>
-          <div className='input-group'>
-            <input {...register('memo')} placeholder='e.g. Starbucks' />
-            {errors.memo && <span className='error'>{errors.memo.message}</span>}
-          </div>
-
-          <label>Amount</label>
-          <div className='input-group'>
-            <input type='number' step='0.01' {...register('amount')} placeholder='0.00' />
-            {errors.amount && <span className='error'>{errors.amount.message}</span>}
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <label>Transaction Type</label>
-          <div className='input-group'>
-            <select {...register('type')}>
-              <option value=''>-- Select Type --</option>
-              {VALID_TYPES.map((type) => (
-                <option key={type} value={type}>{type}</option>
-              ))}
-            </select>
-            {errors.type && <span className='error'>{errors.type.message}</span>}
-          </div>
-
-
-            <>
-              <label>Category</label>
-
-              <div className='input-group'>
-                {isLoadingCategories && <small>Loading categories...</small>}
-                {categoryError && <small style={{ color: 'red' }}>Error retrieving categories!</small>}
-                <select {...register('categoryId')} disabled={!selectedType}>
-                  {!selectedType ? (
-                    <option value=''>-- Select Type First --</option>
-                  ) : (
-                    <>
-                      <option value=''>-- Select Category --</option>
-                      {childrenCategories?.map((category) => (
-                        <option key={category.id} value={category.id}>
-                          {category.name}
-                        </option>
-                      ))}
-                    </>
-                  )}
-                </select>
-                {errors.categoryId && <span className='error'>{errors.categoryId.message}</span>}
-              </div>
-            </>
-        </fieldset>
-
-        {selectedType === 'TRANSFER' && (
           <fieldset>
-            <div>
-              <label>Destination Account</label>
-              {isLoading && <small>Loading accounts...</small>}
-              {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
-            </div>
+            {isLoading && <small>Loading...</small>}
+            {error && <small className='field-error'>Error retrieving accounts!</small>}
 
-            <div className='input-group'>
-              <select {...register('toAccountId')} disabled={isLoading || !!error}>
-                <option value=''>-- Select Destination Account --</option>
-                {data?.filter(acc => acc.id !== sourceAccountId)
-                  .map((account) => (
-                    <option key={account.id} value={account.id}>
-                      {account.name}
-                    </option>
-                  ))}
-              </select>
-              {errors.toAccountId && (
-                <span className='error'>{errors.toAccountId.message}</span>
-              )}
-            </div>
-          </fieldset>
-        )}
-
-        <fieldset>
-          <label>Date</label>
-          <div className='input-group'>
-            <Controller
-              control={control}
-              name='date'
-              render={({ field: { onChange, onBlur, value, ref } }) => (
-                <DatePicker
-                  onChange={onChange}
-                  onBlur={onBlur}
-                  selected={value}
-                  inputRef={ref}
-                  dateFormat='dd MMM yyyy'
-                  placeholderText='Select date'
-                />
-              )}
-            />
-            {errors.date && <span className='error'>{errors.date.message}</span>}
-          </div>
-        </fieldset>
-
-        <fieldset>
-          <label>Recurring Transaction</label>
-          <input {...register('isRecurring')}
-            type='checkbox'
-            id='isRecurring'
->          </input>
-        </fieldset>
-        {isRecurring && (
-          <>
-            <fieldset>
-              <label>Frequency</label>
-              <select {...register('frequency')}>
-                <option value=''>-- Select Frequency --</option>
-                {FREQUENCIES?.map((freq) => (
-                  <option key={freq.label} value={freq.value}>{freq.label}</option>
+            <FormField
+              label='Account'
+              htmlFor='account'
+              error={errors.accountId?.message}
+            >
+              <select {...register('accountId')} disabled={isLoading || !!error} className='input-standard'>
+                <option value=''>-- Select Source Account --</option>
+                {data?.map((account) => (
+                  <option key={account.id} value={account.id}>
+                    {account.name}
+                  </option>
                 ))}
               </select>
-              {errors.frequency && (
-                <span className='error'>{errors.frequency.message}</span>
-              )}
-            </fieldset>
-            <fieldset>
-              <label>End Date <small>(optional)</small></label>
-              <div className='input-group'>
-                <Controller
-                  control={control}
-                  name='endDate'
-                  render={({ field: { onChange, onBlur, value, ref } }) => (
-                    <DatePicker
-                      onChange={onChange}
-                      onBlur={onBlur}
-                      selected={value}
-                      inputRef={ref}
-                      dateFormat='dd MMM yyyy'
-                      placeholderText='Select end date'
-                    />
-                  )}
-                />
-                {errors.endDate && <span className='error'>{errors.endDate.message}</span>}
-              </div>
-            </fieldset>
-          </>
+            </FormField>
+          </fieldset>
 
-        )}
-        <button type='submit' disabled={isCreating || isUpdating || isFetching}>
-          {isEditMode ? 'Update Transaction' : 'Create Transaction'}
-        </button>
-      </form>
-    </>
+          <fieldset>
+            <FormField
+              label='Memo'
+              htmlFor='memo'
+              error={errors.memo?.message}
+            >
+              <input {...register('memo')} placeholder='Hydro Bill' className='input-standard' />
+            </FormField>
+
+            <FormField
+              label='Memo'
+              htmlFor='memo'
+              error={errors.amount?.message}
+            >
+              <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
+            </FormField>
+          </fieldset>
+
+          <fieldset>
+            <FormField
+              label='Transaction Type'
+              htmlFor='transaction type'
+              error={errors.type?.message}
+            >
+              <select {...register('type')} className='input-standard'>
+                <option value=''>-- Select Type --</option>
+                {VALID_TYPES.map((type) => (
+                  <option key={type} value={type}>{type}</option>
+                ))}
+              </select>
+            </FormField>
+
+            <FormField
+              label='Category'
+              htmlFor='category'
+              error={errors.categoryId?.message}
+            >
+              <>
+                {isLoadingCategories && <small>Loading categories...</small>}
+                {categoryError && <small className='field-error'>Error retrieving categories!</small>}
+              </>
+              <select {...register('categoryId')} disabled={!selectedType} className='input-standard'>
+                {!selectedType ? (
+                  <option value=''>-- Select Type First --</option>
+                ) : (
+                  <>
+                    <option value=''>{selectedType === 'TRANSFER' ? '-- Optional --' : '-- Select Category --'}</option>
+                    {childrenCategories?.map((category) => (
+                      <option key={category.id} value={category.id}>
+                        {category.name}
+                      </option>
+                    ))}
+                  </>
+                )}
+              </select>
+            </FormField>
+          </fieldset>
+
+          {selectedType === 'TRANSFER' && (
+            <fieldset>
+              <>
+                {isLoading && <small>Loading accounts...</small>}
+                {error && <small className='field-error'>Error retrieving accounts!</small>}
+              </>
+              <FormField
+                label='Destination Account'
+                htmlFor='destination account'
+                error={errors.toAccountId?.message}
+              >
+                <select {...register('toAccountId')} disabled={isLoading || !!error} className='input-standard'>
+                  <option value=''>-- Select Destination Account --</option>
+                  {data?.filter(acc => acc.id !== sourceAccountId)
+                    .map((account) => (
+                      <option key={account.id} value={account.id}>
+                        {account.name}
+                      </option>
+                    ))}
+                </select>
+              </FormField>
+            </fieldset>
+          )}
+
+          <fieldset>
+            <FormField
+              label='Date'
+              htmlFor='date'
+              error={errors.date?.message}
+            >
+              <Controller
+                control={control}
+                name='date'
+                render={({ field: { onChange, onBlur, value, ref } }) => (
+                  <DatePicker
+                    onChange={onChange}
+                    onBlur={onBlur}
+                    selected={value}
+                    inputRef={ref}
+                    dateFormat='dd MMM yyyy'
+                    placeholderText='Select date'
+                    className='input-standard'
+                  />
+                )}
+              />
+            </FormField>
+          </fieldset>
+
+          <fieldset className='flex gap-2 items-center'>
+            <label>Recurring Transaction</label>
+            <input {...register('isRecurring')}
+              type='checkbox'
+              id='isRecurring'
+            >          </input>
+          </fieldset>
+
+          {isRecurring && (
+
+              <fieldset>
+                <FormField
+                  label='Frequency'
+                  htmlFor='frequency'
+                  error={errors.frequency?.message}
+                >
+                  <select {...register('frequency')} className='input-standard'>
+                    <option value=''>-- Select Frequency --</option>
+                    {FREQUENCIES?.map((freq) => (
+                      <option key={freq.label} value={freq.value}>{freq.label}</option>
+                    ))}
+                  </select>
+                </FormField>
+
+                <FormField
+                  label='End Date'
+                  htmlFor='end date'
+                  error={errors.endDate?.message}
+                >
+                  <Controller
+                    control={control}
+                    name='endDate'
+                    render={({ field: { onChange, onBlur, value, ref } }) => (
+                      <DatePicker
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        selected={value}
+                        inputRef={ref}
+                        dateFormat='dd MMM yyyy'
+                        placeholderText='Select end date'
+                        className='input-standard'
+                      />
+                    )}
+                  />
+                </FormField>
+              </fieldset>
+
+
+          )}
+          <div className='flex justify-center mt-4'>
+            <Button type='submit'
+              disabled={isCreating || isUpdating || isFetching}
+              intent='primary'
+              loadingText={isEditMode ? 'Updating Transaction...' : 'Creating Transaction...'}
+              isLoading={isUpdating || isCreating || isFetching}
+            >
+              {isEditMode ? 'Update Transaction' : 'Create Transaction'}
+            </Button>
+          </div>
+
+        </form>
+      </div>
+    </section>
   );
 }
 
