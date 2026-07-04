@@ -92,20 +92,38 @@ function RecurringTransactions() {
       <Modal
         isOpen={isPauseConfirmationOpen}
         onClose={handleClose}
-        title={'Edit ' + selectedTemplate?.memo + ' Pause Status'}
+        title={selectedTemplate?.isPaused ? 'Resume template' : 'Pause template'}
         body={
-          <>
-            <h3>
-              This template is currently {selectedTemplate?.isPaused ? 'paused' : 'active'}.
-            </h3>
+          selectedTemplate ? (
+            <div className='space-y-3'>
+              <p>
+                <strong>{selectedTemplate.memo}</strong> is currently{' '}
+                {selectedTemplate.isPaused ? 'paused' : 'active'}.
+              </p>
 
-          </>
+              {selectedTemplate.isPaused ? (
+                <p>
+                  Resuming this template will allow transactions to start generating again
+                  based on the template’s current schedule and rules.
+                </p>
+              ) : (
+                <p>
+                  Pausing this template will stop new transactions from being generated
+                  until the template is resumed.
+                </p>
+              )}
+
+              <p>
+                Existing transactions that have already been created will remain unchanged.
+              </p>
+            </div>
+          ) : null
         }
         footer={
           selectedTemplate ? (
             <>
               <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
-                {selectedTemplate?.isPaused ? 'Resume template' : 'Pause template'}
+                {selectedTemplate.isPaused ? 'Resume template' : 'Pause template'}
               </Button>
               <Button
                 onClick={handleClose}
@@ -115,7 +133,6 @@ function RecurringTransactions() {
                 Cancel
               </Button>
             </>
-
           ) : null
         }
       />
@@ -131,10 +148,9 @@ function RecurringTransactions() {
                 Delete <strong>{selectedTemplate.memo} Template</strong>?
               </p>
               <p>
-                Warning: This cannot be undone. The template will be <b>permanently removed</b>,
-                and no new transactions will be created on its schedule. All transactions
-                that already exist up to today will&nbsp;remain.
-              </p>
+                 This action cannot be undone. The template will be permanently deleted, and no
+                 new transactions will be created going forward. Existing transactions will&nbsp;remain.
+               </p>
             </div>
           )
         }
