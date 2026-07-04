@@ -1,5 +1,6 @@
 import { normalizeDateInputToLocalDate } from '@/utils/dateHelper';
 import { Pencil, Trash2 } from 'lucide-react';
+import PaginationControls from './PaginationControls';
 
 function TransactionMobile({
   transactionsData,
@@ -47,6 +48,12 @@ function TransactionMobile({
           </div>
         </div>
       )}
+      <PaginationControls
+        page={page}
+        totalPages={transactionsData?.totalPages}
+        setPage={setPage}
+        placeholder={isPlaceholderData}
+      />
     </>
   );
 }
