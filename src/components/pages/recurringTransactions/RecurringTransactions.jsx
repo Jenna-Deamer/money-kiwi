@@ -4,12 +4,15 @@ import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import Modal from '@/components/shared/Modal';
 import { useState } from 'react';
 import Button from '@/components/shared/ui/buttons/Button';
+import OptionsMenu from '@/components/shared/ui/OptionsMenu';
 
 function RecurringTransactions() {
   const { data, isLoading, error } = useRecurringTransaction();
   const { mutate: deleteTemplate, isLoading: isDeleting } = useDeleteRecurringTransaction();
   const { mutate: updatePauseStatus, isLoading: isUpdatingStatus } = useUpdateRecurringTransactionPauseStatus();
   const [isEditOpen, setIsEditOpen] = useState(false);
+  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
+
   const [isPauseConfirmationOpen, setIsPauseConfirmationOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
 
@@ -19,8 +22,18 @@ function RecurringTransactions() {
     setIsEditOpen(false);
     setIsPauseConfirmationOpen(false);
     setIsDeleteConfirmationOpen(false);
+    setIsOptionsMenuOpen(false);
     setSelectedTemplate(null);
   }
+  const handleOptionsMenu = (transaction) => {
+    if (isOptionsMenuOpen && selectedTemplate?.id === transaction.id) {
+      setIsOptionsMenuOpen(false);
+      setSelectedTemplate(null);
+    } else {
+      setSelectedTemplate(transaction);
+      setIsOptionsMenuOpen(true);
+    }
+  };
 
   const handleDeleteModalConfirmation = () => deleteTemplate({ id: selectedTemplate.id }, { onSuccess: handleClose });
   const handlePauseModalConfirmation = () => updatePauseStatus({ id: selectedTemplate.id, pauseStatus: selectedTemplate.isPaused }, { onSuccess: handleClose });
@@ -29,7 +42,7 @@ function RecurringTransactions() {
   if (error) return <div className='form-error'>Error: {error}</div>;
   return (
     <section>
-      <h1 className='mb-6'>Recurring Transactions Overview</h1>
+      <h1 className='mb-6'>Recurring Transactions&nbsp;Overview</h1>
       <section className='grid md:grid-cols-2 md:gap-8 gap-4'>
         {FREQUENCIES?.map(freq => (
           <div key={freq.label}>
@@ -37,39 +50,43 @@ function RecurringTransactions() {
             {data?.map(tx => (
               tx.frequency === freq.value &&
               <div key={tx.id} className='card p-4 mb-2 max-w-lg'>
-                <h3>{tx.memo}</h3>
-                <div>
-                  <div>
-                    <button
+                <div className='flex justify-between items-center'>
+                  <h3>{tx.memo}</h3>
+                  <OptionsMenu
+                    isOpen={isOptionsMenuOpen && selectedTemplate?.id === tx.id}
+                    onClose={handleClose}
+                    onTriggerClick={() => handleOptionsMenu(tx)}
+                  >
+                    <li className='mb-1 border-b'>       <button
+                      className='cursor-pointer'
                       onClick={() => {
                         setSelectedTemplate(tx);
                         setIsEditOpen(true);
                       }}
                     >
                       Edit
-                    </button>
-
-                    <button
+                    </button></li>
+                    <li className='mb-1 border-b'>                <button
+                      className='cursor-pointer'
                       onClick={() => {
                         setSelectedTemplate(tx);
                         setIsPauseConfirmationOpen(true);
                       }}
                     >
                       Pause
-                    </button>
-
-                    <button
+                    </button></li>
+                    <li className='mb-1 border-b'>   <button
+                      className='cursor-pointer'
                       onClick={() => {
                         setSelectedTemplate(tx);
                         setIsDeleteConfirmationOpen(true);
                       }}
                     >
                       Delete
-                      </button>
-
+                    </button></li>
+                  </OptionsMenu>
                   </div>
                   <p>{tx.type} ${tx.amount.toFixed(2)}</p>
-                </div>
               </div>
             ))}
           </div>
@@ -86,7 +103,7 @@ function RecurringTransactions() {
               template={selectedTemplate}
               onClose={handleClose}
             />
-            )
+          )
         }
       />
       <Modal
@@ -122,15 +139,16 @@ function RecurringTransactions() {
         footer={
           selectedTemplate ? (
             <>
-              <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
-                {selectedTemplate.isPaused ? 'Resume template' : 'Pause template'}
-              </Button>
+
               <Button
                 onClick={handleClose}
                 disabled={isDeleting}
                 intent='subtle'
               >
                 Cancel
+              </Button>
+              <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
+                {selectedTemplate.isPaused ? 'Resume template' : 'Pause template'}
               </Button>
             </>
           ) : null
@@ -148,9 +166,9 @@ function RecurringTransactions() {
                 Delete <strong>{selectedTemplate.memo} Template</strong>?
               </p>
               <p>
-                 This action cannot be undone. The template will be permanently deleted, and no
-                 new transactions will be created going forward. Existing transactions will&nbsp;remain.
-               </p>
+                This action cannot be undone. The template will be permanently deleted, and no
+                new transactions will be created going forward. Existing transactions will&nbsp;remain.
+              </p>
             </div>
           )
         }

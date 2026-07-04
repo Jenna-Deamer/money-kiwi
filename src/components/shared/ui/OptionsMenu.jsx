@@ -5,12 +5,7 @@ function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
   const menuRef = useRef(null);
 
   useEffect(() => {
-    const handleOutsideAccountMenuClick = (e) => {
-      if (!menuRef.current?.contains(e.target)) {
-        console.log('outside clicked!');
-        onClose();
-      }
-    };
+    const handleOutsideAccountMenuClick = (e) => { if (!menuRef.current?.contains(e.target)) onClose(); };
 
     if (!isOpen) return;
     window.addEventListener('mousedown', handleOutsideAccountMenuClick);
