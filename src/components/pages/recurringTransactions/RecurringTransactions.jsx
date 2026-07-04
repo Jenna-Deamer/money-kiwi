@@ -42,56 +42,90 @@ function RecurringTransactions() {
   if (error) return <div className='form-error'>Error: {error}</div>;
   return (
     <section>
+
       <h1 className='mb-6'>Recurring Transactions&nbsp;Overview</h1>
-      <section className='grid md:grid-cols-2 md:gap-8 gap-4'>
-        {FREQUENCIES?.map(freq => (
-          <div key={freq.label}>
-            <h3 className='border-b border-soft mb-4'>{freq.label}</h3>
-            {data?.map(tx => (
-              tx.frequency === freq.value &&
-              <div key={tx.id} className='card p-4 mb-2 max-w-lg'>
-                <div className='flex justify-between items-center'>
-                  <h3>{tx.memo}</h3>
-                  <OptionsMenu
-                    isOpen={isOptionsMenuOpen && selectedTemplate?.id === tx.id}
-                    onClose={handleClose}
-                    onTriggerClick={() => handleOptionsMenu(tx)}
-                  >
-                    <li className='mb-1 border-b'>       <button
-                      className='cursor-pointer'
-                      onClick={() => {
-                        setSelectedTemplate(tx);
-                        setIsEditOpen(true);
-                      }}
-                    >
-                      Edit
-                    </button></li>
-                    <li className='mb-1 border-b'>                <button
-                      className='cursor-pointer'
-                      onClick={() => {
-                        setSelectedTemplate(tx);
-                        setIsPauseConfirmationOpen(true);
-                      }}
-                    >
-                      Pause
-                    </button></li>
-                    <li className='mb-1 border-b'>   <button
-                      className='cursor-pointer'
-                      onClick={() => {
-                        setSelectedTemplate(tx);
-                        setIsDeleteConfirmationOpen(true);
-                      }}
-                    >
-                      Delete
-                    </button></li>
-                  </OptionsMenu>
-                  </div>
-                  <p>{tx.type} ${tx.amount.toFixed(2)}</p>
+
+      <div className='grid gap-6 md:grid-cols-2 items-start'>
+        {FREQUENCIES?.map((freq) => {
+          const items = data?.filter((tx) => tx.frequency === freq.value) ?? [];
+
+          return (
+            <div key={freq.label} className='flex flex-col gap-3'>
+              <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
+                <h2>{freq.label}</h2>
+                <span className='text-sm'>{items.length}</span>
               </div>
-            ))}
-          </div>
-        ))}
-      </section>
+
+              <div className='flex flex-col gap-3'>
+                {items.map((tx) => (
+                  <article key={tx.id} className='card p-4 flex flex-col gap-3'>
+                    <div className='flex items-start justify-between gap-3'>
+                      <div className='min-w-0 flex-1'>
+                        <h3 className='pr-2'>{tx.memo}</h3>
+                      </div>
+
+                      <OptionsMenu
+                        isOpen={isOptionsMenuOpen && selectedTemplate?.id === tx.id}
+                        onClose={handleClose}
+                        onTriggerClick={() => handleOptionsMenu(tx)}
+                      >
+                        <li className='mb-1 border-b'>
+                          <button
+                            className='cursor-pointer'
+                            onClick={() => {
+                              setSelectedTemplate(tx);
+                              setIsEditOpen(true);
+                            }}
+                          >
+                            Edit
+                          </button>
+                        </li>
+
+                        <li className='mb-1 border-b'>
+                          <button
+                            className='cursor-pointer'
+                            onClick={() => {
+                              setSelectedTemplate(tx);
+                              setIsPauseConfirmationOpen(true);
+                            }}
+                          >
+                            {tx.isPaused ? 'Resume' : 'Pause'}
+                          </button>
+                        </li>
+
+                        <li className='mb-1 border-b'>
+                          <button
+                            className='cursor-pointer'
+                            onClick={() => {
+                              setSelectedTemplate(tx);
+                              setIsDeleteConfirmationOpen(true);
+                            }}
+                          >
+                            Delete
+                          </button>
+                        </li>
+                      </OptionsMenu>
+
+                    </div>
+
+                    <div className='flex items-end justify-between gap-3'>
+                      <div className='flex items-center gap-2 text-sm'>
+                        <span className='badge border-black/10 bg-black/3'>
+                          {tx.type}
+                        </span>
+                      </div>
+
+                      <p className='text-lg font-bold'>
+                        ${tx.amount.toFixed(2)}
+                      </p>
+                    </div>
+                  </article>
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
 
       <Modal
         isOpen={isEditOpen}
@@ -139,16 +173,15 @@ function RecurringTransactions() {
         footer={
           selectedTemplate ? (
             <>
-
+              <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
+                {selectedTemplate.isPaused ? 'Resume template' : 'Pause template'}
+              </Button>
               <Button
                 onClick={handleClose}
                 disabled={isDeleting}
                 intent='subtle'
               >
                 Cancel
-              </Button>
-              <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
-                {selectedTemplate.isPaused ? 'Resume template' : 'Pause template'}
               </Button>
             </>
           ) : null
