@@ -10,8 +10,9 @@ import DateCell from '@/components/pages/transactions/table/editableCells/DateCe
 import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
-import { Pencil, Trash2,ChevronRight,ChevronLeft } from 'lucide-react';
+import { Pencil, Trash2, ChevronRight, ChevronLeft } from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
+import PaginationControls from './PaginationControls';
 
 function TransactionTable({
   transactionsData,
@@ -191,39 +192,15 @@ function TransactionTable({
       </div>
         : null}
 
-      <div className='flex flex-wrap items-center'>
-        <span className='mr-4'>
-          Current Page: <b>{page + 1}</b>
-        </span>
+        <div className='flex gap-2 mt-2'>
+          <PaginationControls
+            page={page}
+            totalPages={transactionsData?.totalPages}
+            setPage={setPage}
+            placeholder={isPlaceholderData}
+          />
+        </div>
 
-        {transactionsData?.totalPages > 1 && (
-          <div className='flex gap-2 mt-2'>
-            <Button
-              intent='subtle'
-              onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
-              disabled={page === 0}
-              leftIcon={<ChevronLeft />}
-              size='sm'
-            >
-              Previous
-            </Button>
-
-            <Button
-              intent='subtle'
-              onClick={() => {
-                if (!isPlaceholderData && transactionsData.totalPages) {
-                  setPage((prev) => prev + 1);
-                }
-              }}
-              disabled={isPlaceholderData || page >= transactionsData?.totalPages - 1}
-              rightIcon={<ChevronRight />}
-              size='sm'
-                          >
-              Next
-            </Button>
-          </div>
-        )}
-      </div>
 
     </>
   );

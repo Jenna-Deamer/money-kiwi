@@ -31,14 +31,12 @@ function TransactionMobile({
             </p>
           </div>
 
-          <p className='text-sm'>
-            {tx.account.institution} - {tx.account.name}
-          </p>
+          <div className='flex items-end gap-3 mt-3'>
+            {tx.category?.name && (
+              <p className='badge w-fit'>{tx.category.name}</p>
+            )}
 
-          <div className='flex items-end justify-between gap-3 mt-3'>
-            <p className='badge w-fit'>{tx.category.name}</p>
-
-            <div className='flex gap-4'>
+            <div className='ml-auto flex gap-4'>
               <button onClick={() => onUpdate(tx.id)} aria-label='Update Transaction'>
                 <Pencil size={20} />
               </button>
