@@ -10,7 +10,7 @@ import DateCell from '@/components/pages/transactions/table/editableCells/DateCe
 import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
-import { Pencil, Trash2, ChevronRight, ChevronLeft } from 'lucide-react';
+import { Pencil, Trash2} from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
 import PaginationControls from './PaginationControls';
 
