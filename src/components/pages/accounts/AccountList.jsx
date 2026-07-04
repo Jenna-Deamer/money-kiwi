@@ -16,12 +16,14 @@ function AccountList({ title, accounts }) {
 
   const navigate = useNavigate();
 
-  const handleClose = () => {
-    setSelectedAccount(null);
-    setIsAccountOptionsOpen(false);
+  const handleModalClose = () => {
     setIsStatusOpen(false);
     setIsDeleteOpen(false);
+    setSelectedAccount(null);
+
   };
+
+  const handleMenuClose = () => setIsAccountOptionsOpen(false);
 
   const handleAccountOptionsMenu = (account) => {
     if (isAccountOptionsOpen && selectedAccount?.id === account.id) {
@@ -38,14 +40,14 @@ function AccountList({ title, accounts }) {
 
     updateStatus(
       { id: selectedAccount.id, status: newStatus },
-      { onSuccess: handleClose }
+      { onSuccess: handleModalClose }
     );
   };
 
   const handleDeleteModalConfirmation = () => {
     deleteAccount(
       { id: selectedAccount.id },
-      { onSuccess: handleClose }
+      { onSuccess: handleModalClose }
     );
   };
 
@@ -66,7 +68,7 @@ function AccountList({ title, accounts }) {
 
               <OptionsMenu
                 isOpen={isAccountOptionsOpen && selectedAccount?.id === account.id}
-                onClose={handleClose}
+                onClose={handleMenuClose}
                 onTriggerClick={() => handleAccountOptionsMenu(account)}
               >
                 <li className='mb-1 border-b'>
@@ -118,12 +120,12 @@ function AccountList({ title, accounts }) {
 
           <p className='flex justify-end font-bold'>${account.balance.toFixed(2)}</p>
         </div>
-  ))
-}
+      ))
+      }
 
       <Modal
         isOpen={isStatusOpen}
-        onClose={handleClose}
+        onClose={handleModalClose}
         title={selectedAccount?.status === 'active' ? 'Archive account' : 'Restore account'}
         body={
           selectedAccount && (
@@ -174,7 +176,7 @@ function AccountList({ title, accounts }) {
               {selectedAccount.status === 'active' && selectedAccount.balance > 0.01 ? (
                 <>
                   <Button
-                    onClick={handleClose}
+                    onClick={handleModalClose}
                     disabled={isUpdating}
                     intent='subtle'
                   >
@@ -188,7 +190,7 @@ function AccountList({ title, accounts }) {
               ) : (
                 <>
                   <Button
-                    onClick={handleClose}
+                    onClick={handleModalClose}
                     disabled={isUpdating}
                     intent='subtle'
                   >
@@ -215,7 +217,7 @@ function AccountList({ title, accounts }) {
       />
       <Modal
         isOpen={isDeleteOpen}
-        onClose={handleClose}
+        onClose={handleModalClose}
         title='Delete Account'
         body={
           selectedAccount && (
@@ -233,7 +235,7 @@ function AccountList({ title, accounts }) {
           selectedAccount ? (
             <>
               <Button
-                onClick={handleClose}
+                onClick={handleModalClose}
                 disabled={isDeleting}
                 intent='subtle'
               >

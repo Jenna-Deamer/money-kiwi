@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import Button from '@/components/shared/ui/buttons/Button';
+import FormField from '@/components/shared/ui/form/FormField';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { recurringTemplateSchema } from '@/utils/validation/recurringTemplateSchema';
@@ -12,6 +13,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
 import { useEffect } from 'react';
+import { FormInput } from 'lucide-react';
 
 function UpdateTemplateForm({ template, onClose }) {
   const [serverError, setServerError] = useState('');
@@ -82,17 +84,17 @@ function UpdateTemplateForm({ template, onClose }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {serverError && <p style={{ color: 'red' }}>{serverError}</p>}
+      {serverError && <p className='form-error'>{serverError}</p>}
 
       <fieldset>
-        <div>
-          <label>Source Account</label>
-          {isLoadingAccounts && <small>Loading...</small>}
-          {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
-        </div>
-
-        <div className='input-group'>
-          <select {...register('accountId')} disabled={isLoadingAccounts || !!error}>
+        {isLoadingAccounts && <small>Loading...</small>}
+        {error && <small className='field-error'>Error retrieving accounts!</small>}
+        <FormField
+          label='Source Account'
+          htmlFor='source Account'
+          error={errors.accountId?.message}
+        >
+          <select {...register('accountId')} disabled={isLoadingAccounts || !!error} className='input-standard'>
             <option value=''>-- Select Source Account --</option>
             {accountData?.map((account) => (
               <option key={account.id} value={account.id}>
@@ -100,44 +102,52 @@ function UpdateTemplateForm({ template, onClose }) {
               </option>
             ))}
           </select>
-          {errors.accountId && <span className='error'>{errors.accountId.message}</span>}
-        </div>
+        </FormField>
       </fieldset>
 
       <fieldset>
-        <label>Memo</label>
-        <div className='input-group'>
-          <input {...register('memo')} placeholder='e.g. Starbucks' />
-          {errors.memo && <span className='error'>{errors.memo.message}</span>}
-        </div>
+        <FormField
+          label='Memo'
+          htmlFor='memo'
+          error={errors.memo?.message}
+        >
+          <input {...register('memo')} placeholder='e.g. Starbucks' className='input-standard' />
+        </FormField>
 
-        <label>Amount</label>
-        <div className='input-group'>
-          <input type='number' step='0.01' {...register('amount')} placeholder='0.00' />
-          {errors.amount && <span className='error'>{errors.amount.message}</span>}
-        </div>
+        <FormField
+          label='Amount'
+          htmlFor='amount'
+          error={errors.amount?.message}
+        >
+          <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard'/>
+        </FormField>
       </fieldset>
 
       <fieldset>
-        <label>Transaction Type</label>
-        <div className='input-group'>
-          <select {...register('type')}>
+        <FormField
+          label='Transaction Type'
+          htmlFor='transaction type'
+          error={errors.type?.message}
+        >
+          <select {...register('type')} className='input-standard'>
             <option value=''>-- Select Type --</option>
             {VALID_TYPES.map((type) => (
               <option key={type} value={type}>{type}</option>
             ))}
           </select>
-          {errors.type && <span className='error'>{errors.type.message}</span>}
-        </div>
+        </FormField>
+
 
         {selectedType !== 'TRANSFER' && (
           <>
-            <label>Category</label>
-
-            <div className='input-group'>
-              {isLoadingCategories && <small>Loading categories...</small>}
-              {categoryError && <small style={{ color: 'red' }}>Error retrieving categories!</small>}
-              <select {...register('categoryId')} disabled={!selectedType}>
+            {isLoadingCategories && <small>Loading categories...</small>}
+            {categoryError && <small className='field-error'>Error retrieving categories!</small>}
+            <FormField
+              label='Category'
+              htmlFor='category'
+              error={errors.categoryId?.message}
+            >
+              <select {...register('categoryId')} disabled={!selectedType} className='input-standard'>
                 {!selectedType ? (
                   <option value=''>-- Select Type First --</option>
                 ) : (
@@ -151,22 +161,21 @@ function UpdateTemplateForm({ template, onClose }) {
                   </>
                 )}
               </select>
-              {errors.categoryId && <span className='error'>{errors.categoryId.message}</span>}
-            </div>
+            </FormField>
           </>
         )}
       </fieldset>
 
       {selectedType === 'TRANSFER' && (
         <fieldset>
-          <div>
-            <label>Destination Account</label>
-            {isLoadingAccounts && <small>Loading accounts...</small>}
-            {error && <small style={{ color: 'red' }}>Error retrieving accounts!</small>}
-          </div>
-
-          <div className='input-group'>
-            <select {...register('toAccountId')} disabled={isLoadingAccounts || !!error}>
+          {isLoadingAccounts && <small>Loading accounts...</small>}
+          {error && <small className='field-error'>Error retrieving accounts!</small>}
+          <FormField
+            label='Destination Account'
+            htmlFor='destination account'
+            error={errors.toAccountId?.message}
+          >
+            <select {...register('toAccountId')} disabled={isLoadingAccounts || !!error} className='input-standard'>
               <option value=''>-- Select Destination Account --</option>
               {accountData?.filter(acc => acc.id !== sourceAccountId)
                 .map((account) => (
@@ -175,16 +184,30 @@ function UpdateTemplateForm({ template, onClose }) {
                   </option>
                 ))}
             </select>
-            {errors.toAccountId && (
-              <span className='error'>{errors.toAccountId.message}</span>
-            )}
-          </div>
+          </FormField>
+
+          <FormField
+            label='Frequency'
+            htmlFor='frequency'
+            error={errors.frequency?.message}
+          >
+            <select {...register('frequency')} className='input-standard'>
+              <option value=''>-- Select Frequency --</option>
+              {FREQUENCIES?.map((freq) => (
+                <option key={freq.label} value={freq.value}>{freq.label}</option>
+              ))}
+            </select>
+          </FormField>
         </fieldset>
       )}
 
-      <fieldset>
-        <label>Start Date</label>
-        <div className='input-group'>
+
+      <fieldset className='flex justify-between'>
+        <FormField
+          label='Start Date'
+          htmlFor='start date'
+          error={errors.startDate?.message}
+        >
           <Controller
             control={control}
             name='startDate'
@@ -196,28 +219,16 @@ function UpdateTemplateForm({ template, onClose }) {
                 inputRef={ref}
                 dateFormat='dd MMM yyyy'
                 placeholderText='Select date'
+                className='input-standard'
               />
             )}
           />
-          {errors.startDate && <span className='error'>{errors.startDate.message}</span>}
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <label>Frequency</label>
-        <select {...register('frequency')}>
-          <option value=''>-- Select Frequency --</option>
-          {FREQUENCIES?.map((freq) => (
-            <option key={freq.label} value={freq.value}>{freq.label}</option>
-          ))}
-        </select>
-        {errors.frequency && (
-          <span className='error'>{errors.frequency.message}</span>
-        )}
-      </fieldset>
-      <fieldset>
-        <label>End Date <small>(optional)</small></label>
-        <div className='input-group'>
+        </FormField>
+        <FormField
+          label='End Date'
+          htmlFor='end date'
+          error={errors.endDate?.message}
+        >
           <Controller
             control={control}
             name='endDate'
@@ -229,16 +240,21 @@ function UpdateTemplateForm({ template, onClose }) {
                 inputRef={ref}
                 dateFormat='dd MMM yyyy'
                 placeholderText='Select end date'
+                className='input-standard'
               />
             )}
           />
-          {errors.endDate && <span className='error'>{errors.endDate.message}</span>}
-        </div>
+        </FormField>
       </fieldset>
 
-      <button type='submit' disabled={isUpdating || isLoadingAccounts || isLoadingCategories}>
-        Update Template
-      </button>
+
+
+      <div className='flex justify-center items-center mt-4'>
+        <Button type='submit' disabled={isUpdating || isLoadingAccounts || isLoadingCategories}>
+          Update Template
+        </Button>
+      </div>
+
     </form>
   );
 }
