@@ -92,7 +92,7 @@ function RecurringTransactions() {
       <Modal
         isOpen={isPauseConfirmationOpen}
         onClose={handleClose}
-        title={selectedTemplate?.isPaused ? 'Resume template' : 'Pause template'}
+        title={selectedTemplate?.isPaused ? 'Resume Template' : 'Pause Template'}
         body={
           selectedTemplate ? (
             <div className='space-y-3'>
