@@ -53,12 +53,15 @@ function RecurringTransactions() {
 
   return (
     <section>
-      <h1 className='mb-2'>Recurring Transactions&nbsp;Overview</h1>
-      <TabButtons
-        tabs={tabs}
-        activeTab={activeTab}
-        onTabChange={setActiveTab}
-      />
+      <div className='text-center flex flex-col items-center md:text-left md:items-start'>
+        <h1 className='mb-2'>Recurring Transactions&nbsp;Overview</h1>
+        <TabButtons
+          tabs={tabs}
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+        />
+      </div>
+
       <div className='grid gap-6 md:grid-cols-2 items-start mt-6'>
         {FREQUENCIES.map((freq) => {
           const itmes = currentList.filter((tx) => tx.frequency === freq.value);
