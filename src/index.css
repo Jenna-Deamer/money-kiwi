@@ -47,6 +47,7 @@
         font-size: var(--text-body);
     }
 
+    section{@apply max-w-6xl  mx-auto;}
     /* Responsive Headings */
     h1 {
         @apply font-bold leading-tight tracking-tight;
