@@ -13,18 +13,19 @@ function RecurringTransactions() {
   const { mutate: updatePauseStatus, isLoading: isUpdatingStatus } = useUpdateRecurringTransactionPauseStatus();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
-  const pausedTemplates = data?.filter(tx => tx.isPaused);
-  const activeTemplates = data?.filter(tx => !tx.isPaused);
-  console.log(activeTemplates)
   const [isPauseConfirmationOpen, setIsPauseConfirmationOpen] = useState(false);
   const [isDeleteConfirmationOpen, setIsDeleteConfirmationOpen] = useState(false);
 
   const [selectedTemplate, setSelectedTemplate] = useState(null);
-  const [activeTab, setActiveTab] = useState('active');
+  const [activeTab, setActiveTab] = useState('activeList');
+
+  const pausedList = data?.filter(tx => tx.isPaused);
+  const activeList = data?.filter(tx => !tx.isPaused);
+  const currentList = activeTab === 'activeList' ? activeList : pausedList;
 
   const tabs = [
-    { id: 'active', label: 'Active' },
-    { id: 'archived', label: 'Paused' },
+    { id: 'activeList', label: 'Active' },
+    { id: 'pausedList', label: 'Paused' },
   ];
 
   function handleModalClose() {
@@ -44,11 +45,12 @@ function RecurringTransactions() {
     }
   };
 
-  const handleDeleteModalConfirmation = () => deleteTemplate({ id: selectedTemplate.id }, { onSuccess: handleModalClose() });
+  const handleDeleteModalConfirmation = () => deleteTemplate({ id: selectedTemplate.id }, { onSuccess: () => handleModalClose() });
   const handlePauseModalConfirmation = () => updatePauseStatus({ id: selectedTemplate.id, pauseStatus: selectedTemplate.isPaused }, { onSuccess: handleModalClose });
 
   if (isLoading) return <div>Loading</div>;
   if (error) return <div className='form-error'>Error: {error}</div>;
+
   return (
     <section>
       <h1 className='mb-2'>Recurring Transactions&nbsp;Overview</h1>
@@ -58,184 +60,18 @@ function RecurringTransactions() {
         onTabChange={setActiveTab}
       />
       <div className='grid gap-6 md:grid-cols-2 items-start mt-6'>
-        {activeTab === 'active' ? (
-          <>
-            {FREQUENCIES.map((freq => {
-              const activeRecords = activeTemplates?.filter((tx) => tx.frequency === freq.value) ?? [];
-
-              return (
-                <div key={freq.label} className='flex flex-col gap-3'>
-                  <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
-                    <h2>{freq.label}</h2>
-                    <span className='text-sm'>{activeRecords.length}</span>
-                  </div>
-
-                  <div className='flex flex-col gap-3'>
-                    {activeRecords.map((tx) => (
-                      <article key={tx.id} className='card p-4 flex flex-col gap-3'>
-                        <div className='flex items-start justify-between gap-3'>
-                          <div className='min-w-0 flex-1'>
-                            <h3 className='pr-2'>{tx.memo}</h3>
-                          </div>
-
-                          <OptionsMenu
-                            isOpen={isOptionsMenuOpen && selectedTemplate?.id === tx.id}
-                            onClose={handleMenuClose}
-                            onTriggerClick={() => handleOptionsMenu(tx)}
-                          >
-                            <li className='mb-1 border-b'>
-                              <button
-                                className='cursor-pointer'
-                                onClick={() => {
-                                  setSelectedTemplate(tx);
-                                  setIsEditOpen(true);
-                                }}
-                              >
-                                Edit
-                              </button>
-                            </li>
-
-                            <li className='mb-1 border-b'>
-                              <button
-                                className='cursor-pointer'
-                                onClick={() => {
-                                  setSelectedTemplate(tx);
-                                  setIsPauseConfirmationOpen(true);
-                                }}
-                              >
-                                {tx.isPaused ? 'Resume' : 'Pause'}
-                              </button>
-                            </li>
-
-                            <li className='mb-1 border-b'>
-                              <button
-                                className='cursor-pointer'
-                                onClick={() => {
-                                  setSelectedTemplate(tx);
-                                  setIsDeleteConfirmationOpen(true);
-                                }}
-                              >
-                                Delete
-                              </button>
-                            </li>
-                          </OptionsMenu>
-
-                        </div>
-
-                        <div className='flex items-end justify-between gap-3'>
-                          <div className='flex items-center gap-2 text-sm'>
-                            <span className='badge border-black/10 bg-black/3'>
-                              {tx.type}
-                            </span>
-                          </div>
-
-                          <p className='text-lg font-bold'>
-                            ${tx.amount.toFixed(2)}
-                          </p>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )
-            }))}
-          </>
-        ) : (
-          <>
-            {FREQUENCIES.map((freq => {
-              const pausedRecords = pausedTemplates?.filter((tx) => tx.frequency === freq.value) ?? [];
-
-              return (
-                <div key={freq.label} className='flex flex-col gap-3'>
-                  <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
-                    <h2>{freq.label}</h2>
-                    <span className='text-sm'>{pausedRecords.length}</span>
-                  </div>
-
-                  <div className='flex flex-col gap-3'>
-                    {pausedRecords.map((tx) => (
-                      <article key={tx.id} className='card p-4 flex flex-col gap-3'>
-                        <div className='flex items-start justify-between gap-3'>
-                          <div className='min-w-0 flex-1'>
-                            <h3 className='pr-2'>{tx.memo}</h3>
-                          </div>
-
-                          <OptionsMenu
-                            isOpen={isOptionsMenuOpen && selectedTemplate?.id === tx.id}
-                            onClose={handleMenuClose}
-                            onTriggerClick={() => handleOptionsMenu(tx)}
-                          >
-                            <li className='mb-1 border-b'>
-                              <button
-                                className='cursor-pointer'
-                                onClick={() => {
-                                  setSelectedTemplate(tx);
-                                  setIsEditOpen(true);
-                                }}
-                              >
-                                Edit
-                              </button>
-                            </li>
-
-                            <li className='mb-1 border-b'>
-                              <button
-                                className='cursor-pointer'
-                                onClick={() => {
-                                  setSelectedTemplate(tx);
-                                  setIsPauseConfirmationOpen(true);
-                                }}
-                              >
-                                {tx.isPaused ? 'Resume' : 'Pause'}
-                              </button>
-                            </li>
-
-                            <li className='mb-1 border-b'>
-                              <button
-                                className='cursor-pointer'
-                                onClick={() => {
-                                  setSelectedTemplate(tx);
-                                  setIsDeleteConfirmationOpen(true);
-                                }}
-                              >
-                                Delete
-                              </button>
-                            </li>
-                          </OptionsMenu>
-
-                        </div>
-
-                        <div className='flex items-end justify-between gap-3'>
-                          <div className='flex items-center gap-2 text-sm'>
-                            <span className='badge border-black/10 bg-black/3'>
-                              {tx.type}
-                            </span>
-                          </div>
-
-                          <p className='text-lg font-bold'>
-                            ${tx.amount.toFixed(2)}
-                          </p>
-                        </div>
-                      </article>
-                    ))}
-                  </div>
-                </div>
-              )
-            }))}
-          </>)}
-      </div>
-      {/* <div className='grid gap-6 md:grid-cols-2 items-start'>
-        {FREQUENCIES?.map((freq) => {
-          const items = data?.filter((tx) => tx.frequency === freq.value) ?? [];
+        {FREQUENCIES.map((freq) => {
+          const itmes = currentList.filter((tx) => tx.frequency === freq.value);
 
           return (
             <div key={freq.label} className='flex flex-col gap-3'>
               <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
                 <h2>{freq.label}</h2>
-                <span className='text-sm'>{items.length}</span>
+                <span className='text-sm'>{itmes.length}</span>
               </div>
 
               <div className='flex flex-col gap-3'>
-                {items.map((tx) => (
+                {itmes.map((tx) => (
                   <article key={tx.id} className='card p-4 flex flex-col gap-3'>
                     <div className='flex items-start justify-between gap-3'>
                       <div className='min-w-0 flex-1'>
@@ -283,7 +119,6 @@ function RecurringTransactions() {
                           </button>
                         </li>
                       </OptionsMenu>
-
                     </div>
 
                     <div className='flex items-end justify-between gap-3'>
@@ -303,7 +138,7 @@ function RecurringTransactions() {
             </div>
           );
         })}
-      </div>*/}
+      </div>
 
       <Modal
         isOpen={isEditOpen}
@@ -318,6 +153,7 @@ function RecurringTransactions() {
           )
         }
       />
+
       <Modal
         isOpen={isPauseConfirmationOpen}
         onClose={handleModalClose}
@@ -374,40 +210,26 @@ function RecurringTransactions() {
           selectedTemplate && (
             <div className='space-y-2'>
               <p>
-                Delete <strong>{selectedTemplate.memo} Template</strong>?
-              </p>
-              <p>
-                This action cannot be undone. The template will be permanently deleted, and no
-                new transactions will be created going forward. Existing transactions will&nbsp;remain.
+                Are you sure you want to delete the template: <strong>{selectedTemplate.memo}</strong>?
               </p>
             </div>
           )
         }
         footer={
-          selectedTemplate ? (
+          selectedTemplate && (
             <>
-              <Button
-                onClick={handleModalClose}
-                disabled={isDeleting}
-                intent='subtle'
-              >
+              <Button onClick={handleDeleteModalConfirmation} disabled={isDeleting} intent='danger'>
+                Delete Template
+              </Button>
+              <Button onClick={handleModalClose} intent='subtle'>
                 Cancel
               </Button>
-
-              <Button
-                onClick={handleDeleteModalConfirmation}
-                disabled={isDeleting}
-                intent='danger'
-              >
-                {isDeleting ? 'Deleting...' : 'Delete Template'}
-              </Button>
             </>
-          ) : null
+          )
         }
       />
     </section>
   );
 }
-
 
 export default RecurringTransactions;
