@@ -12,6 +12,7 @@ import { updateCategorySchema } from '@/utils/validation/categorySchema';
 import { HexColorPicker } from 'react-colorful';
 import Modal from '@/components/shared/Modal';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
+import Button from '@/components/shared/ui/buttons/Button';
 
 function CategoryManagement() {
   const tabs = [
@@ -45,7 +46,23 @@ function CategoryManagement() {
   const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
   const { mutate: deleteCategory, isLoading: isDeleting } = useDeleteCategory();
 
+  const dataArrays = {
+    expense: {
+      parentCategories: expenseParentCategories,
+      childCategories: expenseChildrenCategories
+    },
+    income: {
+      parentCategories: incomeParentCategories,
+      childCategories: incomeChildrenCategories
+    },
+    transfer: {
+      parentCategories: transferParentCategories,
+      childCategories: transferChildrenCategories
+    }
+  };
+
   const [activeTab, setActiveTab] = useState('expense');
+  const activeList = dataArrays[activeTab];
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [activeCategory, setActiveCategory] = useState(null);
@@ -120,43 +137,25 @@ function CategoryManagement() {
           onTabChange={setActiveTab}
         />
 
-        {activeTab === 'expense' && (
+
           <div className='pt-4'>
-            <h2 className='pb-1.5'>Expense</h2>
+          <h2 className='pb-1.5'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
             <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
-              {expenseParentCategories
-                ?.filter(parent => parent.name !== 'Uncategorized')
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((parent) => (
-                  <li key={parent.id} className='rounded border p-4'>
-                    <div>
-                      <h4 className='font-bold'>{parent.name}</h4>
-                      <p>{parent.color}</p>
-                      <button onClick={() => openEditModal(parent)}>Edit</button>
-                      <button onClick={() => openDeleteModal(parent)}>Delete</button>
-                    </div>
-
-                    <ul className='mt-2 space-y-1'>
-                      {expenseChildrenCategories
-                        ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((child) => (
-                          <li key={child.id} className='ml-2'>
-                            {child.name}
-                            <button onClick={() => openEditModal(child)}>Edit</button>
-                            <button onClick={() => openDeleteModal(child)}>Delete</button>
-                          </li>
-                        ))}
-                    </ul>
-                  </li>
-                ))}
-
-              {expenseParentCategories
-                ?.filter(parent => parent.name === 'Uncategorized')
-                .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
+              {activeList?.parentCategories?.length === 0 ? <p>No categories found</p> :
+              activeList?.parentCategories?.filter(parent => parent.name !== 'Uncategorized')
+              .sort((a, b) => a.name.localeCompare(b.name))
+              .map((parent) => (
+                <li key={parent.id} className='rounded border p-4'>
+                  <div>
+                    <h4 className='font-bold'>{parent.name}</h4>
+                    <p>{parent.color}</p>
+                    <button onClick={() => openEditModal(parent)}>Edit</button>
+                    <button onClick={() => openDeleteModal(parent)}>Delete</button>
+                  </div>
 
                   <ul className='mt-2 space-y-1'>
-                    {expenseChildrenCategories?.filter(child => child.parentId === parent.id)
+                    {activeList?.childCategories?.length === 0 ? <p>No categories found</p> :
+                    activeList?.childCategories?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
                         <li key={child.id} className='ml-2'>
@@ -164,118 +163,12 @@ function CategoryManagement() {
                           <button onClick={() => openEditModal(child)}>Edit</button>
                           <button onClick={() => openDeleteModal(child)}>Delete</button>
                         </li>
-                      ))
-                    }
-
+                      ))}
                   </ul>
-                </li>)}
-
+                </li>
+              ))}
             </ul>
           </div>
-        )}
-
-        {activeTab === 'income' && (
-          <div className='pt-4'>
-            <h2 className='pb-1.5'>Income</h2>
-            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
-              {incomeParentCategories
-                ?.filter(parent => parent.name !== 'Uncategorized')
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((parent) => (
-                  <li key={parent.id} className='rounded border p-4'>
-                    <div>
-                      <h4 className='font-bold'>{parent.name}</h4>
-                      <p>{parent.color}</p>
-                      <button onClick={() => openEditModal(parent)}>Edit</button>
-                      <button onClick={() => openDeleteModal(parent)}>Delete</button>
-                    </div>
-
-                    <ul className='mt-2 space-y-1'>
-                      {incomeChildrenCategories
-                        ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((child) => (
-                          <li key={child.id} className='ml-2'>
-                            {child.name}
-                            <button onClick={() => openEditModal(child)}>Edit</button>
-                            <button onClick={() => openDeleteModal(child)}>Delete</button>
-                          </li>
-                        ))}
-                    </ul>
-                  </li>
-                ))}
-              {incomeParentCategories
-                ?.filter(parent => parent.name === 'Uncategorized')
-                .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
-
-                  <ul className='mt-2 space-y-1'>
-                    {incomeChildrenCategories?.filter(child => child.parentId === parent.id)
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((child) => (
-                        <li key={child.id} className='ml-2'>
-                          {child.name}
-                          <button onClick={() => openEditModal(child)}>Edit</button>
-                          <button onClick={() => openDeleteModal(child)}>Delete</button>
-                        </li>
-                      ))
-                    }
-
-                  </ul>
-                </li>)}
-            </ul>
-          </div>
-        )}
-
-        {activeTab === 'transfer' && (
-          <div className='pt-4'>
-            <h2 className='pb-1.5'>Transfer</h2>
-            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
-              {transferParentCategories
-                ?.filter(parent => parent.name !== 'Uncategorized')
-                .sort((a, b) => a.name.localeCompare(b.name))
-                .map((parent) => (
-                  <li key={parent.id} className='rounded border p-4'>
-                    <div>
-                      <h4 className='font-bold'>{parent.name}</h4>
-                      <p>{parent.color}</p>
-                      <button onClick={() => openEditModal(parent)}>Edit</button>
-                      <button onClick={() => openDeleteModal(parent)}>Delete</button>
-                    </div>
-
-                    <ul className='mt-2 space-y-1'>
-                      {transferChildrenCategories
-                        ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map((child) => (
-                          <li key={child.id} className='ml-2'>
-                            {child.name}
-                            <button onClick={() => openEditModal(child)}>Edit</button>
-                            <button onClick={() => openDeleteModal(child)}>Delete</button>
-                          </li>
-                        ))}
-                    </ul>
-                  </li>
-                ))}
-              {transferParentCategories
-                ?.filter(parent => parent.name === 'Uncategorized')
-                .map(parent => <li key={parent.id} className='rounded border p-4'> <h4 className='font-bold'>{parent.name}</h4>
-
-                  <ul className='mt-2 space-y-1'>
-                    {transferChildrenCategories?.filter(child => child.parentId === parent.id)
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((child) => (
-                        <li key={child.id} className='ml-2'>
-                          {child.name}
-                          <button onClick={() => openEditModal(child)}>Edit</button>
-                          <button onClick={() => openDeleteModal(child)}>Delete</button>
-                        </li>
-                      ))
-                    }
-                  </ul>
-                </li>)}
-            </ul>
-          </div>
-        )}
       </section>
 
       <Modal
