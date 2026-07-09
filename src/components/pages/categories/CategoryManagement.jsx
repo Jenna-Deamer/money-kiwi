@@ -13,6 +13,9 @@ import { HexColorPicker } from 'react-colorful';
 import Modal from '@/components/shared/Modal';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 import Button from '@/components/shared/ui/buttons/Button';
+import { Pencil, Trash2 } from 'lucide-react';
+import OptionsMenu from '@/components/shared/ui/OptionsMenu';
+import FormField from '@/components/shared/ui/form/FormField';
 
 function CategoryManagement() {
   const tabs = [
@@ -68,6 +71,7 @@ function CategoryManagement() {
   const [activeCategory, setActiveCategory] = useState(null);
   const [reassignTo, setReassignTo] = useState('');
   const [showDeleteError, setShowDeleteError] = useState(false);
+  const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
 
   const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
     resolver: zodResolver(updateCategorySchema),
@@ -82,6 +86,17 @@ function CategoryManagement() {
   if (categoryParentError || categoryChildrenError) return <p>Error loading categories</p>;
 
   const currentParentId = watch('parentId');
+  const handleMenuClose = () => setIsOptionsMenuOpen(false);
+
+  const handleOptionsMenu = (child) => {
+    if (isOptionsMenuOpen && activeCategory?.id === child.id) {
+      setIsOptionsMenuOpen(false);
+      setActiveCategory(null);
+    } else {
+      setActiveCategory(child);
+      setIsOptionsMenuOpen(true);
+    }
+  };
 
   function openEditModal(category) {
     setActiveCategory(category);
@@ -95,7 +110,9 @@ function CategoryManagement() {
 
   function handleClose() {
     setIsEditModalOpen(false);
-    setIsDeleteModalOpen(false);
+      setIsDeleteModalOpen(false);
+      setReassignTo('');
+      setShowDeleteError(false);
   };
 
   const handleEditSubmit = (data) => {
@@ -106,6 +123,7 @@ function CategoryManagement() {
   };
 
   function openDeleteModal(category) {
+      setReassignTo('');
     setActiveCategory(category);
     setIsDeleteModalOpen(true);
   };
@@ -138,37 +156,58 @@ function CategoryManagement() {
         />
 
 
-          <div className='pt-4'>
-          <h2 className='pb-1.5'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
-            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-2'>
+          <h2 className='py-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
+            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
               {activeList?.parentCategories?.length === 0 ? <p>No categories found</p> :
               activeList?.parentCategories?.filter(parent => parent.name !== 'Uncategorized')
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((parent) => (
-                <li key={parent.id} className='rounded border p-4'>
-                  <div>
-                    <h4 className='font-bold'>{parent.name}</h4>
-                    <p>{parent.color}</p>
-                    <button onClick={() => openEditModal(parent)}>Edit</button>
-                    <button onClick={() => openDeleteModal(parent)}>Delete</button>
+                <li key={parent.id} className='card p-4 border-t-8' style={{ borderColor: parent.color }}>
+
+
+                  <div className='flex justify-between items-center'>
+                      <h4 className='font-bold'>{parent.name}</h4>
+
+                      <div className='flex gap-2 ml-2'>
+                        <button type='button' className='cursor-pointer' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
+                          <Pencil aria-hidden='true'/>
+                        </button>
+                        <button type='button' className='cursor-pointer' onClick={() => openDeleteModal(parent)} aria-label={`Delete ${parent.name}`}>
+                          <Trash2 aria-hidden='true'/>
+                        </button>
+                      </div>
+
                   </div>
 
-                  <ul className='mt-2 space-y-1'>
-                    {activeList?.childCategories?.length === 0 ? <p>No categories found</p> :
-                    activeList?.childCategories?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
+                  <ul className='mt-4 border-t pt-4'>
+                    {activeList?.childCategories
+                      ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
-                        <li key={child.id} className='ml-2'>
-                          {child.name}
-                          <button onClick={() => openEditModal(child)}>Edit</button>
-                          <button onClick={() => openDeleteModal(child)}>Delete</button>
+                        <li key={child.id} className='flex items-center justify-between border-b py-1.5 border-soft'>
+                          <span>{child.name}</span>
+                          <OptionsMenu
+                            isOpen={isOptionsMenuOpen && activeCategory?.id === child.id}
+                            onClose={handleMenuClose}
+                            onTriggerClick={() => handleOptionsMenu(child)}
+                          >
+                               <li className='mb-1 border-b'>
+                            <button onClick={() => openEditModal(child)} aria-label={`Edit ${child.name}`}>
+                              Edit
+                              </button>
+                            </li>
+                            <li className='mb-1 border-b'>
+                            <button onClick={() => openDeleteModal(child)} aria-label={`Delete ${child.name}`}>
+                              Delete
+                              </button>
+                              </li>
+                          </OptionsMenu>
                         </li>
                       ))}
                   </ul>
                 </li>
               ))}
             </ul>
-          </div>
       </section>
 
       <Modal
@@ -177,107 +216,218 @@ function CategoryManagement() {
         title='Edit Category'
         body={
           activeCategory && (
-            <form onSubmit={handleSubmit(handleEditSubmit)}>
-              <h3>Editing {activeCategory.name}</h3>
-              <fieldset>
-                <label>Name</label>
-                <div className='input-group'>
-                  <input {...register('name')} placeholder='Housing' />
-                  {errors.name && <span className='error'>{errors.name.message}</span>}
-                </div>
-              </fieldset>
-              {activeCategory.parentId && (
+            <form
+              id='edit-category-form'
+              onSubmit={handleSubmit(handleEditSubmit)}
+              className='space-y-4'
+            >
+              <p className='text-sm text-muted'>
+                Update the details for <strong>{activeCategory.name}</strong>.
+              </p>
 
-                <fieldset>
-                  <label>Parent Assignment</label>
-                  <select {...register('parentId')}>
-                    <option value=''>-- No Parent (top-level) --</option>
-                    {activeTab === 'income' ? incomeParentCategories?.map((category) => (
-                      <option key={category.id} value={category.id}>{category.name}</option>
-                    )) : expenseParentCategories?.map((category) => (
-                      <option key={category.id} value={category.id}>{category.name}</option>
-                    ))}
-                  </select>
-                </fieldset>
-              )}
+
+                <FormField
+                  label='Name'
+                  htmlFor='name'
+                  error={errors.name?.message}
+                >   <input {...register('name')} placeholder='Housing' className='input-standard' /></FormField>
+
+
+                {activeCategory.parentId && (
+                    <FormField
+                      label='Parent Category'
+                      htmlFor='parent'
+                    >
+                      <select {...register('parentId')} className='input-standard mb-2'>
+                        <option value=''>No parent category</option>
+                        {activeTab === 'income'
+                          ? incomeParentCategories?.map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))
+                          : expenseParentCategories?.map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))}
+                      </select>
+                    </FormField>
+                )}
+
+
               {!currentParentId && (
-                <fieldset>
-                  <label>Colour</label>
-                  <Controller
-                    control={control}
-                    name='color'
-                    render={({ field: { onChange, value } }) => (
-                      <HexColorPicker color={value} onChange={onChange} />
-                    )}
-                  />
-                </fieldset>
+
+                  <FormField
+                    label='Color'
+                     htmlFor='color'>
+                    <Controller
+                      control={control}
+                      name='color'
+                      render={({ field: { onChange, value } }) => (
+                        <div>
+                          <HexColorPicker color={value} onChange={onChange} />
+                          <p className='text-sm text-muted italic mt-4'>
+                            *This color will be used for this parent category in charts and other visual&nbsp;summaries.
+                          </p>
+                        </div>
+                      )}
+                    />
+                  </FormField>
+
               )}
-              <button type='submit' disabled={isUpdating}>Save Changes</button>
             </form>
           )
         }
+        footer={
+          activeCategory ? (
+            <>
+              <Button
+                type='submit'
+                form='edit-category-form'
+                disabled={isUpdating}
+              >
+                Save Changes
+              </Button>
+              <Button
+                type='button'
+                onClick={handleClose}
+                intent='subtle'
+                disabled={isUpdating}
+              >
+                Cancel
+              </Button>
+            </>
+          ) : null
+        }
       />
+
       <Modal
         isOpen={isDeleteModalOpen}
         onClose={handleClose}
         title='Delete Category'
         body={
           activeCategory ? (
-            activeCategory.parentId ? (
-              <form onSubmit={handleDeleteSubmit}>
-                <h3>Deleting <b>Child Category: {activeCategory.name}</b></h3>
-                <p>Select a category to reassign its transactions:</p>
-                <fieldset>
-                  {showDeleteError && <p className='text-red-600'>Error: Please select a category</p>}
-                  <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
-                    <option value={null}>--- Select Category ---</option>
-                    {activeTab === 'income'
-                      ? incomeChildrenCategories
-                        ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map(category => (
-                          <option key={category.id} value={category.id}>
-                            {category.name}
-                          </option>
-                        ))
-                      : expenseChildrenCategories
-                        ?.filter(category => category.parentId === activeCategory.parentId && category.name !== activeCategory.name)
-                        .sort((a, b) => a.name.localeCompare(b.name))
-                        .map(category => (
-                          <option key={category.id} value={category.id}>
-                            {category.name}
-                          </option>
-                        ))}
-                  </select>
-                </fieldset>
-                <button type='submit' disabled={isDeleting}><b>Delete {activeCategory.name}</b></button>
-              </form >
-            ) : (
-              <form onSubmit={handleDeleteSubmit}>
-                <h3>Deleting <b>Parent Category: {activeCategory.name}</b></h3>
-                <p>Select a parent category to inherit its child categories:</p>
-                <fieldset>
-                  {showDeleteError && <p className='text-red-600'>Error: Please select a category</p>}
-                  <select value={reassignTo} onChange={(e) => setReassignTo(e.target.value)}>
-                    <option value={null}>--- Select Category ---</option>
-                    {activeTab === 'income'
-                      ? incomeParentCategories?.filter(category => category.name !== activeCategory.name)
-                        .map(category => (
-                          <option key={category.id} value={category.id}>
-                            {category.name}
-                          </option>
-                        ))
-                      : expenseParentCategories?.filter(category => category.name !== activeCategory.name)
-                        .map(category => (
-                          <option key={category.id} value={category.id}>
-                            {category.name}
-                          </option>
-                        ))}
-                  </select>
-                </fieldset>
-                <button type='submit' disabled={isDeleting}><b>Delete {activeCategory.name}</b></button>
-              </form>
-            )
+            <form
+              id='delete-category-form'
+              onSubmit={handleDeleteSubmit}
+              className='space-y-4'
+            >
+              {activeCategory.parentId ? (
+                <>
+                  <div className='space-y-2'>
+                    <p>
+                      You are deleting <strong>{activeCategory.name}</strong>.
+                    </p>
+                    <p>
+                      Choose another category to move its transactions to before deleting it.
+                    </p>
+                  </div>
+
+                  <fieldset className='space-y-1.5'>
+                    <label>Move transactions to</label>
+
+                    {showDeleteError && (
+                      <p className='field-error'>Please select a category.</p>
+                    )}
+                    <select
+                      value={reassignTo}
+                      onChange={(e) => setReassignTo(e.target.value)}
+                      className='input-standard'
+                    >
+                      <option value=''>Select a category</option>
+                      {activeTab === 'income'
+                        ? incomeChildrenCategories
+                            ?.filter(
+                              (category) =>
+                                category.name !== activeCategory.name
+                            )
+                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))
+                        : expenseChildrenCategories
+                            ?.filter(
+                              (category) =>
+
+                                category.name !== activeCategory.name
+                            )
+                            .sort((a, b) => a.name.localeCompare(b.name))
+                            .map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))}
+                    </select>
+
+                  </fieldset>
+                </>
+              ) : (
+                <>
+                  <div className='space-y-2'>
+                    <p>
+                      You are deleting <strong>{activeCategory.name}</strong>.
+                    </p>
+                    <p>
+                      Choose another parent category to move its child categories to before deleting it.
+                    </p>
+                  </div>
+
+                    <fieldset className='space-y-1.5'>
+                    <label>Move all categories to</label>
+                    <select
+                      value={reassignTo}
+                        onChange={(e) => setReassignTo(e.target.value)}
+                        className='input-standard'
+                    >
+                      <option value=''>Select a category</option>
+                      {activeTab === 'income'
+                        ? incomeParentCategories
+                            ?.filter((category) => category.name !== activeCategory.name)
+                            .map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))
+                        : expenseParentCategories
+                            ?.filter((category) => category.name !== activeCategory.name)
+                            .map((category) => (
+                              <option key={category.id} value={category.id}>
+                                {category.name}
+                              </option>
+                            ))}
+                      </select>
+                      {showDeleteError && (
+                        <p className='field-error'>*Please select a category.</p>
+                      )}
+                  </fieldset>
+                </>
+              )}
+            </form>
+          ) : null
+        }
+        footer={
+          activeCategory ? (
+            <>
+              <Button
+                type='submit'
+                form='delete-category-form'
+                disabled={isDeleting}
+                intent='danger'
+              >
+                Delete Category
+              </Button>
+              <Button
+                type='button'
+                onClick={handleClose}
+                intent='subtle'
+                disabled={isDeleting}
+              >
+                Cancel
+              </Button>
+            </>
           ) : null
         }
       />
