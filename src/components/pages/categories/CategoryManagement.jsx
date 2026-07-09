@@ -144,16 +144,18 @@ function CategoryManagement() {
   return (
     <>
       <section>
-        <div className='flex justify-between pb-1.5'>
+        <div className='flex md:flex-row justify-between pb-1.5 flex-col gap-2 items-center mb-2'>
           <h1>Your Categories</h1>
-          <LinkButton to='/categories/form'>Create Category</LinkButton>
+          <div>  <LinkButton to='/categories/form'>Create Category</LinkButton></div>
         </div>
 
-        <TabButtons
-          tabs={tabs}
-          activeTab={activeTab}
-          onTabChange={setActiveTab}
-        />
+        <div className='flex justify-center items-center md:justify-start'>
+          <TabButtons
+            tabs={tabs}
+            activeTab={activeTab}
+            onTabChange={setActiveTab}
+          /></div>
+
 
 
           <h2 className='py-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
