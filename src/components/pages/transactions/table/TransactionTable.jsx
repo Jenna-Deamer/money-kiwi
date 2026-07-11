@@ -10,7 +10,7 @@ import DateCell from '@/components/pages/transactions/table/editableCells/DateCe
 import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
-import { Pencil, Trash2} from 'lucide-react';
+import { Pencil, Trash2 } from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
 import PaginationControls from './PaginationControls';
 
@@ -192,14 +192,15 @@ function TransactionTable({
       </div>
         : null}
 
-        <div className='flex gap-2 mt-2'>
-          <PaginationControls
-            page={page}
-            totalPages={transactionsData?.totalPages}
-            setPage={setPage}
-            placeholder={isPlaceholderData}
-          />
-        </div>
+      {isUnsavedData ? null : <div className='flex gap-2 mt-2'>
+        <PaginationControls
+          page={page}
+          totalPages={transactionsData?.totalPages}
+          setPage={setPage}
+          placeholder={isPlaceholderData}
+        />
+      </div>}
+
 
 
     </>
