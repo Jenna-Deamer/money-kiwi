@@ -39,7 +39,7 @@ function Login() {
         description: 'Login successful.'
       });
 
-      navigate('/dashboard');
+      navigate('/overview');
     } catch (err) {
       toast.error('Login Failed', {
         description: err.message
