@@ -14,15 +14,14 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 import Button from '@/components/shared/ui/buttons/Button';
+import { useOutletContext } from 'react-router';
 
 function TransactionOverview() {
   const { data: accounts, } = useAccounts();
-  const thirtyDaysAgo = new Date();
+  const [pickerRange, setPickerRange] = useOutletContext();
   const [page, setPage] = useState(0);
-  thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
-  const [pickerRange, setPickerRange] = useState([thirtyDaysAgo, new Date()]);
   const [filters, setFilters] = useState({
-    search: '', categoryId: [], account: [], transactionType: [], accountType: [], status: [], startDate: thirtyDaysAgo, endDate: new Date()
+    search: '', categoryId: [], account: [], transactionType: [], accountType: [], status: [], startDate: pickerRange[0], endDate: pickerRange[1]
   });
   const debouncedFilters = useDebounce(filters, 500);
   const { data: transactions, isPlaceholderData } = useTransactions(debouncedFilters, page);
