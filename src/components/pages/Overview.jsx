@@ -1,6 +1,8 @@
+import { fetchOverviewTransactionTotals } from '@/utils/api/overview';
 const date = new Date();
 const month = date.toLocaleString('default', { month: 'long' });
-const day = date.getDate();
+fetchOverviewTransactionTotals();
+
 
 function Overview() {
   return (
