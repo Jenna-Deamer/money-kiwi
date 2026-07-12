@@ -10,11 +10,11 @@ import {
 } from '@/hooks/useTransaction';
 import Modal from '@/components/shared/Modal';
 import { useState } from 'react';
-import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 import Button from '@/components/shared/ui/buttons/Button';
 import { useOutletContext } from 'react-router';
+import DatePickerField from '@/components/shared/ui/form/DatePickerField';
 
 function TransactionOverview() {
   const { data: accounts, } = useAccounts();
@@ -53,26 +53,22 @@ function TransactionOverview() {
         <div className='flex flex-col justify-center items-center mb-4 text-center md:text-left md:flex-row md:justify-between'>
           <div>
             <h1 className='mb-0.5'>Transactions Overview</h1>
-            {hasAccounts && <DatePicker
-              className='input-standard date-filter'
-              selectsRange={true}
-              startDate={pickerRange[0]}
-              endDate={pickerRange[1]}
-              onChange={(update) => {
-                const [start, end] = update;
-                setPickerRange(update);
-                if (start && end) {
-                  setFilters(prev => ({
-                    ...prev,
-                    startDate: start,
-                    endDate: end
-                  }));
-                }
-              }}
-              showIcon
-              closeOnScroll
-              dateFormat='dd MMM yyyy'
-            />}
+            {hasAccounts &&
+              <DatePickerField
+                startDate={pickerRange[0]}
+                endDate={pickerRange[1]}
+                onChange={(update) => {
+                  const [start, end] = update;
+                  setPickerRange(update);
+                  if (start && end) {
+                    setFilters(prev => ({
+                      ...prev,
+                      startDate: start,
+                      endDate: end
+                    }));
+                  }
+                }}
+              />}
           </div>
           {hasAccounts &&
             <div className='text-center flex gap-4 mt-2 md:mt-0'>
