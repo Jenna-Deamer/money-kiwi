@@ -10,7 +10,7 @@ function Dashboard() {
   if (!accounts) return <div>Loading accounts...</div>;
     return (
         <section>
-          <div>
+          <div className='md:text-left text-center'>
             <h1 className='mb-0.5'>Dashboard</h1>
             {hasAccounts && <DatePicker
               className='input-standard date-filter'
