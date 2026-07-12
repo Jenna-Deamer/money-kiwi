@@ -12,7 +12,7 @@ function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
     return () => {
       window.removeEventListener('mousedown', handleOutsideAccountMenuClick);
     };
-  }, [isOpen, menuRef, onClose])
+  }, [isOpen, menuRef, onClose]);
 
   return (
     <div ref={menuRef} className='flex gap-2.5' >
@@ -33,7 +33,7 @@ function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
         </ul>
       </div>
     </div>
-  )
+  );
 }
 
 

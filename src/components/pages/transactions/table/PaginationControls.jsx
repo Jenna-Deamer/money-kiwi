@@ -36,7 +36,7 @@ function PaginationControls({ totalPages, page, setPage, placeholder }) {
 
       )}
     </div>
-  )
+  );
 }
 
 export default PaginationControls;
