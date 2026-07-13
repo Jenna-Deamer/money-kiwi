@@ -7,7 +7,7 @@ import { useCreateTransaction, useGetTransaction, useUpdateTransaction } from '@
 import { useChildrenCategories } from '@/hooks/useCategory';
 import { useAccounts } from '@/hooks/useAccounts';
 import DatePicker from 'react-datepicker';
-import 'react-datepicker/dist/react-datepicker.css';
+import { CustomHeader } from '@/components/shared/ui/form/DatePickerField';
 import { formatDateToIso } from '@/utils/dateHelper';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
@@ -227,6 +227,7 @@ function TransactionForm() {
                     dateFormat='dd MMM yyyy'
                     placeholderText='Select date'
                     className='input-standard'
+                    renderCustomHeader={(props) => <CustomHeader {...props} />}
                   />
                 )}
               />
@@ -243,42 +244,43 @@ function TransactionForm() {
 
           {isRecurring && (
 
-              <fieldset>
-                <FormField
-                  label='Frequency'
-                  htmlFor='frequency'
-                  error={errors.frequency?.message}
-                >
-                  <select {...register('frequency')} className='input-standard'>
-                    <option value=''>-- Select Frequency --</option>
-                    {FREQUENCIES?.map((freq) => (
-                      <option key={freq.label} value={freq.value}>{freq.label}</option>
-                    ))}
-                  </select>
-                </FormField>
+            <fieldset>
+              <FormField
+                label='Frequency'
+                htmlFor='frequency'
+                error={errors.frequency?.message}
+              >
+                <select {...register('frequency')} className='input-standard'>
+                  <option value=''>-- Select Frequency --</option>
+                  {FREQUENCIES?.map((freq) => (
+                    <option key={freq.label} value={freq.value}>{freq.label}</option>
+                  ))}
+                </select>
+              </FormField>
 
-                <FormField
-                  label='End Date'
-                  htmlFor='end date'
-                  error={errors.endDate?.message}
-                >
-                  <Controller
-                    control={control}
-                    name='endDate'
-                    render={({ field: { onChange, onBlur, value, ref } }) => (
-                      <DatePicker
-                        onChange={onChange}
-                        onBlur={onBlur}
-                        selected={value}
-                        inputRef={ref}
-                        dateFormat='dd MMM yyyy'
-                        placeholderText='Select end date'
-                        className='input-standard'
-                      />
-                    )}
-                  />
-                </FormField>
-              </fieldset>
+              <FormField
+                label='End Date'
+                htmlFor='end date'
+                error={errors.endDate?.message}
+              >
+                <Controller
+                  control={control}
+                  name='endDate'
+                  render={({ field: { onChange, onBlur, value, ref } }) => (
+                    <DatePicker
+                      onChange={onChange}
+                      onBlur={onBlur}
+                      selected={value}
+                      inputRef={ref}
+                      dateFormat='dd MMM yyyy'
+                      placeholderText='Optional - Select end date'
+                      className='input-standard'
+                      renderCustomHeader={(props) => <CustomHeader {...props} />}
+                    />
+                  )}
+                />
+              </FormField>
+            </fieldset>
 
 
           )}

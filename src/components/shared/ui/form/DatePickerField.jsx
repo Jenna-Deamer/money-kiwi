@@ -20,7 +20,7 @@ const MONTHS = [
 
 const years = range(2020, getYear(new Date()) + 1, 1);
 
-const CustomHeader = ({
+export const CustomHeader = ({
   date,
   changeYear,
   changeMonth,
