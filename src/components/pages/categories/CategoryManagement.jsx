@@ -110,9 +110,9 @@ function CategoryManagement() {
 
   function handleClose() {
     setIsEditModalOpen(false);
-      setIsDeleteModalOpen(false);
-      setReassignTo('');
-      setShowDeleteError(false);
+    setIsDeleteModalOpen(false);
+    setReassignTo('');
+    setShowDeleteError(false);
   };
 
   const handleEditSubmit = (data) => {
@@ -123,7 +123,7 @@ function CategoryManagement() {
   };
 
   function openDeleteModal(category) {
-      setReassignTo('');
+    setReassignTo('');
     setActiveCategory(category);
     setIsDeleteModalOpen(true);
   };
@@ -158,32 +158,29 @@ function CategoryManagement() {
 
 
 
-          <h2 className='py-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
-            <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
-              {activeList?.parentCategories?.length === 0 ?  <div className='card w-fit '><p>No categories found</p></div>:
-              activeList?.parentCategories?.filter(parent => parent.name !== 'Uncategorized')
+        <h2 className='py-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
+        <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
+          {activeList?.parentCategories?.length === 0 ? <div className='card w-fit '><p>No categories found</p></div> :
+            activeList?.parentCategories?.filter(parent => parent.name)
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((parent) => (
                 <li key={parent.id} className='card p-4 border-t-8' style={{ borderColor: parent.color }}>
-
-
                   <div className='flex justify-between items-center'>
-                      <h4 className='font-bold'>{parent.name}</h4>
+                    <h4 className='font-bold'>{parent.name}</h4>
 
-                      <div className='flex gap-2 ml-2'>
-                        <button type='button' className='cursor-pointer' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
-                          <Pencil aria-hidden='true'/>
-                        </button>
-                        <button type='button' className='cursor-pointer' onClick={() => openDeleteModal(parent)} aria-label={`Delete ${parent.name}`}>
-                          <Trash2 aria-hidden='true'/>
-                        </button>
-                      </div>
-
+                    <div className='flex gap-2 ml-2'>
+                      <button type='button' className='cursor-pointer' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
+                        <Pencil aria-hidden='true' />
+                      </button>
+                      <button type='button' className='cursor-pointer' onClick={() => openDeleteModal(parent)} aria-label={`Delete ${parent.name}`}>
+                        <Trash2 aria-hidden='true' />
+                      </button>
+                    </div>
                   </div>
 
                   <ul className='mt-4 border-t pt-4'>
                     {activeList?.childCategories
-                      ?.filter(child => child.parentId === parent.id && child.name !== 'Uncategorized')
+                      ?.filter(child => child.parentId === parent.id)
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((child) => (
                         <li key={child.id} className='flex items-center justify-between border-b py-1.5 border-soft'>
@@ -193,23 +190,23 @@ function CategoryManagement() {
                             onClose={handleMenuClose}
                             onTriggerClick={() => handleOptionsMenu(child)}
                           >
-                               <li className='mb-1 border-b'>
-                            <button onClick={() => openEditModal(child)} aria-label={`Edit ${child.name}`}>
-                              Edit
+                            <li className='mb-1 border-b'>
+                              <button onClick={() => openEditModal(child)} aria-label={`Edit ${child.name}`}>
+                                Edit
                               </button>
                             </li>
                             <li className='mb-1 border-b'>
-                            <button onClick={() => openDeleteModal(child)} aria-label={`Delete ${child.name}`}>
-                              Delete
+                              <button onClick={() => openDeleteModal(child)} aria-label={`Delete ${child.name}`}>
+                                Delete
                               </button>
-                              </li>
+                            </li>
                           </OptionsMenu>
                         </li>
                       ))}
                   </ul>
                 </li>
               ))}
-            </ul>
+        </ul>
       </section>
 
       <Modal
@@ -228,54 +225,54 @@ function CategoryManagement() {
               </p>
 
 
+              <FormField
+                label='Name'
+                htmlFor='name'
+                error={errors.name?.message}
+              >   <input {...register('name')} placeholder='Housing' className='input-standard' /></FormField>
+
+
+              {activeCategory.parentId && (
                 <FormField
-                  label='Name'
-                  htmlFor='name'
-                  error={errors.name?.message}
-                >   <input {...register('name')} placeholder='Housing' className='input-standard' /></FormField>
-
-
-                {activeCategory.parentId && (
-                    <FormField
-                      label='Parent Category'
-                      htmlFor='parent'
-                    >
-                      <select {...register('parentId')} className='input-standard mb-2'>
-                        <option value=''>No parent category</option>
-                        {activeTab === 'income'
-                          ? incomeParentCategories?.map((category) => (
-                              <option key={category.id} value={category.id}>
-                                {category.name}
-                              </option>
-                            ))
-                          : expenseParentCategories?.map((category) => (
-                              <option key={category.id} value={category.id}>
-                                {category.name}
-                              </option>
-                            ))}
-                      </select>
-                    </FormField>
-                )}
+                  label='Parent Category'
+                  htmlFor='parent'
+                >
+                  <select {...register('parentId')} className='input-standard mb-2'>
+                    <option value=''>No parent category</option>
+                    {activeTab === 'income'
+                      ? incomeParentCategories?.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))
+                      : expenseParentCategories?.map((category) => (
+                        <option key={category.id} value={category.id}>
+                          {category.name}
+                        </option>
+                      ))}
+                  </select>
+                </FormField>
+              )}
 
 
               {!currentParentId && (
 
-                  <FormField
-                    label='Color'
-                     htmlFor='color'>
-                    <Controller
-                      control={control}
-                      name='color'
-                      render={({ field: { onChange, value } }) => (
-                        <div>
-                          <HexColorPicker color={value} onChange={onChange} />
-                          <p className='text-sm text-muted italic mt-4'>
-                            *This color will be used for this parent category in charts and other visual&nbsp;summaries.
-                          </p>
-                        </div>
-                      )}
-                    />
-                  </FormField>
+                <FormField
+                  label='Color'
+                  htmlFor='color'>
+                  <Controller
+                    control={control}
+                    name='color'
+                    render={({ field: { onChange, value } }) => (
+                      <div>
+                        <HexColorPicker color={value} onChange={onChange} />
+                        <p className='text-sm text-muted italic mt-4'>
+                          *This color will be used for this parent category in charts and other visual&nbsp;summaries.
+                        </p>
+                      </div>
+                    )}
+                  />
+                </FormField>
 
               )}
             </form>
@@ -340,28 +337,28 @@ function CategoryManagement() {
                       <option value=''>Select a category</option>
                       {activeTab === 'income'
                         ? incomeChildrenCategories
-                            ?.filter(
-                              (category) =>
-                                category.name !== activeCategory.name
-                            )
-                            .sort((a, b) => a.name.localeCompare(b.name))
-                            .map((category) => (
-                              <option key={category.id} value={category.id}>
-                                {category.name}
-                              </option>
-                            ))
+                          ?.filter(
+                            (category) =>
+                              category.name !== activeCategory.name
+                          )
+                          .sort((a, b) => a.name.localeCompare(b.name))
+                          .map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))
                         : expenseChildrenCategories
-                            ?.filter(
-                              (category) =>
+                          ?.filter(
+                            (category) =>
 
-                                category.name !== activeCategory.name
-                            )
-                            .sort((a, b) => a.name.localeCompare(b.name))
-                            .map((category) => (
-                              <option key={category.id} value={category.id}>
-                                {category.name}
-                              </option>
-                            ))}
+                              category.name !== activeCategory.name
+                          )
+                          .sort((a, b) => a.name.localeCompare(b.name))
+                          .map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
                     </select>
 
                   </fieldset>
@@ -377,33 +374,33 @@ function CategoryManagement() {
                     </p>
                   </div>
 
-                    <fieldset className='space-y-1.5'>
+                  <fieldset className='space-y-1.5'>
                     <label>Move all categories to</label>
                     <select
                       value={reassignTo}
-                        onChange={(e) => setReassignTo(e.target.value)}
-                        className='input-standard'
+                      onChange={(e) => setReassignTo(e.target.value)}
+                      className='input-standard'
                     >
                       <option value=''>Select a category</option>
                       {activeTab === 'income'
                         ? incomeParentCategories
-                            ?.filter((category) => category.name !== activeCategory.name)
-                            .map((category) => (
-                              <option key={category.id} value={category.id}>
-                                {category.name}
-                              </option>
-                            ))
+                          ?.filter((category) => category.name !== activeCategory.name)
+                          .map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))
                         : expenseParentCategories
-                            ?.filter((category) => category.name !== activeCategory.name)
-                            .map((category) => (
-                              <option key={category.id} value={category.id}>
-                                {category.name}
-                              </option>
-                            ))}
-                      </select>
-                      {showDeleteError && (
-                        <p className='field-error'>*Please select a category.</p>
-                      )}
+                          ?.filter((category) => category.name !== activeCategory.name)
+                          .map((category) => (
+                            <option key={category.id} value={category.id}>
+                              {category.name}
+                            </option>
+                          ))}
+                    </select>
+                    {showDeleteError && (
+                      <p className='field-error'>*Please select a category.</p>
+                    )}
                   </fieldset>
                 </>
               )}
