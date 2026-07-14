@@ -80,8 +80,8 @@ function TransactionOverview() {
         </div>
 
         {!hasAccounts ? (
-          <div className='card text-center max-w-md'>
-            <p>You don’t have any financial accounts yet. Create an account to add your first transaction.</p>
+          <div className='card text-center max-w-md m-auto md:m-0'>
+            <p>You don’t have any financial accounts&nbsp;yet.<br />Create your first account to start tracking transactions.</p>
             <LinkButton to='/account/form' className='mt-2'>Create Account</LinkButton>
           </div>
         ) : (

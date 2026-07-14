@@ -1,13 +1,16 @@
 import AccountList from '@/components/pages/accounts/AccountList';
 import { useCategorizedAccounts } from '@/hooks/useAccounts';
+import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 
 function AccountCard() {
   const { data, isLoading, error } = useCategorizedAccounts();
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error...</div>;
-  if (data.isEmpty) return <div>You don't have any accounts create one to get started!</div>;
-
+  if (data.isEmpty) return  <div className='card text-center max-w-md m-auto md:m-0'>
+    <p>You don’t have any accounts&nbsp;yet.<br />Create your first account to start tracking transactions.</p>
+    <LinkButton to='/account/form' className='mt-2'>Create Account</LinkButton>
+  </div>;
   return (
     <>
       <AccountList title='Cash & Banking' accounts={data.banking} />
