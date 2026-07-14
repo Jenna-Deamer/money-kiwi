@@ -13,13 +13,13 @@ import FormField from '@/components/shared/ui/form/FormField';
 function Login() {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading, login } = useAuth();
-  const { data: accounts, isLoading: accountsIsLoading, isSuccess, isError} = useAccounts();
+  const { data: accounts, isLoading: accountsIsLoading, isSuccess, isError } = useAccounts();
   const hasAccounts = accounts && accounts.length > 0;
   const [serverError, setServerError] = useState('');
 
   useEffect(() => {
     if (accountsIsLoading) return;
-    if (isError ||(!isLoading && isAuthenticated && hasAccounts && isSuccess) ) navigate('/overview');
+    if (isError || (!isLoading && isAuthenticated && hasAccounts && isSuccess)) navigate('/overview');
     if (!isLoading && isAuthenticated && !hasAccounts && isSuccess && !isError) navigate('/accounts');
   }, [isAuthenticated, isLoading, navigate, hasAccounts, accountsIsLoading, isError, isSuccess]);
 
@@ -38,7 +38,8 @@ function Login() {
       login(response.token);
 
       toast.success('Welcome back', {
-        description: 'Login successful.'
+        description: 'Login successful.',
+        duration: 1000
       });
 
     } catch (err) {
