@@ -17,7 +17,7 @@ function App() {
           <Nav />
           <main className='w-full flex-1 overflow-y-auto order-1 md:order-2 md:p-8 px-4 py-8 '>
             <Outlet context={[pickerRange, setPickerRange]} />
-            <Toaster richColors position='bottom-right' expand={true} />
+            <Toaster richColors position='top-right'/>
           </main>
         </div>
 
