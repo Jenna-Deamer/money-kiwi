@@ -1,4 +1,4 @@
-
+import { useAccounts } from '@/hooks/useAccounts';
 import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
@@ -13,13 +13,15 @@ import FormField from '@/components/shared/ui/form/FormField';
 function Login() {
   const navigate = useNavigate();
   const { isAuthenticated, isLoading, login } = useAuth();
+  const { data: accounts, isLoading: accountsIsLoading, isSuccess, isError} = useAccounts();
+  const hasAccounts = accounts && accounts.length > 0;
   const [serverError, setServerError] = useState('');
 
   useEffect(() => {
-    if (!isLoading && isAuthenticated) {
-      navigate('/overview');
-    }
-  }, [isAuthenticated, isLoading, navigate]);
+    if (accountsIsLoading) return;
+    if (isError ||(!isLoading && isAuthenticated && hasAccounts && isSuccess) ) navigate('/overview');
+    if (!isLoading && isAuthenticated && !hasAccounts && isSuccess && !isError) navigate('/accounts');
+  }, [isAuthenticated, isLoading, navigate, hasAccounts, accountsIsLoading, isError, isSuccess]);
 
 
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
@@ -39,7 +41,6 @@ function Login() {
         description: 'Login successful.'
       });
 
-      navigate('/overview');
     } catch (err) {
       toast.error('Login Failed', {
         description: err.message
@@ -56,9 +57,10 @@ function Login() {
     return null;
   }
 
+
   return (
     <section className='flex flex-col items-center justify-center h-full'>
-      <div className= 'card w-full max-w-sm'>
+      <div className='card w-full max-w-sm'>
         <h1 className='my-4 text-center'>Login</h1>
         {serverError && (
           <div className='form-error'>
