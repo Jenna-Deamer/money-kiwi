@@ -38,11 +38,11 @@ function Nav() {
 
   const { isAuthenticated, logout } = useAuth();
 
-  const desktopNavItemClass = `flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`;
+  const desktopNavItemClass = `max-md:p-2.5 flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`;
 
   const handleLogout = () => {
     logout();
-    toast.success('Farewell', {
+    toast.success('Goodbye!', {
       description: 'You have been signed out successfully.'
     });
     navigate('/login');
@@ -78,11 +78,11 @@ function Nav() {
           ${isDrawerVisble ? 'max-h-60' : 'max-h-0'}
         `}
       >
-        <ul className='flex flex-col gap-4 px-4 pb-6'>
+        <ul className='flex flex-col gap-2 px-4 pb-6'>
           <li>
             <Link
               to='recurring'
-              className='flex items-center gap-3 focus-primary'
+              className='max-md:p-2.5 flex items-center gap-3 focus-primary'
             >
               <Repeat aria-hidden='true' className='icon-lg' />
               <span>Recurring</span>
@@ -92,7 +92,7 @@ function Nav() {
           <li>
             <Link
               to='categories'
-              className='flex items-center gap-3 focus-primary'
+              className='max-md:p-2.5 flex items-center gap-3 focus-primary'
             >
               <Folders aria-hidden='true' className='icon-lg' />
               <span>Categories</span>
@@ -102,7 +102,7 @@ function Nav() {
           <li className='pt-4'>
             <Link
               to='settings'
-              className='flex items-center gap-3 focus-primary'
+              className='max-md:p-2.5 flex items-center gap-3 focus-primary'
             >
               <Settings aria-hidden='true' className='icon-lg' />
               <span>Settings</span>
@@ -112,7 +112,7 @@ function Nav() {
           <li>
             <button
               type='button'
-              className='flex items-center gap-3 focus-primary'
+              className='max-md:p-2.5 flex items-center gap-3 focus-primary'
               onClick={handleLogout}
             >
               <LogOut aria-hidden='true' className='icon-lg' />
@@ -139,12 +139,12 @@ function Nav() {
           </button>
         </li>
 
-        <div className='flex md:flex-col md:gap-6 gap-8 md:pt-8'>
+        <div className='flex md:flex-col md:gap-6 gap-4 md:pt-8'>
           <li>
             <Link
               to='overview'
               aria-label={isCollapsed ? 'Overview' : undefined}
-              className={desktopNavItemClass}
+              className={`${desktopNavItemClass} max-md:p-2.5`}
             >
               <House aria-hidden='true' className='icon-lg' />
               <DesktopLabel isCollapsed={isCollapsed}>Overview</DesktopLabel>
@@ -210,7 +210,7 @@ function Nav() {
             <button
               type='button'
               aria-label={isDrawerVisble ? 'Close more menu' : 'Open more menu'}
-              className='flex items-center justify-center focus-primary'
+              className='max-md:p-2.5 flex items-center justify-center focus-primary'
               onClick={toggleMobileDrawer}
             >
               <Ellipsis aria-hidden='true' className='icon-lg' />

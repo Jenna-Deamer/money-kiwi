@@ -69,7 +69,7 @@ function Login() {
             {serverError.toLowerCase().includes('verified') && (
               <Link
                 to='/resend-verification'
-                className='text-xs underline'
+                className='max-md:p-1.5 text-xs underline'
               >
                 Didn't get the email? Click here to resend.
               </Link>
@@ -116,12 +116,12 @@ function Login() {
         <div className='mt-4 space-y-1 text-sm text-txt-muted text-center'>
           <p>
             Don&apos;t have an&nbsp;account?{' '}
-            <Link to='/sign-up' className='text-kiwi-primary underline'>
+             <Link to='/sign-up' className='max-md:p-1.5 text-kiwi-primary underline'>
               Sign&nbsp;up
             </Link>
           </p>
           <p>
-            <Link to='/forgot-password' className='text-kiwi-primary underline'>
+             <Link to='/forgot-password' className='max-md:p-1.5 text-kiwi-primary underline'>
               Forgot&nbsp;password?
             </Link>
           </p>

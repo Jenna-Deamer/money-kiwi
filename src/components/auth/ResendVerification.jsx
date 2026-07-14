@@ -64,7 +64,7 @@ function ResendVerification() {
             <Button type='submit' disabled={isSubmitting} className='max-w-2'>
               {isSubmitting ? 'Sending...' : 'Send Link'}
             </Button>
-            <Link to='/login' className='text-kiwi-primary underline'>Back to Login</Link>
+            <Link to='/login' className='max-md:p-1.5 text-kiwi-primary underline'>Back to Login</Link>
           </div>
 
         </form>

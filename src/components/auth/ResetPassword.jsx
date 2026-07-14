@@ -37,7 +37,7 @@ function ResetPassword() {
             <div className='error-container'>
                 <h2>Invalid Access</h2>
                 <p>This page requires a valid reset token. Please request a new link.</p>
-                <Link to='/forgot-password'>Request Reset Link</Link>
+                <Link to='/forgot-password' className='max-md:p-1.5'>Request Reset Link</Link>
             </div>
         );
     }
