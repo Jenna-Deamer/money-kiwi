@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
+import { useRef, useEffect } from 'react';
 import {
   House,
   ChartBar,
@@ -35,6 +36,7 @@ function Nav() {
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDrawerVisble, setIsDrawerVisible] = useState(false);
+  const navRef = useRef(null);
 
   const { isAuthenticated, logout } = useAuth();
 
@@ -47,6 +49,15 @@ function Nav() {
     });
     navigate('/login');
   };
+  useEffect(() => {
+    const handleOutsideAccountMenuClick = (e) => { if (!navRef.current?.contains(e.target)) toggleMobileDrawer(); };
+
+    if (!isDrawerVisble) return;
+    window.addEventListener('mousedown', handleOutsideAccountMenuClick);
+    return () => {
+      window.removeEventListener('mousedown', handleOutsideAccountMenuClick);
+    };
+  }, [isDrawerVisble, navRef]);
 
   const toggleNav = () => {
     setIsCollapsed(prevIsCollapsed => !prevIsCollapsed);
@@ -56,10 +67,14 @@ function Nav() {
     setIsDrawerVisible(prevIsDrawerVisible => !prevIsDrawerVisible);
   };
 
+  const closeMobileDrawer = () => setIsDrawerVisible(false);
+
+
   if (!isAuthenticated) return null;
 
   return (
     <nav
+      ref={navRef}
       className={`
         order-2 md:order-1 sidebar overflow-x-hidden
         md:h-screen sticky  md:top-0
@@ -78,11 +93,12 @@ function Nav() {
           ${isDrawerVisble ? 'max-h-60' : 'max-h-0'}
         `}
       >
-        <ul className='flex flex-col gap-2 px-4 pb-6'>
+        <ul className='flex flex-col gap-2 px-4'>
           <li>
             <Link
               to='recurring'
               className='max-md:p-2.5 flex items-center gap-3 focus-primary'
+              onClick={closeMobileDrawer}
             >
               <Repeat aria-hidden='true' className='icon-lg' />
               <span>Recurring</span>
@@ -91,6 +107,7 @@ function Nav() {
 
           <li>
             <Link
+              onClick={closeMobileDrawer}
               to='categories'
               className='max-md:p-2.5 flex items-center gap-3 focus-primary'
             >
@@ -101,6 +118,7 @@ function Nav() {
 
           <li className='pt-4'>
             <Link
+              onClick={closeMobileDrawer}
               to='settings'
               className='max-md:p-2.5 flex items-center gap-3 focus-primary'
             >
@@ -142,6 +160,7 @@ function Nav() {
         <div className='flex md:flex-col md:gap-6 gap-4 md:pt-8'>
           <li>
             <Link
+              onClick={closeMobileDrawer}
               to='overview'
               aria-label={isCollapsed ? 'Overview' : undefined}
               className={`${desktopNavItemClass} max-md:p-2.5`}
@@ -153,6 +172,7 @@ function Nav() {
 
           <li>
             <Link
+              onClick={closeMobileDrawer}
               to='accounts'
               aria-label={isCollapsed ? 'Accounts' : undefined}
               className={desktopNavItemClass}
@@ -164,6 +184,7 @@ function Nav() {
 
           <li>
             <Link
+              onClick={closeMobileDrawer}
               to='transactions'
               aria-label={isCollapsed ? 'Transactions' : undefined}
               className={desktopNavItemClass}
@@ -175,6 +196,7 @@ function Nav() {
 
           <li>
             <Link
+              onClick={closeMobileDrawer}
               to='dashboard'
               aria-label={isCollapsed ? 'Dashboard' : undefined}
               className={desktopNavItemClass}
@@ -186,6 +208,7 @@ function Nav() {
 
           <li className='hidden md:block'>
             <Link
+              onClick={closeMobileDrawer}
               to='recurring'
               aria-label={isCollapsed ? 'Recurring' : undefined}
               className={desktopNavItemClass}
@@ -197,6 +220,7 @@ function Nav() {
 
           <li className='hidden md:block'>
             <Link
+              onClick={closeMobileDrawer}
               to='categories'
               aria-label={isCollapsed ? 'Categories' : undefined}
               className={desktopNavItemClass}
@@ -222,6 +246,7 @@ function Nav() {
         <div className='flex md:flex-col md:mt-auto md:pb-8 md:gap-6'>
           <li>
             <Link
+              onClick={closeMobileDrawer}
               to='settings'
               aria-label={isCollapsed ? 'Settings' : undefined}
               className={`hidden md:flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`}

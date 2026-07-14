@@ -107,7 +107,7 @@
     }
 
     .sidebar {
-        @apply p-4 md:p-2 sm:w-full;
+        @apply py-1.5 md:p-4 sm:w-full;
     }
 
     .badge {
