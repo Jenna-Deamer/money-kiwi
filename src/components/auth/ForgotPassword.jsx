@@ -5,6 +5,7 @@ import { toast } from 'sonner';
 import { forgotPassword } from '@/utils/api/auth';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 function ForgotPassword() {
   const navigate = useNavigate();
@@ -36,7 +37,7 @@ function ForgotPassword() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (isAuthenticated) {

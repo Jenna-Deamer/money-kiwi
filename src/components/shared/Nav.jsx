@@ -38,7 +38,7 @@ function Nav() {
   const [isDrawerVisble, setIsDrawerVisible] = useState(false);
   const navRef = useRef(null);
 
-  const { isAuthenticated, logout } = useAuth();
+  const { isAuthenticated, isLoading, logout } = useAuth();
 
   const desktopNavItemClass = `max-md:p-2.5 flex items-center w-full min-w-0 focus-primary${!isCollapsed ? ' gap-2' : ''}`;
 
@@ -70,7 +70,7 @@ function Nav() {
   const closeMobileDrawer = () => setIsDrawerVisible(false);
 
 
-  if (!isAuthenticated) return null;
+  if (!isAuthenticated && !isLoading) return null;
 
   return (
     <nav

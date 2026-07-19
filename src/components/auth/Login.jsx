@@ -9,6 +9,7 @@ import { loginSchema } from '@/utils/validation/userSchema';
 import { toast } from 'sonner';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
+import { LoadingSpinner } from '../shared/ui/LoadingSpinner';
 
 function Login() {
   const navigate = useNavigate();
@@ -51,7 +52,7 @@ function Login() {
   };
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner/>;
   }
 
   if (isAuthenticated) {
