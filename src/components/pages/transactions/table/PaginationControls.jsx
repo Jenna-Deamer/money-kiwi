@@ -3,9 +3,9 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 function PaginationControls({ totalPages, page, setPage, placeholder }) {
   return (
     <div className='flex flex-wrap items-center'>
-      <span className='mr-4'>
-        Current Page: <b>{page + 1}</b>
-      </span>
+      <p className='mr-4'>
+        Page: {page + 1} of {totalPages}
+      </p>
 
       {totalPages > 1 && (
         <div className='flex gap-2'>
