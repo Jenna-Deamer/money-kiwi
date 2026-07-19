@@ -73,7 +73,7 @@ function TransactionOverview() {
           {hasAccounts &&
             <div className='text-center flex gap-4 mt-2 md:mt-0'>
               <LinkButton to='/transactions/form'>Add Transaction</LinkButton>
-              <LinkButton to='/' intent='subtle'>Import</LinkButton>
+              {/* <LinkButton to='/' intent='subtle'>Import</LinkButton>*/}
 
             </div>
           }
