@@ -15,6 +15,7 @@ import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 import Button from '@/components/shared/ui/buttons/Button';
 import { useOutletContext } from 'react-router';
 import DatePickerField from '@/components/shared/ui/form/DatePickerField';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 function TransactionOverview() {
   const { data: accounts, } = useAccounts();
@@ -24,7 +25,7 @@ function TransactionOverview() {
     search: '', categoryId: [], account: [], transactionType: [], accountType: [], status: [], startDate: pickerRange[0], endDate: pickerRange[1]
   });
   const debouncedFilters = useDebounce(filters, 500);
-  const { data: transactions, isPlaceholderData } = useTransactions(debouncedFilters, page);
+  const { data: transactions, isPlaceholderData, isLoading: isFetching } = useTransactions(debouncedFilters, page);
   const [activeTransaction, setActiveTransaction] = useState(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const { mutate: deleteTransaction, isLoading: isDeleting } =
@@ -45,8 +46,7 @@ function TransactionOverview() {
   const handleFilterChange = (key, value) => setFilters(prev => ({ ...prev, [key]: value }));
 
   const hasAccounts = accounts && accounts.length > 0;
-  if (!accounts) return <div>Loading accounts...</div>;
-
+  if (!accounts) return <LoadingSpinner />;
   return (
     <>
       <section>
@@ -127,6 +127,7 @@ function TransactionOverview() {
                 page={page}
                 setPage={setPage}
                 isPlaceholderData={isPlaceholderData}
+                isLoadingTransactions={isFetching}
               />
             )}
           </>

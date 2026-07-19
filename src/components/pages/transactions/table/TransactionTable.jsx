@@ -21,6 +21,7 @@ function TransactionTable({
   page,
   setPage,
   isPlaceholderData,
+  isLoadingTransactions
 }) {
   const columns = [
     {
@@ -87,11 +88,21 @@ function TransactionTable({
     data: transactionsData?.transactions || [],
     columns,
     getCoreRowModel: getCoreRowModel(),
+    // data is being fetched page by page
+    manualPagination: true,
+    state: {
+      pagination: {
+        pageIndex: page,
+        pageSize: 50,
+      },
+    },
     meta: {
       initialData: transactionsData?.transactions,
       isUnsavedData,
+      newData,
       updateData: (rowIndex, columnId, value) => {
         const orginalRow = transactionsData?.transactions[rowIndex];
+        if (!orginalRow) return;
         const rowId = orginalRow.id;
 
         setNewData(prev => {
@@ -108,7 +119,6 @@ function TransactionTable({
       },
     },
   });
-
   useEffect(() => {
     if (newData && newData.length > 0) {
       setIsUnsavedData(true);
@@ -176,6 +186,7 @@ function TransactionTable({
             </tr>
           ))}
         </thead>
+        {isLoadingTransactions && <h1>EHJI3UWDHUILFHJIKA</h1>}
         <tbody className='border-b border-soft'>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>
@@ -200,9 +211,6 @@ function TransactionTable({
           placeholder={isPlaceholderData}
         />
       </div>}
-
-
-
     </>
   );
 }

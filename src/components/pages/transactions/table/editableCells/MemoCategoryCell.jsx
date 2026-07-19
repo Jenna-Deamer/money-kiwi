@@ -14,10 +14,14 @@ const MemoCategoryCell = ({ row, table }) => {
   const { data: { childrenCategories } = {}, isLoading } = useChildrenCategories(transactionType);
 
   const isUnsavedData = table.options.meta?.isUnsavedData;
-  const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id);
-  const isRowDirty = (memo || '').trim() !== (initalRow?.memo || '').trim() ||
-    (categoryId || '').trim() !== (initalRow?.categoryId || '').trim();
+  const editedRow = table.options.meta?.newData?.find(r => r.id === row.original.id);
 
+  let isCellDirty = false;
+  if (editedRow) {
+    const isMemoChanged = 'memo' in editedRow && (memo || '').trim() !== (row.original.memo || '').trim();
+    const isCategoryChanged = 'categoryId' in editedRow && (categoryId || '').trim() !== (row.original.categoryId || '').trim();
+    isCellDirty = isMemoChanged || isCategoryChanged;
+  }
 
   useEffect(() => {
     if (!isUnsavedData) {
@@ -53,7 +57,7 @@ const MemoCategoryCell = ({ row, table }) => {
   };
 
   return (
-    <div className={`flex flex-col ${isRowDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+    <div className={`flex flex-col ${isCellDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
       }`}>
       <input
         value={memo}

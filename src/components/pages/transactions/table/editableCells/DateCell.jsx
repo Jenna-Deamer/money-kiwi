@@ -12,8 +12,9 @@ const DateCell = ({ table, row }) => {
   const [date, setDate] = useState(normalizeDateInputToLocalDate(row.original.date));
 
   const isUnsavedData = table.options.meta?.isUnsavedData;
-  const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id);
-  const isRowDirty = date?.toISOString() !== normalizeDateInputToLocalDate(initalRow?.date)?.toISOString();
+  const editedRow = table.options.meta?.newData?.find(r => r.id === row.original.id);
+  const isCellDirty = editedRow !== undefined &&
+     date?.toISOString() !== normalizeDateInputToLocalDate(row.original.date)?.toISOString();
 
   useEffect(() => {
     if (!isUnsavedData) {
@@ -36,7 +37,7 @@ const DateCell = ({ table, row }) => {
 
   return (
     <div
-      className={`${isRowDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+      className={`${isCellDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
         }`}
     >
 

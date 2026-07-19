@@ -8,7 +8,9 @@ const AmountCell = ({ table, row }) => {
   const [isFocused, setIsFocused] = useState(false);
 
   const isUnsavedData = table.options.meta?.isUnsavedData;
-  const initalRow = table.options.meta?.initialData?.find(r => r.id === row.original.id); const isRowDirty = (amount || 0.00) !== (initalRow?.amount || 0.00);
+  const editedRow = table.options.meta?.newData?.find(r => r.id === row.original.id);
+
+  const isCellDirty = editedRow !== undefined && (amount || 0) !== (row.original.amount || 0);
 
   useEffect(() => {
     if (!isUnsavedData) {
@@ -30,7 +32,7 @@ const AmountCell = ({ table, row }) => {
   };
 
   return (
-    <div className={`flex ${isRowDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+    <div className={`flex ${isCellDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
       }`}>
       <span className='font-semibold select-none'>
         $
