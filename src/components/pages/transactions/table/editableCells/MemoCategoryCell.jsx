@@ -48,8 +48,7 @@ const MemoCategoryCell = ({ row, table }) => {
         setCategoryError('');
       }
     }
-
-    table.options.meta?.updateData(row.index, field, value);
+    if (value !== row.original[field]) table.options.meta?.updateData(row.index, field, value);
 
   };
 

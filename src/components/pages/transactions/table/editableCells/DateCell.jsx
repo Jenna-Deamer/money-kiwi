@@ -31,8 +31,7 @@ const DateCell = ({ table, row }) => {
         setDateError('');
       }
     }
-
-    table.options.meta?.updateData(row.index, field, value);
+    if (value !== row.original[field]) table.options.meta?.updateData(row.index, field, value);
   };
 
   return (

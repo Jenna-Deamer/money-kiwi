@@ -94,16 +94,17 @@ function TransactionTable({
         const orginalRow = transactionsData?.transactions[rowIndex];
         const rowId = orginalRow.id;
 
-        setNewData((prev => {
+        setNewData(prev => {
           // find if row is already being tracked
           const existing = prev.find(row => row.id === rowId);
 
           if (existing) {
+            // set current row data instead of creating a duplciate row for same row edit
             return prev.map(row => row.id === rowId ? { ...row, [columnId]: value } : row);
           } else {
             return [...prev, { ...orginalRow, [columnId]: value }];
           }
-        }));
+        });
       },
     },
   });
@@ -112,7 +113,6 @@ function TransactionTable({
     if (newData && newData.length > 0) {
       setIsUnsavedData(true);
     } else { setIsUnsavedData(false); }
-
 
   }, [newData, isUnsavedData]);
 
