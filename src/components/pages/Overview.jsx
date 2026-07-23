@@ -1,25 +1,36 @@
 import { fetchOverviewTransactionTotals } from '@/utils/api/overview';
-const date = new Date();
-const month = date.toLocaleString('default', { month: 'long' });
-let data = await fetchOverviewTransactionTotals();
-console.log(data)
+import { useEffect, useState } from 'react';
+
+
 
 function Overview() {
+  const date = new Date();
+  const month = date.toLocaleString('default', { month: 'long' });
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    fetchOverviewTransactionTotals()
+      .then((response) => {
+        setData(response);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
   return (
     <section>
       <h1>{month} Summary</h1>
       <section className='grid sm:grid-cols-3 grid-cols-2 gap-4 text-center mt-6'>
         <div className='card'>
           <h3>Earned</h3>
-          <p>${data.totals.expense.toFixed(2)}</p>
+          <p>${data?.totals.expense.toFixed(2)}</p>
         </div>
         <div className='card sm:order-0 order-3 sm:col-span-1 col-span-full'>
           <h3>Cash Flow</h3>
-          <p>${data.totals.cashflow.toFixed(2)}</p>
+          <p>${data?.totals.cashflow.toFixed(2)}</p>
         </div>
         <div className='card'>
           <h3>Spent</h3>
-          <p>${data.totals.income.toFixed(2)}</p>
+          <p>${data?.totals.income.toFixed(2)}</p>
         </div>
       </section>
 
