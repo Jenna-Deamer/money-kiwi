@@ -22,7 +22,7 @@ function Overview() {
       <section className='grid sm:grid-cols-3 grid-cols-2 gap-4 text-center mt-6'>
         <div className='card'>
           <h3>Earned</h3>
-          <p>${data?.totals.expense.toFixed(2)}</p>
+          <p>${data?.totals.income.toFixed(2)}</p>
         </div>
         <div className='card sm:order-0 order-3 sm:col-span-1 col-span-full'>
           <h3>Cash Flow</h3>
@@ -30,7 +30,7 @@ function Overview() {
         </div>
         <div className='card'>
           <h3>Spent</h3>
-          <p>${data?.totals.income.toFixed(2)}</p>
+          <p>${data?.totals.expense.toFixed(2)}</p>
         </div>
       </section>
 
