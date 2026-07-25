@@ -25,7 +25,7 @@ function Overview() {
           <p>${data?.totals.income.toFixed(2)}</p>
         </div>
         <div className='card sm:order-0 order-3 sm:col-span-1 col-span-full'>
-          <h3>Cash Flow</h3>
+          <h3>Remainder</h3>
           <p>${data?.totals.cashflow.toFixed(2)}</p>
         </div>
         <div className='card'>
