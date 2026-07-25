@@ -137,8 +137,8 @@ function TransactionForm() {
             </FormField>
 
             <FormField
-              label='Memo'
-              htmlFor='memo'
+              label='Amount'
+              htmlFor='amount'
               error={errors.amount?.message}
             >
               <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
