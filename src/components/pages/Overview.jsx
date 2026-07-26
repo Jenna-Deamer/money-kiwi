@@ -1,4 +1,4 @@
-import { fetchOverviewTransactionTotals } from '@/utils/api/overview';
+import { fetchOverviewTransactionData } from '@/utils/api/overview';
 import { useEffect, useState } from 'react';
 
 
@@ -9,7 +9,7 @@ function Overview() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetchOverviewTransactionTotals()
+    fetchOverviewTransactionData()
       .then((response) => {
         setData(response);
       })
@@ -34,11 +34,19 @@ function Overview() {
         </div>
       </section>
 
+
       <section className='flex sm:flex-row justify-center flex-col gap-6 mt-10'>
+
         <div className='w-full'>
           <h3 className='mb-2'>Top Spending&nbsp;Categories</h3>
 
           <div className='card'>
+            {data?.topExpenseCategories ? <ul>
+              {data?.topExpenseCategories.map((category) => (
+                <li key={category.id}>{category.name}</li>
+              ))}
+            </ul> : <p>No expenses recorded yet this month</p>}
+
           </div>
         </div>
 
