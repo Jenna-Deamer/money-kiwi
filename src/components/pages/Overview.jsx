@@ -74,7 +74,7 @@ function Overview() {
                         })}
                       </span>
                     </div>
-                    <div className='flex items-center gap-3 shrink-0'>
+                    <div className='flex flex-col items-center gap-1'>
                       <span className='font-medium'>${tx.amount.toFixed(2)}</span>
                       <span className='badge border-soft bg-black/3'>{tx.type}</span>
                     </div>
