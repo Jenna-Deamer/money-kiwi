@@ -43,7 +43,7 @@ function Overview() {
           <div className='card'>
             {data?.topExpenseCategories ? <ul>
               {data?.topExpenseCategories.map((category) => (
-                <li key={category.id}>{category.name}</li>
+                <li key={category.id}>{category.name} - {category.sum.toFixed(2)}</li>
               ))}
             </ul> : <p>No expenses recorded yet this month</p>}
 
