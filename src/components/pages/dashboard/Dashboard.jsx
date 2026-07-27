@@ -8,10 +8,10 @@ function Dashboard() {
   const { data: accounts, } = useAccounts();
   const [pickerRange, setPickerRange] = useOutletContext();
   const tabs = [
-    { id: 'general', label: 'General' },
+    { id: 'cashflow', label: 'Cashflow' },
     { id: 'invesments', label: 'Invesments' },
   ];
-  const [activeTab, setActiveTab] = useState('general');
+  const [activeTab, setActiveTab] = useState('cashflow');
 
   const hasAccounts = accounts && accounts.length > 0;
   if (!accounts) return <div>Loading accounts...</div>;
