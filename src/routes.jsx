@@ -3,7 +3,7 @@ import Home from '@/components/pages/Home';
 import Signup from '@/components/auth/SignUp';
 import Login from '@/components/auth/Login';
 import ProtectedRoute from '@/components/shared/ProtectedRoute';
-import Dashboard from '@/components/pages/Dashboard';
+import Dashboard from '@/components/pages/dashboard/Dashboard';
 import Overview from '@/components/pages/Overview';
 import VerifyEmailNotice from '@/components/auth/VerifyEmailNotice';
 import ResendVerfication from '@/components/auth/ResendVerification';
