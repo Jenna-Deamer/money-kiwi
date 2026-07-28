@@ -55,6 +55,14 @@ function Overview() {
               <p className='text-center py-4'>No expenses recorded yet this&nbsp;month</p>
             )}
           </div>
+
+          <h3 className='mt-4 mb-2'>Total Saved &amp; Invested</h3>
+          <div className='card'>
+            <ul className='divide-y divide-soft'>
+              <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Saved</span> ${data?.totals.savingContributions.toFixed(2)}</li>
+              <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Invested</span> ${data?.totals.invesetmentContributions.toFixed(2)}</li>
+            </ul>
+          </div>
         </div>
 
         <div>
@@ -84,16 +92,6 @@ function Overview() {
             ) : (
               <p className='text-center py-4'>No upcoming transactions</p>
             )}
-          </div>
-        </div>
-
-        <div>
-          <h3 className='mb-2'>Total Saved &amp; Invested</h3>
-          <div className='card'>
-            <ul className='divide-y divide-soft'>
-              <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Saved</span> ${data?.totals.savingContributions.toFixed(2)}</li>
-              <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Invested</span> ${data?.totals.invesetmentContributions.toFixed(2)}</li>
-            </ul>
           </div>
         </div>
       </section>
