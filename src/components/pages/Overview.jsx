@@ -12,6 +12,7 @@ function Overview() {
       .then((response) => setData(response))
       .catch((error) => console.error(error));
   }, []);
+  console.log(data);
 
   return (
     <section>
@@ -60,7 +61,7 @@ function Overview() {
           <div className='card'>
             <ul className='divide-y divide-soft'>
               <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Saved</span> ${data?.totals.savingContributions.toFixed(2)}</li>
-              <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Invested</span> ${data?.totals.invesetmentContributions.toFixed(2)}</li>
+              <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Invested</span> ${data?.totals.investmentsContributions.toFixed(2)}</li>
             </ul>
           </div>
         </div>
