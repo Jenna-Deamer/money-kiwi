@@ -1,9 +1,46 @@
 import { Pie, PieChart, Tooltip } from 'recharts';
 
+const CustomTooltip = ({ active, payload }) => {
+  if (!active || !payload || !payload.length) return null;
+
+  // get hovered slice data & format
+  const data = payload[0];
+  const color = data.payload.color || data.fill;
+  const name = data.name;
+  const amount = `$${Number(data.value).toLocaleString('en-US', {
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })}`;
+  const percent = `${Number(data.payload.parentPercentage).toFixed(1)}%`;
+
+  return (
+    <div className='min-w-45 rounded-xl border border-soft bg-canvas-card p-3.5 shadow-sm font-sans'>
+      <div className='mb-1.5 flex items-center gap-2'>
+        <span
+          className='h-2.5 w-2.5 shrink-0 rounded-full'
+          style={{ backgroundColor: color }}
+        />
+        <span className='text-small font-semibold text-txt-main'>
+          {name}
+        </span>
+      </div>
+
+      <div className='flex items-baseline justify-between gap-3'>
+        <span className='text-body font-bold tracking-tight text-txt-main'>
+          {amount}
+        </span>
+        <span className='text-small font-semibold text-txt-muted'>
+          {percent}
+        </span>
+      </div>
+    </div>
+  );
+};
+
 function DashboardPieChart({ data, dataKey }) {
   const formattedData = data?.map(item => ({
     ...item,
-    fill: item.color
+    fill: item.color,
   }));
 
   return (
@@ -16,18 +53,7 @@ function DashboardPieChart({ data, dataKey }) {
         outerRadius='80%'
         stroke='none'
       />
-      <Tooltip
-        formatter={(value) => `$${Number(value).toFixed(2)}`}
-        contentStyle={{
-          border: '1px solid #E2E8F0',
-          borderRadius: '8px',
-          boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
-        }}
-        itemStyle={{
-          color: '#2D3748',
-          fontWeight: '600',
-        }}
-      />
+      <Tooltip content={<CustomTooltip />} />
     </PieChart>
   );
 }

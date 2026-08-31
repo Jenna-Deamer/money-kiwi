@@ -110,7 +110,10 @@ function Dashboard() {
                 dataKey='sum'
               ></DashboardPieChart>
               <div>
-                <b>Breakdown</b>s
+                <b>Breakdown</b>
+                <ul>
+
+                </ul>
               </div>
             </div>
           </section>
