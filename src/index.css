@@ -47,7 +47,10 @@
         font-size: var(--text-body);
     }
 
-    section{@apply max-w-6xl  mx-auto;}
+    section {
+        @apply max-w-6xl mx-auto;
+    }
+
     /* Responsive Headings */
     h1 {
         @apply font-bold leading-tight tracking-tight;
@@ -94,6 +97,7 @@
     .input-standard:disabled {
         @apply bg-gray-100 text-gray-400 cursor-not-allowed;
     }
+
     .field-error {
         @apply text-xs flex flex-col mt-1 italic text-red-700;
     }
@@ -146,6 +150,7 @@
     }
 
 }
+
 /*CSS Overrides*/
 
 /*DatePicker icon spacing*/
@@ -156,4 +161,16 @@
 dialog::backdrop {
     background-color: rgba(0, 0, 0, 0.3);
     backdrop-filter: blur(1px);
+}
+
+/*Recharts Pies*/
+/* slice animation */
+.recharts-pie-sector path {
+    transition: opacity 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+/*Slice hover*/
+.recharts-pie-sector path:hover {
+    opacity: 0.85 !important;
 }

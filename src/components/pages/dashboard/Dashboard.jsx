@@ -40,7 +40,6 @@ function Dashboard() {
 
       {activeTab === 'cashflow' ?
         <div>
-
           <section>
             <h2 className='mb-2'>Summary</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
@@ -109,7 +108,6 @@ function Dashboard() {
               <DashboardPieChart
                 data={cashflowData?.categories.expenseCategories}
                 dataKey='sum'
-                colors=''
               ></DashboardPieChart>
               <div>
                 <b>Breakdown</b>s
