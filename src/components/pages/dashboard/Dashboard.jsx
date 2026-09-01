@@ -104,18 +104,29 @@ function Dashboard() {
           </section>
           <section className='mt-6'>
             <h2 className='mb-2'>Expense</h2>
-            <div className='grid grid-cols-2 card'>
-              <DashboardPieChart
-                data={cashflowData?.categories.expenseCategories}
-                dataKey='sum'
-              ></DashboardPieChart>
-              <div>
-                <b>Breakdown</b>
-                <ul>
+            {cashflowData?.categories.expenseCategories.length === 0 ? <div className='card w-fit '><p>No data found. Please try another date&nbsp;range.</p></div> :
+              <div className='grid grid-cols-2 card'>
+                <DashboardPieChart
+                  data={cashflowData?.categories.expenseCategories}
+                  dataKey='sum'
+                ></DashboardPieChart>
+                <div>
+                  <h3>Breakdown</h3>
+                  <ul className='mt-2 flex flex-col gap-1'>
 
-                </ul>
+                    {cashflowData?.categories.expenseCategories.map((category, index) => (
+                      <li key={index}><b>{category.name} ${category.sum} {category.parentPercentage.toFixed(2)}%</b>
+                        <ul>
+                          {category.children.map((child, index) => (
+                            <li key={index}>{child.name} ${child.sum} {child.childPercentage.toFixed(2)}%</li>
+                          ))}
+                        </ul>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
-            </div>
+            }
           </section>
         </div> : <></>
       }
