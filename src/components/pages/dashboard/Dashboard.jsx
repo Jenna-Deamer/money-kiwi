@@ -8,9 +8,9 @@ import DashboardPieChart from '@/components/shared/ui/PieChart';
 
 function Dashboard() {
   const { data: accounts, } = useAccounts();
-  const { data: cashflowData, } = useCashflowAnalytics();
-
   const [pickerRange, setPickerRange] = useOutletContext();
+  const { data: cashflowData, } = useCashflowAnalytics(pickerRange);
+
   const tabs = [
     { id: 'cashflow', label: 'Cashflow' },
     { id: 'investments', label: 'Investments' },
@@ -19,7 +19,7 @@ function Dashboard() {
 
   const hasAccounts = accounts && accounts.length > 0;
   if (!accounts) return <div>Loading accounts...</div>;
-  console.log(cashflowData);
+  console.log(pickerRange);
   return (
     <section>
       <div className='flex md:flex-row justify-between pb-1.5 flex-col gap-2 items-center mb-2'>
@@ -27,7 +27,9 @@ function Dashboard() {
         {hasAccounts && <DatePickerField
           startDate={pickerRange[0]}
           endDate={pickerRange[1]}
-          onChange={(update) => { setPickerRange(update); }}
+          onChange={(update) => {
+            setPickerRange(update);
+          }}
         />}
       </div>
 
@@ -105,7 +107,7 @@ function Dashboard() {
           <section className='mt-6'>
             {cashflowData?.categories.expenseCategories.length === 0 ? (
               <div className='card w-fit'>
-                <p>No data found. Please try another date range.</p>
+                <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
               </div>
             ) : (
               <div className='card'>
@@ -173,7 +175,7 @@ function Dashboard() {
           <section className='mt-6'>
             {cashflowData?.categories.incomeCategories.length === 0 ? (
               <div className='card w-fit'>
-                <p>No data found. Please try another date range.</p>
+                <p>No <b>income</b> data found. Please try another date&nbsp;range.</p>
               </div>
             ) : (
               <div className='card'>

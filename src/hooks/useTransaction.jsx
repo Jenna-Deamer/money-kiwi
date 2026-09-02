@@ -4,85 +4,85 @@ import { useAuth } from '@/context/AuthContext';
 import { toast } from 'sonner';
 
 export function useTransactions(filters, page) {
-    const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAuth();
 
-    return useQuery({
-        queryKey: ['transactions', filters, page],
-        queryFn: () => fetchTransactions(filters, page),
-        enabled: isAuthenticated,
-        placeholderData: keepPreviousData,
-    });
+  return useQuery({
+    queryKey: ['transactions', filters, page],
+    queryFn: () => fetchTransactions(filters, page),
+    enabled: isAuthenticated,
+    placeholderData: keepPreviousData,
+  });
 }
 
 export function useGetTransaction(id) {
-    const { isAuthenticated } = useAuth();
-    const queryClient = useQueryClient();
+  const { isAuthenticated } = useAuth();
+  const queryClient = useQueryClient();
 
-    return useQuery({
-        queryKey: ['transactions', id],
-        queryFn: () => getTransaction(id),
-        initialData: () => {
-            return queryClient.getQueryData(['transactions'])?.find(transactions => transactions.id === id);
-        },
-        enabled: isAuthenticated && !!id,
-    });
+  return useQuery({
+    queryKey: ['transactions', id],
+    queryFn: () => getTransaction(id),
+    initialData: () => {
+      return queryClient.getQueryData(['transactions'])?.find(transactions => transactions.id === id);
+    },
+    enabled: isAuthenticated && !!id,
+  });
 }
 
 export function useCreateTransaction() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (newTransaction) => createTransaction(newTransaction),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transaction created successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to create transaction');
-        }
-    });
+  return useMutation({
+    mutationFn: (newTransaction) => createTransaction(newTransaction),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      toast.success('Transaction created successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to create transaction');
+    }
+  });
 }
 
 export function useUpdateTransaction() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (updatedTransaction) => updateTransaction(updatedTransaction),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transaction updated successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to update transaction');
-        }
-    });
+  return useMutation({
+    mutationFn: (updatedTransaction) => updateTransaction(updatedTransaction),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      toast.success('Transaction updated successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to update transaction');
+    }
+  });
 }
 
 export function useUpdateMultipleTransactionss() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (updatedTransactions) => updateMultipleTransactions(updatedTransactions),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transactions updated successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to update transactions');
-        }
-    });
+  return useMutation({
+    mutationFn: (updatedTransactions) => updateMultipleTransactions(updatedTransactions),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      toast.success('Transactions updated successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to update transactions');
+    }
+  });
 }
 
 export function useDeleteTransaction() {
-    const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
-    return useMutation({
-        mutationFn: (data) => deleteTransaction(data), onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['transactions'] });
-            toast.success('Transaction deleted successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to delete transaction');
-        }
-    });
+  return useMutation({
+    mutationFn: (data) => deleteTransaction(data), onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      toast.success('Transaction deleted successfully');
+    },
+    onError: (error) => {
+      toast.error(error.message || 'Failed to delete transaction');
+    }
+  });
 }
