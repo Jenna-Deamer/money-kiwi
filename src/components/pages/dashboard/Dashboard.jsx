@@ -19,7 +19,7 @@ function Dashboard() {
 
   const hasAccounts = accounts && accounts.length > 0;
   if (!accounts) return <div>Loading accounts...</div>;
-  console.log(pickerRange);
+
   return (
     <section>
       <div className='flex md:flex-row justify-between pb-1.5 flex-col gap-2 items-center mb-2'>
