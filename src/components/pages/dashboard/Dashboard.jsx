@@ -1,7 +1,7 @@
 import DatePickerField from '../../shared/ui/form/DatePickerField';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useCashflowAnalytics } from '@/hooks/useAnalytics';
-import { data, useOutletContext } from 'react-router';
+import { useOutletContext } from 'react-router';
 import TabButtons from '@/components/shared/ui/buttons/TabButtons';
 import { useState } from 'react';
 import DashboardPieChart from '@/components/shared/ui/PieChart';
@@ -105,25 +105,58 @@ function Dashboard() {
           <section className='mt-6'>
             <h2 className='mb-2'>Expense</h2>
             {cashflowData?.categories.expenseCategories.length === 0 ? <div className='card w-fit '><p>No data found. Please try another date&nbsp;range.</p></div> :
-              <div className='grid grid-cols-2 card'>
-                <DashboardPieChart
-                  data={cashflowData?.categories.expenseCategories}
-                  dataKey='sum'
-                ></DashboardPieChart>
-                <div>
-                  <h3>Breakdown</h3>
-                  <ul className='mt-2 flex flex-col gap-1'>
+              <div className='grid grid-cols-1 md:grid-cols-2 card gap-8 items-start'>
+                <div className='flex items-center justify-center'>
+                  <DashboardPieChart
+                    data={cashflowData?.categories.expenseCategories}
+                    dataKey='sum'
+                  />
+                </div>
 
+                <div>
+                  <h3 className='text-h3 border-b border-soft pb-2 mb-4 text-txt-main'>Breakdown</h3>
+
+                  <div className='space-y-4'>
                     {cashflowData?.categories.expenseCategories.map((category, index) => (
-                      <li key={index}><b>{category.name} ${category.sum} {category.parentPercentage.toFixed(2)}%</b>
-                        <ul>
-                          {category.children.map((child, index) => (
-                            <li key={index}>{child.name} ${child.sum} {child.childPercentage.toFixed(2)}%</li>
-                          ))}
-                        </ul>
-                      </li>
+                      <div key={index} className='space-y-1.5'>
+                        <div className='flex items-center justify-between text-body font-bold text-txt-main'>
+                          <div className='flex items-center gap-2.5'>
+                            <span
+                              className='w-3 h-3 rounded-full inline-block shrink-0'
+                              style={{ backgroundColor: category.fill || category.color || '#ccc' }}
+                            />
+                            <span>{category.name}</span>
+                          </div>
+
+                          <div className='flex items-center gap-3'>
+                            <span>${category.sum.toFixed(2)}</span>
+                            <span className='text-small font-semibold text-txt-main w-12 text-right'>
+                              {category.parentPercentage.toFixed(1)}%
+                            </span>
+                          </div>
+                        </div>
+
+                        {category.children && category.children.length > 0 && (
+                          <div className='pl-5 space-y-1'>
+                            {category.children.map((child, childIdx) => (
+                              <div
+                                key={childIdx}
+                                className='flex items-center justify-between text-small text-txt-main'
+                              >
+                                <span className='text-txt-muted'>{child.name}</span>
+                                <div className='flex items-center gap-3'>
+                                  <span>${child.sum.toFixed(2)}</span>
+                                  <span className='text-txt-muted w-12 text-right'>
+                                    {child.childPercentage.toFixed(1)}%
+                                  </span>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
                     ))}
-                  </ul>
+                  </div>
                 </div>
               </div>
             }
