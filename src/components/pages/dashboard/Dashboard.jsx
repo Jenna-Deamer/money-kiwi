@@ -103,63 +103,140 @@ function Dashboard() {
             </div>
           </section>
           <section className='mt-6'>
-            <h2 className='mb-2'>Expense</h2>
-            {cashflowData?.categories.expenseCategories.length === 0 ? <div className='card w-fit '><p>No data found. Please try another date&nbsp;range.</p></div> :
-              <div className='grid grid-cols-1 md:grid-cols-2 card gap-8 items-start'>
-                <div className='flex items-center justify-center'>
-                  <DashboardPieChart
-                    data={cashflowData?.categories.expenseCategories}
-                    dataKey='sum'
-                  />
+            {cashflowData?.categories.expenseCategories.length === 0 ? (
+              <div className='card w-fit'>
+                <p>No data found. Please try another date range.</p>
+              </div>
+            ) : (
+              <div className='card'>
+                <div className='border-b border-soft pb-3 mb-4'>
+                  <h2 className='text-h2 font-semibold text-txt-main'>Expenses</h2>
                 </div>
 
-                <div>
-                  <h3 className='text-h3 border-b border-soft pb-2 mb-4 text-txt-main'>Breakdown</h3>
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
+                  <div className='flex items-center justify-center h-70'>
+                    <DashboardPieChart
+                      data={cashflowData?.categories.expenseCategories}
+                      dataKey='sum'
+                    />
+                  </div>
+                  <div className='h-full'>
+                    <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3'>
+                      Breakdown
+                    </h3>
 
-                  <div className='space-y-4'>
-                    {cashflowData?.categories.expenseCategories.map((category, index) => (
-                      <div key={index} className='space-y-1.5'>
-                        <div className='flex items-center justify-between text-body font-bold text-txt-main'>
-                          <div className='flex items-center gap-2.5'>
-                            <span
-                              className='w-3 h-3 rounded-full inline-block shrink-0'
-                              style={{ backgroundColor: category.fill || category.color || '#ccc' }}
-                            />
-                            <span>{category.name}</span>
+                    <div className='space-y-3'>
+                      {cashflowData?.categories.expenseCategories.map((category, index) => (
+                        <div key={index} className='space-y-1'>
+                          <div className='flex items-center justify-between text-body font-bold text-txt-main'>
+                            <div className='flex items-center gap-2.5'>
+                              <span
+                                className='w-3 h-3 rounded-full inline-block shrink-0'
+                                style={{ backgroundColor: category.fill || category.color || '#ccc' }}
+                              />
+                              <span>{category.name}</span>
+                            </div>
+
+                            <div className='flex items-center gap-3'>
+                              <span>${category.sum.toFixed(2)}</span>
+                              <span className='text-small font-semibold text-txt-main w-12 text-right'>
+                                {category.parentPercentage.toFixed(1)}%
+                              </span>
+                            </div>
                           </div>
-
-                          <div className='flex items-center gap-3'>
-                            <span>${category.sum.toFixed(2)}</span>
-                            <span className='text-small font-semibold text-txt-main w-12 text-right'>
-                              {category.parentPercentage.toFixed(1)}%
-                            </span>
-                          </div>
-                        </div>
-
-                        {category.children && category.children.length > 0 && (
-                          <div className='pl-5 space-y-1'>
-                            {category.children.map((child, childIdx) => (
-                              <div
-                                key={childIdx}
-                                className='flex items-center justify-between text-small text-txt-main'
-                              >
-                                <span className='text-txt-muted'>{child.name}</span>
-                                <div className='flex items-center gap-3'>
-                                  <span>${child.sum.toFixed(2)}</span>
-                                  <span className='text-txt-muted w-12 text-right'>
-                                    {child.childPercentage.toFixed(1)}%
-                                  </span>
+                          {category.children && category.children.length > 0 && (
+                            <div className='pl-5 space-y-1'>
+                              {category.children.map((child, childIdx) => (
+                                <div
+                                  key={childIdx}
+                                  className='flex items-center justify-between text-small text-txt-main'
+                                >
+                                  <span className='text-txt-muted'>{child.name}</span>
+                                  <div className='flex items-center gap-3'>
+                                    <span>${child.sum.toFixed(2)}</span>
+                                    <span className='text-txt-muted w-12 text-right'>
+                                      {child.childPercentage.toFixed(1)}%
+                                    </span>
+                                  </div>
                                 </div>
-                              </div>
-                            ))}
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            }
+            )}
+          </section>
+          <section className='mt-6'>
+            {cashflowData?.categories.incomeCategories.length === 0 ? (
+              <div className='card w-fit'>
+                <p>No data found. Please try another date range.</p>
+              </div>
+            ) : (
+              <div className='card'>
+                <div className='border-b border-soft pb-3 mb-4'>
+                  <h2 className='text-h2 font-semibold text-txt-main'>Income</h2>
+                </div>
+
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
+                  <div className='flex items-center justify-center h-70'>
+                    <DashboardPieChart
+                      data={cashflowData?.categories.incomeCategories}
+                      dataKey='sum'
+                    />
+                  </div>
+                  <div className='h-full'>
+                    <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3'>
+                      Breakdown
+                    </h3>
+
+                    <div className='space-y-3'>
+                      {cashflowData?.categories.incomeCategories.map((category, index) => (
+                        <div key={index} className='space-y-1'>
+                          <div className='flex items-center justify-between text-body font-bold text-txt-main'>
+                            <div className='flex items-center gap-2.5'>
+                              <span
+                                className='w-3 h-3 rounded-full inline-block shrink-0'
+                                style={{ backgroundColor: category.fill || category.color || '#ccc' }}
+                              />
+                              <span>{category.name}</span>
+                            </div>
+
+                            <div className='flex items-center gap-3'>
+                              <span>${category.sum.toFixed(2)}</span>
+                              <span className='text-small font-semibold text-txt-main w-12 text-right'>
+                                {category.parentPercentage.toFixed(1)}%
+                              </span>
+                            </div>
+                          </div>
+                          {category.children && category.children.length > 0 && (
+                            <div className='pl-5 space-y-1'>
+                              {category.children.map((child, childIdx) => (
+                                <div
+                                  key={childIdx}
+                                  className='flex items-center justify-between text-small text-txt-main'
+                                >
+                                  <span className='text-txt-muted'>{child.name}</span>
+                                  <div className='flex items-center gap-3'>
+                                    <span>${child.sum.toFixed(2)}</span>
+                                    <span className='text-txt-muted w-12 text-right'>
+                                      {child.childPercentage.toFixed(1)}%
+                                    </span>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              </div>
+            )}
           </section>
         </div> : <></>
       }
