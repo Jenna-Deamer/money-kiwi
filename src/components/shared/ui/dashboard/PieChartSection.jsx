@@ -1,6 +1,6 @@
 import DashboardPieChart from '../dashboard/PieChart';
 
-function DashboardPieChartSection({title,data,dataKey, valueLabel, }) {
+function DashboardPieChartSection({ title, data, dataKey, valueLabel, }) {
 
   return (
     <div className='card'>
@@ -37,7 +37,7 @@ function DashboardPieChartSection({title,data,dataKey, valueLabel, }) {
                     <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
                       <span className='whitespace-nowrap'>${category.sum.toFixed(2)}</span>
                       <span className='text-small font-semibold text-txt-main min-w-16 text-right whitespace-nowrap'>
-                        {category.parentPercentage}%
+                        {category.parentPercentage}
                       </span>
                     </div>
                   </div>
@@ -53,7 +53,7 @@ function DashboardPieChartSection({title,data,dataKey, valueLabel, }) {
                           <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
                             <span className='whitespace-nowrap'>${child.sum.toFixed(2)}</span>
                             <span className='text-txt-muted min-w-16 text-right whitespace-nowrap'>
-                              {child.childPercentage}%
+                              {child.childPercentage}
                             </span>
                           </div>
                         </div>
@@ -66,7 +66,7 @@ function DashboardPieChartSection({title,data,dataKey, valueLabel, }) {
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 
