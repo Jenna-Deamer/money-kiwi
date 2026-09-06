@@ -104,142 +104,154 @@ function Dashboard() {
               </div>
             </div>
           </section>
-          <section className='mt-6'>
-            {cashflowData?.categories.expenseCategories.length === 0 ? (
-              <div className='card w-fit'>
-                <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
-              </div>
-            ) : (
-              <div className='card'>
-                <div className='border-b border-soft pb-3 mb-4'>
-                  <h2 className='text-h2 font-semibold text-txt-main'>Expenses</h2>
-                </div>
-
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
-                  <div className='flex items-center justify-center h-70'>
-                    <DashboardPieChart
-                      data={cashflowData?.categories.expenseCategories}
-                      dataKey='sum'
-                    />
+          <>
+            <>
+              <section className='mt-6'>
+                {cashflowData?.categories.expenseCategories.length === 0 ? (
+                  <div className='card w-fit'>
+                    <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
                   </div>
-                  <div className='h-full'>
-                    <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3'>
-                      Breakdown
-                    </h3>
+                ) : (
+                  <div className='card'>
+                    <div className='border-b border-soft pb-3 mb-4'>
+                      <h2 className='text-h2 font-semibold text-txt-main'>Expenses</h2>
+                    </div>
 
-                    <div className='space-y-3'>
-                      {cashflowData?.categories.expenseCategories.map((category, index) => (
-                        <div key={index} className='space-y-1'>
-                          <div className='flex items-center justify-between text-body font-bold text-txt-main'>
-                            <div className='flex items-center gap-2.5'>
-                              <span
-                                className='w-3 h-3 rounded-full inline-block shrink-0'
-                                style={{ backgroundColor: category.fill || category.color || '#ccc' }}
-                              />
-                              <span>{category.name}</span>
-                            </div>
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
+                      <div className='flex items-center justify-center h-70'>
+                        <DashboardPieChart
+                          data={cashflowData?.categories.expenseCategories}
+                          dataKey='sum'
+                        />
+                      </div>
+                      <div className='h-full flex flex-col'>
+                        <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3 shrink-0'>
+                          Breakdown
+                        </h3>
 
-                            <div className='flex items-center gap-3'>
-                              <span>${category.sum.toFixed(2)}</span>
-                              <span className='text-small font-semibold text-txt-main w-12 text-right'>
-                                {category.parentPercentage.toFixed(1)}%
-                              </span>
-                            </div>
-                          </div>
-                          {category.children && category.children.length > 0 && (
-                            <div className='pl-5 space-y-1'>
-                              {category.children.map((child, childIdx) => (
-                                <div
-                                  key={childIdx}
-                                  className='flex items-center justify-between text-small text-txt-main'
-                                >
-                                  <span className='text-txt-muted'>{child.name}</span>
-                                  <div className='flex items-center gap-3'>
-                                    <span>${child.sum.toFixed(2)}</span>
-                                    <span className='text-txt-muted w-12 text-right'>
-                                      {child.childPercentage.toFixed(1)}%
+                        <div className='space-y-4 overflow-y-auto max-h-100 pr-3'>
+                          {[...(cashflowData?.categories?.expenseCategories || [])]
+                            .sort((a, b) => b.sum - a.sum)
+                            .map((category, index) => (
+                              <div key={index} className='space-y-2'>
+                                <div className='flex items-center justify-between text-body font-bold text-txt-main gap-4'>
+                                  <div className='flex items-center gap-2.5 min-w-0'>
+                                    <span
+                                      className='w-3 h-3 rounded-full inline-block shrink-0'
+                                      style={{ backgroundColor: category.fill || category.color || '#ccc' }}
+                                    />
+                                    <span className='truncate'>{category.name}</span>
+                                  </div>
+
+                                  <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
+                                    <span className='whitespace-nowrap'>${category.sum.toFixed(2)}</span>
+                                    <span className='text-small font-semibold text-txt-main min-w-16 text-right whitespace-nowrap'>
+                                      {category.parentPercentage}%
                                     </span>
                                   </div>
                                 </div>
-                              ))}
-                            </div>
-                          )}
+
+                                {category.children && category.children.length > 0 && (
+                                  <div className='pl-5 space-y-1.5'>
+                                    {category.children.map((child, childIdx) => (
+                                      <div
+                                        key={childIdx}
+                                        className='flex items-center justify-between text-small text-txt-main gap-4'
+                                      >
+                                        <span className='text-txt-muted truncate'>{child.name}</span>
+                                        <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
+                                          <span className='whitespace-nowrap'>${child.sum.toFixed(2)}</span>
+                                          <span className='text-txt-muted min-w-16 text-right whitespace-nowrap'>
+                                            {child.childPercentage}%
+                                          </span>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
-          </section>
-          <section className='mt-6'>
-            {cashflowData?.categories.incomeCategories.length === 0 ? (
-              <div className='card w-fit'>
-                <p>No <b>income</b> data found. Please try another date&nbsp;range.</p>
-              </div>
-            ) : (
-              <div className='card'>
-                <div className='border-b border-soft pb-3 mb-4'>
-                  <h2 className='text-h2 font-semibold text-txt-main'>Income</h2>
-                </div>
+                )}
+              </section>
 
-                <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
-                  <div className='flex items-center justify-center h-70'>
-                    <DashboardPieChart
-                      data={cashflowData?.categories.incomeCategories}
-                      dataKey='sum'
-                    />
+              <section className='mt-6'>
+                {cashflowData?.categories.incomeCategories.length === 0 ? (
+                  <div className='card w-fit'>
+                    <p>No <b>income</b> data found. Please try another date&nbsp;range.</p>
                   </div>
-                  <div className='h-full'>
-                    <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3'>
-                      Breakdown
-                    </h3>
+                ) : (
+                  <div className='card'>
+                    <div className='border-b border-soft pb-3 mb-4'>
+                      <h2 className='text-h2 font-semibold text-txt-main'>Income</h2>
+                    </div>
 
-                    <div className='space-y-3'>
-                      {cashflowData?.categories.incomeCategories.map((category, index) => (
-                        <div key={index} className='space-y-1'>
-                          <div className='flex items-center justify-between text-body font-bold text-txt-main'>
-                            <div className='flex items-center gap-2.5'>
-                              <span
-                                className='w-3 h-3 rounded-full inline-block shrink-0'
-                                style={{ backgroundColor: category.fill || category.color || '#ccc' }}
-                              />
-                              <span>{category.name}</span>
-                            </div>
 
-                            <div className='flex items-center gap-3'>
-                              <span>${category.sum.toFixed(2)}</span>
-                              <span className='text-small font-semibold text-txt-main w-12 text-right'>
-                                {category.parentPercentage.toFixed(1)}%
-                              </span>
-                            </div>
-                          </div>
-                          {category.children && category.children.length > 0 && (
-                            <div className='pl-5 space-y-1'>
-                              {category.children.map((child, childIdx) => (
-                                <div
-                                  key={childIdx}
-                                  className='flex items-center justify-between text-small text-txt-main'
-                                >
-                                  <span className='text-txt-muted'>{child.name}</span>
-                                  <div className='flex items-center gap-3'>
-                                    <span>${child.sum.toFixed(2)}</span>
-                                    <span className='text-txt-muted w-12 text-right'>
-                                      {child.childPercentage.toFixed(1)}%
+                    <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
+                      <div className='flex items-center justify-center h-70'>
+                        <DashboardPieChart
+                          data={cashflowData?.categories.incomeCategories}
+                          dataKey='sum'
+                        />
+                      </div>
+                      <div className='h-full flex flex-col'>
+                        <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3 shrink-0'>
+                          Breakdown
+                        </h3>
+
+                        <div className='space-y-4 overflow-y-auto max-h-100 pr-3'>
+                          {[...cashflowData?.categories.incomeCategories || []]
+                            .sort((a, b) => b.sum - a.sum)
+                            .map((category, index) => (
+                              <div key={index} className='space-y-2'>
+                                <div className='flex items-center justify-between text-body font-bold text-txt-main gap-4'>
+                                  <div className='flex items-center gap-2.5 min-w-0'>
+                                    <span
+                                      className='w-3 h-3 rounded-full inline-block shrink-0'
+                                      style={{ backgroundColor: category.fill || category.color || '#ccc' }}
+                                    />
+                                    <span className='truncate'>{category.name}</span>
+                                  </div>
+
+                                  <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
+                                    <span className='whitespace-nowrap'>${category.sum.toFixed(2)}</span>
+                                    <span className='text-small font-semibold text-txt-main min-w-16 text-right whitespace-nowrap'>
+                                      {category.parentPercentage}%
                                     </span>
                                   </div>
                                 </div>
-                              ))}
-                            </div>
-                          )}
+
+                                {category.children && category.children.length > 0 && (
+                                  <div className='pl-5 space-y-1.5'>
+                                    {category.children.map((child, childIdx) => (
+                                      <div
+                                        key={childIdx}
+                                        className='flex items-center justify-between text-small text-txt-main gap-4'
+                                      >
+                                        <span className='text-txt-muted truncate'>{child.name}</span>
+                                        <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
+                                          <span className='whitespace-nowrap'>${child.sum.toFixed(2)}</span>
+                                          <span className='text-txt-muted min-w-16 text-right whitespace-nowrap'>
+                                            {child.childPercentage}%
+                                          </span>
+                                        </div>
+                                      </div>
+                                    ))}
+                                  </div>
+                                )}
+                              </div>
+                            ))}
                         </div>
-                      ))}
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-            )}
-          </section>
+                )}
+              </section>
+            </>
+          </>
         </div> : <></>
       }
     </section>
