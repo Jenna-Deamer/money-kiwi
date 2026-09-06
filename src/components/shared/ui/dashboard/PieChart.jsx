@@ -11,7 +11,7 @@ const CustomTooltip = ({ active, payload }) => {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   })}`;
-  const percent = `${Number(data.payload.parentPercentage).toFixed(1)}%`;
+  const percent = `${data.payload.parentPercentage}`;
 
   return (
     <div className='min-w-45 rounded-xl border border-soft bg-canvas-card p-3.5 shadow-sm font-sans'>
