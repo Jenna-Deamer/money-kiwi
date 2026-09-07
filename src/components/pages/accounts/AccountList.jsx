@@ -118,7 +118,7 @@ function AccountList({ title, accounts }) {
             ) : null}
           </div>
 
-          <p className='flex justify-end font-bold'>${account.balance.toFixed(2)}</p>
+          <p className='flex justify-end font-bold'>${account.currentBalance.toFixed(2)}</p>
         </div>
       ))
       }
@@ -132,7 +132,7 @@ function AccountList({ title, accounts }) {
             <>
               {selectedAccount.status === 'active' && (
                 <>
-                  {selectedAccount.balance > 0.01 ? (
+                  {selectedAccount.currentBalance > 0.01 ? (
                     <div className='space-y-1'>
                       <p>
                         <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
@@ -141,7 +141,7 @@ function AccountList({ title, accounts }) {
                         This account still has a balance. Transfer or remove the remaining funds before archiving&nbsp;it.
                       </p>
                       <p>
-                        Current balance: <strong>${selectedAccount.balance.toFixed(2)}</strong>
+                        Current balance: <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>
                       </p>
                     </div>
                   ) : (
@@ -173,7 +173,7 @@ function AccountList({ title, accounts }) {
         footer={
           selectedAccount ? (
             <>
-              {selectedAccount.status === 'active' && selectedAccount.balance > 0.01 ? (
+              {selectedAccount.status === 'active' && selectedAccount.currentBalance > 0.01 ? (
                 <>
                   <Button
                     onClick={handleModalClose}

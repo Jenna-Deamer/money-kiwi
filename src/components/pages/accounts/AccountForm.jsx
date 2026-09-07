@@ -38,7 +38,8 @@ function AccountForm() {
       institution: '',
       category: '',
       subCategory: '',
-      registration: ''
+      registration: '',
+      initialBalance: '',
     }
   });
 
@@ -106,6 +107,22 @@ function AccountForm() {
                 className='input-standard'
               />
             </FormField>
+            {isEditMode ? <></> :
+              <FormField
+                label='Initial Balance'
+                htmlFor='initial balance'
+                error={errors.initialBalance?.message}
+              >
+                <input
+                  type='number'
+                  step='0.01'
+                  min='0.00'
+                  {...register('initialBalance')}
+                  placeholder='0.00'
+                  className='input-standard'
+                />
+              </FormField>
+            }
           </fieldset>
 
           <fieldset>
