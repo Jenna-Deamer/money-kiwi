@@ -22,7 +22,7 @@ function TransactionOverview() {
   const [pickerRange, setPickerRange] = useOutletContext();
   const [page, setPage] = useState(0);
   const [filters, setFilters] = useState({
-    search: '', categoryId: [], account: [], transactionType: [], accountType: [], status: [], startDate: pickerRange[0], endDate: pickerRange[1]
+    search: '', categoryId: [], accountId: [], transactionType: [], accountType: [], status: [], startDate: pickerRange[0], endDate: pickerRange[1]
   });
   const debouncedFilters = useDebounce(filters, 500);
   const { data: transactions, isPlaceholderData, isLoading: isFetching } = useTransactions(debouncedFilters, page);
@@ -89,13 +89,13 @@ function TransactionOverview() {
             <TransactionTableFilters
               search={filters.search}
               categoryId={filters.categoryId}
-              account={filters.account}
+              accountId={filters.accountId}
               transactionType={filters.transactionType}
               accountType={filters.accountType}
               status={filters.status}
               onSearchChange={(val) => handleFilterChange('search', val)}
               onCategoryChange={(val) => handleFilterChange('categoryId', val)}
-              onAccountChange={(val) => handleFilterChange('account', val)}
+              onAccountChange={(val) => handleFilterChange('accountId', val)}
               onTransactionTypeChange={(val) => handleFilterChange('transactionType', val)}
               onAccountTypeChange={(val) => handleFilterChange('accountType', val)}
               onStatusChange={(val) => handleFilterChange('status', val)}

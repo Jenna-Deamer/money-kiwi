@@ -19,7 +19,7 @@ const statusOptions = [
   { value: 'upcoming', label: 'Upcoming' },
 ];
 
-function TransactionTableFilters({ search, categoryId, account, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
+function TransactionTableFilters({ search, categoryId, accountId, transactionType, accountType, status, onAccountChange, onSearchChange, onCategoryChange, onTransactionTypeChange, onAccountTypeChange, onStatusChange }) {
   const { data: accounts, isLoading: isLoadingAccounts, error: accountError } = useAccounts();
   const {
     data: {
@@ -63,10 +63,10 @@ function TransactionTableFilters({ search, categoryId, account, transactionType,
   if (accountError || categoryError) return <div>Error...</div>;
 
   const accountOptions = (accounts || []).map(acc => ({
-    value: acc.name,
-    label: acc.name
+    value: acc.id,
+    label: acc.name + '-' + acc.institution
   }));
-
+  console.log(accounts);
   if (accountOptions.length === 0) {
     return <div></div>;
   }
@@ -90,7 +90,7 @@ function TransactionTableFilters({ search, categoryId, account, transactionType,
             placeholder='Account'
             isClearable
             isMulti
-            value={accountOptions.filter((opt) => (account || []).includes(opt.value))}
+            value={accountOptions.filter((opt) => accountId.includes(opt.value))}
             onChange={(selectedOptions) => {
               const values = selectedOptions ? selectedOptions.map((opt) => opt.value) : [];
               onAccountChange(values);
