@@ -6,3 +6,9 @@ export function fetchCashflowAnalytics(start, end) {
     method: 'GET',
   });
 }
+
+export function fetchInvestmentsSummary(start, end) {
+  return apiRequest(`${BASE}/investments/?start=${start}&end=${end}`, {
+    method: 'GET',
+  });
+}

@@ -1,6 +1,7 @@
 import DatePickerField from '../../shared/ui/form/DatePickerField';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useCashflowAnalytics } from '@/hooks/useAnalytics';
+import { useInvestmentsAnalytics } from '@/hooks/useAnalytics';
 import { useOutletContext } from 'react-router';
 import TabButtons from '@/components/shared/ui/buttons/TabButtons';
 import { useState } from 'react';
@@ -10,6 +11,9 @@ function Dashboard() {
   const { data: accounts, } = useAccounts();
   const [pickerRange, setPickerRange] = useOutletContext();
   const { data: cashflowData, } = useCashflowAnalytics(pickerRange);
+  const { data: investmentsData, } = useInvestmentsAnalytics(pickerRange);
+
+  console.log(investmentsData);
 
   const tabs = [
     { id: 'cashflow', label: 'Cashflow' },
@@ -106,35 +110,35 @@ function Dashboard() {
           </section>
 
 
-            <section className='mt-6'>
-              {cashflowData?.categories.expenseCategories.length === 0 ? (
-                <div className='card w-fit'>
-                  <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
-                </div>
-              ) : (
-                <DashboardPieChartSection
-                    data={cashflowData?.categories.expenseCategories}
-                    dataKey={'sum'}
-                    title={'Expenses'}
-                    valueLabel={'Breakdown'}
-                />
-              )}
-            </section>
+          <section className='mt-6'>
+            {cashflowData?.categories.expenseCategories.length === 0 ? (
+              <div className='card w-fit'>
+                <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
+              </div>
+            ) : (
+              <DashboardPieChartSection
+                data={cashflowData?.categories.expenseCategories}
+                dataKey={'sum'}
+                title={'Expenses'}
+                valueLabel={'Breakdown'}
+              />
+            )}
+          </section>
 
-            <section className='mt-6'>
-              {cashflowData?.categories.incomeCategories.length === 0 ? (
-                <div className='card w-fit'>
-                  <p>No <b>income</b> data found. Please try another date&nbsp;range.</p>
-                </div>
-              ) : (
-                <DashboardPieChartSection
-                    data={cashflowData?.categories.incomeCategories}
-                    dataKey={'sum'}
-                    title={'Income'}
-                    valueLabel={'Breakdown'}
-                />
-              )}
-            </section>
+          <section className='mt-6'>
+            {cashflowData?.categories.incomeCategories.length === 0 ? (
+              <div className='card w-fit'>
+                <p>No <b>income</b> data found. Please try another date&nbsp;range.</p>
+              </div>
+            ) : (
+              <DashboardPieChartSection
+                data={cashflowData?.categories.incomeCategories}
+                dataKey={'sum'}
+                title={'Income'}
+                valueLabel={'Breakdown'}
+              />
+            )}
+          </section>
 
         </div> : <></>
       }
@@ -150,7 +154,7 @@ function Dashboard() {
                   Net Remainder
                 </span>
                 <p className='text-3xl font-extrabold mt-2'>
-                  {/* ${cashflowData?.totals.cashflow.toFixed(2)}*/}
+                  ${investmentsData?.totals.net.toFixed(2)}
                 </p>
               </div>
 
@@ -160,7 +164,7 @@ function Dashboard() {
                   Invested
                 </span>
                 <p className='text-2xl font-bold mt-2'>
-                  {/* ${cashflowData?.totals.income.toFixed(2)}*/}
+                  ${investmentsData?.totals.contributions.toFixed(2)}
                 </p>
               </div>
 
@@ -169,7 +173,7 @@ function Dashboard() {
                   Withdrawn
                 </span>
                 <p className='text-2xl font-bold mt-2'>
-                  {/* ${cashflowData?.totals.expenseBeforeTransfers.toFixed(2)}*/}
+                  ${investmentsData?.totals.withdrawals.toFixed(2)}
                 </p>
               </div>
             </div>
