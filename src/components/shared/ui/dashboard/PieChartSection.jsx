@@ -49,11 +49,11 @@ function DashboardPieChartSection({
                     </div>
 
                     <div className='flex items-center justify-end gap-3 shrink-0 text-right'>
-                      {category[childrenKey]?.length > 0 && (
-                        <span className='whitespace-nowrap'>
-                          ${category[sumKey].toFixed(2)}
-                        </span>
-                      )}
+
+                      <span className='whitespace-nowrap'>
+                        ${category[sumKey].toFixed(2)}
+                      </span>
+
 
                       <span className='text-small font-semibold text-txt-main min-w-16 text-right whitespace-nowrap'>
                         {category[percentageKey]}
