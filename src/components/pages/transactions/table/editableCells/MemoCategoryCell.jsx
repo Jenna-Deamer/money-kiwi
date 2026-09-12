@@ -66,23 +66,25 @@ const MemoCategoryCell = ({ row, table }) => {
         className='font-bold'
       />
       {memoError && <small className='field-error'>{memoError}</small>}
-      <select
-        value={categoryId}
-        onChange={(e) => {
-          setCategoryId(e.target.value);
-          onBlur('categoryId', e.target.value);
-        }}
-        disabled={isLoading}
-        className='text-xs w-full cursor-pointer'
-      >
-        {childrenCategories?.map((category) => (
-          <option key={category.id} value={category.id}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+      {childrenCategories.length > 0 ? (
+        < select
+          value={categoryId}
+          onChange={(e) => {
+            setCategoryId(e.target.value);
+            onBlur('categoryId', e.target.value);
+          }}
+          disabled={isLoading}
+          className='text-xs w-full cursor-pointer'
+        >
+          {childrenCategories?.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      ) : <small>Uncategorized</small>}
       {categoryError && <small className='field-error'>{categoryError}</small>}
-    </div>
+    </div >
   );
 };
 
