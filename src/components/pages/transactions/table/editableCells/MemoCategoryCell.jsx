@@ -66,7 +66,7 @@ const MemoCategoryCell = ({ row, table }) => {
         className='font-bold'
       />
       {memoError && <small className='field-error'>{memoError}</small>}
-      {childrenCategories.length > 0 ? (
+      {childrenCategories?.length > 0 ? (
         < select
           value={categoryId}
           onChange={(e) => {
