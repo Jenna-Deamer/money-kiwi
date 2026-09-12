@@ -35,7 +35,7 @@ function AccountList({ title, accounts }) {
     }
   };
 
-  const handleStatusModalConfrimation = () => {
+  const handleStatusModalConfirmation = () => {
     const newStatus = selectedAccount.status === 'active' ? 'archived' : 'active';
 
     updateStatus(
@@ -184,7 +184,7 @@ function AccountList({ title, accounts }) {
                   </Button>
 
                   <Button onClick={() => navigate('/transactions')}>
-                    Transfer funds
+                    Manage Transactions
                   </Button>
                 </>
               ) : (
@@ -198,7 +198,7 @@ function AccountList({ title, accounts }) {
                   </Button>
 
                   <Button
-                    onClick={handleStatusModalConfrimation}
+                    onClick={handleStatusModalConfirmation}
                     disabled={isUpdating}
                   >
                     {isUpdating
@@ -221,34 +221,68 @@ function AccountList({ title, accounts }) {
         title='Delete Account'
         body={
           selectedAccount && (
-            <div className='space-y-2'>
-              <p>
-                Delete <strong>{selectedAccount.name}</strong>?
-              </p>
-              <p>
-                This action can’t be undone. The account and its data will be <b>permanently removed.</b>
-              </p>
-            </div>
+            <>
+              {selectedAccount.currentBalance > 0.01 ? (
+                <div className='space-y-1'>
+                  <p>
+                    <strong>{selectedAccount.name}</strong> can’t be deleted&nbsp;yet.
+                  </p>
+                  <p>
+                    This account still has a balance. Transfer or remove the remaining funds before deleting&nbsp;it.
+                  </p>
+                  <p>
+                    Current balance: <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>
+                  </p>
+                </div>
+              ) : (
+                <div className='space-y-2'>
+                  <p>
+                    Delete <strong>{selectedAccount.name}</strong>?
+                  </p>
+                  <p>
+                    This action can’t be undone. The account and its data will be <b>permanently removed.</b>
+                  </p>
+                </div>
+              )}
+            </>
           )
         }
         footer={
           selectedAccount ? (
             <>
-              <Button
-                onClick={handleModalClose}
-                disabled={isDeleting}
-                intent='subtle'
-              >
-                Cancel
-              </Button>
+              {selectedAccount.currentBalance > 0.01 ? (
+                <>
+                  <Button
+                    onClick={handleModalClose}
+                    disabled={isDeleting}
+                    intent='subtle'
+                  >
+                    Cancel
+                  </Button>
 
-              <Button
-                onClick={handleDeleteModalConfirmation}
-                disabled={isDeleting}
-                intent='danger'
-              >
-                {isDeleting ? 'Deleting...' : 'Delete account'}
-              </Button>
+                  <Button onClick={() => navigate('/transactions')}>
+                    Manage Transactions
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button
+                    onClick={handleModalClose}
+                    disabled={isDeleting}
+                    intent='subtle'
+                  >
+                    Cancel
+                  </Button>
+
+                  <Button
+                    onClick={handleDeleteModalConfirmation}
+                    disabled={isDeleting}
+                    intent='danger'
+                  >
+                    {isDeleting ? 'Deleting...' : 'Delete account'}
+                  </Button>
+                </>
+              )}
             </>
           ) : null
         }

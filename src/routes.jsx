@@ -6,14 +6,14 @@ import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import Dashboard from '@/components/pages/dashboard/Dashboard';
 import Overview from '@/components/pages/Overview';
 import VerifyEmailNotice from '@/components/auth/VerifyEmailNotice';
-import ResendVerfication from '@/components/auth/ResendVerification';
+import ResendVerification from '@/components/auth/ResendVerification';
 import ForgotPassword from '@/components/auth/ForgotPassword';
 import ResetPassword from '@/components/auth/ResetPassword';
-import AcccountMangement from '@/components/pages/accounts/AccountManagement';
+import AccountManagement from '@/components/pages/accounts/AccountManagement';
 import TransactionOverview from '@/components/pages/transactions/TransactionsOverview';
 import AccountForm from '@/components/pages/accounts/AccountForm';
 import TransactionForm from '@/components/pages/transactions/TransactionForm';
-import CategoryManagemnt from '@/components/pages/categories/CategoryManagement';
+import CategoryManagement from '@/components/pages/categories/CategoryManagement';
 import CategoryForm from '@/components/pages/categories/CategoryCreateForm';
 import RecurringTransactions from '@/components/pages/recurringTransactions/RecurringTransactions';
 
@@ -28,7 +28,7 @@ const routes = [
             { path: 'sign-up', element: <Signup /> },
             { path: 'login', element: <Login /> },
             { path: 'verify-notice', element: <VerifyEmailNotice /> },
-            { path: 'resend-verification', element: <ResendVerfication /> },
+            { path: 'resend-verification', element: <ResendVerification /> },
             { path: 'forgot-password', element: <ForgotPassword /> },
             { path: 'reset-password', element: <ResetPassword /> },
             {
@@ -51,7 +51,7 @@ const routes = [
                 path: 'accounts',
                 element: (
                     <ProtectedRoute>
-                        <AcccountMangement />
+                        <AccountManagement />
                     </ProtectedRoute>
                 )
             },
@@ -83,7 +83,7 @@ const routes = [
                 path: 'categories/',
                 element: (
                     <ProtectedRoute>
-                        <CategoryManagemnt />
+                        <CategoryManagement />
                     </ProtectedRoute>
                 )
             },

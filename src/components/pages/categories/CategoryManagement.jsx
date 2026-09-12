@@ -258,8 +258,8 @@ function CategoryManagement() {
               {!currentParentId && (
 
                 <FormField
-                  label='Color'
-                  htmlFor='color'>
+                  label='Colour'
+                  htmlFor='colour'>
                   <Controller
                     control={control}
                     name='color'
@@ -267,7 +267,7 @@ function CategoryManagement() {
                       <div>
                         <HexColorPicker color={value} onChange={onChange} />
                         <p className='text-sm text-muted italic mt-4'>
-                          *This color will be used for this parent category in charts and other visual&nbsp;summaries.
+                          *This colour will be used for this parent category in charts and other visual&nbsp;summaries.
                         </p>
                       </div>
                     )}

@@ -1,5 +1,5 @@
 export const formatSubCategory = (subCategory) => {
-  if (subCategory === 'gic') return subCategory.toUpperCase;
+  if (subCategory === 'gic') return subCategory.toUpperCase();
   else {
     return subCategory
       .split(/_+/)

@@ -8,7 +8,7 @@ import AmountCell from '@/components/pages/transactions/table/editableCells/Amou
 import { useState, useEffect } from 'react';
 import DateCell from '@/components/pages/transactions/table/editableCells/DateCell';
 import { transactionSchema } from '@/utils/validation/transactionSchema';
-import { useUpdateMultipleTransactionss } from '@/hooks/useTransaction';
+import { useUpdateMultipleTransactions } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
 import { Pencil, Trash2 } from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
@@ -78,7 +78,7 @@ function TransactionTable({
       ),
     },
   ];
-  const { mutate } = useUpdateMultipleTransactionss();
+  const { mutate } = useUpdateMultipleTransactions();
 
   const [newData, setNewData] = useState([]);
   const [isUnsavedData, setIsUnsavedData] = useState(false);
@@ -101,19 +101,19 @@ function TransactionTable({
       isUnsavedData,
       newData,
       updateData: (rowIndex, columnId, value) => {
-        const orginalRow = transactionsData?.transactions[rowIndex];
-        if (!orginalRow) return;
-        const rowId = orginalRow.id;
+        const originalRow = transactionsData?.transactions[rowIndex];
+        if (!originalRow) return;
+        const rowId = originalRow.id;
 
         setNewData(prev => {
           // find if row is already being tracked
           const existing = prev.find(row => row.id === rowId);
 
           if (existing) {
-            // set current row data instead of creating a duplciate row for same row edit
+            // set current row data instead of creating a duplicate row for same row edit
             return prev.map(row => row.id === rowId ? { ...row, [columnId]: value } : row);
           } else {
-            return [...prev, { ...orginalRow, [columnId]: value }];
+            return [...prev, { ...originalRow, [columnId]: value }];
           }
         });
       },
@@ -186,7 +186,7 @@ function TransactionTable({
             </tr>
           ))}
         </thead>
-        {isLoadingTransactions && <h1>EHJI3UWDHUILFHJIKA</h1>}
+        {isLoadingTransactions && <p>Loading transactions...</p>}
         <tbody className='border-b border-soft'>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>

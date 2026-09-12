@@ -64,17 +64,17 @@ function RecurringTransactions() {
 
       <div className='grid gap-6 md:grid-cols-2 items-start mt-6'>
         {FREQUENCIES.map((freq) => {
-          const itmes = currentList.filter((tx) => tx.frequency === freq.value);
+          const items = currentList.filter((tx) => tx.frequency === freq.value);
 
           return (
             <div key={freq.label} className='flex flex-col gap-3'>
               <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
                 <h2>{freq.label}</h2>
-                <span className='text-sm'>{itmes.length}</span>
+                <span className='text-sm'>{items.length}</span>
               </div>
 
               <div className='flex flex-col gap-3'>
-                {itmes.map((tx) => (
+                {items.map((tx) => (
                   <article key={tx.id} className='card p-4 flex flex-col gap-3'>
                     <div className='flex items-start justify-between gap-3'>
                       <div className='min-w-0 flex-1'>

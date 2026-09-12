@@ -12,7 +12,7 @@ import FormField from '@/components/shared/ui/form/FormField';
 function CategoryForm() {
   const { id } = useParams();
   const [searchParams] = useSearchParams();
-  const preSelectedCategory = searchParams.get('catgoryId');
+  const preSelectedCategory = searchParams.get('categoryId');
   const isEditMode = Boolean(id);
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
@@ -110,12 +110,12 @@ function CategoryForm() {
             </FormField>
 
             <FormField
-              label='Category Color'
-              htmlFor='category-color'
+              label='Category Colour'
+              htmlFor='category-colour'
               error={errors.color?.message}
             >
               {selectedParentId
-                ? <p>Only parent categories need a color.</p>
+                ? <p>Only parent categories need a colour.</p>
                 :
                 <Controller
                   control={control}

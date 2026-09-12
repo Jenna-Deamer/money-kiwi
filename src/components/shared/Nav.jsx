@@ -35,7 +35,7 @@ function DesktopLabel({ children, isCollapsed }) {
 function Nav() {
   const navigate = useNavigate();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isDrawerVisble, setIsDrawerVisible] = useState(false);
+  const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const navRef = useRef(null);
 
   const { isAuthenticated, isLoading, logout } = useAuth();
@@ -52,12 +52,12 @@ function Nav() {
   useEffect(() => {
     const handleOutsideAccountMenuClick = (e) => { if (!navRef.current?.contains(e.target)) toggleMobileDrawer(); };
 
-    if (!isDrawerVisble) return;
+    if (!isDrawerVisible) return;
     window.addEventListener('mousedown', handleOutsideAccountMenuClick);
     return () => {
       window.removeEventListener('mousedown', handleOutsideAccountMenuClick);
     };
-  }, [isDrawerVisble, navRef]);
+  }, [isDrawerVisible, navRef]);
 
   const toggleNav = () => {
     setIsCollapsed(prevIsCollapsed => !prevIsCollapsed);
@@ -90,7 +90,7 @@ function Nav() {
         className={`
           md:hidden overflow-hidden
           transition-[max-height] duration-200
-          ${isDrawerVisble ? 'max-h-60' : 'max-h-0'}
+          ${isDrawerVisible ? 'max-h-60' : 'max-h-0'}
         `}
       >
         <ul className='flex flex-col gap-2 px-4'>
@@ -233,7 +233,7 @@ function Nav() {
           <li className='md:hidden'>
             <button
               type='button'
-              aria-label={isDrawerVisble ? 'Close more menu' : 'Open more menu'}
+              aria-label={isDrawerVisible ? 'Close more menu' : 'Open more menu'}
               className='max-md:p-2.5 flex items-center justify-center focus-primary'
               onClick={toggleMobileDrawer}
             >

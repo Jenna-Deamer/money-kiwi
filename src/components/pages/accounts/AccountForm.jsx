@@ -91,13 +91,13 @@ function AccountForm() {
             >
               <input
                 {...register('name')}
-                placeholder='Chequings'
+                placeholder='Chequing'
                 className='input-standard'
               />
             </FormField>
 
             <FormField
-              label='Insitution'
+              label='Institution'
               htmlFor='institution'
               error={errors.institution?.message}
             >

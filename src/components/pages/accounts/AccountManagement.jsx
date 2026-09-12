@@ -1,7 +1,7 @@
 import AccountCard from '@/components/pages/accounts/AccountCard';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 
-function AcccountMangement() {
+function AccountManagement() {
   return (
     <section>
       <div className='flex flex-col gap-1 md:gap-0 md:flex-row items-center justify-between mb-6' >
@@ -14,4 +14,4 @@ function AcccountMangement() {
   );
 }
 
-export default AcccountMangement;
+export default AccountManagement;

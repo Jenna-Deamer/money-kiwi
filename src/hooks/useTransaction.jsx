@@ -58,7 +58,7 @@ export function useUpdateTransaction() {
   });
 }
 
-export function useUpdateMultipleTransactionss() {
+export function useUpdateMultipleTransactions() {
   const queryClient = useQueryClient();
 
   return useMutation({
