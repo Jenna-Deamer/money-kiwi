@@ -1,12 +1,13 @@
 import { Pie, PieChart, Tooltip } from 'recharts';
+import { registrationColors } from '@/utils/data/investmentColors';
 
-const CustomTooltip = ({ active, payload }) => {
+const CustomTooltip = ({ active, payload, nameKey }) => {
   if (!active || !payload || !payload.length) return null;
 
   // get hovered slice data & format
   const data = payload[0];
   const color = data.payload.color || data.fill;
-  const name = data.name;
+  const name = data.payload[nameKey];
   const amount = `$${Number(data.value).toLocaleString('en-US', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
@@ -37,10 +38,10 @@ const CustomTooltip = ({ active, payload }) => {
   );
 };
 
-function DashboardPieChart({ data, dataKey }) {
+function DashboardPieChart({ data, dataKey, nameKey }) {
   const formattedData = data?.map(item => ({
     ...item,
-    fill: item.color,
+    fill: item.color || registrationColors[item.registration] || '#9ca3af',
   }));
 
   return (
@@ -53,7 +54,9 @@ function DashboardPieChart({ data, dataKey }) {
         outerRadius='80%'
         stroke='none'
       />
-      <Tooltip content={<CustomTooltip />} />
+      <Tooltip content={<CustomTooltip
+        nameKey={nameKey}
+      />} />
     </PieChart>
   );
 }

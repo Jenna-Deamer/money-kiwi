@@ -37,7 +37,7 @@ function Dashboard() {
         />}
       </div>
 
-      <div className='flex justify-center items-center md:justify-start mb-8'>
+      <div className='flex justify-center items-center md:justify-start mb-6'>
         <TabButtons
           tabs={tabs}
           activeTab={activeTab}
@@ -118,9 +118,9 @@ function Dashboard() {
             ) : (
               <DashboardPieChartSection
                 data={cashflowData?.categories.expenseCategories}
-                dataKey={'sum'}
-                title={'Expenses'}
-                valueLabel={'Breakdown'}
+                dataKey='sum'
+                title='Expenses'
+                valueLabel='Breakdown'
               />
             )}
           </section>
@@ -133,9 +133,9 @@ function Dashboard() {
             ) : (
               <DashboardPieChartSection
                 data={cashflowData?.categories.incomeCategories}
-                dataKey={'sum'}
-                title={'Income'}
-                valueLabel={'Breakdown'}
+                dataKey='sum'
+                title='Income'
+                valueLabel='Breakdown'
               />
             )}
           </section>
@@ -146,7 +146,7 @@ function Dashboard() {
       {activeTab === 'investments' ?
         <div>
           <section>
-            <h2 className='mb-2'>Summary</h2>
+            <h2 className='mb-4'>Summary</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               {/* Featured Hero Card */}
               <div className='card flex flex-col justify-between p-5 sm:col-span-2 lg:col-span-2'>
@@ -177,6 +177,23 @@ function Dashboard() {
                 </p>
               </div>
             </div>
+          </section>
+          <section className='mt-6 mb-2'>
+            {investmentsData?.contributionsByRegistration.length === 0 ? (
+              <div className='card w-fit'>
+                <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
+              </div>
+            ) : (
+              <DashboardPieChartSection
+                data={investmentsData?.contributionsByRegistration}
+                dataKey='amount'
+                nameKey='registration'
+                sumKey='amount'
+                percentageKey='parentPercentage'
+                title='Investments by Registration'
+                valueLabel='Breakdown'
+              />
+            )}
           </section>
         </div> : <></>
       }

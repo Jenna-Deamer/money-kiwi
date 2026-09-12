@@ -1,7 +1,7 @@
 import { useNavigate, Link } from 'react-router-dom';
 import { useState } from 'react';
 import Modal from '@/components/shared/Modal';
-import { formatSubCategory } from '@/utils/data/accountLabelHelper';
+import { formatSubCategory } from '@/utils/accountLabelHelper';
 import Button from '@/components/shared/ui/buttons/Button';
 import { useUpdateAccountStatus, useDeleteAccount } from '@/hooks/useAccounts';
 import OptionsMenu from '@/components/shared/ui/OptionsMenu';

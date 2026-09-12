@@ -119,7 +119,7 @@ function UpdateTemplateForm({ template, onClose }) {
           htmlFor='amount'
           error={errors.amount?.message}
         >
-          <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard'/>
+          <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
         </FormField>
       </fieldset>
 
