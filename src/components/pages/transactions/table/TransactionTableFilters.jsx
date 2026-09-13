@@ -66,7 +66,6 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
     value: acc.id,
     label: acc.name + '-' + acc.institution
   }));
-  console.log(accounts);
   if (accountOptions.length === 0) {
     return <div></div>;
   }

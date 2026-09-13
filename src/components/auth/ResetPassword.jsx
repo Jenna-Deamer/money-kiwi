@@ -1,9 +1,12 @@
-import { useSearchParams, useNavigate, Link } from 'react-router-dom';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { toast } from 'sonner';
 import { resetPassword } from '@/utils/api/auth';
 import { resetPasswordSchema } from '@/utils/validation/userSchema';
+import Button from '@/components/shared/ui/buttons/Button';
+import FormField from '@/components/shared/ui/form/FormField';
+import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 
 function ResetPassword() {
     const [searchParams] = useSearchParams();
@@ -34,40 +37,56 @@ function ResetPassword() {
 
     if (!token) {
         return (
-            <div className='error-container'>
-                <h2>Invalid Access</h2>
-                <p>This page requires a valid reset token. Please request a new link.</p>
-                <Link to='/forgot-password' className='max-md:p-1.5'>Request Reset Link</Link>
-            </div>
+            <section className='flex flex-col items-center justify-center h-full'>
+                <div className='card w-full max-w-sm text-center'>
+                    <h1 className='my-4'>Invalid Access</h1>
+                    <p>This page requires a valid reset token. Please request a new link.</p>
+                    <div className='mt-4'>
+                        <LinkButton to='/forgot-password'>Request Reset Link</LinkButton>
+                    </div>
+                </div>
+            </section>
         );
     }
     return (
-        <div className='auth-container'>
-            <h1>Create New Password</h1>
-            <form onSubmit={handleSubmit(onSubmit)}>
-                <div className='input-group'>
-                    <input
-                        type='password'
-                        placeholder='New Password'
-                        {...register('password')}
-                    />
-                    {errors.password && <p className='error'>{errors.password.message}</p>}
-                </div>
+        <section className='flex flex-col items-center justify-center h-full'>
+            <div className='card w-full max-w-sm'>
+                <h1 className='text-center my-4'>Create New Password</h1>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <FormField
+                        label='New Password'
+                        htmlFor='password'
+                        error={errors.password?.message}
+                    >
+                        <input
+                            type='password'
+                            {...register('password')}
+                            placeholder='New password'
+                            className='input-standard'
+                        />
+                    </FormField>
 
-                <div className='input-group'>
-                    <input
-                        type='password'
-                        placeholder='Confirm New Password'
-                        {...register('confirmPassword')}
-                    />
-                    {errors.confirmPassword && <p className='error'>{errors.confirmPassword.message}</p>}
-                </div>
+                    <FormField
+                        label='Confirm New Password'
+                        htmlFor='confirmPassword'
+                        error={errors.confirmPassword?.message}
+                    >
+                        <input
+                            type='password'
+                            {...register('confirmPassword')}
+                            placeholder='Confirm new password'
+                            className='input-standard'
+                        />
+                    </FormField>
 
-                <button type='submit' disabled={isSubmitting}>
-                    {isSubmitting ? 'Updating...' : 'Update Password'}
-                </button>
-            </form>
-        </div>
+                    <div className='text-center my-4'>
+                        <Button type='submit' intent='primary' loadingText='Updating...' isLoading={isSubmitting}>
+                            Update Password
+                        </Button>
+                    </div>
+                </form>
+            </div>
+        </section>
     );
 }
 

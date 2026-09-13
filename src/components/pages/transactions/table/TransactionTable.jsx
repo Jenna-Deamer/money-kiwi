@@ -12,6 +12,7 @@ import { useUpdateMultipleTransactions } from '@/hooks/useTransaction';
 import { toast } from 'sonner';
 import { Pencil, Trash2 } from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 import PaginationControls from './PaginationControls';
 
 function TransactionTable({
@@ -169,6 +170,7 @@ function TransactionTable({
         <p key={error.id} >{error.message}</p>
       </div>
     ))}
+      {isLoadingTransactions && <div className='my-2'><LoadingSpinner /></div>}
       <table className='mb-1.5 table-fixed w-full bg-white'>
         <thead className='border-b border-soft bg-gray-200'>
           {table.getHeaderGroups().map((headerGroup) => (
@@ -186,7 +188,6 @@ function TransactionTable({
             </tr>
           ))}
         </thead>
-        {isLoadingTransactions && <p>Loading transactions...</p>}
         <tbody className='border-b border-soft'>
           {table.getRowModel().rows.map((row) => (
             <tr key={row.id}>

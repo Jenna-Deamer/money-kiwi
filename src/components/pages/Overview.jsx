@@ -12,7 +12,6 @@ function Overview() {
       .then((response) => setData(response))
       .catch((error) => console.error(error));
   }, []);
-  console.log(data);
 
   return (
     <section>

@@ -124,7 +124,7 @@ function SignUp() {
         </form>
         <div className='mt-1 text-sm text-txt-muted text-center'>
           <p>
-            Already have an&nbsp;account? <Link to='/login' className='max-md:p-1.5 text-kiwi-primary underline'>Login</Link>
+            Already have an&nbsp;account? <Link to='/login' className='text-kiwi-primary underline'>Login</Link>
           </p>
         </div>
       </div>

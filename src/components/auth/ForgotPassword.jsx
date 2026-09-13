@@ -69,7 +69,7 @@ function ForgotPassword() {
           </FormField>
 
           <div className='text-center mb-4'>
-            <Button type='submit' intent='primary' width='comfy' loadingText='Submitting...' disabled={isSubmitting}>
+            <Button type='submit' intent='primary' loadingText='Submitting...' disabled={isSubmitting}>
               {isSubmitting ? 'Submitting...' : 'Send Reset Link'}
             </Button>
           </div>

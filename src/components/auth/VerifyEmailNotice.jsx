@@ -1,11 +1,17 @@
-function verifyEmailNotice() {
-    return(
-        <div>
-       <h1>Verify your Email</h1>
-            <p>You're almost there! Please check your inbox and click the link to unlock all features.</p>
-            <button onClick={() => window.location.reload()}>I've verified, let me in!</button>
-        </div>
-    );
-};
+import Button from '@/components/shared/ui/buttons/Button';
 
-export default verifyEmailNotice;
+function VerifyEmailNotice() {
+    return (
+        <section className='flex flex-col items-center justify-center h-full'>
+            <div className='card w-full max-w-sm text-center'>
+                <h1 className='my-4'>Verify your Email</h1>
+                <p>You're almost there! Please check your inbox and click the link to unlock all features.</p>
+                <div className='mt-4'>
+                    <Button onClick={() => window.location.reload()}>I've verified, let me in!</Button>
+                </div>
+            </div>
+        </section>
+    );
+}
+
+export default VerifyEmailNotice;

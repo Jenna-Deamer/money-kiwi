@@ -220,7 +220,7 @@ function CategoryManagement() {
               onSubmit={handleSubmit(handleEditSubmit)}
               className='space-y-4'
             >
-              <p className='text-sm text-muted'>
+              <p className='text-sm text-txt-muted'>
                 Update the details for <strong>{activeCategory.name}</strong>.
               </p>
 
@@ -266,7 +266,7 @@ function CategoryManagement() {
                     render={({ field: { onChange, value } }) => (
                       <div>
                         <HexColorPicker color={value} onChange={onChange} />
-                        <p className='text-sm text-muted italic mt-4'>
+                        <p className='text-sm text-txt-muted italic mt-4'>
                           *This colour will be used for this parent category in charts and other visual&nbsp;summaries.
                         </p>
                       </div>
