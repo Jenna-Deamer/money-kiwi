@@ -58,7 +58,7 @@ function AccountList({ title, accounts }) {
       <h2 className='border-b border-soft mb-4'>{title}</h2>
       <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
         {accounts.map((account) => (
-          <div key={account.id} className='card p-4 mb-2'>
+          <div key={account.id} className='card-compact mb-2'>
             <div>
               <div className='flex justify-between'>
                 <h3 className='pb-1.5'>

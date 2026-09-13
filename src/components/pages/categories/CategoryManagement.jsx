@@ -144,7 +144,7 @@ function CategoryManagement() {
   return (
     <>
       <section>
-        <div className='flex md:flex-row justify-between pb-1.5 flex-col gap-2 items-center mb-2'>
+        <div className='flex md:flex-row justify-between flex-col gap-2 items-center mb-6'>
           <h1>Your Categories</h1>
           <div>  <LinkButton to='/categories/form'>Create Category</LinkButton></div>
         </div>
@@ -158,13 +158,13 @@ function CategoryManagement() {
 
 
 
-        <h2 className='py-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
+        <h2 className='mt-6 mb-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
         <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
           {activeList?.parentCategories?.length === 0 ? <div className='card w-fit '><p className='text-txt-muted'>No categories found</p></div> :
             activeList?.parentCategories?.filter(parent => parent.name)
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((parent) => (
-                <li key={parent.id} className='card p-4 border-t-8' style={{ borderColor: parent.color }}>
+                <li key={parent.id} className='card-compact border-t-8' style={{ borderColor: parent.color }}>
                   <div className='flex justify-between items-center'>
                     <h4>{parent.name}</h4>
 

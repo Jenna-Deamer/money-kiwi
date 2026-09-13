@@ -60,7 +60,7 @@ function ResendVerification() {
               placeholder='your@email.com'
             />
           </FormField>
-          <div className='mt-4 text-center flex flex-col items-center gap-2'>
+          <div className='mt-6 text-center flex flex-col items-center gap-2'>
             <Button type='submit' disabled={isSubmitting}>
               {isSubmitting ? 'Sending...' : 'Send Link'}
             </Button>

@@ -136,6 +136,10 @@
         @apply bg-canvas-card rounded-xl p-6 shadow-sm;
     }
 
+    .card-compact {
+        @apply bg-canvas-card rounded-xl p-4 shadow-sm;
+    }
+
     .sidebar {
         @apply py-1.5 md:p-4 sm:w-full;
     }

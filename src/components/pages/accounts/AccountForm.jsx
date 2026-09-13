@@ -73,7 +73,7 @@ function AccountForm() {
   return (
     <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
-        <h1 className='text-center my-4'>
+        <h1 className='mb-2 text-center'>
           {isEditMode ? 'Update Account' : 'Create Account'}
         </h1>
 
@@ -214,7 +214,7 @@ function AccountForm() {
             </FormField>
           </fieldset>
 
-          <div className='text-center mt-2'>
+          <div className='mt-6 flex justify-center'>
             <Button
               type='submit'
               disabled={isCreating || isUpdating || isFetching}

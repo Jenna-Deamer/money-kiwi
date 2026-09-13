@@ -249,7 +249,7 @@ function UpdateTemplateForm({ template, onClose }) {
 
 
 
-      <div className='flex justify-center items-center mt-4'>
+      <div className='mt-6 flex justify-center'>
         <Button type='submit' disabled={isUpdating || isLoadingAccounts || isLoadingCategories}>
           Update Template
         </Button>

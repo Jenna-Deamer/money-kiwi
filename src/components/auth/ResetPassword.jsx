@@ -39,7 +39,7 @@ function ResetPassword() {
         return (
             <section className='flex flex-col items-center justify-center h-full'>
                 <div className='card w-full max-w-sm text-center'>
-                    <h1 className='my-4'>Invalid Access</h1>
+                    <h1 className='mb-6 text-center'>Invalid Access</h1>
                     <p>This page requires a valid reset token. Please request a new link.</p>
                     <div className='mt-4'>
                         <LinkButton to='/forgot-password'>Request Reset Link</LinkButton>
@@ -51,7 +51,7 @@ function ResetPassword() {
     return (
         <section className='flex flex-col items-center justify-center h-full'>
             <div className='card w-full max-w-sm'>
-                <h1 className='text-center my-4'>Create New Password</h1>
+                <h1 className='mb-2 text-center'>Create New Password</h1>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormField
                         label='New Password'
@@ -79,7 +79,7 @@ function ResetPassword() {
                         />
                     </FormField>
 
-                    <div className='text-center my-4'>
+                    <div className='mt-6 flex justify-center'>
                         <Button type='submit' intent='primary' loadingText='Updating...' isLoading={isSubmitting}>
                             Update Password
                         </Button>

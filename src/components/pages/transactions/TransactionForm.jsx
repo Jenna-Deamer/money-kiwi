@@ -98,7 +98,7 @@ function TransactionForm() {
     <section className='flex flex-col items-center justify-center sm:h-full'>
       <div className='card w-full max-w-sm'>
 
-        <h1 className='text-center my-4'>{isEditMode ? 'Update Transaction' : 'Create Transaction'}</h1>
+        <h1 className='mb-2 text-center'>{isEditMode ? 'Update Transaction' : 'Create Transaction'}</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {serverError && (
@@ -284,7 +284,7 @@ function TransactionForm() {
 
 
           )}
-          <div className='flex justify-center mt-4'>
+          <div className='mt-6 flex justify-center'>
             <Button type='submit'
               disabled={isCreating || isUpdating || isFetching}
               intent='primary'

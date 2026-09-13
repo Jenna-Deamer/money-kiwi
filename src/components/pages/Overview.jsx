@@ -32,7 +32,7 @@ function Overview() {
         </div>
       </section>
 
-      <section className='grid sm:grid-cols-2 grid-cols-1 gap-6 mt-10 items-start'>
+      <section className='grid sm:grid-cols-2 grid-cols-1 gap-6 mt-6 items-start'>
         <div>
           <h3 className='mb-2'>Top Spending&nbsp;Categories</h3>
           <div className='card'>

@@ -66,7 +66,7 @@ function CategoryForm() {
   return (
     <section className='flex flex-col items-center justify-center sm:h-full'>
       <div className='card w-full max-w-sm'>
-        <h1 className='text-center'>{isEditMode ? 'Update Category' : 'Create Category'}</h1>
+        <h1 className='mb-2 text-center'>{isEditMode ? 'Update Category' : 'Create Category'}</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {serverError && <p className='form-error'>{serverError}</p>}
@@ -127,7 +127,7 @@ function CategoryForm() {
               }
             </FormField>
           </fieldset>
-          <div className='text-center my-4'>
+          <div className='mt-6 flex justify-center'>
             <Button type='submit' disabled={isCreating || isUpdating || isFetching}>
               {isEditMode ? 'Update Category' : 'Create Category'}
             </Button>

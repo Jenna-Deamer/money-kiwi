@@ -50,7 +50,7 @@ function TransactionOverview() {
   return (
     <>
       <section>
-        <div className='flex flex-col justify-center items-center mb-4 text-center md:text-left md:flex-row md:justify-between'>
+        <div className='flex flex-col justify-center items-center mb-6 text-center md:text-left md:flex-row md:justify-between'>
           <div>
             <h1 className='mb-0.5'>Transactions Overview</h1>
             {hasAccounts &&

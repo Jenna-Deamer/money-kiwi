@@ -24,8 +24,8 @@ function Dashboard() {
 
   return (
     <section>
-      <div className='flex md:flex-row justify-between pb-1.5 flex-col gap-2 items-center mb-2'>
-        <h1 className='mb-0.5'>Dashboard</h1>
+      <div className='flex md:flex-row justify-between flex-col gap-2 items-center mb-6'>
+        <h1>Dashboard</h1>
         {hasAccounts && <DatePickerField
           startDate={pickerRange[0]}
           endDate={pickerRange[1]}
@@ -48,7 +48,7 @@ function Dashboard() {
             <h2 className='mb-2'>Summary</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               {/* Featured Hero Card */}
-              <div className='card flex flex-col justify-between p-5 sm:col-span-2 lg:col-span-2'>
+              <div className='card flex flex-col justify-between sm:col-span-2 lg:col-span-2'>
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Net Remainder
                 </span>
@@ -58,7 +58,7 @@ function Dashboard() {
               </div>
 
               {/* Primary Metrics */}
-              <div className='card flex flex-col justify-between p-5'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Earned
                 </span>
@@ -67,7 +67,7 @@ function Dashboard() {
                 </p>
               </div>
 
-              <div className='card flex flex-col justify-between p-5'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Spent
                 </span>
@@ -77,28 +77,28 @@ function Dashboard() {
               </div>
 
               {/* Secondary Metrics */}
-              <div className='card flex flex-col justify-between p-4'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-medium text-txt-muted'>Saved</span>
                 <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.savingContributions.toFixed(2)}
                 </p>
               </div>
 
-              <div className='card flex flex-col justify-between p-4'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-medium text-txt-muted'>Invested</span>
                 <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.investmentsContributions.toFixed(2)}
                 </p>
               </div>
 
-              <div className='card flex flex-col justify-between p-4'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-medium text-txt-muted'>Transfers</span>
                 <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.transfers.toFixed(2)}
                 </p>
               </div>
 
-              <div className='card flex flex-col justify-between p-4'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-medium text-txt-muted'>Debt Payments</span>
                 <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.liabilitiesPayments.toFixed(2)}
@@ -147,7 +147,7 @@ function Dashboard() {
             <h2 className='mb-4'>Summary</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               {/* Featured Hero Card */}
-              <div className='card flex flex-col justify-between p-5 sm:col-span-2 lg:col-span-2'>
+              <div className='card flex flex-col justify-between sm:col-span-2 lg:col-span-2'>
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Net Remainder
                 </span>
@@ -157,7 +157,7 @@ function Dashboard() {
               </div>
 
               {/* Primary Metrics */}
-              <div className='card flex flex-col justify-between p-5'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Invested
                 </span>
@@ -166,7 +166,7 @@ function Dashboard() {
                 </p>
               </div>
 
-              <div className='card flex flex-col justify-between p-5'>
+              <div className='card flex flex-col justify-between'>
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Withdrawn
                 </span>
@@ -193,7 +193,7 @@ function Dashboard() {
               />
             )}
           </section>
-          <section className='card mt-6 mb-2'>
+          <section className='card mt-6'>
             {investmentsData?.accountActivity.length === 0 ? (
               <p className='text-txt-muted'>
                 No <b>account</b> data found. Please try another date&nbsp;range.
@@ -213,7 +213,7 @@ function Dashboard() {
                     .map((account) => (
                       < div
                         key={account.accountId}
-                        className='border border-soft rounded-xl p-5 flex flex-col'
+                        className='border border-soft rounded-xl p-4 flex flex-col'
                       >
                         <div className='flex justify-between items-start mb-4 border-b border-soft pb-4'>
                           <div>

@@ -58,7 +58,7 @@ function SignUp() {
   return (
     <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
-        <h1 className='text-center my-4'>Sign Up</h1>
+        <h1 className='mb-2 text-center'>Sign Up</h1>
         {serverError && (
           <div className='form-error'>
             <p>{serverError}</p></div>)}
@@ -115,14 +115,14 @@ function SignUp() {
               />
             </FormField>
 
-            <div className='text-center my-4'>
+            <div className='mt-6 flex justify-center'>
               <Button type='submit' intent='primary' loadingText='Creating Account...' isLoading={isSubmitting}>
                 Sign Up
               </Button>
             </div>
           </fieldset>
         </form>
-        <div className='mt-1 text-small text-txt-muted text-center'>
+        <div className='mt-4 text-small text-txt-muted text-center'>
           <p>
             Already have an&nbsp;account? <Link to='/login' className='text-kiwi-primary underline'>Login</Link>
           </p>

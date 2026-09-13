@@ -53,8 +53,8 @@ function RecurringTransactions() {
 
   return (
     <section>
-      <div className='text-center flex flex-col items-center md:text-left md:items-start'>
-        <h1 className='mb-2'>Recurring Transactions&nbsp;Overview</h1>
+      <div className='text-center flex flex-col items-center md:text-left md:items-start mb-6'>
+        <h1>Recurring Transactions&nbsp;Overview</h1>
         <TabButtons
           tabs={tabs}
           activeTab={activeTab}
@@ -75,7 +75,7 @@ function RecurringTransactions() {
 
               <div className='flex flex-col gap-3'>
                 {items.map((tx) => (
-                  <article key={tx.id} className='card p-4 flex flex-col gap-3'>
+                  <article key={tx.id} className='card-compact flex flex-col gap-3'>
                     <div className='flex items-start justify-between gap-3'>
                       <div className='min-w-0 flex-1'>
                         <h3 className='pr-2'>{tx.memo}</h3>

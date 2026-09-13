@@ -14,7 +14,7 @@ function TransactionMobile({
   return (
     <>
       {data.map((tx) =>
-        <div className='card p-3 mb-3' key={tx.id}>
+        <div className='card-compact mb-3' key={tx.id}>
           <div className='flex items-start justify-between gap-3'>
             <h3 className='font-semibold leading-tight'>{tx.memo}</h3>
             <p className='font-bold shrink-0'>${tx.amount.toFixed(2)}</p>

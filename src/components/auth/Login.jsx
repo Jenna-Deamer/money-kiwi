@@ -63,7 +63,7 @@ function Login() {
   return (
     <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
-        <h1 className='my-4 text-center'>Login</h1>
+        <h1 className='mb-2 text-center'>Login</h1>
         {serverError && (
           <div className='form-error'>
             <p>{serverError}</p>
@@ -105,7 +105,7 @@ function Login() {
             />
           </FormField>
 
-          <div className='text-center my-4'>
+          <div className='mt-6 flex justify-center'>
             <Button type='submit' intent='primary' loadingText='Logging in...' isLoading={isSubmitting}>
               Login
             </Button>
