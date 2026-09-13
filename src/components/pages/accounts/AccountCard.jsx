@@ -9,7 +9,7 @@ function AccountCard() {
   if (isLoading) return <LoadingSpinner />;
   if (error) return <div>Error...</div>;
   if (data.isEmpty) return  <div className='card text-center max-w-md m-auto md:m-0'>
-    <p>You don’t have any financial accounts&nbsp;yet.<br />Create your first account to start tracking transactions.</p>
+    <p className='text-txt-muted'>You don’t have any financial accounts&nbsp;yet.<br />Create your first account to start tracking transactions.</p>
     <LinkButton to='/accounts/form' className='mt-2'>Create Account</LinkButton>
   </div>;
   return (

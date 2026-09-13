@@ -70,7 +70,7 @@ function RecurringTransactions() {
             <div key={freq.label} className='flex flex-col gap-3'>
               <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
                 <h2>{freq.label}</h2>
-                <span className='text-sm'>{items.length}</span>
+                <span className='text-sm text-txt-muted'>{items.length}</span>
               </div>
 
               <div className='flex flex-col gap-3'>

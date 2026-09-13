@@ -82,7 +82,7 @@ const MemoCategoryCell = ({ row, table }) => {
             </option>
           ))}
         </select>
-      ) : <small>Uncategorized</small>}
+      ) : <small className='text-txt-muted'>Uncategorized</small>}
       {categoryError && <small className='field-error'>{categoryError}</small>}
     </div >
   );

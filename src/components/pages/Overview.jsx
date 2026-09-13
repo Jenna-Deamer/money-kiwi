@@ -52,7 +52,7 @@ function Overview() {
                 ))}
               </ul>
             ) : (
-              <p className='text-center py-4'>No expenses recorded yet this&nbsp;month</p>
+              <p className='text-center py-4 text-txt-muted'>No expenses recorded yet this&nbsp;month</p>
             )}
           </div>
 
@@ -74,7 +74,7 @@ function Overview() {
                   <li key={tx.id} className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'>
                     <div className='flex flex-col'>
                       <span className='font-medium'>{tx.memo}</span>
-                      <span className='text-small'>
+                      <span className='text-small text-txt-muted'>
                         {normalizeDateInputToLocalDate(tx.date)?.toLocaleDateString('en-CA', {
                           day: '2-digit',
                           month: 'short',
@@ -90,7 +90,7 @@ function Overview() {
                 ))}
               </ul>
             ) : (
-              <p className='text-center py-4'>No upcoming transactions</p>
+              <p className='text-center py-4 text-txt-muted'>No upcoming transactions</p>
             )}
           </div>
         </div>

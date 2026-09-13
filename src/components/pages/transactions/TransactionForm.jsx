@@ -108,7 +108,7 @@ function TransactionForm() {
           )}
 
           <fieldset>
-            {isLoading && <small>Loading...</small>}
+            {isLoading && <small className='text-xs text-txt-muted'>Loading...</small>}
             {error && <small className='field-error'>Error retrieving accounts!</small>}
 
             <FormField
@@ -165,7 +165,7 @@ function TransactionForm() {
               error={errors.categoryId?.message}
             >
               <>
-                {isLoadingCategories && <small>Loading categories...</small>}
+                {isLoadingCategories && <small className='text-xs text-txt-muted'>Loading categories...</small>}
                 {categoryError && <small className='field-error'>Error retrieving categories!</small>}
               </>
               <select {...register('categoryId')} disabled={!selectedType} className='input-standard'>
@@ -188,7 +188,7 @@ function TransactionForm() {
           {selectedType === 'TRANSFER' && (
             <fieldset>
               <>
-                {isLoading && <small>Loading accounts...</small>}
+                {isLoading && <small className='text-xs text-txt-muted'>Loading accounts...</small>}
                 {error && <small className='field-error'>Error retrieving accounts!</small>}
               </>
               <FormField

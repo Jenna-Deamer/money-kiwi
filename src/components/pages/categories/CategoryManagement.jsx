@@ -160,7 +160,7 @@ function CategoryManagement() {
 
         <h2 className='py-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
         <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
-          {activeList?.parentCategories?.length === 0 ? <div className='card w-fit '><p>No categories found</p></div> :
+          {activeList?.parentCategories?.length === 0 ? <div className='card w-fit '><p className='text-txt-muted'>No categories found</p></div> :
             activeList?.parentCategories?.filter(parent => parent.name)
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((parent) => (

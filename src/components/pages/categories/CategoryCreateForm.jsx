@@ -98,7 +98,7 @@ function CategoryForm() {
               htmlFor='select parent category'
               error={errors.parentId?.message}>
 
-              {isLoading && <small>Loading categories...</small>}
+              {isLoading && <small className='text-xs text-txt-muted'>Loading categories...</small>}
               {error && <small className='field-error'>Error retrieving categories!</small>}
               <select {...register('parentId')} className='input-standard' disabled={isFetching || isUpdating || isCreating || !selectedType}>
                 <option value=''>-- No Parent (top-level) --</option>

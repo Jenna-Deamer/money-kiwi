@@ -20,7 +20,7 @@ function TransactionMobile({
             <p className='font-bold shrink-0'>${tx.amount.toFixed(2)}</p>
           </div>
 
-          <div className='flex items-center gap-2 mt-2 text-sm'>
+          <div className='flex items-center gap-2 mt-2 text-sm text-txt-muted'>
             <p>{tx.type}</p>
             <span aria-hidden='true'>•</span>
             <p>

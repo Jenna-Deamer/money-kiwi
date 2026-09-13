@@ -46,7 +46,7 @@ function TransactionTable({
       cell: ({ row }) => (
         <div className='flex flex-col'>
           <p>{row.original.type}</p>
-          <small className='text-xs font-light'>{row.original.status}</small>
+          <small className='text-xs font-light text-txt-muted'>{row.original.status}</small>
         </div>
       ),
     },

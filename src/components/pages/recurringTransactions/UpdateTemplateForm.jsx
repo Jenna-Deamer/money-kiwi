@@ -87,7 +87,7 @@ function UpdateTemplateForm({ template, onClose }) {
       {serverError && <p className='form-error'>{serverError}</p>}
 
       <fieldset>
-        {isLoadingAccounts && <small>Loading...</small>}
+        {isLoadingAccounts && <small className='text-xs text-txt-muted'>Loading...</small>}
         {error && <small className='field-error'>Error retrieving accounts!</small>}
         <FormField
           label='Source Account'
@@ -140,7 +140,7 @@ function UpdateTemplateForm({ template, onClose }) {
 
         {selectedType !== 'TRANSFER' && (
           <>
-            {isLoadingCategories && <small>Loading categories...</small>}
+            {isLoadingCategories && <small className='text-xs text-txt-muted'>Loading categories...</small>}
             {categoryError && <small className='field-error'>Error retrieving categories!</small>}
             <FormField
               label='Category'
@@ -168,7 +168,7 @@ function UpdateTemplateForm({ template, onClose }) {
 
       {selectedType === 'TRANSFER' && (
         <fieldset>
-          {isLoadingAccounts && <small>Loading accounts...</small>}
+          {isLoadingAccounts && <small className='text-xs text-txt-muted'>Loading accounts...</small>}
           {error && <small className='field-error'>Error retrieving accounts!</small>}
           <FormField
             label='Destination Account'

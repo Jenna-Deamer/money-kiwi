@@ -49,7 +49,7 @@ function Dashboard() {
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               {/* Featured Hero Card */}
               <div className='card flex flex-col justify-between p-5 sm:col-span-2 lg:col-span-2'>
-                <span className='text-xs font-semibold uppercase tracking-wider'>
+                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Net Remainder
                 </span>
                 <p className='text-3xl font-extrabold mt-2'>
@@ -59,7 +59,7 @@ function Dashboard() {
 
               {/* Primary Metrics */}
               <div className='card flex flex-col justify-between p-5'>
-                <span className='text-xs font-semibold uppercase tracking-wider'>
+                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Earned
                 </span>
                 <p className='text-2xl font-bold mt-2'>
@@ -68,7 +68,7 @@ function Dashboard() {
               </div>
 
               <div className='card flex flex-col justify-between p-5'>
-                <span className='text-xs font-semibold uppercase tracking-wider'>
+                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Spent
                 </span>
                 <p className='text-2xl font-bold mt-2'>
@@ -78,28 +78,28 @@ function Dashboard() {
 
               {/* Secondary Metrics */}
               <div className='card flex flex-col justify-between p-4'>
-                <span className='text-xs font-medium'>Saved</span>
+                <span className='text-xs font-medium text-txt-muted'>Saved</span>
                 <p className='text-lg font-semibold mt-1'>
                   ${cashflowData?.totals.savingContributions.toFixed(2)}
                 </p>
               </div>
 
               <div className='card flex flex-col justify-between p-4'>
-                <span className='text-xs font-medium'>Invested</span>
+                <span className='text-xs font-medium text-txt-muted'>Invested</span>
                 <p className='text-lg font-semibold mt-1'>
                   ${cashflowData?.totals.investmentsContributions.toFixed(2)}
                 </p>
               </div>
 
               <div className='card flex flex-col justify-between p-4'>
-                <span className='text-xs font-medium'>Transfers</span>
+                <span className='text-xs font-medium text-txt-muted'>Transfers</span>
                 <p className='text-lg font-semibold mt-1'>
                   ${cashflowData?.totals.transfers.toFixed(2)}
                 </p>
               </div>
 
               <div className='card flex flex-col justify-between p-4'>
-                <span className='text-xs font-medium'>Debt Payments</span>
+                <span className='text-xs font-medium text-txt-muted'>Debt Payments</span>
                 <p className='text-lg font-semibold mt-1'>
                   ${cashflowData?.totals.liabilitiesPayments.toFixed(2)}
                 </p>
@@ -111,7 +111,7 @@ function Dashboard() {
           <section className='mt-6'>
             {cashflowData?.categories.expenseCategories.length === 0 ? (
               <div className='card w-fit'>
-                <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
+                <p className='text-txt-muted'>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
               </div>
             ) : (
               <DashboardPieChartSection
@@ -126,7 +126,7 @@ function Dashboard() {
           <section className='mt-6'>
             {cashflowData?.categories.incomeCategories.length === 0 ? (
               <div className='card w-fit'>
-                <p>No <b>income</b> data found. Please try another date&nbsp;range.</p>
+                <p className='text-txt-muted'>No <b>income</b> data found. Please try another date&nbsp;range.</p>
               </div>
             ) : (
               <DashboardPieChartSection
@@ -148,7 +148,7 @@ function Dashboard() {
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
               {/* Featured Hero Card */}
               <div className='card flex flex-col justify-between p-5 sm:col-span-2 lg:col-span-2'>
-                <span className='text-xs font-semibold uppercase tracking-wider'>
+                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Net Remainder
                 </span>
                 <p className='text-3xl font-extrabold mt-2'>
@@ -158,7 +158,7 @@ function Dashboard() {
 
               {/* Primary Metrics */}
               <div className='card flex flex-col justify-between p-5'>
-                <span className='text-xs font-semibold uppercase tracking-wider'>
+                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Invested
                 </span>
                 <p className='text-2xl font-bold mt-2'>
@@ -167,7 +167,7 @@ function Dashboard() {
               </div>
 
               <div className='card flex flex-col justify-between p-5'>
-                <span className='text-xs font-semibold uppercase tracking-wider'>
+                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Withdrawn
                 </span>
                 <p className='text-2xl font-bold mt-2'>
@@ -179,7 +179,7 @@ function Dashboard() {
           <section className='mt-6 mb-2'>
             {investmentsData?.contributionsByRegistration.length === 0 ? (
               <div className='card'>
-                <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
+                <p className='text-txt-muted'>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
               </div>
             ) : (
               <DashboardPieChartSection
