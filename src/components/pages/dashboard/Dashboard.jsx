@@ -52,7 +52,7 @@ function Dashboard() {
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Net Remainder
                 </span>
-                <p className='text-3xl font-extrabold mt-2'>
+                <p className='text-metric-lg font-extrabold mt-2'>
                   ${cashflowData?.totals.cashflow.toFixed(2)}
                 </p>
               </div>
@@ -62,7 +62,7 @@ function Dashboard() {
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Earned
                 </span>
-                <p className='text-2xl font-bold mt-2'>
+                <p className='text-metric-md font-bold mt-2'>
                   ${cashflowData?.totals.income.toFixed(2)}
                 </p>
               </div>
@@ -71,7 +71,7 @@ function Dashboard() {
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Spent
                 </span>
-                <p className='text-2xl font-bold mt-2'>
+                <p className='text-metric-md font-bold mt-2'>
                   ${cashflowData?.totals.expenseBeforeTransfers.toFixed(2)}
                 </p>
               </div>
@@ -79,28 +79,28 @@ function Dashboard() {
               {/* Secondary Metrics */}
               <div className='card flex flex-col justify-between p-4'>
                 <span className='text-xs font-medium text-txt-muted'>Saved</span>
-                <p className='text-lg font-semibold mt-1'>
+                <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.savingContributions.toFixed(2)}
                 </p>
               </div>
 
               <div className='card flex flex-col justify-between p-4'>
                 <span className='text-xs font-medium text-txt-muted'>Invested</span>
-                <p className='text-lg font-semibold mt-1'>
+                <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.investmentsContributions.toFixed(2)}
                 </p>
               </div>
 
               <div className='card flex flex-col justify-between p-4'>
                 <span className='text-xs font-medium text-txt-muted'>Transfers</span>
-                <p className='text-lg font-semibold mt-1'>
+                <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.transfers.toFixed(2)}
                 </p>
               </div>
 
               <div className='card flex flex-col justify-between p-4'>
                 <span className='text-xs font-medium text-txt-muted'>Debt Payments</span>
-                <p className='text-lg font-semibold mt-1'>
+                <p className='text-metric-sm font-semibold mt-1'>
                   ${cashflowData?.totals.liabilitiesPayments.toFixed(2)}
                 </p>
               </div>
@@ -151,7 +151,7 @@ function Dashboard() {
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Net Remainder
                 </span>
-                <p className='text-3xl font-extrabold mt-2'>
+                <p className='text-metric-lg font-extrabold mt-2'>
                   ${investmentsData?.totals.net.toFixed(2)}
                 </p>
               </div>
@@ -161,7 +161,7 @@ function Dashboard() {
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Invested
                 </span>
-                <p className='text-2xl font-bold mt-2'>
+                <p className='text-metric-md font-bold mt-2'>
                   ${investmentsData?.totals.contributions.toFixed(2)}
                 </p>
               </div>
@@ -170,7 +170,7 @@ function Dashboard() {
                 <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                   Withdrawn
                 </span>
-                <p className='text-2xl font-bold mt-2'>
+                <p className='text-metric-md font-bold mt-2'>
                   ${investmentsData?.totals.withdrawals.toFixed(2)}
                 </p>
               </div>
@@ -225,7 +225,7 @@ function Dashboard() {
                                 {account.registration}
                               </span>
                             </div>
-                            <h4 className='font-bold text-label'>
+                            <h4>
                               {account.accountName}
                             </h4>
                           </div>
@@ -233,7 +233,7 @@ function Dashboard() {
                             <p className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                               Net
                             </p>
-                            <p className={`font-bold mt-0.5 text-label ${account.net >= 0 ? 'text-income' : 'text-expense'}`}>
+                            <p className={`font-bold mt-0.5 text-metric-sm ${account.net >= 0 ? 'text-income' : 'text-expense'}`}>
                               ${account.net.toFixed(2)}
                             </p>
                           </div>

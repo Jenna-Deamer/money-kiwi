@@ -20,15 +20,15 @@ function Overview() {
       <section className='grid sm:grid-cols-3 grid-cols-2 gap-4 mt-6'>
         <div className='card text-center'>
           <h3>Earned</h3>
-          <p className='text-h2 font-semibold'>${data?.totals.income.toFixed(2)}</p>
+          <p className='text-metric-md font-bold'>${data?.totals.income.toFixed(2)}</p>
         </div>
         <div className='card text-center sm:order-0 order-3 sm:col-span-1 col-span-full'>
           <h3>Remainder</h3>
-          <p className='text-h2 font-semibold'>${data?.totals.cashflow.toFixed(2)}</p>
+          <p className='text-metric-md font-bold'>${data?.totals.cashflow.toFixed(2)}</p>
         </div>
         <div className='card text-center'>
           <h3>Spent</h3>
-          <p className='text-h2 font-semibold'>${data?.totals.expense.toFixed(2)}</p>
+          <p className='text-metric-md font-bold'>${data?.totals.expense.toFixed(2)}</p>
         </div>
       </section>
 

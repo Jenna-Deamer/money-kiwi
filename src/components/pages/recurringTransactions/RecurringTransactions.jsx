@@ -70,7 +70,7 @@ function RecurringTransactions() {
             <div key={freq.label} className='flex flex-col gap-3'>
               <div className='flex items-center justify-between gap-3 border-b border-soft pb-2'>
                 <h2>{freq.label}</h2>
-                <span className='text-sm text-txt-muted'>{items.length}</span>
+                <span className='text-small text-txt-muted'>{items.length}</span>
               </div>
 
               <div className='flex flex-col gap-3'>
@@ -125,13 +125,13 @@ function RecurringTransactions() {
                     </div>
 
                     <div className='flex items-end justify-between gap-3'>
-                      <div className='flex items-center gap-2 text-sm'>
+                      <div className='flex items-center gap-2 text-small'>
                         <span className='badge border-soft bg-black/3'>
                           {tx.type}
                         </span>
                       </div>
 
-                      <p className='text-lg font-bold'>
+                      <p className='text-metric-sm font-bold'>
                         ${tx.amount.toFixed(2)}
                       </p>
                     </div>

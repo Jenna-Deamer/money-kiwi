@@ -166,7 +166,7 @@ function CategoryManagement() {
               .map((parent) => (
                 <li key={parent.id} className='card p-4 border-t-8' style={{ borderColor: parent.color }}>
                   <div className='flex justify-between items-center'>
-                    <h4 className='font-bold'>{parent.name}</h4>
+                    <h4>{parent.name}</h4>
 
                     <div className='flex gap-2 ml-2'>
                       <button type='button' className='cursor-pointer' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
@@ -220,7 +220,7 @@ function CategoryManagement() {
               onSubmit={handleSubmit(handleEditSubmit)}
               className='space-y-4'
             >
-              <p className='text-sm text-txt-muted'>
+              <p className='text-small text-txt-muted'>
                 Update the details for <strong>{activeCategory.name}</strong>.
               </p>
 
@@ -266,7 +266,7 @@ function CategoryManagement() {
                     render={({ field: { onChange, value } }) => (
                       <div>
                         <HexColorPicker color={value} onChange={onChange} />
-                        <p className='text-sm text-txt-muted italic mt-4'>
+                        <p className='text-small text-txt-muted italic mt-4'>
                           *This colour will be used for this parent category in charts and other visual&nbsp;summaries.
                         </p>
                       </div>

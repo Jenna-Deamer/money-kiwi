@@ -114,7 +114,7 @@ function Login() {
         </form>
 
 
-        <div className='mt-4 space-y-1 text-sm text-txt-muted text-center'>
+        <div className='mt-4 space-y-1 text-small text-txt-muted text-center'>
           <p>
             Don&apos;t have an&nbsp;account?{' '}
              <Link to='/sign-up' className='text-kiwi-primary underline'>

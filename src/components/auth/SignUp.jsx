@@ -122,7 +122,7 @@ function SignUp() {
             </div>
           </fieldset>
         </form>
-        <div className='mt-1 text-sm text-txt-muted text-center'>
+        <div className='mt-1 text-small text-txt-muted text-center'>
           <p>
             Already have an&nbsp;account? <Link to='/login' className='text-kiwi-primary underline'>Login</Link>
           </p>

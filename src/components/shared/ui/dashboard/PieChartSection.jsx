@@ -14,7 +14,7 @@ function DashboardPieChartSection({
   return (
     <div className='card'>
       <div className='border-b border-soft pb-3 mb-4'>
-        <h2 className='text-h2 font-semibold text-txt-main'>{title}</h2>
+        <h2>{title}</h2>
       </div>
 
       <div className='grid grid-cols-1 md:grid-cols-2 gap-6 items-center'>
@@ -27,7 +27,7 @@ function DashboardPieChartSection({
         </div>
 
         <div className='h-full flex flex-col'>
-          <h3 className='text-sm font-bold uppercase tracking-wider text-txt-muted mb-3 shrink-0'>
+          <h3 className='text-small font-bold uppercase tracking-wider text-txt-muted mb-3 shrink-0'>
             {valueLabel}
           </h3>
 
