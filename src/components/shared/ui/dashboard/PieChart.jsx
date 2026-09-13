@@ -21,13 +21,13 @@ const CustomTooltip = ({ active, payload, nameKey }) => {
           className='h-2.5 w-2.5 shrink-0 rounded-full'
           style={{ backgroundColor: color }}
         />
-        <span className='text-small font-semibold text-txt-main'>
+        <span className='text-small font-semibold'>
           {name}
         </span>
       </div>
 
       <div className='flex items-baseline justify-between gap-3'>
-        <span className='text-body font-bold tracking-tight text-txt-main'>
+        <span className='text-body font-bold tracking-tight'>
           {amount}
         </span>
         <span className='text-small font-semibold text-txt-muted'>

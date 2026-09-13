@@ -13,7 +13,7 @@ function PaginationControls({ totalPages, page, setPage, placeholder }) {
             intent='subtle'
             onClick={() => setPage((prev) => Math.max(prev - 1, 0))}
             disabled={page === 0}
-            leftIcon={<ChevronLeft />}
+            leftIcon={<ChevronLeft className='icon-sm' />}
             size='sm'
           >
             Previous
@@ -27,7 +27,7 @@ function PaginationControls({ totalPages, page, setPage, placeholder }) {
               }
             }}
             disabled={placeholder || page >= totalPages - 1}
-            rightIcon={<ChevronRight />}
+            rightIcon={<ChevronRight className='icon-sm' />}
             size='sm'
           >
             Next

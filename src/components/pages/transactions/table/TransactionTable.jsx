@@ -65,7 +65,7 @@ function TransactionTable({
             aria-label='Update Transaction'
             className='cursor-pointer'
           >
-            <Pencil />
+            <Pencil className='icon-md' />
           </button>
 
           <button
@@ -73,7 +73,7 @@ function TransactionTable({
             aria-label='Delete Transaction'
             className='cursor-pointer'
           >
-            <Trash2 />
+            <Trash2 className='icon-md' />
           </button>
         </div>
       ),

@@ -39,10 +39,10 @@ function TransactionMobile({
 
             <div className='ml-auto flex gap-4'>
               <button onClick={() => onUpdate(tx.id)} aria-label='Update Transaction'>
-                <Pencil size={20} />
+                <Pencil className='icon-md' />
               </button>
               <button onClick={() => onDelete(tx.id)} aria-label='Delete Transaction'>
-                <Trash2 size={20} />
+                <Trash2 className='icon-md' />
               </button>
             </div>
           </div>

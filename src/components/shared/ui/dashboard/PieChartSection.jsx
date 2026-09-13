@@ -36,7 +36,7 @@ function DashboardPieChartSection({
               .sort((a, b) => b[sumKey] - a[sumKey])
               .map((category, index) => (
                 <div key={index} className='space-y-2'>
-                  <div className='flex items-center justify-between text-body font-bold text-txt-main gap-4'>
+                  <div className='flex items-center justify-between text-body font-bold gap-4'>
                     <div className='flex items-center gap-2.5 min-w-0'>
                       <span
                         className='w-3 h-3 rounded-full inline-block shrink-0'
@@ -55,7 +55,7 @@ function DashboardPieChartSection({
                       </span>
 
 
-                      <span className='text-small font-semibold text-txt-main min-w-16 text-right whitespace-nowrap'>
+                      <span className='text-small font-semibold min-w-16 text-right whitespace-nowrap'>
                         {category[percentageKey]}
                       </span>
                     </div>
@@ -66,7 +66,7 @@ function DashboardPieChartSection({
                       {category[childrenKey].map((child, childIdx) => (
                         <div
                           key={childIdx}
-                          className='flex items-center justify-between text-small text-txt-main gap-4'
+                          className='flex items-center justify-between text-small gap-4'
                         >
                           <span className='text-txt-muted truncate'>
                             {child.name}

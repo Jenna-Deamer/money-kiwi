@@ -18,7 +18,8 @@ const MONTHS = [
   'December',
 ];
 
-const years = range(2020, getYear(new Date()) + 1, 1);
+const YEARS_AHEAD = 2;
+const years = range(2020, getYear(new Date()) + YEARS_AHEAD + 1, 1);
 
 export const CustomHeader = ({
   date,
@@ -34,7 +35,7 @@ export const CustomHeader = ({
       className='flex justify-center items-center p-1 mx-2'
     >
       <button type='button' onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-        <ChevronLeft size='20' className='cursor-pointer'/>
+        <ChevronLeft className='icon-md cursor-pointer' />
       </button>
 
       <select
@@ -62,7 +63,7 @@ export const CustomHeader = ({
       </select>
 
       <button type='button' onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-        <ChevronRight size='20'className='cursor-pointer'/>
+        <ChevronRight className='icon-md cursor-pointer' />
       </button>
     </div>
   </>

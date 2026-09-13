@@ -176,10 +176,10 @@ function CategoryManagement() {
 
                     <div className='flex gap-2 ml-2'>
                       <button type='button' className='cursor-pointer' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
-                        <Pencil aria-hidden='true' />
+                        <Pencil aria-hidden='true' className='icon-md' />
                       </button>
                       <button type='button' className='cursor-pointer' onClick={() => openDeleteModal(parent)} aria-label={`Delete ${parent.name}`}>
-                        <Trash2 aria-hidden='true' />
+                        <Trash2 aria-hidden='true' className='icon-md' />
                       </button>
                     </div>
                   </div>
