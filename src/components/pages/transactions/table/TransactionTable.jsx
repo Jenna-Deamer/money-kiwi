@@ -171,8 +171,8 @@ function TransactionTable({
       </div>
     ))}
       {isLoadingTransactions && <div className='my-2'><LoadingSpinner /></div>}
-      <table className='mb-1.5 table-fixed w-full bg-white'>
-        <thead className='border-b border-soft bg-gray-200'>
+      <table className='mb-1.5 table-fixed w-full bg-canvas-card'>
+        <thead className='border-b border-soft bg-surface-muted'>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (

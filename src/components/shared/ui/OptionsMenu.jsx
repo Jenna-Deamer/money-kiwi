@@ -26,7 +26,7 @@ function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
         </button>
         <ul
           className={`${isOpen ? 'visible opacity-100' : 'invisible opacity-0'}
-                absolute top-6 right-2 bg-gray-200 z-1 border border-gray-500
+                absolute top-6 right-2 bg-canvas-card z-1 border border-soft shadow-sm
                 py-1 px-2 transition-all duration-300 rounded`}
         >
           {children}

@@ -32,7 +32,7 @@ const AmountCell = ({ table, row }) => {
   };
 
   return (
-    <div className={`flex ${isCellDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+    <div className={`flex ${isCellDirty ? 'bg-danger-soft border-l-2 border-danger pl-1' : 'bg-transparent border-l-0 pl-0'
       }`}>
       <span className='font-semibold select-none'>
         $

@@ -28,9 +28,19 @@
     --color-expense: #CC704B;
     --color-alert: #D97706;
 
+    /* Feedback / Danger */
+    --color-danger: #DC2626;
+    --color-danger-dark: #B91C1C;
+    --color-danger-soft: #FEF2F2;
+    --color-danger-border: #EF4444;
+    --color-danger-ring: rgba(220, 38, 38, 0.3);
+
     /* Neutral Canvas */
     --color-canvas-bg: #F4F6F8;
     --color-canvas-card: #FFFFFF;
+
+    /* Neutral Surfaces */
+    --color-surface-muted: #E5E7EB;
 
     /* Text Contrast */
     --color-txt-main: #2D3748;
@@ -95,15 +105,15 @@
     }
 
     .input-standard:disabled {
-        @apply bg-gray-100 text-gray-400 cursor-not-allowed;
+        @apply bg-surface-muted text-txt-muted cursor-not-allowed;
     }
 
     .field-error {
-        @apply text-xs flex flex-col mt-1 italic text-red-700;
+        @apply text-xs flex flex-col mt-1 italic text-danger;
     }
 
     .form-error {
-        @apply mb-2.5 border border-red-500 bg-red-50 p-2.5 text-red-600 text-center;
+        @apply mb-2.5 border border-danger-border bg-danger-soft p-2.5 text-danger text-center;
     }
 
     .card {

@@ -126,7 +126,7 @@ function RecurringTransactions() {
 
                     <div className='flex items-end justify-between gap-3'>
                       <div className='flex items-center gap-2 text-sm'>
-                        <span className='badge border-black/10 bg-black/3'>
+                        <span className='badge border-soft bg-black/3'>
                           {tx.type}
                         </span>
                       </div>

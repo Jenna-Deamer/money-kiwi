@@ -37,7 +37,7 @@ const DateCell = ({ table, row }) => {
 
   return (
     <div
-      className={`${isCellDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+      className={`${isCellDirty ? 'bg-danger-soft border-l-2 border-danger pl-1' : 'bg-transparent border-l-0 pl-0'
         }`}
     >
 

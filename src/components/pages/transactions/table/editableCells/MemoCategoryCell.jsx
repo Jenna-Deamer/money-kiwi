@@ -57,7 +57,7 @@ const MemoCategoryCell = ({ row, table }) => {
   };
 
   return (
-    <div className={`flex flex-col ${isCellDirty ? 'bg-red-50 border-l-2 border-red-500 pl-1' : 'bg-transparent border-l-0 pl-0'
+    <div className={`flex flex-col ${isCellDirty ? 'bg-danger-soft border-l-2 border-danger pl-1' : 'bg-transparent border-l-0 pl-0'
       }`}>
       <input
         value={memo}

@@ -108,11 +108,11 @@ function AccountList({ title, accounts }) {
             </div>
 
             <div className='flex gap-1'>
-              <span className='badge border-black/10 bg-black/3'>
+              <span className='badge border-soft bg-black/3'>
                 {formatSubCategory(account.subCategory)}
               </span>
               {account.registration !== 'N/A' ? (
-                <span className='badge border-black/10 bg-black/3'>
+                <span className='badge border-soft bg-black/3'>
                   {account.registration}
                 </span>
               ) : null}
