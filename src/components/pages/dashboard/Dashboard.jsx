@@ -13,8 +13,6 @@ function Dashboard() {
   const { data: cashflowData, } = useCashflowAnalytics(pickerRange);
   const { data: investmentsData, } = useInvestmentsAnalytics(pickerRange);
 
-  console.log(investmentsData);
-
   const tabs = [
     { id: 'cashflow', label: 'Cashflow' },
     { id: 'investments', label: 'Investments' },
@@ -180,7 +178,7 @@ function Dashboard() {
           </section>
           <section className='mt-6 mb-2'>
             {investmentsData?.contributionsByRegistration.length === 0 ? (
-              <div className='card w-fit'>
+              <div className='card'>
                 <p>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
               </div>
             ) : (
@@ -193,6 +191,78 @@ function Dashboard() {
                 title='Investments by Registration'
                 valueLabel='Breakdown'
               />
+            )}
+          </section>
+          <section className='card mt-6 mb-2'>
+            {investmentsData?.accountActivity.length === 0 ? (
+              <p className='text-txt-muted'>
+                No <b>account</b> data found. Please try another date&nbsp;range.
+              </p>
+            ) : (
+              <div>
+                <div className='border-b border-soft pb-3 mb-6'>
+                  <h2>Account Activity Breakdown</h2>
+                  <p className='text-txt-muted mt-1 text-small'>
+                    Individual performance and flows across all accounts
+                  </p>
+                </div>
+
+                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5'>
+                  {[...investmentsData.accountActivity]
+                    .sort((a, b) => (a.registration || '').localeCompare(b.registration || ''))
+                    .map((account) => (
+                      < div
+                        key={account.accountId}
+                        className='border border-soft rounded-xl p-5 flex flex-col'
+                      >
+                        <div className='flex justify-between items-start mb-4 border-b border-soft pb-4'>
+                          <div>
+                            <div className='flex items-center gap-2 mb-1'>
+                              <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
+                                {account.institution}
+                              </span>
+                              <span className='badge border-soft'>
+                                {account.registration}
+                              </span>
+                            </div>
+                            <h4 className='font-bold text-label'>
+                              {account.accountName}
+                            </h4>
+                          </div>
+                          <div className='text-right'>
+                            <p className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
+                              Net
+                            </p>
+                            <p className={`font-bold mt-0.5 text-label ${account.net >= 0 ? 'text-income' : 'text-expense'}`}>
+                              ${account.net.toFixed(2)}
+                            </p>
+                          </div>
+                        </div>
+
+                        <div className='grid grid-cols-2 gap-3 mt-auto'>
+                          <div>
+                            <p className='text-xs text-txt-muted mb-1'>Contributions</p>
+                            <p className='font-semibold'>
+                              ${account.contributions.toFixed(2)}
+                            </p>
+                            <p className='text-xs text-income mt-1 font-medium'>
+                              {account.contributionPercentage}% of total
+                            </p>
+                          </div>
+                          <div>
+                            <p className='text-xs text-txt-muted mb-1'>Withdrawals</p>
+                            <p className='font-semibold'>
+                              ${account.withdrawals.toFixed(2)}
+                            </p>
+                            <p className='text-xs text-expense mt-1 font-medium'>
+                              {account.withdrawalPercentage}% of total
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                </div>
+              </div>
             )}
           </section>
         </div> : <></>
