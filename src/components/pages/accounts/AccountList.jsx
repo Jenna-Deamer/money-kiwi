@@ -56,72 +56,73 @@ function AccountList({ title, accounts }) {
   return (
     <section className='mb-4'>
       <h2 className='border-b border-soft mb-4'>{title}</h2>
-
-      {accounts.map((account) => (
-        <div key={account.id} className='card p-4 mb-2 max-w-lg'>
-          <div>
-            <div className='flex justify-between'>
-              <h3 className='pb-1.5'>
-                {account.institution} - {account.name}
-              </h3>
-
-
-              <OptionsMenu
-                isOpen={isAccountOptionsOpen && selectedAccount?.id === account.id}
-                onClose={handleMenuClose}
-                onTriggerClick={() => handleAccountOptionsMenu(account)}
-              >
-                <li className='mb-1 border-b'>
-                  <Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>
-                    Edit
-                  </Link>
-                </li>
-
-                <li className='mb-1 border-b'>
-                  <button
-                    className='cursor-pointer'
-                    onClick={() => {
-                      setIsStatusOpen(true);
-                      setSelectedAccount(account);
-                    }}
-                  >
-                    {account.status === 'active' ? 'Archive' : 'Unarchive'}
-                  </button>
-                </li>
-
-                <li className='mb-1 border-b'>
-                  <button
-                    className='cursor-pointer'
-                    onClick={() => {
-                      setIsDeleteOpen(true);
-                      setSelectedAccount(account);
-                    }}
-                  >
-                    Delete
-                  </button>
-                </li>
-              </OptionsMenu>
+      <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
+        {accounts.map((account) => (
+          <div key={account.id} className='card p-4 mb-2'>
+            <div>
+              <div className='flex justify-between'>
+                <h3 className='pb-1.5'>
+                  {account.institution} - {account.name}
+                </h3>
 
 
+                <OptionsMenu
+                  isOpen={isAccountOptionsOpen && selectedAccount?.id === account.id}
+                  onClose={handleMenuClose}
+                  onTriggerClick={() => handleAccountOptionsMenu(account)}
+                >
+                  <li className='mb-1 border-b'>
+                    <Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>
+                      Edit
+                    </Link>
+                  </li>
 
+                  <li className='mb-1 border-b'>
+                    <button
+                      className='cursor-pointer'
+                      onClick={() => {
+                        setIsStatusOpen(true);
+                        setSelectedAccount(account);
+                      }}
+                    >
+                      {account.status === 'active' ? 'Archive' : 'Unarchive'}
+                    </button>
+                  </li>
+
+                  <li className='mb-1 border-b'>
+                    <button
+                      className='cursor-pointer'
+                      onClick={() => {
+                        setIsDeleteOpen(true);
+                        setSelectedAccount(account);
+                      }}
+                    >
+                      Delete
+                    </button>
+                  </li>
+                </OptionsMenu>
+
+
+
+              </div>
             </div>
-          </div>
 
-          <div className='flex gap-1'>
-            <span className='badge border-black/10 bg-black/3'>
-              {formatSubCategory(account.subCategory)}
-            </span>
-            {account.registration !== 'N/A' ? (
+            <div className='flex gap-1'>
               <span className='badge border-black/10 bg-black/3'>
-                {account.registration}
+                {formatSubCategory(account.subCategory)}
               </span>
-            ) : null}
-          </div>
+              {account.registration !== 'N/A' ? (
+                <span className='badge border-black/10 bg-black/3'>
+                  {account.registration}
+                </span>
+              ) : null}
+            </div>
 
-          <p className='flex justify-end font-bold'>${account.currentBalance.toFixed(2)}</p>
-        </div>
-      ))
-      }
+            <p className='flex justify-end font-bold'>${account.currentBalance.toFixed(2)}</p>
+          </div>
+        ))
+        }
+      </div>
 
       <Modal
         isOpen={isStatusOpen}
