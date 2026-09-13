@@ -14,6 +14,7 @@ import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
 import { useEffect } from 'react';
 import { FormInput } from 'lucide-react';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 function UpdateTemplateForm({ template, onClose }) {
   const [serverError, setServerError] = useState('');
@@ -80,7 +81,7 @@ function UpdateTemplateForm({ template, onClose }) {
     });
   };
 
-  if (isLoadingAccounts || isLoadingCategories) return <p>Loading template details...</p>;
+  if (isLoadingAccounts || isLoadingCategories) return <LoadingSpinner />;
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>

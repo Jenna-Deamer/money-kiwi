@@ -6,6 +6,8 @@ import { useOutletContext } from 'react-router';
 import TabButtons from '@/components/shared/ui/buttons/TabButtons';
 import { useState } from 'react';
 import DashboardPieChartSection from '@/components/shared/ui/dashboard/PieChartSection';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import EmptyState from '@/components/shared/ui/EmptyState';
 
 function Dashboard() {
   const { data: accounts, } = useAccounts();
@@ -20,7 +22,7 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState('cashflow');
 
   const hasAccounts = accounts && accounts.length > 0;
-  if (!accounts) return <div>Loading accounts...</div>;
+  if (!accounts) return <LoadingSpinner />;
 
   return (
     <section>
@@ -110,9 +112,9 @@ function Dashboard() {
 
           <section className='mt-6'>
             {cashflowData?.categories.expenseCategories.length === 0 ? (
-              <div className='card w-fit'>
+              <EmptyState>
                 <p className='text-txt-muted'>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
-              </div>
+              </EmptyState>
             ) : (
               <DashboardPieChartSection
                 data={cashflowData?.categories.expenseCategories}
@@ -125,9 +127,9 @@ function Dashboard() {
 
           <section className='mt-6'>
             {cashflowData?.categories.incomeCategories.length === 0 ? (
-              <div className='card w-fit'>
+              <EmptyState>
                 <p className='text-txt-muted'>No <b>income</b> data found. Please try another date&nbsp;range.</p>
-              </div>
+              </EmptyState>
             ) : (
               <DashboardPieChartSection
                 data={cashflowData?.categories.incomeCategories}
@@ -178,9 +180,9 @@ function Dashboard() {
           </section>
           <section className='mt-6 mb-2'>
             {investmentsData?.contributionsByRegistration.length === 0 ? (
-              <div className='card'>
+              <EmptyState>
                 <p className='text-txt-muted'>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
-              </div>
+              </EmptyState>
             ) : (
               <DashboardPieChartSection
                 data={investmentsData?.contributionsByRegistration}
@@ -195,7 +197,7 @@ function Dashboard() {
           </section>
           <section className='card mt-6'>
             {investmentsData?.accountActivity.length === 0 ? (
-              <p className='text-txt-muted'>
+              <p className='text-center py-4 text-txt-muted'>
                 No <b>account</b> data found. Please try another date&nbsp;range.
               </p>
             ) : (

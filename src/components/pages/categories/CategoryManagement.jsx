@@ -16,6 +16,8 @@ import Button from '@/components/shared/ui/buttons/Button';
 import { Pencil, Trash2 } from 'lucide-react';
 import OptionsMenu from '@/components/shared/ui/OptionsMenu';
 import FormField from '@/components/shared/ui/form/FormField';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import EmptyState from '@/components/shared/ui/EmptyState';
 
 function CategoryManagement() {
   const tabs = [
@@ -82,8 +84,8 @@ function CategoryManagement() {
     }
   });
 
-  if (isLoadingParentCategories || isLoadingChildrenCategories) return <p>Loading...</p>;
-  if (categoryParentError || categoryChildrenError) return <p>Error loading categories</p>;
+  if (isLoadingParentCategories || isLoadingChildrenCategories) return <LoadingSpinner />;
+  if (categoryParentError || categoryChildrenError) return <EmptyState>We couldn&apos;t load your categories. Please try again.</EmptyState>;
 
   const currentParentId = watch('parentId');
   const handleMenuClose = () => setIsOptionsMenuOpen(false);
@@ -159,9 +161,13 @@ function CategoryManagement() {
 
 
         <h2 className='mt-6 mb-4'>{activeTab.charAt(0).toUpperCase() + activeTab.slice(1)}</h2>
-        <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
-          {activeList?.parentCategories?.length === 0 ? <div className='card w-fit '><p className='text-txt-muted'>No categories found</p></div> :
-            activeList?.parentCategories?.filter(parent => parent.name)
+        {activeList?.parentCategories?.length === 0 ? (
+          <EmptyState>
+            <p className='text-txt-muted'>No categories found</p>
+          </EmptyState>
+        ) : (
+          <ul className='grid grid-cols-[repeat(auto-fit,minmax(250px,1fr))] gap-3'>
+            {activeList?.parentCategories?.filter(parent => parent.name)
               .sort((a, b) => a.name.localeCompare(b.name))
               .map((parent) => (
                 <li key={parent.id} className='card-compact border-t-8' style={{ borderColor: parent.color }}>
@@ -206,7 +212,8 @@ function CategoryManagement() {
                   </ul>
                 </li>
               ))}
-        </ul>
+          </ul>
+        )}
       </section>
 
       <Modal
@@ -282,19 +289,19 @@ function CategoryManagement() {
           activeCategory ? (
             <>
               <Button
-                type='submit'
-                form='edit-category-form'
-                disabled={isUpdating}
-              >
-                Save Changes
-              </Button>
-              <Button
                 type='button'
                 onClick={handleClose}
                 intent='subtle'
                 disabled={isUpdating}
               >
                 Cancel
+              </Button>
+              <Button
+                type='submit'
+                form='edit-category-form'
+                disabled={isUpdating}
+              >
+                Save Changes
               </Button>
             </>
           ) : null
@@ -316,10 +323,10 @@ function CategoryManagement() {
                 <>
                   <div className='space-y-2'>
                     <p>
-                      You are deleting <strong>{activeCategory.name}</strong>.
+                      Deleting <strong>{activeCategory.name}</strong>.
                     </p>
                     <p>
-                      Choose another category to move its transactions to before deleting it.
+                      Choose a category to move its transactions to, then it’ll be&nbsp;removed.
                     </p>
                   </div>
 
@@ -367,10 +374,10 @@ function CategoryManagement() {
                 <>
                   <div className='space-y-2'>
                     <p>
-                      You are deleting <strong>{activeCategory.name}</strong>.
+                      Deleting <strong>{activeCategory.name}</strong>.
                     </p>
                     <p>
-                      Choose another parent category to move its child categories to before deleting it.
+                      Choose a parent category to move its subcategories to, then it’ll be&nbsp;removed.
                     </p>
                   </div>
 
@@ -399,7 +406,7 @@ function CategoryManagement() {
                           ))}
                     </select>
                     {showDeleteError && (
-                      <p className='field-error'>*Please select a category.</p>
+                      <p className='field-error'>Please select a category.</p>
                     )}
                   </fieldset>
                 </>
@@ -411,20 +418,20 @@ function CategoryManagement() {
           activeCategory ? (
             <>
               <Button
-                type='submit'
-                form='delete-category-form'
-                disabled={isDeleting}
-                intent='danger'
-              >
-                Delete Category
-              </Button>
-              <Button
                 type='button'
                 onClick={handleClose}
                 intent='subtle'
                 disabled={isDeleting}
               >
                 Cancel
+              </Button>
+              <Button
+                type='submit'
+                form='delete-category-form'
+                disabled={isDeleting}
+                intent='danger'
+              >
+                Delete Category
               </Button>
             </>
           ) : null

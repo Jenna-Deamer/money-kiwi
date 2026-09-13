@@ -5,7 +5,7 @@ const LinkButton = ({
   children,
   intent,
   size,
-  link,
+  to,
   fullWidth,
   className,
   leftIcon,
@@ -15,7 +15,7 @@ const LinkButton = ({
   return (
     <Link
       className={buttonStyles({ intent, size, fullWidth, className })}
-      to={link}
+      to={to}
       {...props}
     >   <>
           {leftIcon && <span className='mr-2 shrink-0'>{leftIcon}</span>}

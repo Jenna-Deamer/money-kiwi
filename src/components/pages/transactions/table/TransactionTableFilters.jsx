@@ -2,6 +2,7 @@ import Select from 'react-select';
 import { useAccounts } from '@/hooks/useAccounts';
 import { useGroupChildrenCategories } from '@/hooks/useCategory';
 import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import EmptyState from '@/components/shared/ui/EmptyState';
 
 const transactionTypeOptions = [
   { value: 'income', label: 'Income' },
@@ -60,7 +61,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
     transferOptions,
   ].flat();
   if (isLoadingAccounts || isLoadingCategories) return <LoadingSpinner />;
-  if (accountError || categoryError) return <div>Error...</div>;
+  if (accountError || categoryError) return <EmptyState>We couldn&apos;t load your filters. Please try again.</EmptyState>;
 
   const accountOptions = (accounts || []).map(acc => ({
     value: acc.id,

@@ -16,6 +16,7 @@ import Button from '@/components/shared/ui/buttons/Button';
 import { useOutletContext } from 'react-router';
 import DatePickerField from '@/components/shared/ui/form/DatePickerField';
 import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import EmptyState from '@/components/shared/ui/EmptyState';
 
 function TransactionOverview() {
   const { data: accounts, } = useAccounts();
@@ -52,7 +53,7 @@ function TransactionOverview() {
       <section>
         <div className='flex flex-col justify-center items-center mb-6 text-center md:text-left md:flex-row md:justify-between'>
           <div>
-            <h1 className='mb-0.5'>Transactions Overview</h1>
+            <h1 className='mb-2'>Transactions Overview</h1>
             {hasAccounts &&
               <DatePickerField
                 startDate={pickerRange[0]}
@@ -80,10 +81,10 @@ function TransactionOverview() {
         </div>
 
         {!hasAccounts ? (
-          <div className='card text-center max-w-md m-auto md:m-0'>
+          <EmptyState>
             <p className='text-txt-muted'>You don’t have any financial accounts&nbsp;yet.<br />Create your first account to start tracking transactions.</p>
-            <LinkButton to='/accounts/form' className='mt-2'>Create Account</LinkButton>
-          </div>
+            <LinkButton to='/accounts/form' className='mt-4'>Create Account</LinkButton>
+          </EmptyState>
         ) : (
           <>
             <TransactionTableFilters
@@ -101,7 +102,7 @@ function TransactionOverview() {
               onStatusChange={(val) => handleFilterChange('status', val)}
             />
             {!transactions?.transactions || transactions.transactions.length === 0 ? (
-              <div className='card max-w-md text-center mx-auto mt-4'>
+              <EmptyState className='mt-4'>
                 <p>
                   No transactions found. Try another filter or{' '}
                   <Link className='text-kiwi-primary underline' to='/transactions/form'>
@@ -109,7 +110,7 @@ function TransactionOverview() {
                   </Link>
                   .
                 </p>
-              </div>
+              </EmptyState>
             ) : isMobile.matches ? (
               <TransactionMobile
                 transactionsData={transactions}
@@ -137,18 +138,18 @@ function TransactionOverview() {
       <Modal
         isOpen={isDeleteOpen}
         onClose={handleClose}
-        title='Delete transaction'
+        title='Delete Transaction'
         body={
           activeTransaction && (
             <div className='space-y-2'>
               <p>
-                Delete transaction <strong>{activeTransaction.memo}</strong>?
+                Delete <strong>{activeTransaction.memo}</strong>?
               </p>
               <p>
-                This action can’t be undone.
+                This can’t be undone.
               </p>
               <p>
-                If this transaction was created from a recurring template, deleting it here won’t stop future transactions. Delete the template in <Link to='/recurring' className='underline'>Recurring Templates</Link> instead.
+                If it came from a recurring template, future transactions will still be created. Manage the template in <Link to='/recurring' className='underline'>Recurring Templates</Link>.
               </p>
             </div>
           )

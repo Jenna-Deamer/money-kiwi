@@ -27,15 +27,15 @@ function Modal({ isOpen, onClose, title = 'Notice', body, footer }) {
   }, [isOpen]);
 
   return (
-    <dialog ref={modalRef} onKeyDown={handleKeyDown} className='m-auto w-[calc(100vw-2rem)] sm:w-full max-w-lg rounded p-4'>
-      <header className='flex justify-between items-center pb-2'>
+    <dialog ref={modalRef} onKeyDown={handleKeyDown} className='m-auto w-[calc(100vw-2rem)] sm:w-full max-w-lg rounded-xl p-6 shadow-lg'>
+      <header className='flex justify-between items-center gap-4 pb-4'>
         <h2>{title}</h2>
         <button
           onClick={onClose}
-          aria-label='Close Modal'
-          className='cursor-pointer'
+          aria-label='Close dialog'
+          className='cursor-pointer text-txt-muted hover:text-txt-main focus-primary'
         >
-          <X />
+          <X className='icon-lg' />
         </button>
       </header>
 

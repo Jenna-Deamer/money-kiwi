@@ -6,6 +6,7 @@ import { accountSchema } from '@/utils/validation/finAccountSchema';
 import { useCreateAccount, useGetAccount, useUpdateAccount } from '@/hooks/useAccounts';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 const validSubCategories = {
   banking: ['cash', 'chequing', 'high_interest_savings', 'savings'],
@@ -67,7 +68,7 @@ function AccountForm() {
   };
 
   if (isEditMode && isFetching) {
-    return <p>Loading account details...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

@@ -127,7 +127,7 @@ function AccountList({ title, accounts }) {
       <Modal
         isOpen={isStatusOpen}
         onClose={handleModalClose}
-        title={selectedAccount?.status === 'active' ? 'Archive account' : 'Restore account'}
+        title={selectedAccount?.status === 'active' ? 'Archive Account' : 'Restore Account'}
         body={
           selectedAccount && (
             <>
@@ -135,15 +135,12 @@ function AccountList({ title, accounts }) {
                 <>
                   {selectedAccount.currentBalance > 0.01 ? (
                     <div className='space-y-1'>
-                      <p>
-                        <strong>{selectedAccount.name}</strong> can’t be archived&nbsp;yet.
-                      </p>
-                      <p>
-                        This account still has a balance. Transfer or remove the remaining funds before archiving&nbsp;it.
-                      </p>
-                      <p>
-                        Current balance: <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>
-                      </p>
+                    <p>
+                      <strong>{selectedAccount.name}</strong> still has a balance of <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>.
+                    </p>
+                    <p>
+                      Transfer or remove the remaining funds before archiving&nbsp;it.
+                    </p>
                     </div>
                   ) : (
                     <div className='space-y-2'>
@@ -151,7 +148,7 @@ function AccountList({ title, accounts }) {
                         Archive <strong>{selectedAccount.name}</strong>?
                       </p>
                       <p>
-                        This account will move to the Archive tab. Existing transactions will remain, but you won’t be able to use this account for new&nbsp;records.
+                        It’ll move to the Archived section. Existing transactions stay, but you won’t be able to add new&nbsp;ones.
                       </p>
                     </div>
                   )}
@@ -164,7 +161,7 @@ function AccountList({ title, accounts }) {
                     Restore <strong>{selectedAccount.name}</strong>?
                   </p>
                   <p>
-                    This account will move back to your active accounts and can be used for new records&nbsp;again.
+                    It’ll move back to your active accounts and can be used for new&nbsp;records again.
                   </p>
                 </div>
               )}
@@ -207,8 +204,8 @@ function AccountList({ title, accounts }) {
                         ? 'Archiving...'
                         : 'Restoring...'
                       : selectedAccount.status === 'active'
-                        ? 'Archive account'
-                        : 'Restore account'}
+                        ? 'Archive Account'
+                        : 'Restore Account'}
                   </Button>
                 </>
               )}
@@ -226,13 +223,10 @@ function AccountList({ title, accounts }) {
               {selectedAccount.currentBalance > 0.01 ? (
                 <div className='space-y-1'>
                   <p>
-                    <strong>{selectedAccount.name}</strong> can’t be deleted&nbsp;yet.
+                    <strong>{selectedAccount.name}</strong> still has a balance of <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>.
                   </p>
                   <p>
-                    This account still has a balance. Transfer or remove the remaining funds before deleting&nbsp;it.
-                  </p>
-                  <p>
-                    Current balance: <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>
+                    Transfer or remove the remaining funds before deleting&nbsp;it.
                   </p>
                 </div>
               ) : (
@@ -241,7 +235,7 @@ function AccountList({ title, accounts }) {
                     Delete <strong>{selectedAccount.name}</strong>?
                   </p>
                   <p>
-                    This action can’t be undone. The account and its data will be <b>permanently removed.</b>
+                    This can’t be undone. The account and all its data will be permanently&nbsp;deleted.
                   </p>
                 </div>
               )}
@@ -280,7 +274,7 @@ function AccountList({ title, accounts }) {
                     disabled={isDeleting}
                     intent='danger'
                   >
-                    {isDeleting ? 'Deleting...' : 'Delete account'}
+                    {isDeleting ? 'Deleting...' : 'Delete Account'}
                   </Button>
                 </>
               )}

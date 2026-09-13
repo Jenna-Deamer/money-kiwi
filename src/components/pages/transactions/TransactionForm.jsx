@@ -13,6 +13,7 @@ import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 
 function TransactionForm() {
@@ -91,7 +92,7 @@ function TransactionForm() {
   };
 
   if (isEditMode && isFetching) {
-    return <p>Loading transaction details...</p>;
+    return <LoadingSpinner />;
   }
 
   return (

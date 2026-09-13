@@ -6,6 +6,8 @@ import { useState } from 'react';
 import Button from '@/components/shared/ui/buttons/Button';
 import OptionsMenu from '@/components/shared/ui/OptionsMenu';
 import TabButtons from '@/components/shared/ui/buttons/TabButtons';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import EmptyState from '@/components/shared/ui/EmptyState';
 
 function RecurringTransactions() {
   const { data, isLoading, error } = useRecurringTransaction();
@@ -48,13 +50,16 @@ function RecurringTransactions() {
   const handleDeleteModalConfirmation = () => deleteTemplate({ id: selectedTemplate.id }, { onSuccess: () => handleModalClose() });
   const handlePauseModalConfirmation = () => updatePauseStatus({ id: selectedTemplate.id, pauseStatus: selectedTemplate.isPaused }, { onSuccess: handleModalClose });
 
-  if (isLoading) return <div>Loading</div>;
-  if (error) return <div className='form-error'>Error: {error}</div>;
+  if (isLoading) return <LoadingSpinner />;
+  if (error) return <EmptyState>We couldn&apos;t load your recurring transactions. Please try again.</EmptyState>;
 
   return (
     <section>
       <div className='text-center flex flex-col items-center md:text-left md:items-start mb-6'>
         <h1>Recurring Transactions&nbsp;Overview</h1>
+      </div>
+
+      <div className='flex justify-center items-center md:justify-start'>
         <TabButtons
           tabs={tabs}
           activeTab={activeTab}
@@ -146,7 +151,7 @@ function RecurringTransactions() {
       <Modal
         isOpen={isEditOpen}
         onClose={handleModalClose}
-        title={'Edit ' + selectedTemplate?.memo + ' Template'}
+        title='Edit Template'
         body={
           selectedTemplate && (
             <UpdateTemplateForm
@@ -165,24 +170,16 @@ function RecurringTransactions() {
           selectedTemplate ? (
             <div className='space-y-3'>
               <p>
-                <strong>{selectedTemplate.memo}</strong> is currently{' '}
-                {selectedTemplate.isPaused ? 'paused' : 'active'}.
+                {selectedTemplate.isPaused ? 'Resume' : 'Pause'}{' '}
+                <strong>{selectedTemplate.memo}</strong>?
               </p>
-
-              {selectedTemplate.isPaused ? (
-                <p>
-                  Resuming this template will allow transactions to start generating again
-                  based on the template’s current schedule and rules.
-                </p>
-              ) : (
-                <p>
-                  Pausing this template will stop new transactions from being generated
-                  until the template is resumed.
-                </p>
-              )}
-
               <p>
-                Existing transactions that have already been created will remain unchanged.
+                {selectedTemplate.isPaused
+                  ? 'New transactions will start generating again.'
+                  : 'No new transactions will be created until you resume it.'}
+              </p>
+              <p>
+                Existing transactions won’t be affected.
               </p>
             </div>
           ) : null
@@ -190,15 +187,15 @@ function RecurringTransactions() {
         footer={
           selectedTemplate ? (
             <>
-              <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
-                {selectedTemplate.isPaused ? 'Resume template' : 'Pause template'}
-              </Button>
               <Button
                 onClick={handleModalClose}
                 disabled={isDeleting}
                 intent='subtle'
               >
                 Cancel
+              </Button>
+              <Button onClick={handlePauseModalConfirmation} disabled={isUpdatingStatus}>
+                {selectedTemplate.isPaused ? 'Resume Template' : 'Pause Template'}
               </Button>
             </>
           ) : null
@@ -208,12 +205,15 @@ function RecurringTransactions() {
       <Modal
         isOpen={isDeleteConfirmationOpen}
         onClose={handleModalClose}
-        title={'Confirm Deletion For ' + selectedTemplate?.memo + ' Template'}
+        title='Delete Template'
         body={
           selectedTemplate && (
             <div className='space-y-2'>
               <p>
-                Are you sure you want to delete the template: <strong>{selectedTemplate.memo}</strong>?
+                Delete <strong>{selectedTemplate.memo}</strong>?
+              </p>
+              <p>
+                This can’t be undone.
               </p>
             </div>
           )
@@ -221,11 +221,11 @@ function RecurringTransactions() {
         footer={
           selectedTemplate && (
             <>
-              <Button onClick={handleDeleteModalConfirmation} disabled={isDeleting} intent='danger'>
-                Delete Template
-              </Button>
               <Button onClick={handleModalClose} intent='subtle'>
                 Cancel
+              </Button>
+              <Button onClick={handleDeleteModalConfirmation} disabled={isDeleting} intent='danger'>
+                Delete Template
               </Button>
             </>
           )
