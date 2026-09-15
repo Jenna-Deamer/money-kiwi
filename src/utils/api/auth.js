@@ -8,10 +8,10 @@ export function login(email, password) {
     });
 }
 
-export function signup(name, email, password, confirmPassword) {
+export function signup(firstName, email, password, confirmPassword) {
     return apiRequest(`${BASE}/sign-up`, {
         method: 'POST',
-        body: JSON.stringify({ name, email, password, confirmPassword }),
+        body: JSON.stringify({ firstName, email, password, confirmPassword }),
     });
 }
 

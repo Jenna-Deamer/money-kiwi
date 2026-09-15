@@ -29,14 +29,14 @@ function SignUp() {
     formState: { errors, isSubmitting },
   } = useForm({
     resolver: zodResolver(signupSchema),
-    defaultValues: { name: '', email: '', password: '', confirmPassword: '' },
+    defaultValues: { firstName: '', email: '', password: '', confirmPassword: '' },
   });
 
   const onSubmit = async (data) => {
     setServerError('');
     const email = data.email.toLowerCase();
     try {
-      await signupApi(data.name, email, data.password, data.confirmPassword);
+      await signupApi(data.firstName, email, data.password, data.confirmPassword);
       toast.success('Account created', {
         description: 'Check your email to verify your account.',
       });
@@ -68,12 +68,12 @@ function SignUp() {
         <form onSubmit={handleSubmit(onSubmit)}>
           <legend style={{ display: 'none' }}>Create Account</legend>
           <FormField
-            label='Name'
-            htmlFor='name'
-            error={errors.name?.message}
+            label='First Name'
+            htmlFor='firstName'
+            error={errors.firstName?.message}
             disabled={isSubmitting}
           >
-            <input {...register('name')} placeholder='Name' className='input-standard' />
+            <input {...register('firstName')} placeholder='First Name' className='input-standard' />
           </FormField>
           <FormField
             label='Email'
