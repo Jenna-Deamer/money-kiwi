@@ -116,7 +116,7 @@ function Nav() {
             </Link>
           </li>
 
-          <li className='pt-4'>
+          {/* <li className='pt-4'>
             <Link
               onClick={closeMobileDrawer}
               to='settings'
@@ -125,7 +125,7 @@ function Nav() {
               <Settings aria-hidden='true' className='icon-lg' />
               <span>Settings</span>
             </Link>
-          </li>
+          </li>*/}
 
           <li>
             <button
@@ -244,7 +244,7 @@ function Nav() {
         </div>
 
         <div className='flex md:flex-col md:mt-auto md:pb-8 md:gap-6'>
-          <li>
+          {/* <li>
             <Link
               onClick={closeMobileDrawer}
               to='settings'
@@ -254,7 +254,7 @@ function Nav() {
               <Settings aria-hidden='true' className='icon-lg' />
               <DesktopLabel isCollapsed={isCollapsed}>Settings</DesktopLabel>
             </Link>
-          </li>
+          </li>*/}
 
           <li>
             <button
