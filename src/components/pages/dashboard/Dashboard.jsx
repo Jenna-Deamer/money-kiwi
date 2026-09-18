@@ -178,10 +178,10 @@ function Dashboard() {
               </div>
             </div>
           </section>
-          <section className='mt-6 mb-2'>
+          <section className='mt-6'>
             {investmentsData?.contributionsByRegistration.length === 0 ? (
               <EmptyState>
-                <p className='text-txt-muted'>No <b>expense</b> data found. Please try another date&nbsp;range.</p>
+                <p className='text-txt-muted'>No <b>investment</b> data found. Please try another date&nbsp;range.</p>
               </EmptyState>
             ) : (
               <DashboardPieChartSection
@@ -223,7 +223,7 @@ function Dashboard() {
                               <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
                                 {account.institution}
                               </span>
-                              <span className='badge border-soft'>
+                              <span className='badge border-soft bg-black/3'>
                                 {account.registration}
                               </span>
                             </div>

@@ -32,7 +32,7 @@ function TransactionOverview() {
   const { mutate: deleteTransaction, isLoading: isDeleting } =
     useDeleteTransaction();
   const navigate = useNavigate();
-  const isMobile = window.matchMedia('(max-width: 600px');
+  const isMobile = window.matchMedia('(max-width: 600px)');
 
   function handleUpdate(id) { navigate(`/transactions/form/${id}`); };
   function openDeleteModal(transaction) {

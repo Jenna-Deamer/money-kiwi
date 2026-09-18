@@ -10,10 +10,12 @@ const Button = ({
   loadingText,
   leftIcon,
   rightIcon,
+  type = 'button',
   ...props
 }) => {
   return (
     <button
+      type={type}
       className={buttonStyles({ intent, size, fullWidth, className })}
       disabled={isLoading || props.disabled}
       {...props}

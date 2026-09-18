@@ -3,7 +3,7 @@ import { ChevronRight, ChevronLeft } from 'lucide-react';
 function PaginationControls({ totalPages, page, setPage, placeholder }) {
   return (
     <div className='flex flex-wrap items-center'>
-      <p className='mr-4'>
+      <p className='mr-4 text-small text-txt-muted'>
         Page: {page + 1} of {totalPages}
       </p>
 

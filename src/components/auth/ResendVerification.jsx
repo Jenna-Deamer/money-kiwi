@@ -8,8 +8,7 @@ import FormField from '@/components/shared/ui/form/FormField';
 
 function ResendVerification() {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading, login } = useAuth();
-  const [serverError, setServerError] = useState('');
+  const { isAuthenticated, isLoading } = useAuth();
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
       navigate('/overview');
@@ -61,8 +60,8 @@ function ResendVerification() {
             />
           </FormField>
           <div className='mt-6 text-center flex flex-col items-center gap-2'>
-            <Button type='submit' disabled={isSubmitting}>
-              {isSubmitting ? 'Sending...' : 'Send Link'}
+            <Button type='submit' isLoading={isSubmitting} loadingText='Sending...'>
+              Send Link
             </Button>
             <Link to='/login' className='text-kiwi-primary underline'>Back to Login</Link>
           </div>

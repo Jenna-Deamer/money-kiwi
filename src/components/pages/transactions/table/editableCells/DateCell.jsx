@@ -42,7 +42,7 @@ const DateCell = ({ table, row }) => {
     >
 
       <DatePicker
-      className='w-full text-left'
+        className='w-full text-left border-0 bg-transparent p-0'
         onChange={(date) => {
           setDate(date);
         }}

@@ -13,7 +13,6 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { FREQUENCIES } from '@/utils/data/recurringFrequencies';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
 import { useEffect } from 'react';
-import { FormInput } from 'lucide-react';
 import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 function UpdateTemplateForm({ template, onClose }) {
@@ -251,7 +250,11 @@ function UpdateTemplateForm({ template, onClose }) {
 
 
       <div className='mt-6 flex justify-center'>
-        <Button type='submit' disabled={isUpdating || isLoadingAccounts || isLoadingCategories}>
+        <Button
+          type='submit'
+          isLoading={isUpdating || isLoadingAccounts || isLoadingCategories}
+          loadingText='Updating...'
+        >
           Update Template
         </Button>
       </div>

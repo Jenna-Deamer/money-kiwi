@@ -86,6 +86,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
         <div className='w-full'>
           <Select
             className='w-full'
+            classNamePrefix='filter-select'
             options={accountOptions}
             placeholder='Account'
             isClearable
@@ -101,6 +102,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
         <div className='w-full'>
           <Select
             className='w-full'
+            classNamePrefix='filter-select'
             options={categoryOptions}
             placeholder='Category'
             isClearable
@@ -116,6 +118,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
         <div className='w-full'>
           <Select
             className='w-full'
+            classNamePrefix='filter-select'
             options={transactionTypeOptions}
             placeholder='Transaction type'
             isClearable
@@ -131,6 +134,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
         <div className='w-full'>
           <Select
             className='w-full'
+            classNamePrefix='filter-select'
             options={accountTypeOptions}
             placeholder='Account type'
             isClearable
@@ -146,6 +150,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
         <div className='w-full'>
           <Select
             className='w-full'
+            classNamePrefix='filter-select'
             options={statusOptions}
             placeholder='Status'
             isClearable

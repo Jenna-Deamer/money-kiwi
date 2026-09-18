@@ -15,7 +15,7 @@ function Home() {
   }, [isAuthenticated, isLoading, navigate]);
 
   return (
-    <section className='flex flex-col justify-center items-center h-full'>
+    <section className='flex flex-col items-center justify-center h-full'>
       <h1 className='mb-2'>Money Kiwi</h1>
       <h2>Please create an account or login to get started.</h2>
       <div className='mt-3'>

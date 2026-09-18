@@ -1,8 +1,9 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useId } from 'react';
 import { X } from 'lucide-react';
 
 function Modal({ isOpen, onClose, title = 'Notice', body, footer }) {
   const modalRef = useRef(null);
+  const titleId = useId();
 
   const handleCloseModal = () => {
     if (onClose) {
@@ -27,9 +28,9 @@ function Modal({ isOpen, onClose, title = 'Notice', body, footer }) {
   }, [isOpen]);
 
   return (
-    <dialog ref={modalRef} onKeyDown={handleKeyDown} className='m-auto w-[calc(100vw-2rem)] sm:w-full max-w-lg rounded-xl p-6 shadow-lg'>
+    <dialog ref={modalRef} onKeyDown={handleKeyDown} aria-labelledby={titleId} className='m-auto w-[calc(100vw-2rem)] sm:w-full max-w-lg rounded-xl p-6 shadow-lg'>
       <header className='flex justify-between items-center gap-4 pb-4'>
-        <h2>{title}</h2>
+        <h2 id={titleId}>{title}</h2>
         <button
           onClick={onClose}
           aria-label='Close dialog'
@@ -39,9 +40,9 @@ function Modal({ isOpen, onClose, title = 'Notice', body, footer }) {
         </button>
       </header>
 
-      <section className='space-y-4'>
+      <div className='space-y-4'>
         {body}
-      </section>
+      </div>
 
       {footer && (
          <footer className='mt-6 flex flex-wrap justify-end gap-2'>

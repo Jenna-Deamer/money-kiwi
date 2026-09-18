@@ -147,7 +147,7 @@ function Nav() {
           <li>
             <button
               type='button'
-              className='max-md:p-2.5 flex items-center gap-3 focus-primary'
+              className='max-md:p-2.5 flex items-center gap-3 rounded-md focus-primary transition-colors text-white hover:bg-white/10'
               onClick={handleLogout}
             >
               <LogOut aria-hidden='true' className='icon-lg' />
@@ -292,7 +292,7 @@ function Nav() {
             <button
               type='button'
               aria-label={isCollapsed ? 'Logout' : undefined}
-              className={`hidden cursor-pointer md:flex items-center w-full min-w-0 focus-primary ${isCollapsed ? 'md:justify-center' : 'md:justify-start md:gap-2'
+              className={`hidden md:flex items-center w-full min-w-0 cursor-pointer rounded-md md:p-2 focus-primary transition-colors text-white hover:bg-white/10 ${isCollapsed ? 'md:justify-center' : 'md:justify-start md:gap-2'
                 }`}
               onClick={handleLogout}
             >

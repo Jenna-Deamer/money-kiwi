@@ -11,7 +11,7 @@ const FormField = ({ label, error, htmlFor, children }) => {
 
       {error && (
         <span className='field-error'>
-          *{error}
+          {error}
         </span>
       )}
     </div>

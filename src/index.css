@@ -182,9 +182,196 @@
 
 /*CSS Overrides*/
 
-/*DatePicker icon spacing*/
+/*React DatePicker*/
+/* icon spacing*/
 .react-datepicker__input-container .date-filter {
     padding-left: 28px !important;
+}
+
+/* calendar */
+.react-datepicker {
+    font-family: inherit;
+    font-size: var(--text-small);
+    color: var(--color-txt-main);
+    background-color: var(--color-canvas-card);
+    border: 1px solid var(--color-soft);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+}
+
+.react-datepicker__header {
+    background-color: var(--color-canvas-card);
+    border-bottom: 1px solid var(--color-soft);
+}
+
+.react-datepicker__current-month,
+.react-datepicker-time__header,
+.react-datepicker-year-header {
+    color: var(--color-txt-main);
+}
+
+.react-datepicker__day-name {
+    color: var(--color-txt-muted);
+}
+
+.react-datepicker .react-datepicker__day,
+.react-datepicker .react-datepicker__month-text,
+.react-datepicker .react-datepicker__quarter-text,
+.react-datepicker .react-datepicker__year-text {
+    color: var(--color-txt-main);
+}
+
+.react-datepicker .react-datepicker__day:not([aria-disabled=true]):hover {
+    background-color: var(--color-surface-muted);
+}
+
+/* keyboard-selected (focused/current cell) — scoped so a selected day wins */
+.react-datepicker .react-datepicker__day--keyboard-selected:not(.react-datepicker__day--selected) {
+    background-color: var(--color-kiwi-soft);
+    color: var(--color-txt-main);
+}
+
+.react-datepicker .react-datepicker__day--keyboard-selected:not(.react-datepicker__day--selected):not([aria-disabled=true]):hover {
+    background-color: var(--color-kiwi-primary);
+    color: #ffffff;
+}
+
+/* selected / in-range */
+.react-datepicker .react-datepicker__day--selected,
+.react-datepicker .react-datepicker__day--in-range {
+    background-color: var(--color-kiwi-primary);
+    color: #ffffff;
+}
+
+.react-datepicker .react-datepicker__day--selected:not([aria-disabled=true]):hover,
+.react-datepicker .react-datepicker__day--in-range:not([aria-disabled=true]):hover {
+    background-color: var(--color-kiwi-dark);
+}
+
+/* range preview (after selected so in-range stays orange) */
+.react-datepicker .react-datepicker__day--in-selecting-range:not(.react-datepicker__day--in-range) {
+    background-color: var(--color-kiwi-soft);
+    color: var(--color-txt-main);
+}
+
+/* today — only when not selected/highlighted, so the text stays readable */
+.react-datepicker .react-datepicker__day--today:not(.react-datepicker__day--selected):not(.react-datepicker__day--keyboard-selected):not(.react-datepicker__day--in-range):not(.react-datepicker__day--in-selecting-range) {
+    color: var(--color-kiwi-primary);
+}
+
+.react-datepicker .react-datepicker__day--disabled {
+    color: var(--color-soft);
+}
+
+.react-datepicker .react-datepicker__month-select,
+.react-datepicker .react-datepicker__year-select {
+    color: var(--color-txt-main);
+    background-color: var(--color-canvas-card);
+    border: 1px solid var(--color-soft);
+    border-radius: 0.375rem;
+    padding: 0.125rem 0.25rem;
+}
+
+.react-datepicker__navigation-icon::before,
+.react-datepicker__year-read-view--down-arrow,
+.react-datepicker__month-read-view--down-arrow,
+.react-datepicker__month-year-read-view--down-arrow {
+    border-color: var(--color-txt-muted);
+}
+
+.react-datepicker-popper .react-datepicker__triangle {
+    stroke: var(--color-soft);
+}
+
+.react-datepicker-popper[data-placement^=bottom] .react-datepicker__triangle,
+.react-datepicker-popper[data-placement^=top] .react-datepicker__triangle {
+    fill: var(--color-canvas-card);
+    color: var(--color-canvas-card);
+}
+
+/*react-select (filter dropdowns)*/
+div.filter-select__control {
+    min-height: 2.375rem;
+    background-color: var(--color-canvas-card);
+    border: 1px solid var(--color-soft);
+    border-radius: 0.375rem;
+    box-shadow: none;
+}
+
+div.filter-select__control:hover {
+    border-color: var(--color-kiwi-primary);
+}
+
+div.filter-select__control--is-focused {
+    border-color: var(--color-kiwi-primary);
+    box-shadow: 0 0 0 2px var(--color-kiwi-primary);
+}
+
+div.filter-select__value-container {
+    padding: 0 0.375rem;
+}
+
+div.filter-select__placeholder {
+    color: var(--color-txt-muted);
+}
+
+div.filter-select__single-value,
+input.filter-select__input {
+    color: var(--color-txt-main);
+}
+
+div.filter-select__menu {
+    background-color: var(--color-canvas-card);
+    border: 1px solid var(--color-soft);
+    border-radius: 0.5rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+    overflow: hidden;
+}
+
+div.filter-select__option {
+    color: var(--color-txt-main);
+    cursor: pointer;
+}
+
+div.filter-select__option--is-focused {
+    background-color: var(--color-surface-muted);
+}
+
+div.filter-select__option--is-selected {
+    background-color: var(--color-surface-muted);
+    color: var(--color-txt-main);
+    font-weight: 600;
+}
+
+div.filter-select__multi-value {
+    background-color: var(--color-surface-muted);
+    border-radius: 0.25rem;
+}
+
+div.filter-select__multi-value__label {
+    color: var(--color-txt-main);
+}
+
+div.filter-select__multi-value__remove {
+    color: var(--color-txt-muted);
+    border-radius: 0.25rem;
+}
+
+div.filter-select__multi-value__remove:hover {
+    background-color: var(--color-kiwi-primary);
+    color: #ffffff;
+}
+
+span.filter-select__indicator-separator {
+    display: none;
+}
+
+div.filter-select__indicator {
+    color: var(--color-txt-muted);
+}
+
+div.filter-select__indicator:hover {
+    color: var(--color-txt-main);
 }
 
 dialog::backdrop {
@@ -199,7 +386,6 @@ dialog::backdrop {
     cursor: pointer;
 }
 
-/*Slice hover*/
 .recharts-pie-sector path:hover {
     opacity: 0.85 !important;
 }

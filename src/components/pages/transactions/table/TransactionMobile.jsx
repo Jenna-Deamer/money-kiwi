@@ -34,14 +34,14 @@ function TransactionMobile({
 
           <div className='flex items-end gap-3 mt-3'>
             {tx.category?.name && (
-              <p className='badge w-fit'>{tx.category.name}</p>
+              <p className='badge border-soft bg-black/3 w-fit'>{tx.category.name}</p>
             )}
 
             <div className='ml-auto flex gap-4'>
-              <button onClick={() => onUpdate(tx.id)} aria-label='Update Transaction'>
+              <button onClick={() => onUpdate(tx.id)} aria-label='Update Transaction' className='cursor-pointer rounded-md focus-primary'>
                 <Pencil className='icon-md' />
               </button>
-              <button onClick={() => onDelete(tx.id)} aria-label='Delete Transaction'>
+              <button onClick={() => onDelete(tx.id)} aria-label='Delete Transaction' className='cursor-pointer rounded-md focus-primary'>
                 <Trash2 className='icon-md' />
               </button>
             </div>

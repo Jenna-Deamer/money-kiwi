@@ -63,7 +63,7 @@ function TransactionTable({
           <button
             onClick={() => onUpdate(row.original.id)}
             aria-label='Update Transaction'
-            className='cursor-pointer'
+            className='cursor-pointer rounded-md focus-primary'
           >
             <Pencil className='icon-md' />
           </button>
@@ -71,7 +71,7 @@ function TransactionTable({
           <button
             onClick={() => onDelete(row.original)}
             aria-label='Delete Transaction'
-            className='cursor-pointer'
+            className='cursor-pointer rounded-md focus-primary'
           >
             <Trash2 className='icon-md' />
           </button>
@@ -176,7 +176,7 @@ function TransactionTable({
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>
               {headerGroup.headers.map((header) => (
-                <th key={header.id} className='px-4 py-2 text-left'>
+                <th key={header.id} className='px-4 py-2 text-left text-small font-semibold text-txt-muted'>
                   {header.isPlaceholder
                     ? null
                     : flexRender(

@@ -45,8 +45,8 @@ function ForgotPassword() {
   }
 
   return (
-    <section className='flex flex-col justify-center items-center h-full'>
-      <div className='card w-full max-w-md'>
+    <section className='flex flex-col items-center justify-center h-full'>
+      <div className='card w-full max-w-sm'>
         <div className='text-center mb-2'>
           <h1 className='mb-1'>Forgot your&nbsp;password?</h1>
           <p>Enter your email address and we&apos;ll send you a reset&nbsp;link.</p>
@@ -69,8 +69,8 @@ function ForgotPassword() {
           </FormField>
 
           <div className='mt-6 flex justify-center'>
-            <Button type='submit' intent='primary' loadingText='Submitting...' disabled={isSubmitting}>
-              {isSubmitting ? 'Submitting...' : 'Send Reset Link'}
+            <Button type='submit' intent='primary' isLoading={isSubmitting} loadingText='Submitting...'>
+              Send Reset Link
             </Button>
           </div>
         </form>
