@@ -63,7 +63,7 @@ function TransactionTable({
           <button
             onClick={() => onUpdate(row.original.id)}
             aria-label='Update Transaction'
-            className='cursor-pointer rounded-md focus-primary'
+            className='cursor-pointer rounded-md p-1 focus-primary'
           >
             <Pencil className='icon-md' />
           </button>
@@ -71,7 +71,7 @@ function TransactionTable({
           <button
             onClick={() => onDelete(row.original)}
             aria-label='Delete Transaction'
-            className='cursor-pointer rounded-md focus-primary'
+            className='cursor-pointer rounded-md p-1 focus-primary'
           >
             <Trash2 className='icon-md' />
           </button>

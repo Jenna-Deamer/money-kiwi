@@ -114,10 +114,10 @@ function TransactionForm() {
 
             <FormField
               label='Account'
-              htmlFor='account'
+              htmlFor='accountId'
               error={errors.accountId?.message}
             >
-              <select {...register('accountId')} disabled={isLoading || !!error} className='input-standard'>
+              <select id='accountId' {...register('accountId')} disabled={isLoading || !!error} className='input-standard'>
                 <option value=''>-- Select Source Account --</option>
                 {data?.map((account) => (
                   <option key={account.id} value={account.id}>
@@ -134,7 +134,7 @@ function TransactionForm() {
               htmlFor='memo'
               error={errors.memo?.message}
             >
-              <input {...register('memo')} placeholder='Hydro Bill' className='input-standard' />
+              <input id='memo' {...register('memo')} placeholder='Hydro Bill' className='input-standard' />
             </FormField>
 
             <FormField
@@ -142,17 +142,17 @@ function TransactionForm() {
               htmlFor='amount'
               error={errors.amount?.message}
             >
-              <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
+              <input id='amount' type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
             </FormField>
           </fieldset>
 
           <fieldset>
             <FormField
               label='Transaction Type'
-              htmlFor='transaction type'
+              htmlFor='type'
               error={errors.type?.message}
             >
-              <select {...register('type')} className='input-standard'>
+              <select id='type' {...register('type')} className='input-standard'>
                 <option value=''>-- Select Type --</option>
                 {VALID_TYPES.map((type) => (
                   <option key={type} value={type}>{type}</option>
@@ -162,14 +162,14 @@ function TransactionForm() {
 
             <FormField
               label='Category'
-              htmlFor='category'
+              htmlFor='categoryId'
               error={errors.categoryId?.message}
             >
               <>
                 {isLoadingCategories && <small className='text-xs text-txt-muted'>Loading categories...</small>}
                 {categoryError && <small className='field-error'>Error retrieving categories!</small>}
               </>
-              <select {...register('categoryId')} disabled={!selectedType} className='input-standard'>
+              <select id='categoryId' {...register('categoryId')} disabled={!selectedType} className='input-standard'>
                 {!selectedType ? (
                   <option value=''>-- Select Type First --</option>
                 ) : (
@@ -194,10 +194,10 @@ function TransactionForm() {
               </>
               <FormField
                 label='Destination Account'
-                htmlFor='destination account'
+                htmlFor='toAccountId'
                 error={errors.toAccountId?.message}
               >
-                <select {...register('toAccountId')} disabled={isLoading || !!error} className='input-standard'>
+                <select id='toAccountId' {...register('toAccountId')} disabled={isLoading || !!error} className='input-standard'>
                   <option value=''>-- Select Destination Account --</option>
                   {data?.filter(acc => acc.id !== sourceAccountId)
                     .map((account) => (
@@ -221,6 +221,7 @@ function TransactionForm() {
                 name='date'
                 render={({ field: { onChange, onBlur, value, ref } }) => (
                   <DatePicker
+                    id='date'
                     onChange={onChange}
                     onBlur={onBlur}
                     selected={value}
@@ -236,7 +237,7 @@ function TransactionForm() {
           </fieldset>
 
           <fieldset className='flex gap-2 items-center'>
-            <label>Recurring Transaction</label>
+            <label htmlFor='isRecurring'>Recurring Transaction</label>
             <input {...register('isRecurring')}
               type='checkbox'
               id='isRecurring'
@@ -251,7 +252,7 @@ function TransactionForm() {
                 htmlFor='frequency'
                 error={errors.frequency?.message}
               >
-                <select {...register('frequency')} className='input-standard'>
+                <select id='frequency' {...register('frequency')} className='input-standard'>
                   <option value=''>-- Select Frequency --</option>
                   {FREQUENCIES?.map((freq) => (
                     <option key={freq.label} value={freq.value}>{freq.label}</option>
@@ -261,7 +262,7 @@ function TransactionForm() {
 
               <FormField
                 label='End Date'
-                htmlFor='end date'
+                htmlFor='endDate'
                 error={errors.endDate?.message}
               >
                 <Controller
@@ -269,6 +270,7 @@ function TransactionForm() {
                   name='endDate'
                   render={({ field: { onChange, onBlur, value, ref } }) => (
                     <DatePicker
+                      id='endDate'
                       onChange={onChange}
                       onBlur={onBlur}
                       selected={value}

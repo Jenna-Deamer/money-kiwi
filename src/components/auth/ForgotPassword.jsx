@@ -59,6 +59,7 @@ function ForgotPassword() {
             disabled={isSubmitting}
           >
             <input
+              id='email'
               type='email'
               placeholder='Email'
               value={email}

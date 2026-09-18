@@ -76,14 +76,14 @@ function CategoryForm() {
               htmlFor='name'
               error={errors.name?.message}
             >
-              <input {...register('name')} placeholder='Housing' className='input-standard' />
+              <input id='name' {...register('name')} placeholder='Housing' className='input-standard' />
             </FormField>
             <FormField
               label='Type'
               htmlFor='type'
               error={errors.type?.message}
             >
-              <select {...register('type')} className='input-standard'>
+              <select id='type' {...register('type')} className='input-standard'>
                 <option value=''>-- Select Type --</option>
                 {VALID_TYPES.map((type) => (
                   <option key={type} value={type}>{type}</option>
@@ -95,12 +95,12 @@ function CategoryForm() {
           <fieldset>
             <FormField
               label='Select Parent Category'
-              htmlFor='select parent category'
+              htmlFor='parentId'
               error={errors.parentId?.message}>
 
               {isLoading && <small className='text-xs text-txt-muted'>Loading categories...</small>}
               {error && <small className='field-error'>Error retrieving categories!</small>}
-              <select {...register('parentId')} className='input-standard' disabled={isFetching || isUpdating || isCreating || !selectedType}>
+              <select id='parentId' {...register('parentId')} className='input-standard' disabled={isFetching || isUpdating || isCreating || !selectedType}>
                 <option value=''>-- No Parent (top-level) --</option>
                 {parentCategories?.map((category) => (
                   <option key={category.id} value={category.id}>{category.name}</option>

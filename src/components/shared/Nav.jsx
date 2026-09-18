@@ -163,7 +163,7 @@ function Nav() {
           <button
             type='button'
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className='hidden md:inline focus-primary cursor-pointer'
+            className='hidden md:inline rounded-md p-1 -m-1 focus-primary cursor-pointer'
             onClick={toggleNav}
           >
             {isCollapsed ? (

@@ -73,7 +73,7 @@ function SignUp() {
             error={errors.firstName?.message}
             disabled={isSubmitting}
           >
-            <input {...register('firstName')} placeholder='First Name' className='input-standard' />
+            <input id='firstName' {...register('firstName')} placeholder='First Name' className='input-standard' />
           </FormField>
           <FormField
             label='Email'
@@ -81,7 +81,7 @@ function SignUp() {
             error={errors.email?.message}
             disabled={isSubmitting}
           >
-            <input {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
+            <input id='email' {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
           </FormField>
           <fieldset
             disabled={isSubmitting}
@@ -95,6 +95,7 @@ function SignUp() {
               disabled={isSubmitting}
             >
               <input
+                id='password'
                 type='password'
                 {...register('password')}
                 placeholder='********'
@@ -108,6 +109,7 @@ function SignUp() {
               disabled={isSubmitting}
             >
               <input
+                id='confirmPassword'
                 type='password'
                 {...register('confirmPassword')}
                 placeholder='Confirm password'

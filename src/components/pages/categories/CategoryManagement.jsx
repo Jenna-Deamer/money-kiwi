@@ -175,10 +175,10 @@ function CategoryManagement() {
                     <h4>{parent.name}</h4>
 
                     <div className='flex gap-2 ml-2'>
-                      <button type='button' className='cursor-pointer rounded-md focus-primary' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
+                      <button type='button' className='cursor-pointer rounded-md p-1 focus-primary' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
                         <Pencil aria-hidden='true' className='icon-md' />
                       </button>
-                      <button type='button' className='cursor-pointer rounded-md focus-primary' onClick={() => openDeleteModal(parent)} aria-label={`Delete ${parent.name}`}>
+                      <button type='button' className='cursor-pointer rounded-md p-1 focus-primary' onClick={() => openDeleteModal(parent)} aria-label={`Delete ${parent.name}`}>
                         <Trash2 aria-hidden='true' className='icon-md' />
                       </button>
                     </div>
@@ -236,15 +236,15 @@ function CategoryManagement() {
                 label='Name'
                 htmlFor='name'
                 error={errors.name?.message}
-              >   <input {...register('name')} placeholder='Housing' className='input-standard' /></FormField>
+              >   <input id='name' {...register('name')} placeholder='Housing' className='input-standard' /></FormField>
 
 
               {activeCategory.parentId && (
                 <FormField
                   label='Parent Category'
-                  htmlFor='parent'
+                  htmlFor='parentId'
                 >
-                  <select {...register('parentId')} className='input-standard mb-2'>
+                  <select id='parentId' {...register('parentId')} className='input-standard mb-2'>
                     <option value=''>No parent category</option>
                     {activeTab === 'income'
                       ? incomeParentCategories?.map((category) => (
@@ -331,12 +331,13 @@ function CategoryManagement() {
                   </div>
 
                   <fieldset className='space-y-1.5'>
-                    <label>Move transactions to</label>
+                    <label htmlFor='reassignTo'>Move transactions to</label>
 
                     {showDeleteError && (
                       <p className='field-error'>Please select a category.</p>
                     )}
                     <select
+                      id='reassignTo'
                       value={reassignTo}
                       onChange={(e) => setReassignTo(e.target.value)}
                       className='input-standard'
@@ -382,8 +383,9 @@ function CategoryManagement() {
                   </div>
 
                   <fieldset className='space-y-1.5'>
-                    <label>Move all categories to</label>
+                    <label htmlFor='reassignTo'>Move all categories to</label>
                     <select
+                      id='reassignTo'
                       value={reassignTo}
                       onChange={(e) => setReassignTo(e.target.value)}
                       className='input-standard'

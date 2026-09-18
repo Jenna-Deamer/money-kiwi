@@ -87,7 +87,7 @@ function Login() {
             error={errors.email?.message}
             disabled={isSubmitting}
           >
-            <input {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
+            <input id='email' {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
           </FormField>
 
           <FormField

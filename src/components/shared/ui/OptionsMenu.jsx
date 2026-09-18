@@ -18,7 +18,7 @@ function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
     <div ref={menuRef} className='flex gap-2.5' >
       <div className='relative'>
         <button
-          className='cursor-pointer focus-primary'
+          className='cursor-pointer rounded-md p-1 -m-1 focus-primary'
           onClick={() => onTriggerClick()}
           aria-label='Open Options Menu'
         >

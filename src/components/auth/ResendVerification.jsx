@@ -51,6 +51,7 @@ function ResendVerification() {
             disabled={isSubmitting}
           >
             <input
+              id='email'
               className='input-standard'
               type='email'
               value={email}

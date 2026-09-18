@@ -59,6 +59,7 @@ function ResetPassword() {
                         error={errors.password?.message}
                     >
                         <input
+                            id='password'
                             type='password'
                             {...register('password')}
                             placeholder='New password'
@@ -72,6 +73,7 @@ function ResetPassword() {
                         error={errors.confirmPassword?.message}
                     >
                         <input
+                            id='confirmPassword'
                             type='password'
                             {...register('confirmPassword')}
                             placeholder='Confirm new password'

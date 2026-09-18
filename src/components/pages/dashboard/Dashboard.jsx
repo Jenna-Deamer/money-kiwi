@@ -8,6 +8,7 @@ import { useState } from 'react';
 import DashboardPieChartSection from '@/components/shared/ui/dashboard/PieChartSection';
 import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 import EmptyState from '@/components/shared/ui/EmptyState';
+import StatCard from '@/components/shared/ui/StatCard';
 
 function Dashboard() {
   const { data: accounts, } = useAccounts();
@@ -49,63 +50,18 @@ function Dashboard() {
           <section>
             <h2 className='mb-2'>Summary</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-              {/* Featured Hero Card */}
-              <div className='card flex flex-col justify-between sm:col-span-2 lg:col-span-2'>
-                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
-                  Net Remainder
-                </span>
-                <p className='text-metric-lg font-extrabold mt-2'>
-                  ${cashflowData?.totals.cashflow.toFixed(2)}
-                </p>
-              </div>
-
-              {/* Primary Metrics */}
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
-                  Earned
-                </span>
-                <p className='text-metric-md font-bold mt-2'>
-                  ${cashflowData?.totals.income.toFixed(2)}
-                </p>
-              </div>
-
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
-                  Spent
-                </span>
-                <p className='text-metric-md font-bold mt-2'>
-                  ${cashflowData?.totals.expenseBeforeTransfers.toFixed(2)}
-                </p>
-              </div>
-
-              {/* Secondary Metrics */}
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-medium text-txt-muted'>Saved</span>
-                <p className='text-metric-sm font-semibold mt-1'>
-                  ${cashflowData?.totals.savingContributions.toFixed(2)}
-                </p>
-              </div>
-
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-medium text-txt-muted'>Invested</span>
-                <p className='text-metric-sm font-semibold mt-1'>
-                  ${cashflowData?.totals.investmentsContributions.toFixed(2)}
-                </p>
-              </div>
-
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-medium text-txt-muted'>Transfers</span>
-                <p className='text-metric-sm font-semibold mt-1'>
-                  ${cashflowData?.totals.transfers.toFixed(2)}
-                </p>
-              </div>
-
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-medium text-txt-muted'>Debt Payments</span>
-                <p className='text-metric-sm font-semibold mt-1'>
-                  ${cashflowData?.totals.liabilitiesPayments.toFixed(2)}
-                </p>
-              </div>
+              <StatCard
+                label='Net Remainder'
+                value={`$${cashflowData?.totals.cashflow.toFixed(2)}`}
+                emphasis='lg'
+                className='sm:col-span-2 lg:col-span-2'
+              />
+              <StatCard label='Earned' value={`$${cashflowData?.totals.income.toFixed(2)}`} />
+              <StatCard label='Spent' value={`$${cashflowData?.totals.expenseBeforeTransfers.toFixed(2)}`} />
+              <StatCard label='Saved' value={`$${cashflowData?.totals.savingContributions.toFixed(2)}`} emphasis='sm' />
+              <StatCard label='Invested' value={`$${cashflowData?.totals.investmentsContributions.toFixed(2)}`} emphasis='sm' />
+              <StatCard label='Transfers' value={`$${cashflowData?.totals.transfers.toFixed(2)}`} emphasis='sm' />
+              <StatCard label='Debt Payments' value={`$${cashflowData?.totals.liabilitiesPayments.toFixed(2)}`} emphasis='sm' />
             </div>
           </section>
 
@@ -148,34 +104,14 @@ function Dashboard() {
           <section>
             <h2 className='mb-4'>Summary</h2>
             <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4'>
-              {/* Featured Hero Card */}
-              <div className='card flex flex-col justify-between sm:col-span-2 lg:col-span-2'>
-                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
-                  Net Remainder
-                </span>
-                <p className='text-metric-lg font-extrabold mt-2'>
-                  ${investmentsData?.totals.net.toFixed(2)}
-                </p>
-              </div>
-
-              {/* Primary Metrics */}
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
-                  Invested
-                </span>
-                <p className='text-metric-md font-bold mt-2'>
-                  ${investmentsData?.totals.contributions.toFixed(2)}
-                </p>
-              </div>
-
-              <div className='card flex flex-col justify-between'>
-                <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
-                  Withdrawn
-                </span>
-                <p className='text-metric-md font-bold mt-2'>
-                  ${investmentsData?.totals.withdrawals.toFixed(2)}
-                </p>
-              </div>
+              <StatCard
+                label='Net Remainder'
+                value={`$${investmentsData?.totals.net.toFixed(2)}`}
+                emphasis='lg'
+                className='sm:col-span-2 lg:col-span-2'
+              />
+              <StatCard label='Invested' value={`$${investmentsData?.totals.contributions.toFixed(2)}`} />
+              <StatCard label='Withdrawn' value={`$${investmentsData?.totals.withdrawals.toFixed(2)}`} />
             </div>
           </section>
           <section className='mt-6'>
@@ -220,7 +156,7 @@ function Dashboard() {
                         <div className='flex justify-between items-start mb-4 border-b border-soft pb-4'>
                           <div>
                             <div className='flex items-center gap-2 mb-1'>
-                              <span className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
+                              <span className='eyebrow'>
                                 {account.institution}
                               </span>
                               <span className='badge border-soft bg-black/3'>
@@ -232,7 +168,7 @@ function Dashboard() {
                             </h4>
                           </div>
                           <div className='text-right'>
-                            <p className='text-xs font-semibold text-txt-muted uppercase tracking-wider'>
+                            <p className='eyebrow'>
                               Net
                             </p>
                             <p className={`font-bold mt-0.5 text-metric-sm ${account.net >= 0 ? 'text-income' : 'text-expense'}`}>

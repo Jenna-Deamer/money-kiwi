@@ -1,6 +1,7 @@
 import { fetchOverviewTransactionData } from '@/utils/api/overview';
 import { useEffect, useState } from 'react';
 import { normalizeDateInputToLocalDate } from '@/utils/dateHelper';
+import StatCard from '@/components/shared/ui/StatCard';
 
 function Overview() {
   const now = new Date();
@@ -18,18 +19,14 @@ function Overview() {
       <h1>{month} Summary</h1>
 
       <section className='grid sm:grid-cols-3 grid-cols-2 gap-4 mt-6'>
-        <div className='card text-center'>
-          <h3>Earned</h3>
-          <p className='text-metric-md font-bold'>${data?.totals.income.toFixed(2)}</p>
-        </div>
-        <div className='card text-center sm:order-0 order-3 sm:col-span-1 col-span-full'>
-          <h3>Remainder</h3>
-          <p className='text-metric-md font-bold'>${data?.totals.cashflow.toFixed(2)}</p>
-        </div>
-        <div className='card text-center'>
-          <h3>Spent</h3>
-          <p className='text-metric-md font-bold'>${data?.totals.expense.toFixed(2)}</p>
-        </div>
+        <StatCard label='Earned' value={`$${data?.totals.income.toFixed(2)}`} center />
+        <StatCard
+          label='Remainder'
+          value={`$${data?.totals.cashflow.toFixed(2)}`}
+          center
+          className='sm:order-0 order-3 sm:col-span-1 col-span-full'
+        />
+        <StatCard label='Spent' value={`$${data?.totals.expense.toFixed(2)}`} center />
       </section>
 
       <section className='grid sm:grid-cols-2 grid-cols-1 gap-6 mt-6 items-start'>

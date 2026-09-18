@@ -91,10 +91,10 @@ function UpdateTemplateForm({ template, onClose }) {
         {error && <small className='field-error'>Error retrieving accounts!</small>}
         <FormField
           label='Source Account'
-          htmlFor='source Account'
+          htmlFor='accountId'
           error={errors.accountId?.message}
         >
-          <select {...register('accountId')} disabled={isLoadingAccounts || !!error} className='input-standard'>
+          <select id='accountId' {...register('accountId')} disabled={isLoadingAccounts || !!error} className='input-standard'>
             <option value=''>-- Select Source Account --</option>
             {accountData?.map((account) => (
               <option key={account.id} value={account.id}>
@@ -111,7 +111,7 @@ function UpdateTemplateForm({ template, onClose }) {
           htmlFor='memo'
           error={errors.memo?.message}
         >
-          <input {...register('memo')} placeholder='e.g. Starbucks' className='input-standard' />
+          <input id='memo' {...register('memo')} placeholder='e.g. Starbucks' className='input-standard' />
         </FormField>
 
         <FormField
@@ -119,17 +119,17 @@ function UpdateTemplateForm({ template, onClose }) {
           htmlFor='amount'
           error={errors.amount?.message}
         >
-          <input type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
+          <input id='amount' type='number' step='0.01' {...register('amount')} placeholder='0.00' className='input-standard' />
         </FormField>
       </fieldset>
 
       <fieldset>
         <FormField
           label='Transaction Type'
-          htmlFor='transaction type'
+          htmlFor='type'
           error={errors.type?.message}
         >
-          <select {...register('type')} className='input-standard'>
+          <select id='type' {...register('type')} className='input-standard'>
             <option value=''>-- Select Type --</option>
             {VALID_TYPES.map((type) => (
               <option key={type} value={type}>{type}</option>
@@ -144,10 +144,10 @@ function UpdateTemplateForm({ template, onClose }) {
             {categoryError && <small className='field-error'>Error retrieving categories!</small>}
             <FormField
               label='Category'
-              htmlFor='category'
+              htmlFor='categoryId'
               error={errors.categoryId?.message}
             >
-              <select {...register('categoryId')} disabled={!selectedType} className='input-standard'>
+              <select id='categoryId' {...register('categoryId')} disabled={!selectedType} className='input-standard'>
                 {!selectedType ? (
                   <option value=''>-- Select Type First --</option>
                 ) : (
@@ -172,10 +172,10 @@ function UpdateTemplateForm({ template, onClose }) {
           {error && <small className='field-error'>Error retrieving accounts!</small>}
           <FormField
             label='Destination Account'
-            htmlFor='destination account'
+            htmlFor='toAccountId'
             error={errors.toAccountId?.message}
           >
-            <select {...register('toAccountId')} disabled={isLoadingAccounts || !!error} className='input-standard'>
+            <select id='toAccountId' {...register('toAccountId')} disabled={isLoadingAccounts || !!error} className='input-standard'>
               <option value=''>-- Select Destination Account --</option>
               {accountData?.filter(acc => acc.id !== sourceAccountId)
                 .map((account) => (
@@ -191,7 +191,7 @@ function UpdateTemplateForm({ template, onClose }) {
             htmlFor='frequency'
             error={errors.frequency?.message}
           >
-            <select {...register('frequency')} className='input-standard'>
+            <select id='frequency' {...register('frequency')} className='input-standard'>
               <option value=''>-- Select Frequency --</option>
               {FREQUENCIES?.map((freq) => (
                 <option key={freq.label} value={freq.value}>{freq.label}</option>
@@ -205,7 +205,7 @@ function UpdateTemplateForm({ template, onClose }) {
       <fieldset className='flex justify-between'>
         <FormField
           label='Start Date'
-          htmlFor='start date'
+          htmlFor='startDate'
           error={errors.startDate?.message}
         >
           <Controller
@@ -213,6 +213,7 @@ function UpdateTemplateForm({ template, onClose }) {
             name='startDate'
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <DatePicker
+                id='startDate'
                 onChange={onChange}
                 onBlur={onBlur}
                 selected={value}
@@ -226,7 +227,7 @@ function UpdateTemplateForm({ template, onClose }) {
         </FormField>
         <FormField
           label='End Date'
-          htmlFor='end date'
+          htmlFor='endDate'
           error={errors.endDate?.message}
         >
           <Controller
@@ -234,6 +235,7 @@ function UpdateTemplateForm({ template, onClose }) {
             name='endDate'
             render={({ field: { onChange, onBlur, value, ref } }) => (
               <DatePicker
+                id='endDate'
                 onChange={onChange}
                 onBlur={onBlur}
                 selected={value}

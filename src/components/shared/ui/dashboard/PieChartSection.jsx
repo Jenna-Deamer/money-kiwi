@@ -27,7 +27,7 @@ function DashboardPieChartSection({
         </div>
 
         <div className='h-full flex flex-col'>
-          <h3 className='text-xs font-semibold uppercase tracking-wider text-txt-muted mb-3 shrink-0'>
+          <h3 className='eyebrow mb-3 shrink-0'>
             {valueLabel}
           </h3>
 

@@ -34,7 +34,7 @@ function Modal({ isOpen, onClose, title = 'Notice', body, footer }) {
         <button
           onClick={onClose}
           aria-label='Close dialog'
-          className='cursor-pointer text-txt-muted hover:text-txt-main focus-primary'
+          className='cursor-pointer rounded-md p-1 -m-1 text-txt-muted hover:text-txt-main focus-primary'
         >
           <X className='icon-lg' />
         </button>

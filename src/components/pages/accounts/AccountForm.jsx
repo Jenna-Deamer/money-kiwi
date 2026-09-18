@@ -87,10 +87,11 @@ function AccountForm() {
           <fieldset>
             <FormField
               label='Account Name'
-              htmlFor='account name'
+              htmlFor='name'
               error={errors.name?.message}
             >
               <input
+                id='name'
                 {...register('name')}
                 placeholder='Chequing'
                 className='input-standard'
@@ -103,6 +104,7 @@ function AccountForm() {
               error={errors.institution?.message}
             >
               <input
+                id='institution'
                 {...register('institution')}
                 placeholder='Scotia Bank'
                 className='input-standard'
@@ -111,10 +113,11 @@ function AccountForm() {
             {isEditMode ? <></> :
               <FormField
                 label='Initial Balance'
-                htmlFor='initial balance'
+                htmlFor='initialBalance'
                 error={errors.initialBalance?.message}
               >
                 <input
+                  id='initialBalance'
                   type='number'
                   step='0.01'
                   min='0.00'
@@ -133,6 +136,7 @@ function AccountForm() {
               error={errors.category?.message}
             >
               <select
+                id='category'
                 className='input-standard'
                 {...register('category', {
                   onChange: (e) => {
@@ -154,10 +158,11 @@ function AccountForm() {
 
             <FormField
               label='Subcategory'
-              htmlFor='subcategory'
+              htmlFor='subCategory'
               error={errors.subCategory?.message}
             >
               <select
+                id='subCategory'
                 className='input-standard'
                 {...register('subCategory', {
                   onChange: (e) => {
@@ -191,6 +196,7 @@ function AccountForm() {
               error={errors.registration?.message}
             >
               <select
+                id='registration'
                 {...register('registration')}
                 value={selectedRegistration || ''}
                 className='input-standard'
