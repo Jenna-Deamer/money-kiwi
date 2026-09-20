@@ -14,6 +14,7 @@ import { VALID_TYPES } from '@/utils/data/transactionTypes';
 import Button from '@/components/shared/ui/buttons/Button';
 import FormField from '@/components/shared/ui/form/FormField';
 import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import Select from 'react-select';
 
 
 function TransactionForm() {
@@ -52,6 +53,10 @@ function TransactionForm() {
   const isRecurring = watch('isRecurring');
 
   const { data: { childrenCategories } = {}, isLoading: isLoadingCategories, error: categoryError } = useChildrenCategories(selectedType);
+  const categoryOptions = childrenCategories?.map((category) => ({
+    value: category.id,
+    label: category.name
+  })) ?? [];
 
   useEffect(() => {
     if (isEditMode && existingTransaction) {
@@ -169,20 +174,24 @@ function TransactionForm() {
                 {isLoadingCategories && <small className='text-xs text-txt-muted'>Loading categories...</small>}
                 {categoryError && <small className='field-error'>Error retrieving categories!</small>}
               </>
-              <select id='categoryId' {...register('categoryId')} disabled={!selectedType} className='input-standard'>
-                {!selectedType ? (
-                  <option value=''>-- Select Type First --</option>
-                ) : (
-                  <>
-                    <option value=''>{selectedType === 'TRANSFER' ? '-- Optional --' : '-- Select Category --'}</option>
-                    {childrenCategories?.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.name}
-                      </option>
-                    ))}
-                  </>
+              <Controller
+                name='categoryId'
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    className='w-full'
+                    classNamePrefix='filter-select'
+                    options={categoryOptions}
+                    isClearable
+                    placeholder={selectedType === 'TRANSFER' ? 'Optional' : 'Select Category'}
+                    value={categoryOptions.find((opt) => opt.value === field.value)}
+                    onChange={(selectedOption) => {
+                      field.onChange(selectedOption?.value || '');
+                    }}
+                    isDisabled={!selectedType || isLoadingCategories || !!categoryError}
+                  />
                 )}
-              </select>
+              />
             </FormField>
           </fieldset>
 
