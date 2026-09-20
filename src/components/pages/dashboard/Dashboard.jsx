@@ -25,7 +25,6 @@ function Dashboard() {
   const hasAccounts = accounts && accounts.length > 0;
   if (!accounts) return <LoadingSpinner />;
 
-  throw new Error();
   return (
     <section>
       <div className='flex md:flex-row justify-between flex-col gap-2 items-center mb-6'>
