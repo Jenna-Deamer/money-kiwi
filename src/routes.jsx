@@ -17,96 +17,98 @@ import CategoryManagement from '@/components/pages/categories/CategoryManagement
 import CategoryForm from '@/components/pages/categories/CategoryCreateForm';
 import RecurringTransactions from '@/components/pages/recurringTransactions/RecurringTransactions';
 
-import Error from '@/components/pages/Error';
+import NotFound from '@/components/shared/ui/NotFound';
+import Error from '@/components/shared/ui/Error';
 
 const routes = [
-    {
-        path: '/',
-        element: <App />,
-        children: [
-            { index: true, element: <Home /> },
-            { path: 'sign-up', element: <Signup /> },
-            { path: 'login', element: <Login /> },
-            { path: 'verify-notice', element: <VerifyEmailNotice /> },
-            { path: 'resend-verification', element: <ResendVerification /> },
-            { path: 'forgot-password', element: <ForgotPassword /> },
-            { path: 'reset-password', element: <ResetPassword /> },
-            {
-                path: 'overview',
-                element: (
-                    <ProtectedRoute>
-                        <Overview />
-                    </ProtectedRoute>
-                )
-          },
-          {
-              path: 'dashboard',
-              element: (
-                  <ProtectedRoute>
-                      <Dashboard />
-                  </ProtectedRoute>
-              )
-          },
-            {
-                path: 'accounts',
-                element: (
-                    <ProtectedRoute>
-                        <AccountManagement />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'accounts/form/:id?',
-                element: (
-                    <ProtectedRoute>
-                        <AccountForm />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'transactions',
-                element: (
-                    <ProtectedRoute>
-                        <TransactionOverview />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'transactions/form/:id?',
-                element: (
-                    <ProtectedRoute>
-                        <TransactionForm />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'categories/',
-                element: (
-                    <ProtectedRoute>
-                        <CategoryManagement />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'categories/form',
-                element: (
-                    <ProtectedRoute>
-                        <CategoryForm />
-                    </ProtectedRoute>
-                )
-            },
-            {
-                path: 'recurring/',
-                element: (
-                    <ProtectedRoute>
-                        <RecurringTransactions />
-                    </ProtectedRoute>
-                )
-            },
-            // catch all 404 route
-            { path: '*', element: <Error /> }
-        ]
-    }
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <Error />,
+    children: [
+      { index: true, element: <Home /> },
+      { path: 'sign-up', element: <Signup /> },
+      { path: 'login', element: <Login /> },
+      { path: 'verify-notice', element: <VerifyEmailNotice /> },
+      { path: 'resend-verification', element: <ResendVerification /> },
+      { path: 'forgot-password', element: <ForgotPassword /> },
+      { path: 'reset-password', element: <ResetPassword /> },
+      {
+        path: 'overview',
+        element: (
+          <ProtectedRoute>
+            <Overview />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'dashboard',
+        element: (
+          <ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'accounts',
+        element: (
+          <ProtectedRoute>
+            <AccountManagement />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'accounts/form/:id?',
+        element: (
+          <ProtectedRoute>
+            <AccountForm />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'transactions',
+        element: (
+          <ProtectedRoute>
+            <TransactionOverview />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'transactions/form/:id?',
+        element: (
+          <ProtectedRoute>
+            <TransactionForm />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'categories/',
+        element: (
+          <ProtectedRoute>
+            <CategoryManagement />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'categories/form',
+        element: (
+          <ProtectedRoute>
+            <CategoryForm />
+          </ProtectedRoute>
+        )
+      },
+      {
+        path: 'recurring/',
+        element: (
+          <ProtectedRoute>
+            <RecurringTransactions />
+          </ProtectedRoute>
+        )
+      },
+      // catch all 404 route
+      { path: '*', element: <NotFound /> }
+    ]
+  }
 ];
 
 export default routes;
