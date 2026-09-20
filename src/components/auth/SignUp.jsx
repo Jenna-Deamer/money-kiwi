@@ -66,7 +66,7 @@ function SignUp() {
 
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <legend style={{ display: 'none' }}>Create Account</legend>
+          <legend className='sr-only'>Create Account</legend>
           <FormField
             label='First Name'
             htmlFor='firstName'

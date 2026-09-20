@@ -148,7 +148,7 @@ function CategoryManagement() {
       <section>
         <div className='flex md:flex-row justify-between flex-col gap-2 items-center mb-6'>
           <h1>Your Categories</h1>
-          <div>  <LinkButton to='/categories/form'>Create Category</LinkButton></div>
+          <LinkButton to='/categories/form'>Create Category</LinkButton>
         </div>
 
         <div className='flex justify-center items-center md:justify-start'>
