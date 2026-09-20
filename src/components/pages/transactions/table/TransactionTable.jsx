@@ -9,7 +9,6 @@ import { useState, useEffect } from 'react';
 import DateCell from '@/components/pages/transactions/table/editableCells/DateCell';
 import { transactionSchema } from '@/utils/validation/transactionSchema';
 import { useUpdateMultipleTransactions } from '@/hooks/useTransaction';
-import { toast } from 'sonner';
 import { Pencil, Trash2 } from 'lucide-react';
 import Button from '@/components/shared/ui/buttons/Button';
 import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
@@ -146,7 +145,6 @@ function TransactionTable({
 
     if (errors.length > 0) {
       setSaveErrors(errors);
-      toast.error('Error: Please address fields highlighted in red before saving changes.');
       return;
     }
 
@@ -154,6 +152,9 @@ function TransactionTable({
       onSuccess: () => {
         setNewData([]);
         setSaveErrors([]);
+      },
+      onError: (error) => {
+        setSaveErrors([{ id: 'api', memo: '', message: error.message || 'Failed to save changes.' }]);
       }
     });
   };

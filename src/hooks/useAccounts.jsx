@@ -49,9 +49,6 @@ export function useCreateAccount() {
             // force-refreshes the account list everywhere in app
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
             toast.success('Account created successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to create account');
         }
     });
 };
@@ -65,9 +62,6 @@ export function useUpdateAccount() {
             // force-refreshes the account list everywhere in app
             queryClient.invalidateQueries({ queryKey: ['accounts'] });
             toast.success('Account updated successfully');
-        },
-        onError: (error) => {
-            toast.error(error.message || 'Failed to update account');
         }
     });
 

@@ -44,9 +44,6 @@ function Login() {
       });
 
     } catch (err) {
-      toast.error('Login Failed', {
-        description: err.message
-      });
       setServerError(err.message);
     }
   };

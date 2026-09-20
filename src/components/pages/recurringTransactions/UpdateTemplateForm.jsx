@@ -84,7 +84,11 @@ function UpdateTemplateForm({ template, onClose }) {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      {serverError && <p className='form-error'>{serverError}</p>}
+      {serverError && (
+        <div className='form-error'>
+          <p>{serverError}</p>
+        </div>
+      )}
 
       <fieldset>
         {isLoadingAccounts && <small className='text-xs text-txt-muted'>Loading...</small>}

@@ -74,6 +74,7 @@ function CategoryManagement() {
   const [reassignTo, setReassignTo] = useState('');
   const [showDeleteError, setShowDeleteError] = useState(false);
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
+  const [editError, setEditError] = useState('');
 
   const { register, handleSubmit, watch, reset, control, formState: { errors } } = useForm({
     resolver: zodResolver(updateCategorySchema),
@@ -102,6 +103,7 @@ function CategoryManagement() {
 
   function openEditModal(category) {
     setActiveCategory(category);
+    setEditError('');
     reset({
       name: category.name || '',
       parentId: category.parentId || '',
@@ -115,12 +117,13 @@ function CategoryManagement() {
     setIsDeleteModalOpen(false);
     setReassignTo('');
     setShowDeleteError(false);
+    setEditError('');
   };
 
   const handleEditSubmit = (data) => {
     updateCategory(
       { ...data, id: activeCategory.id },
-      { onSuccess: handleClose }
+      { onSuccess: handleClose, onError: (err) => setEditError(err.message) }
     );
   };
 
@@ -231,7 +234,11 @@ function CategoryManagement() {
                 Update the details for <strong>{activeCategory.name}</strong>.
               </p>
 
-
+              {editError && (
+                <div className='form-error'>
+                  <p>{editError}</p>
+                </div>
+              )}
               <FormField
                 label='Name'
                 htmlFor='name'

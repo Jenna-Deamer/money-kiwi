@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -12,6 +13,7 @@ function ResetPassword() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get('token');
     const navigate = useNavigate();
+    const [error, setError] = useState('');
 
     const {
         register,
@@ -22,16 +24,16 @@ function ResetPassword() {
     });
 
     const onSubmit = async (data) => {
-        if (!token) {
-            return toast.error('Reset token is missing. Please request a new link.');
-        }
+        if (!token) return;
+
+        setError('');
 
         try {
             await resetPassword(token, data.password);
             toast.success('Password updated successfully!');
             navigate('/login');
         } catch (err) {
-            toast.error(err.message || 'Failed to reset password.');
+            setError(err.message || 'Failed to reset password.');
         }
     };
 
@@ -52,6 +54,11 @@ function ResetPassword() {
         <section className='flex flex-col items-center justify-center h-full'>
             <div className='card w-full max-w-sm'>
                 <h1 className='mb-2 text-center'>Create New Password</h1>
+                {error && (
+                    <div className='form-error'>
+                        <p>{error}</p>
+                    </div>
+                )}
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <FormField
                         label='New Password'

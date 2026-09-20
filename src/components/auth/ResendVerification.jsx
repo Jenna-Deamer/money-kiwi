@@ -17,9 +17,11 @@ function ResendVerification() {
 
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setIsSubmitting(true);
 
     try {
@@ -30,10 +32,8 @@ function ResendVerification() {
       });
 
       setEmail('');
-    } catch (error) {
-      toast.error('Failed to resend', {
-        description: error.message || 'Something went wrong. Please try again.'
-      });
+    } catch (err) {
+      setError(err.message || 'Something went wrong. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
@@ -44,6 +44,11 @@ function ResendVerification() {
       <div className='card w-full max-w-sm'>
         <h1 className='text-center mb-1.5'>Resend Verification&nbsp;Email</h1>
         <p className='text-center'>Didn’t get the email or your link expired? Enter your address below and we’ll send a new verification&nbsp;link.</p>
+        {error && (
+          <div className='form-error'>
+            <p>{error}</p>
+          </div>
+        )}
         <form onSubmit={handleSubmit}>
           <FormField
             label='Email'

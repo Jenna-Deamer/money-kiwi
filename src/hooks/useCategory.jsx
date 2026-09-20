@@ -70,9 +70,6 @@ export function useCreateCategory() {
 
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Category created successfully');
-    },
-    onError: (error) => {
-      toast.error(error.message || 'Failed to create category');
     }
   });
 }
@@ -85,9 +82,6 @@ export function useUpdateCategory() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Category updated successfully');
-    },
-    onError: (error) => {
-      toast.error(error.message || 'Failed to update category');
     }
   });
 }

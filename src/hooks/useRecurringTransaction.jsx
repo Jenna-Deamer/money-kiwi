@@ -22,9 +22,6 @@ export function useUpdateRecurringTransaction() {
       onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: ['recurringTemplates'] });
           toast.success('Template updated successfully');
-      },
-      onError: (error) => {
-          toast.error(error.message || 'Failed to update template');
       }
   });
 }

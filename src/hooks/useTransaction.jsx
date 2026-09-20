@@ -36,9 +36,6 @@ export function useCreateTransaction() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       toast.success('Transaction created successfully');
-    },
-    onError: (error) => {
-      toast.error(error.message || 'Failed to create transaction');
     }
   });
 }
@@ -51,9 +48,6 @@ export function useUpdateTransaction() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       toast.success('Transaction updated successfully');
-    },
-    onError: (error) => {
-      toast.error(error.message || 'Failed to update transaction');
     }
   });
 }
@@ -66,9 +60,6 @@ export function useUpdateMultipleTransactions() {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['transactions'] });
       toast.success('Transactions updated successfully');
-    },
-    onError: (error) => {
-      toast.error(error.message || 'Failed to update transactions');
     }
   });
 }

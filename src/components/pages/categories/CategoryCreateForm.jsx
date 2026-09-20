@@ -69,7 +69,11 @@ function CategoryForm() {
         <h1 className='mb-2 text-center'>{isEditMode ? 'Update Category' : 'Create Category'}</h1>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {serverError && <p className='form-error'>{serverError}</p>}
+          {serverError && (
+            <div className='form-error'>
+              <p>{serverError}</p>
+            </div>
+          )}
           <fieldset>
             <FormField
               label='Name'

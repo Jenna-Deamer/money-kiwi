@@ -42,7 +42,6 @@ function SignUp() {
       });
       navigate('/login');
     } catch (err) {
-      toast.error('Sign Up Failed');
       setServerError(err.message);
     }
   };

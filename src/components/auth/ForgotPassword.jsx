@@ -12,6 +12,7 @@ function ForgotPassword() {
   const { isAuthenticated, isLoading } = useAuth();
   const [email, setEmail] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     if (!isLoading && isAuthenticated) {
@@ -22,6 +23,7 @@ function ForgotPassword() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setError('');
     setIsSubmitting(true);
 
     try {
@@ -30,7 +32,7 @@ function ForgotPassword() {
         description: 'If an account exists with that email, a reset link has been sent.'
       });
     } catch {
-      toast.error('Something went wrong. Please try again later.');
+      setError('Something went wrong. Please try again later.');
     } finally {
       setIsSubmitting(false);
     }
@@ -51,6 +53,12 @@ function ForgotPassword() {
           <h1 className='mb-1'>Forgot your&nbsp;password?</h1>
           <p>Enter your email address and we&apos;ll send you a reset&nbsp;link.</p>
         </div>
+
+        {error && (
+          <div className='form-error'>
+            <p>{error}</p>
+          </div>
+        )}
 
         <form onSubmit={handleSubmit}>
           <FormField
