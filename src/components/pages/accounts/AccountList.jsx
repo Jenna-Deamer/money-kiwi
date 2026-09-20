@@ -7,6 +7,7 @@ import { useUpdateAccountStatus, useDeleteAccount } from '@/hooks/useAccounts';
 import OptionsMenu from '@/components/shared/ui/OptionsMenu';
 
 function AccountList({ title, accounts }) {
+  const isLiability = title === 'Liabilities';
   const [selectedAccount, setSelectedAccount] = useState(null);
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
@@ -118,7 +119,7 @@ function AccountList({ title, accounts }) {
               ) : null}
             </div>
 
-            <p className='flex justify-end font-bold'>${account.currentBalance.toFixed(2)}</p>
+            <p className={`flex justify-end font-bold${isLiability && account.currentBalance < 0 ? ' text-expense' : ''}`}>${account.currentBalance.toFixed(2)}</p>
           </div>
         ))
         }
@@ -135,12 +136,12 @@ function AccountList({ title, accounts }) {
                 <>
                   {selectedAccount.currentBalance > 0.01 ? (
                     <div className='space-y-1'>
-                    <p>
-                      <strong>{selectedAccount.name}</strong> still has a balance of <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>.
-                    </p>
-                    <p>
-                      Transfer or remove the remaining funds before archiving&nbsp;it.
-                    </p>
+                      <p>
+                        <strong>{selectedAccount.name}</strong> still has a balance of <strong>${selectedAccount.currentBalance.toFixed(2)}</strong>.
+                      </p>
+                      <p>
+                        Transfer or remove the remaining funds before archiving&nbsp;it.
+                      </p>
                     </div>
                   ) : (
                     <div className='space-y-2'>
