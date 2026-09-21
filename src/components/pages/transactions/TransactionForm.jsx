@@ -51,12 +51,21 @@ function TransactionForm() {
   const selectedType = watch('type');
   const sourceAccountId = watch('accountId');
   const isRecurring = watch('isRecurring');
-
   const { data: { childrenCategories } = {}, isLoading: isLoadingCategories, error: categoryError } = useChildrenCategories(selectedType);
   const categoryOptions = childrenCategories?.map((category) => ({
     value: category.id,
     label: category.name
   })) ?? [];
+
+  const selectedAccount = data?.find(
+    (account) => account.id === sourceAccountId
+  );
+  console.log(selectedAccount);
+  const availableTypes =
+    selectedAccount?.category === 'investments'
+      ? VALID_TYPES.filter((type) => type !== 'EXPENSE')
+      : VALID_TYPES;
+
 
   useEffect(() => {
     if (isEditMode && existingTransaction) {
@@ -159,7 +168,7 @@ function TransactionForm() {
             >
               <select id='type' {...register('type')} className='input-standard'>
                 <option value=''>-- Select Type --</option>
-                {VALID_TYPES.map((type) => (
+                {availableTypes.map((type) => (
                   <option key={type} value={type}>{type}</option>
                 ))}
               </select>
