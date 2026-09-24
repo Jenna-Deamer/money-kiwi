@@ -128,6 +128,25 @@ function SignUp() {
             Already have an&nbsp;account? <Link to='/login' className='text-kiwi-primary underline'>Login</Link>
           </p>
         </div>
+
+
+        <div className='my-5 flex items-center gap-3'>
+          <div className='h-px flex-1 bg-soft' />
+          <span className='text-small text-txt-muted'>or</span>
+          <div className='h-px flex-1 bg-soft' />
+        </div>
+
+        <div className='text-center'>
+          <Button type='button' intent='subtle'>
+            Try Demo
+          </Button>
+
+          <p className='mt-2 text-xs text-txt-muted'>
+            Temporary demo session with sample data.
+            <br />
+            No signup&nbsp;required.
+          </p>
+        </div>
       </div>
     </section>
   );

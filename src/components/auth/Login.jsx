@@ -49,7 +49,7 @@ function Login() {
   };
 
   if (isLoading) {
-    return <LoadingSpinner/>;
+    return <LoadingSpinner />;
   }
 
   if (isAuthenticated) {
@@ -61,6 +61,7 @@ function Login() {
     <section className='flex flex-col items-center justify-center h-full'>
       <div className='card w-full max-w-sm'>
         <h1 className='mb-2 text-center'>Login</h1>
+
         {serverError && (
           <div className='form-error'>
             <p>{serverError}</p>
@@ -84,7 +85,12 @@ function Login() {
             error={errors.email?.message}
             disabled={isSubmitting}
           >
-            <input id='email' {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
+            <input
+              id='email'
+              {...register('email')}
+              placeholder='email@somewhere.com'
+              className='input-standard'
+            />
           </FormField>
 
           <FormField
@@ -103,25 +109,47 @@ function Login() {
           </FormField>
 
           <div className='mt-6 flex justify-center'>
-            <Button type='submit' intent='primary' loadingText='Logging in...' isLoading={isSubmitting}>
+            <Button
+              type='submit'
+              intent='primary'
+              loadingText='Logging in...'
+              isLoading={isSubmitting}
+            >
               Login
             </Button>
           </div>
-
         </form>
-
 
         <div className='mt-4 space-y-1 text-small text-txt-muted text-center'>
           <p>
             Don&apos;t have an&nbsp;account?{' '}
-             <Link to='/sign-up' className='text-kiwi-primary underline'>
+            <Link to='/sign-up' className='text-kiwi-primary underline'>
               Sign&nbsp;up
             </Link>
           </p>
+
           <p>
-             <Link to='/forgot-password' className='text-kiwi-primary underline'>
+            <Link to='/forgot-password' className='text-kiwi-primary underline'>
               Forgot&nbsp;password?
             </Link>
+          </p>
+        </div>
+
+        <div className='my-5 flex items-center gap-3'>
+          <div className='h-px flex-1 bg-soft' />
+          <span className='text-small text-txt-muted'>or</span>
+          <div className='h-px flex-1 bg-soft' />
+        </div>
+
+        <div className='text-center'>
+          <Button type='button' intent='subtle'>
+            Try Demo
+          </Button>
+
+          <p className='mt-2 text-xs text-txt-muted'>
+            Temporary demo session with sample data.
+            <br />
+            No signup&nbsp;required.
           </p>
         </div>
       </div>
