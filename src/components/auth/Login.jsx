@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { login as loginApi } from '@/utils/api/auth';
+import { demoSession as demoApi } from '@/utils/api/auth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { loginSchema } from '@/utils/validation/userSchema';
@@ -17,6 +18,7 @@ function Login() {
   const { data: accounts, isLoading: accountsIsLoading, isSuccess, isError } = useAccounts();
   const hasAccounts = accounts && accounts.length > 0;
   const [serverError, setServerError] = useState('');
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
 
   useEffect(() => {
     if (accountsIsLoading) return;
@@ -43,8 +45,22 @@ function Login() {
         duration: 1000
       });
 
-    } catch (err) {
-      setServerError(err.message);
+    } catch (error) {
+      setServerError(error.message);
+    }
+  };
+
+  const demoLogin = async () => {
+    setServerError('');
+    setIsDemoLoading(true);
+    try {
+      const response = await demoApi();
+      login(response.token);
+      setIsDemoLoading(false);
+
+    } catch (error) {
+      setServerError(error.message);
+      setIsDemoLoading(false);
     }
   };
 
@@ -142,7 +158,13 @@ function Login() {
         </div>
 
         <div className='text-center'>
-          <Button type='button' intent='subtle'>
+          <Button
+            type='button'
+            intent='subtle'
+            onClick={demoLogin}
+            isLoading={isDemoLoading}
+            loadingText='Loading Demo...'
+          >
             Try Demo
           </Button>
 

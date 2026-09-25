@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '@/context/AuthContext';
 import { signup as signupApi } from '@/utils/api/auth';
+import { demoSession as demoApi } from '@/utils/api/auth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { signupSchema } from '@/utils/validation/userSchema';
@@ -12,8 +13,9 @@ import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
 
 function SignUp() {
   const navigate = useNavigate();
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, login } = useAuth();
   const [serverError, setServerError] = useState('');
+  const [isDemoLoading, setIsDemoLoading] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -22,7 +24,6 @@ function SignUp() {
     }
   }, [isAuthenticated, isLoading, navigate]);
 
-  // Initialize Hook Form
   const {
     register,
     handleSubmit,
@@ -45,6 +46,21 @@ function SignUp() {
       setServerError(err.message);
     }
   };
+
+  const demoLogin = async () => {
+    setServerError('');
+    setIsDemoLoading(true);
+    try {
+      const response = await demoApi();
+      login(response.token);
+      setIsDemoLoading(false);
+
+    } catch (error) {
+      setServerError(error.message);
+      setIsDemoLoading(false);
+    }
+  };
+
 
   if (isLoading) {
     return <LoadingSpinner />;
@@ -137,7 +153,13 @@ function SignUp() {
         </div>
 
         <div className='text-center'>
-          <Button type='button' intent='subtle'>
+          <Button
+            type='button'
+            intent='subtle'
+            onClick={demoLogin}
+            isLoading={isDemoLoading}
+            loadingText='Loading Demo...'
+          >
             Try Demo
           </Button>
 
