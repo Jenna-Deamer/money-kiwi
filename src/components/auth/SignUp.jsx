@@ -71,7 +71,7 @@ function SignUp() {
   }
 
   return (
-    <section className='flex flex-col items-center justify-center h-full'>
+    <section className='flex flex-col items-center justify-cen  ter h-full'>
       <div className='card w-full max-w-sm'>
         <h1 className='mb-2 text-center'>Sign Up</h1>
         {serverError && (
