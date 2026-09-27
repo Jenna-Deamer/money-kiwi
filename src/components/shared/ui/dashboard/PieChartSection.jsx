@@ -32,7 +32,12 @@ function DashboardPieChartSection({
             {valueLabel}
           </h3>
 
-          <div className='space-y-4 overflow-y-auto max-h-100 pr-3'>
+          <div
+            role='group'
+            tabIndex={0}
+            aria-label={`${title} ${valueLabel}`}
+            className='space-y-4 overflow-y-auto max-h-100 pr-3 focus-primary rounded-sm'
+          >
             {[...(data || [])]
               .sort((a, b) => b[sumKey] - a[sumKey])
               .map((category, index) => (
