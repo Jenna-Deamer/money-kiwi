@@ -9,7 +9,7 @@ import {
   useDeleteTransaction,
 } from '@/hooks/useTransaction';
 import Modal from '@/components/shared/Modal';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 import Button from '@/components/shared/ui/buttons/Button';
@@ -29,10 +29,19 @@ function TransactionOverview() {
   const { data: transactions, isPlaceholderData, isLoading: isFetching } = useTransactions(debouncedFilters, page);
   const [activeTransaction, setActiveTransaction] = useState(null);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-  const { mutate: deleteTransaction, isLoading: isDeleting } =
+  const { mutate: deleteTransaction, isPending: isDeleting } =
     useDeleteTransaction();
   const navigate = useNavigate();
-  const isMobile = window.matchMedia('(max-width: 600px)');
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 600px)').matches
+  );
+
+  useEffect(() => {
+    const query = window.matchMedia('(max-width: 600px)');
+    const handleChange = (e) => setIsMobile(e.matches);
+    query.addEventListener('change', handleChange);
+    return () => query.removeEventListener('change', handleChange);
+  }, []);
 
   function handleUpdate(id) { navigate(`/transactions/form/${id}`); };
   function openDeleteModal(transaction) {
@@ -111,7 +120,7 @@ function TransactionOverview() {
                   .
                 </p>
               </EmptyState>
-            ) : isMobile.matches ? (
+            ) : isMobile ? (
               <TransactionMobile
                 transactionsData={transactions}
                 onUpdate={handleUpdate}

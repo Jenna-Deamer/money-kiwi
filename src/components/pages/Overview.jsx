@@ -2,17 +2,49 @@ import { fetchOverviewTransactionData } from '@/utils/api/overview';
 import { useEffect, useState } from 'react';
 import { normalizeDateInputToLocalDate } from '@/utils/dateHelper';
 import StatCard from '@/components/shared/ui/StatCard';
+import { LoadingSpinner } from '@/components/shared/ui/LoadingSpinner';
+import EmptyState from '@/components/shared/ui/EmptyState';
 
 function Overview() {
   const now = new Date();
   const month = now.toLocaleString('default', { month: 'long' });
   const [data, setData] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
 
   useEffect(() => {
+    let isActive = true;
+
     fetchOverviewTransactionData()
-      .then((response) => setData(response))
-      .catch((error) => console.error(error));
+      .then((response) => { if (isActive) setData(response); })
+      .catch((error) => {
+        console.error(error);
+        if (isActive) setHasError(true);
+      })
+      .finally(() => { if (isActive) setIsLoading(false); });
+
+    return () => { isActive = false; };
   }, []);
+
+  if (isLoading) {
+    return (
+      <section>
+        <h1>{month} Summary</h1>
+        <LoadingSpinner />
+      </section>
+    );
+  }
+
+  if (hasError || !data) {
+    return (
+      <section>
+        <h1>{month} Summary</h1>
+        <EmptyState>
+          <p className='text-txt-muted'>We couldn&apos;t load your summary. Please try again.</p>
+        </EmptyState>
+      </section>
+    );
+  }
 
   return (
     <section>
@@ -31,7 +63,7 @@ function Overview() {
 
       <section className='grid sm:grid-cols-2 grid-cols-1 gap-6 mt-6 items-start'>
         <div>
-          <h3 className='mb-2'>Top Spending&nbsp;Categories</h3>
+          <h2 className='mb-2'>Top Spending&nbsp;Categories</h2>
           <div className='card'>
             {data?.topExpenseCategories?.length ? (
               <ul className='divide-y divide-soft'>
@@ -53,7 +85,7 @@ function Overview() {
             )}
           </div>
 
-          <h3 className='mt-4 mb-2'>Total Saved &amp; Invested</h3>
+          <h2 className='mt-4 mb-2'>Total Saved &amp; Invested</h2>
           <div className='card'>
             <ul className='divide-y divide-soft'>
               <li className='flex items-center justify-between gap-3 py-2 first:pt-0 last:pb-0'><span>Saved</span> ${data?.totals.savingContributions.toFixed(2)}</li>
@@ -63,7 +95,7 @@ function Overview() {
         </div>
 
         <div>
-          <h3 className='mb-2'>Upcoming Transactions</h3>
+          <h2 className='mb-2'>Upcoming Transactions</h2>
           <div className='card'>
             {data?.upcomingTransactions?.length ? (
               <ul className='divide-y divide-soft'>

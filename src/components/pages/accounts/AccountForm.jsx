@@ -21,8 +21,8 @@ function AccountForm() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
 
-  const { mutate: createAccount, isLoading: isCreating } = useCreateAccount();
-  const { mutate: updateAccount, isLoading: isUpdating } = useUpdateAccount();
+  const { mutate: createAccount, isPending: isCreating } = useCreateAccount();
+  const { mutate: updateAccount, isPending: isUpdating } = useUpdateAccount();
   const { data: existingAccount, isLoading: isFetching } = useGetAccount(id);
 
   const {
@@ -80,7 +80,7 @@ function AccountForm() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {serverError && (
-            <div className='form-error'>
+            <div className='form-error' role='alert'>
               <p>{serverError}</p>
             </div>
           )}

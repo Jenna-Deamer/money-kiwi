@@ -9,7 +9,7 @@ import { useState } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { updateCategorySchema } from '@/utils/validation/categorySchema';
-import { HexColorPicker } from 'react-colorful';
+import { HexColorPicker, HexColorInput } from 'react-colorful';
 import Modal from '@/components/shared/Modal';
 import LinkButton from '@/components/shared/ui/buttons/LinkButton';
 import Button from '@/components/shared/ui/buttons/Button';
@@ -48,8 +48,8 @@ function CategoryManagement() {
     isLoading: isLoadingChildrenCategories,
     error: categoryChildrenError,
   } = useGroupChildrenCategories();
-  const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
-  const { mutate: deleteCategory, isLoading: isDeleting } = useDeleteCategory();
+  const { mutate: updateCategory, isPending: isUpdating } = useUpdateCategory();
+  const { mutate: deleteCategory, isPending: isDeleting } = useDeleteCategory();
 
   const dataArrays = {
     expense: {
@@ -175,7 +175,7 @@ function CategoryManagement() {
               .map((parent) => (
                 <li key={parent.id} className='card-compact border-t-8' style={{ borderColor: parent.color }}>
                   <div className='flex justify-between items-center'>
-                    <h4>{parent.name}</h4>
+                    <h3>{parent.name}</h3>
 
                     <div className='flex gap-2 ml-2'>
                       <button type='button' className='cursor-pointer rounded-md p-1 focus-primary' onClick={() => openEditModal(parent)} aria-label={`Edit ${parent.name}`}>
@@ -195,6 +195,7 @@ function CategoryManagement() {
                         <li key={child.id} className='flex items-center justify-between border-b py-1.5 border-soft'>
                           <span>{child.name}</span>
                           <OptionsMenu
+                            label={child.name}
                             isOpen={isOptionsMenuOpen && activeCategory?.id === child.id}
                             onClose={handleMenuClose}
                             onTriggerClick={() => handleOptionsMenu(child)}
@@ -235,7 +236,7 @@ function CategoryManagement() {
               </p>
 
               {editError && (
-                <div className='form-error'>
+                <div className='form-error' role='alert'>
                   <p>{editError}</p>
                 </div>
               )}
@@ -280,6 +281,14 @@ function CategoryManagement() {
                     render={({ field: { onChange, value } }) => (
                       <div>
                         <HexColorPicker color={value} onChange={onChange} />
+                        <HexColorInput
+                          id='colour'
+                          color={value}
+                          onChange={onChange}
+                          prefixed
+                          aria-label='Parent category colour hex value'
+                          className='input-standard mt-3'
+                        />
                         <p className='text-small text-txt-muted italic mt-4'>
                           *This colour will be used for this parent category in charts and other visual&nbsp;summaries.
                         </p>

@@ -1,8 +1,10 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useId } from 'react';
 import { EllipsisVertical } from 'lucide-react';
 
-function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
+function OptionsMenu({ isOpen, onClose, children, onTriggerClick, label = 'Options' }) {
   const menuRef = useRef(null);
+  const triggerRef = useRef(null);
+  const menuId = useId();
 
   useEffect(() => {
     const handleOutsideAccountMenuClick = (e) => { if (!menuRef.current?.contains(e.target)) onClose(); };
@@ -14,17 +16,30 @@ function OptionsMenu({ isOpen, onClose, children, onTriggerClick }) {
     };
   }, [isOpen, menuRef, onClose]);
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Escape') {
+      e.stopPropagation();
+      onClose();
+      triggerRef.current?.focus();
+    }
+  };
+
   return (
-    <div ref={menuRef} className='flex gap-2.5' >
+    <div ref={menuRef} className='flex gap-2.5' onKeyDown={handleKeyDown}>
       <div className='relative'>
         <button
+          ref={triggerRef}
+          type='button'
           className='cursor-pointer rounded-md p-1 -m-1 focus-primary'
           onClick={() => onTriggerClick()}
-          aria-label='Open Options Menu'
+          aria-label={`${isOpen ? 'Close' : 'Open'} options menu for ${label}`}
+          aria-expanded={isOpen}
+          aria-controls={menuId}
         >
           <EllipsisVertical className='icon-md' />
         </button>
         <ul
+          id={menuId}
           className={`${isOpen ? 'visible opacity-100' : 'invisible opacity-0'}
                 absolute top-6 right-2 bg-canvas-card z-1 border border-soft shadow-sm
                 py-1 transition-all duration-300 rounded-lg overflow-hidden

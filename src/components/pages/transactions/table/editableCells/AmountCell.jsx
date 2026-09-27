@@ -40,6 +40,9 @@ const AmountCell = ({ table, row }) => {
       <input
         value={isFocused ? amount : amount.toFixed(2)}
         type='number'
+        aria-label='Amount'
+        aria-invalid={!!amountError}
+        aria-describedby={amountError ? `amount-error-${row.id}` : undefined}
         onChange={(e) => setAmount(parseFloat(e.target.value))}
         onFocus={() => setIsFocused(true)}
         onBlur={(e) => {
@@ -55,7 +58,7 @@ const AmountCell = ({ table, row }) => {
             focus:[&::-webkit-inner-spin-button]:appearance-auto
             focus:[&::-webkit-outer-spin-button]:appearance-auto'
       />
-      {amountError && <small className='field-error'>{amountError}</small>}
+      {amountError && <small id={`amount-error-${row.id}`} role='alert' className='field-error'>{amountError}</small>}
 
     </div>
   );

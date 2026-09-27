@@ -3,7 +3,7 @@ import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { categorySchema } from '@/utils/validation/categorySchema';
-import { HexColorPicker } from 'react-colorful';
+import { HexColorPicker, HexColorInput } from 'react-colorful';
 import { useCreateCategory, useGetCategory, useUpdateCategory, useParentCategories } from '@/hooks/useCategory';
 import { VALID_TYPES } from '@/utils/data/transactionTypes';
 import Button from '@/components/shared/ui/buttons/Button';
@@ -28,8 +28,8 @@ function CategoryForm() {
     }
   });
 
-  const { mutate: createCategory, isLoading: isCreating } = useCreateCategory();
-  const { mutate: updateCategory, isLoading: isUpdating } = useUpdateCategory();
+  const { mutate: createCategory, isPending: isCreating } = useCreateCategory();
+  const { mutate: updateCategory, isPending: isUpdating } = useUpdateCategory();
   const { data: existingCategory, isLoading: isFetching } = useGetCategory(id);
 
   const selectedParentId = watch('parentId');
@@ -70,7 +70,7 @@ function CategoryForm() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {serverError && (
-            <div className='form-error'>
+            <div className='form-error' role='alert'>
               <p>{serverError}</p>
             </div>
           )}
@@ -125,7 +125,17 @@ function CategoryForm() {
                   control={control}
                   name='color'
                   render={({ field: { onChange, value } }) => (
-                    <HexColorPicker color={value} onChange={onChange} className='mt-2' />
+                    <div>
+                      <HexColorPicker color={value} onChange={onChange} className='mt-2' />
+                      <HexColorInput
+                        id='category-colour'
+                        color={value}
+                        onChange={onChange}
+                        prefixed
+                        aria-label='Category colour hex value'
+                        className='input-standard mt-3'
+                      />
+                    </div>
                   )}
                 />
               }

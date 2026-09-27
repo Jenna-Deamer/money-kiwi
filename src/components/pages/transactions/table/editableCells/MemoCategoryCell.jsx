@@ -63,9 +63,12 @@ const MemoCategoryCell = ({ row, table }) => {
         value={memo}
         onChange={(e) => setMemo(e.target.value)}
         onBlur={() => onBlur('memo', memo)}
+        aria-label='Memo'
+        aria-invalid={!!memoError}
+        aria-describedby={memoError ? `memo-error-${row.id}` : undefined}
         className='font-bold'
       />
-      {memoError && <small className='field-error'>{memoError}</small>}
+      {memoError && <small id={`memo-error-${row.id}`} role='alert' className='field-error'>{memoError}</small>}
       {childrenCategories?.length > 0 ? (
         < select
           value={categoryId}
@@ -74,6 +77,9 @@ const MemoCategoryCell = ({ row, table }) => {
             onBlur('categoryId', e.target.value);
           }}
           disabled={isLoading}
+          aria-label='Category'
+          aria-invalid={!!categoryError}
+          aria-describedby={categoryError ? `category-error-${row.id}` : undefined}
           className='text-xs w-full cursor-pointer'
         >
           {childrenCategories?.map((category) => (
@@ -83,7 +89,7 @@ const MemoCategoryCell = ({ row, table }) => {
           ))}
         </select>
       ) : <small className='text-txt-muted'>Uncategorized</small>}
-      {categoryError && <small className='field-error'>{categoryError}</small>}
+      {categoryError && <small id={`category-error-${row.id}`} role='alert' className='field-error'>{categoryError}</small>}
     </div >
   );
 };

@@ -23,6 +23,7 @@ function DashboardPieChartSection({
             data={data}
             dataKey={dataKey}
             nameKey={nameKey}
+            ariaLabel={title}
           />
         </div>
 

@@ -36,10 +36,12 @@ function Nav() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [isDrawerVisible, setIsDrawerVisible] = useState(false);
   const navRef = useRef(null);
+  const drawerTriggerRef = useRef(null);
+  const drawerId = 'mobile-more-menu';
 
   const { isAuthenticated, isLoading, logout } = useAuth();
 
-  const desktopNavItemClass = `max-md:p-2.5 md:p-2 flex items-center w-full min-w-0 rounded-md focus-primary transition-colors ${isCollapsed ? 'md:justify-center' : 'md:justify-start md:gap-2'
+  const desktopNavItemClass = `max-md:p-2.5 md:p-2 flex items-center w-full min-w-0 rounded-md focus-nav transition-colors ${isCollapsed ? 'md:justify-center' : 'md:justify-start md:gap-2'
     }`;
 
   const getDesktopNavClass = ({ isActive }) =>
@@ -49,7 +51,7 @@ function Nav() {
     }`;
 
   const getMobileDrawerNavClass = ({ isActive }) =>
-    `max-md:p-2.5 flex items-center gap-3 rounded-md focus-primary transition-colors ${isActive
+    `max-md:p-2.5 flex items-center gap-3 rounded-md focus-nav transition-colors ${isActive
       ? 'bg-kiwi-soft text-kiwi-dark font-semibold'
       : 'text-white hover:bg-white/10'
     }`;
@@ -74,6 +76,20 @@ function Nav() {
     return () => {
       window.removeEventListener('mousedown', handleOutsideAccountMenuClick);
     };
+  }, [isDrawerVisible]);
+
+  useEffect(() => {
+    if (!isDrawerVisible) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        closeMobileDrawer();
+        drawerTriggerRef.current?.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
   }, [isDrawerVisible]);
 
   const toggleNav = () => {
@@ -104,6 +120,8 @@ function Nav() {
     >
       {/* Mobile secondary Nav */}
       <div
+        id={drawerId}
+        inert={!isDrawerVisible}
         className={`
           md:hidden overflow-hidden
           transition-[max-height] duration-200
@@ -147,7 +165,7 @@ function Nav() {
           <li>
             <button
               type='button'
-              className='max-md:p-2.5 flex items-center gap-3 rounded-md focus-primary transition-colors text-white hover:bg-white/10'
+              className='max-md:p-2.5 flex items-center gap-3 rounded-md focus-nav transition-colors text-white hover:bg-white/10'
               onClick={handleLogout}
             >
               <LogOut aria-hidden='true' className='icon-lg' />
@@ -158,12 +176,12 @@ function Nav() {
       </div>
 
       {/* Main Nav */}
-      <ul className='flex justify-center md:flex-col md:justify-start md:h-full'>
-        <li className={`${isCollapsed ? 'justify-center' : 'justify-end'} flex`}>
+      <div className='flex justify-center md:flex-col md:justify-start md:h-full'>
+        <div className={`${isCollapsed ? 'justify-center' : 'justify-end'} flex`}>
           <button
             type='button'
             aria-label={isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-            className='hidden md:inline rounded-md p-1 -m-1 focus-primary cursor-pointer'
+            className='hidden md:inline rounded-md p-1 -m-1 focus-nav cursor-pointer'
             onClick={toggleNav}
           >
             {isCollapsed ? (
@@ -172,9 +190,9 @@ function Nav() {
               <ArrowLeft aria-hidden='true' className='icon-lg' />
             )}
           </button>
-        </li>
+        </div>
 
-        <div className='flex md:flex-col md:gap-4 gap-4 md:pt-8'>
+        <ul className='flex md:flex-col md:gap-4 gap-4 md:pt-8'>
           <li>
             <NavLink
               end
@@ -262,18 +280,21 @@ function Nav() {
 
           <li className='md:hidden'>
             <button
+              ref={drawerTriggerRef}
               type='button'
               aria-label={isDrawerVisible ? 'Close more menu' : 'Open more menu'}
-              className='max-md:p-2.5 flex items-center justify-center focus-primary'
+              aria-expanded={isDrawerVisible}
+              aria-controls={drawerId}
+              className='max-md:p-2.5 flex items-center justify-center focus-nav'
               onClick={toggleMobileDrawer}
             >
               <Ellipsis aria-hidden='true' className='icon-lg' />
               <span className='sr-only'>More</span>
             </button>
           </li>
-        </div>
+        </ul>
 
-        <div className='flex md:flex-col md:mt-auto md:pb-8 md:gap-6'>
+        <ul className='flex md:flex-col md:mt-auto md:pb-8 md:gap-6'>
           {/* <li>
             <NavLink
               onClick={closeMobileDrawer}
@@ -292,7 +313,7 @@ function Nav() {
             <button
               type='button'
               aria-label={isCollapsed ? 'Logout' : undefined}
-              className={`hidden md:flex items-center w-full min-w-0 cursor-pointer rounded-md md:p-2 focus-primary transition-colors text-white hover:bg-white/10 ${isCollapsed ? 'md:justify-center' : 'md:justify-start md:gap-2'
+              className={`hidden md:flex items-center w-full min-w-0 cursor-pointer rounded-md md:p-2 focus-nav transition-colors text-white hover:bg-white/10 ${isCollapsed ? 'md:justify-center' : 'md:justify-start md:gap-2'
                 }`}
               onClick={handleLogout}
             >
@@ -302,8 +323,8 @@ function Nav() {
               </DesktopLabel>
             </button>
           </li>
-        </div>
-      </ul>
+        </ul>
+      </div>
     </nav>
   );
 }

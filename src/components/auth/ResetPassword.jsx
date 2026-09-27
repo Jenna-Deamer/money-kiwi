@@ -55,7 +55,7 @@ function ResetPassword() {
             <div className='card w-full max-w-sm'>
                 <h1 className='mb-2 text-center'>Create New Password</h1>
                 {error && (
-                    <div className='form-error'>
+                    <div className='form-error' role='alert'>
                         <p>{error}</p>
                     </div>
                 )}

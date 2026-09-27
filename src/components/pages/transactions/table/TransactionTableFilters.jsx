@@ -73,10 +73,12 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
   return (
     <div className='my-6 space-y-3'>
       <div className='w-full max-w-sm'>
+        <label htmlFor='transaction-search' className='sr-only'>Search transactions by memo</label>
         <input
+          id='transaction-search'
           className='input-standard w-full'
           placeholder='Search by memo...'
-          type='text'
+          type='search'
           value={search}
           onChange={(e) => onSearchChange(e.target.value)}
         />
@@ -89,6 +91,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
             classNamePrefix='filter-select'
             options={accountOptions}
             placeholder='Account'
+            aria-label='Filter by account'
             isClearable
             isMulti
             value={accountOptions.filter((opt) => accountId.includes(opt.value))}
@@ -105,6 +108,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
             classNamePrefix='filter-select'
             options={categoryOptions}
             placeholder='Category'
+            aria-label='Filter by category'
             isClearable
             isMulti
             value={flatCategoryOptions.filter((opt) => categoryId.includes(opt.value))}
@@ -121,6 +125,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
             classNamePrefix='filter-select'
             options={transactionTypeOptions}
             placeholder='Transaction type'
+            aria-label='Filter by transaction type'
             isClearable
             isMulti
             value={transactionTypeOptions.filter((opt) => transactionType.includes(opt.value))}
@@ -137,6 +142,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
             classNamePrefix='filter-select'
             options={accountTypeOptions}
             placeholder='Account type'
+            aria-label='Filter by account type'
             isClearable
             isMulti
             value={accountTypeOptions.filter((opt) => accountType.includes(opt.value))}
@@ -153,6 +159,7 @@ function TransactionTableFilters({ search, categoryId, accountId, transactionTyp
             classNamePrefix='filter-select'
             options={statusOptions}
             placeholder='Status'
+            aria-label='Filter by status'
             isClearable
             isMulti
             value={statusOptions.filter((opt) => status.includes(opt.value))}

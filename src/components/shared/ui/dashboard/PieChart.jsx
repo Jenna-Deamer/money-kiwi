@@ -15,7 +15,7 @@ const CustomTooltip = ({ active, payload, nameKey }) => {
   const percent = `${data.payload.parentPercentage}`;
 
   return (
-    <div className='min-w-45 rounded-xl border border-soft bg-canvas-card p-3.5 shadow-sm font-sans'>
+    <div className='min-w-45 rounded-xl border border-soft bg-canvas-card p-3.5 shadow-sm font-sans' role='status' aria-live='polite'>
       <div className='mb-1.5 flex items-center gap-2'>
         <span
           className='h-2.5 w-2.5 shrink-0 rounded-full'
@@ -38,14 +38,14 @@ const CustomTooltip = ({ active, payload, nameKey }) => {
   );
 };
 
-function DashboardPieChart({ data, dataKey, nameKey }) {
+function DashboardPieChart({ data, dataKey, nameKey, ariaLabel = 'Chart' }) {
   const formattedData = data?.map(item => ({
     ...item,
     fill: item.color || registrationColors[item.registration] || '#9ca3af',
   }));
 
   return (
-    <PieChart width={300} height={300}>
+    <PieChart width={300} height={300} aria-label={ariaLabel}>
       <Pie
         data={formattedData}
         dataKey={dataKey}

@@ -27,8 +27,8 @@ function TransactionForm() {
   const navigate = useNavigate();
   const [serverError, setServerError] = useState('');
 
-  const { mutate: createTransaction, isLoading: isCreating } = useCreateTransaction();
-  const { mutate: updateTransaction, isLoading: isUpdating } = useUpdateTransaction();
+  const { mutate: createTransaction, isPending: isCreating } = useCreateTransaction();
+  const { mutate: updateTransaction, isPending: isUpdating } = useUpdateTransaction();
   const { data: existingTransaction, isLoading: isFetching } = useGetTransaction(id);
 
   const { register, handleSubmit, watch, reset, control, setValue, formState: { errors } } = useForm({
@@ -117,7 +117,7 @@ function TransactionForm() {
 
         <form onSubmit={handleSubmit(onSubmit)}>
           {serverError && (
-            <div className='form-error'>
+            <div className='form-error' role='alert'>
               <p>{serverError}</p>
             </div>
           )}
@@ -188,6 +188,7 @@ function TransactionForm() {
                 control={control}
                 render={({ field }) => (
                   <Select
+                    inputId='categoryId'
                     className='w-full'
                     classNamePrefix='filter-select'
                     options={categoryOptions}

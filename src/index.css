@@ -30,7 +30,8 @@
     /* 18px */
 
     /* Colors */
-    --color-kiwi-primary: #C96A32;
+    /* Darkened from #C96A32 so white text / link text meets WCAG AA (4.5:1) */
+    --color-kiwi-primary: #B55B2C;
     --color-kiwi-dark: #9A4E24;
     --color-kiwi-soft: #F7E7DC;
     --color-nav-bg: #7A3F25;
@@ -76,13 +77,12 @@
     h1 {
         @apply font-bold leading-tight tracking-tight;
         font-size: 1.75rem;
+    }
 
-        /* 28px Mobile */
-        @screen md {
+    @media (min-width: 768px) {
+        h1 {
             font-size: var(--text-h1);
         }
-
-        /* 32px Desktop */
     }
 
     h2 {
@@ -94,13 +94,12 @@
     h3 {
         @apply font-semibold;
         font-size: 1.25rem;
+    }
 
-        /* 20px Mobile */
-        @screen md {
+    @media (min-width: 768px) {
+        h3 {
             font-size: var(--text-h3);
         }
-
-        /* 22px Desktop */
     }
 
     h4 {
@@ -161,6 +160,11 @@
 
     .focus-primary {
         @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-kiwi-primary;
+    }
+
+    /* Use on dark surfaces (e.g. the brown nav) where the primary ring is low contrast */
+    .focus-nav {
+        @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white;
     }
 
     .icon-sm {
@@ -392,4 +396,17 @@ dialog::backdrop {
 
 .recharts-pie-sector path:hover {
     opacity: 0.85 !important;
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
 }

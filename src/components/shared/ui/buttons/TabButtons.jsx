@@ -8,6 +8,7 @@ function TabButtons({ tabs, activeTab, onTabChange }) {
             key={tab.id}
             type='button'
             onClick={() => onTabChange(tab.id)}
+            aria-pressed={isActive}
             className={`cursor-pointer rounded-lg border px-4 py-1.5 text-small transition-colors focus-primary ${
               isActive
                 ? 'border-kiwi-primary bg-kiwi-primary font-semibold text-white'

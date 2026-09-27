@@ -42,7 +42,7 @@ function Login() {
 
       toast.success('Welcome back', {
         description: 'Login successful.',
-        duration: 1000
+        duration: 4000
       });
 
     } catch (error) {
@@ -79,7 +79,7 @@ function Login() {
         <h1 className='mb-2 text-center'>Login</h1>
 
         {serverError && (
-          <div className='form-error'>
+          <div className='form-error' role='alert'>
             <p>{serverError}</p>
             {serverError.toLowerCase().includes('verified') && (
               <Link
@@ -93,47 +93,49 @@ function Login() {
         )}
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <legend className='sr-only'>Credentials</legend>
+          <fieldset className='border-none p-0 m-0'>
+            <legend className='sr-only'>Credentials</legend>
 
-          <FormField
-            label='Email'
-            htmlFor='email'
-            error={errors.email?.message}
-            disabled={isSubmitting}
-          >
-            <input
-              id='email'
-              {...register('email')}
-              placeholder='email@somewhere.com'
-              className='input-standard'
-            />
-          </FormField>
-
-          <FormField
-            label='Password'
-            htmlFor='password'
-            error={errors.password?.message}
-            disabled={isSubmitting}
-          >
-            <input
-              id='password'
-              type='password'
-              {...register('password')}
-              placeholder='********'
-              className='input-standard'
-            />
-          </FormField>
-
-          <div className='mt-6 flex justify-center'>
-            <Button
-              type='submit'
-              intent='primary'
-              loadingText='Logging in...'
-              isLoading={isSubmitting}
+            <FormField
+              label='Email'
+              htmlFor='email'
+              error={errors.email?.message}
+              disabled={isSubmitting}
             >
-              Login
-            </Button>
-          </div>
+              <input
+                id='email'
+                {...register('email')}
+                placeholder='email@somewhere.com'
+                className='input-standard'
+              />
+            </FormField>
+
+            <FormField
+              label='Password'
+              htmlFor='password'
+              error={errors.password?.message}
+              disabled={isSubmitting}
+            >
+              <input
+                id='password'
+                type='password'
+                {...register('password')}
+                placeholder='********'
+                className='input-standard'
+              />
+            </FormField>
+
+            <div className='mt-6 flex justify-center'>
+              <Button
+                type='submit'
+                intent='primary'
+                loadingText='Logging in...'
+                isLoading={isSubmitting}
+              >
+                Login
+              </Button>
+            </div>
+          </fieldset>
         </form>
 
         <div className='mt-4 space-y-1 text-small text-txt-muted text-center'>

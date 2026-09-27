@@ -55,7 +55,7 @@ function ForgotPassword() {
         </div>
 
         {error && (
-          <div className='form-error'>
+          <div className='form-error' role='alert'>
             <p>{error}</p>
           </div>
         )}

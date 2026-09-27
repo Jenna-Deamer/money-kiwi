@@ -11,8 +11,8 @@ import EmptyState from '@/components/shared/ui/EmptyState';
 
 function RecurringTransactions() {
   const { data, isLoading, error } = useRecurringTransaction();
-  const { mutate: deleteTemplate, isLoading: isDeleting } = useDeleteRecurringTransaction();
-  const { mutate: updatePauseStatus, isLoading: isUpdatingStatus } = useUpdateRecurringTransactionPauseStatus();
+  const { mutate: deleteTemplate, isPending: isDeleting } = useDeleteRecurringTransaction();
+  const { mutate: updatePauseStatus, isPending: isUpdatingStatus } = useUpdateRecurringTransactionPauseStatus();
   const [isEditOpen, setIsEditOpen] = useState(false);
   const [isOptionsMenuOpen, setIsOptionsMenuOpen] = useState(false);
   const [isPauseConfirmationOpen, setIsPauseConfirmationOpen] = useState(false);
@@ -87,6 +87,7 @@ function RecurringTransactions() {
                       </div>
 
                       <OptionsMenu
+                        label={tx.memo}
                         isOpen={isOptionsMenuOpen && selectedTemplate?.id === tx.id}
                         onClose={handleMenuClose}
                         onTriggerClick={() => handleOptionsMenu(tx)}
@@ -94,6 +95,7 @@ function RecurringTransactions() {
                         <li className='mb-1 border-b'>
                           <button
                             className='cursor-pointer'
+                            aria-label={`Edit ${tx.memo}`}
                             onClick={() => {
                               setSelectedTemplate(tx);
                               setIsEditOpen(true);
@@ -106,6 +108,7 @@ function RecurringTransactions() {
                         <li className='mb-1 border-b'>
                           <button
                             className='cursor-pointer'
+                            aria-label={`${tx.isPaused ? 'Resume' : 'Pause'} ${tx.memo}`}
                             onClick={() => {
                               setSelectedTemplate(tx);
                               setIsPauseConfirmationOpen(true);
@@ -118,6 +121,7 @@ function RecurringTransactions() {
                         <li className='mb-1 border-b'>
                           <button
                             className='cursor-pointer'
+                            aria-label={`Delete ${tx.memo}`}
                             onClick={() => {
                               setSelectedTemplate(tx);
                               setIsDeleteConfirmationOpen(true);

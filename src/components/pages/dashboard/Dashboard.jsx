@@ -13,8 +13,8 @@ import StatCard from '@/components/shared/ui/StatCard';
 function Dashboard() {
   const { data: accounts, } = useAccounts();
   const [pickerRange, setPickerRange] = useOutletContext();
-  const { data: cashflowData, } = useCashflowAnalytics(pickerRange);
-  const { data: investmentsData, } = useInvestmentsAnalytics(pickerRange);
+  const { data: cashflowData, isError: isCashflowError } = useCashflowAnalytics(pickerRange);
+  const { data: investmentsData, isError: isInvestmentsError } = useInvestmentsAnalytics(pickerRange);
 
   const tabs = [
     { id: 'cashflow', label: 'Cashflow' },
@@ -23,7 +23,21 @@ function Dashboard() {
   const [activeTab, setActiveTab] = useState('cashflow');
 
   const hasAccounts = accounts && accounts.length > 0;
+  const activeData = activeTab === 'cashflow' ? cashflowData : investmentsData;
+  const isActiveError = activeTab === 'cashflow' ? isCashflowError : isInvestmentsError;
+
   if (!accounts) return <LoadingSpinner />;
+
+  if (!activeData) {
+    return (
+      <section>
+        <h1>Dashboard</h1>
+        {isActiveError
+          ? <EmptyState><p className='text-txt-muted'>We couldn&apos;t load your dashboard data. Please try again.</p></EmptyState>
+          : <LoadingSpinner />}
+      </section>
+    );
+  }
 
   return (
     <section>
@@ -163,9 +177,9 @@ function Dashboard() {
                                 {account.registration}
                               </span>
                             </div>
-                            <h4>
+                            <h3>
                               {account.accountName}
-                            </h4>
+                            </h3>
                           </div>
                           <div className='text-right'>
                             <p className='eyebrow'>

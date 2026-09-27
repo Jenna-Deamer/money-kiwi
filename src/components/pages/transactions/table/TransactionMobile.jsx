@@ -13,6 +13,7 @@ function TransactionMobile({
   const data = transactionsData.transactions;
   return (
     <>
+      <h2 className='sr-only'>Transactions</h2>
       {data.map((tx) =>
         <div className='card-compact mb-3' key={tx.id}>
           <div className='flex items-start justify-between gap-3'>
@@ -38,10 +39,10 @@ function TransactionMobile({
             )}
 
             <div className='ml-auto flex gap-4'>
-              <button onClick={() => onUpdate(tx.id)} aria-label='Update Transaction' className='cursor-pointer rounded-md p-1 focus-primary'>
+              <button onClick={() => onUpdate(tx.id)} aria-label={`Update transaction ${tx.memo}`} className='cursor-pointer rounded-md p-1 focus-primary'>
                 <Pencil className='icon-md' />
               </button>
-              <button onClick={() => onDelete(tx.id)} aria-label='Delete Transaction' className='cursor-pointer rounded-md p-1 focus-primary'>
+              <button onClick={() => onDelete(tx)} aria-label={`Delete transaction ${tx.memo}`} className='cursor-pointer rounded-md p-1 focus-primary'>
                 <Trash2 className='icon-md' />
               </button>
             </div>

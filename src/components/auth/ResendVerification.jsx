@@ -45,7 +45,7 @@ function ResendVerification() {
         <h1 className='text-center mb-1.5'>Resend Verification&nbsp;Email</h1>
         <p className='text-center'>Didn’t get the email or your link expired? Enter your address below and we’ll send a new verification&nbsp;link.</p>
         {error && (
-          <div className='form-error'>
+          <div className='form-error' role='alert'>
             <p>{error}</p>
           </div>
         )}

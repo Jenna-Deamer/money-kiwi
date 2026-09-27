@@ -75,33 +75,30 @@ function SignUp() {
       <div className='card w-full max-w-sm'>
         <h1 className='mb-2 text-center'>Sign Up</h1>
         {serverError && (
-          <div className='form-error'>
+          <div className='form-error' role='alert'>
             <p>{serverError}</p></div>)}
 
 
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          <legend className='sr-only'>Create Account</legend>
-          <FormField
-            label='First Name'
-            htmlFor='firstName'
-            error={errors.firstName?.message}
-            disabled={isSubmitting}
-          >
-            <input id='firstName' {...register('firstName')} placeholder='First Name' className='input-standard' />
-          </FormField>
-          <FormField
-            label='Email'
-            htmlFor='email'
-            error={errors.email?.message}
-            disabled={isSubmitting}
-          >
-            <input id='email' {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
-          </FormField>
-          <fieldset
-            disabled={isSubmitting}
-            className='border-none p-0'
-          >
+          <fieldset disabled={isSubmitting} className='border-none p-0 m-0'>
+            <legend className='sr-only'>Create Account</legend>
+            <FormField
+              label='First Name'
+              htmlFor='firstName'
+              error={errors.firstName?.message}
+              disabled={isSubmitting}
+            >
+              <input id='firstName' {...register('firstName')} placeholder='First Name' className='input-standard' />
+            </FormField>
+            <FormField
+              label='Email'
+              htmlFor='email'
+              error={errors.email?.message}
+              disabled={isSubmitting}
+            >
+              <input id='email' {...register('email')} placeholder='email@somewhere.com' className='input-standard' />
+            </FormField>
 
             <FormField
               label='Password'

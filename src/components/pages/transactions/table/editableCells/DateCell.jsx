@@ -43,6 +43,8 @@ const DateCell = ({ table, row }) => {
 
       <DatePicker
         className='w-full text-left border-0 bg-transparent p-0'
+        aria-label='Transaction date'
+        aria-invalid={!!dateError}
         onChange={(date) => {
           setDate(date);
         }}
@@ -54,7 +56,7 @@ const DateCell = ({ table, row }) => {
         dateFormat='dd MMM yyyy'
         placeholderText='Select date'
       />
-      {dateError && <small className='field-error'>{dateError}</small>}
+      {dateError && <small role='alert' className='field-error'>{dateError}</small>}
 
     </div>
   );

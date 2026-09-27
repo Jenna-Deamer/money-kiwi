@@ -34,11 +34,12 @@ export const CustomHeader = ({
     <div
       className='flex justify-center items-center p-1 mx-2'
     >
-      <button type='button' onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
+      <button type='button' onClick={decreaseMonth} disabled={prevMonthButtonDisabled} aria-label='Previous month'>
         <ChevronLeft className='icon-md cursor-pointer' />
       </button>
 
       <select
+        aria-label='Year'
         className='input-standard mx-2 w-fit'
         value={getYear(date)}
         onChange={({ target: { value } }) => changeYear(Number(value))}
@@ -51,6 +52,7 @@ export const CustomHeader = ({
       </select>
 
       <select
+        aria-label='Month'
         className='input-standard mx-2'
         value={MONTHS[getMonth(date)]}
         onChange={({ target: { value } }) => changeMonth(MONTHS.indexOf(value))}
@@ -62,7 +64,7 @@ export const CustomHeader = ({
         ))}
       </select>
 
-      <button type='button' onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
+      <button type='button' onClick={increaseMonth} disabled={nextMonthButtonDisabled} aria-label='Next month'>
         <ChevronRight className='icon-md cursor-pointer' />
       </button>
     </div>
@@ -82,7 +84,7 @@ export function RenderCustomHeader() {
   );
 }
 
-function DatePickerField({ startDate, endDate, onChange }) {
+function DatePickerField({ startDate, endDate, onChange, ariaLabel = 'Select date range' }) {
   return (
     <DatePicker
       className='input-standard date-filter'
@@ -91,6 +93,7 @@ function DatePickerField({ startDate, endDate, onChange }) {
       endDate={endDate}
       onChange={onChange}
       showIcon
+      aria-label={ariaLabel}
       dateFormat='dd MMM yyyy'
       renderCustomHeader={(props) => <CustomHeader {...props} />}
     />

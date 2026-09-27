@@ -19,7 +19,7 @@ function UpdateTemplateForm({ template, onClose }) {
   const [serverError, setServerError] = useState('');
 
   const { data: accountData, isLoading: isLoadingAccounts, error } = useAccounts();
-  const { mutate: updateTemplate, isLoading: isUpdating } = useUpdateRecurringTransaction();
+  const { mutate: updateTemplate, isPending: isUpdating } = useUpdateRecurringTransaction();
 
   const { register, handleSubmit, setValue, control, reset, watch, formState: { errors } } = useForm({
     resolver: zodResolver(recurringTemplateSchema),
@@ -85,7 +85,7 @@ function UpdateTemplateForm({ template, onClose }) {
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
       {serverError && (
-        <div className='form-error'>
+        <div className='form-error' role='alert'>
           <p>{serverError}</p>
         </div>
       )}

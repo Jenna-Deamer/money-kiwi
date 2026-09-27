@@ -61,7 +61,7 @@ function TransactionTable({
         <div className='flex flex-wrap items-center justify-center md:justify-start gap-4'>
           <button
             onClick={() => onUpdate(row.original.id)}
-            aria-label='Update Transaction'
+            aria-label={`Update transaction ${row.original.memo}`}
             className='cursor-pointer rounded-md p-1 focus-primary'
           >
             <Pencil className='icon-md' />
@@ -69,7 +69,7 @@ function TransactionTable({
 
           <button
             onClick={() => onDelete(row.original)}
-            aria-label='Delete Transaction'
+            aria-label={`Delete transaction ${row.original.memo}`}
             className='cursor-pointer rounded-md p-1 focus-primary'
           >
             <Trash2 className='icon-md' />
@@ -167,12 +167,13 @@ function TransactionTable({
 
   return (
     <> {saveErrors.map((error) => (
-      <div className='form-error'>
+      <div className='form-error' role='alert'>
         <p key={error.id} >{error.message}</p>
       </div>
     ))}
       {isLoadingTransactions && <div className='my-2'><LoadingSpinner /></div>}
       <table className='mb-1.5 table-fixed w-full bg-canvas-card'>
+        <caption className='sr-only'>Transactions</caption>
         <thead className='border-b border-soft bg-surface-muted'>
           {table.getHeaderGroups().map((headerGroup) => (
             <tr key={headerGroup.id}>

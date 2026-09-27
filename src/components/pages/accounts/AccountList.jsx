@@ -12,8 +12,8 @@ function AccountList({ title, accounts }) {
   const [isStatusOpen, setIsStatusOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [isAccountOptionsOpen, setIsAccountOptionsOpen] = useState(false);
-  const { mutate: updateStatus, isLoading: isUpdating } = useUpdateAccountStatus();
-  const { mutate: deleteAccount, isLoading: isDeleting } = useDeleteAccount();
+  const { mutate: updateStatus, isPending: isUpdating } = useUpdateAccountStatus();
+  const { mutate: deleteAccount, isPending: isDeleting } = useDeleteAccount();
 
   const navigate = useNavigate();
 
@@ -68,12 +68,13 @@ function AccountList({ title, accounts }) {
 
 
                 <OptionsMenu
+                  label={`${account.institution} ${account.name}`.trim()}
                   isOpen={isAccountOptionsOpen && selectedAccount?.id === account.id}
                   onClose={handleMenuClose}
                   onTriggerClick={() => handleAccountOptionsMenu(account)}
                 >
                   <li className='mb-1 border-b'>
-                    <Link to={`/accounts/form/${account.id}`} className='cursor-pointer'>
+                    <Link to={`/accounts/form/${account.id}`} className='cursor-pointer' aria-label={`Edit ${account.name}`}>
                       Edit
                     </Link>
                   </li>
@@ -81,6 +82,7 @@ function AccountList({ title, accounts }) {
                   <li className='mb-1 border-b'>
                     <button
                       className='cursor-pointer'
+                      aria-label={`${account.status === 'active' ? 'Archive' : 'Unarchive'} ${account.name}`}
                       onClick={() => {
                         setIsStatusOpen(true);
                         setSelectedAccount(account);
@@ -93,6 +95,7 @@ function AccountList({ title, accounts }) {
                   <li className='mb-1 border-b'>
                     <button
                       className='cursor-pointer'
+                      aria-label={`Delete ${account.name}`}
                       onClick={() => {
                         setIsDeleteOpen(true);
                         setSelectedAccount(account);
