@@ -26,7 +26,7 @@ export const recurringTemplateSchema = z.object({
 
   // template must have a frequency
   frequency: z.enum(
-    ['WEEKLY', 'BIWEEKLY', 'SEMI_MONTHLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY'],
+    ['WEEKLY', 'BIWEEKLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY'],
     { message: 'Please select a frequency' }
   ),
 

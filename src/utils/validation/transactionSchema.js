@@ -24,7 +24,7 @@ export const transactionBaseSchema = z.object({
   toAccountId: z.string().uuid('Invalid destination account').optional().nullable().or(z.literal('')),
   isRecurring: z.boolean().optional(),
   frequency: z
-    .enum(['WEEKLY', 'BIWEEKLY', 'SEMI_MONTHLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY'])
+    .enum(['WEEKLY', 'BIWEEKLY', 'MONTHLY', 'QUARTERLY', 'ANNUALLY'])
     .optional()
     .nullable()
     .or(z.literal('')),
